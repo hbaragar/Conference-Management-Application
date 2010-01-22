@@ -9,7 +9,15 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100122204521) do
+ActiveRecord::Schema.define(:version => 20100122215602) do
+
+  create_table "conferences", :force => true do |t|
+    t.integer "colocated_with_id"
+    t.string  "name"
+    t.text    "description"
+  end
+
+  add_index "conferences", ["colocated_with_id"], :name => "index_conferences_on_colocated_with_id"
 
   create_table "users", :force => true do |t|
     t.string   "crypted_password",          :limit => 40
