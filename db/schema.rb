@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100123223011) do
+ActiveRecord::Schema.define(:version => 20100123224127) do
 
   create_table "conferences", :force => true do |t|
     t.integer "colocated_with_id"
@@ -36,6 +36,7 @@ ActiveRecord::Schema.define(:version => 20100123223011) do
     t.integer "conference_id"
     t.string  "name"
     t.text    "description"
+    t.string  "email_address"
   end
 
   add_index "portfolios", ["conference_id"], :name => "index_portfolios_on_conference_id"
