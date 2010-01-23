@@ -12,4 +12,12 @@ class ConferenceTest < ActiveSupport::TestCase
     assert_equal "Onward! 2010", splash.colocated_conferences.first.name
   end
 
+  def test_portfolios
+    splash = conferences(:splash)
+    assert_equal 2, splash.portfolios.count
+    onward = conferences(:onward)
+    assert_equal 1, onward.portfolios.count
+    assert_equal "Papers", onward.portfolios.first.name
+  end
+
 end

@@ -1,0 +1,15 @@
+splash_ooplsa:
+  id: 1
+  conference_id: 1
+  name: OOPLSA Research Program
+  description: Papers the the heart of SPLASH
+splash_workshops:
+  id: 2
+  conference_id: 1
+  name: Workshops
+  description: Workshops are the lungs of SPLASH
+onward_papers:
+  id: 3
+  conference_id: 2
+  name: Papers
+  description: "Onward! Papers"

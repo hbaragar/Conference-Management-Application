@@ -1,16 +1,13 @@
-class Conference < ActiveRecord::Base
+class Portfolio < ActiveRecord::Base
 
   hobo_model # Don't put anything above this
 
-  belongs_to :colocated_with, :class_name => "Conference"
+  belongs_to :conference
 
   fields do
     name        :string, :required
     description :markdown
   end
-
-  has_many :colocated_conferences, :class_name => "Conference", :foreign_key => :colocated_with_id
-  has_many :portfolios, :dependent => :destroy
 
 
   # --- Permissions --- #
