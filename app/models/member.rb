@@ -1,15 +1,18 @@
-class Portfolio < ActiveRecord::Base
+class Member < ActiveRecord::Base
 
   hobo_model # Don't put anything above this
 
-  belongs_to :conference
+  belongs_to :portfolio
 
   fields do
+    chair       :boolean, :default => false
+    role        :string, :default => "member"
     name        :string, :required
-    description :markdown
+    affiliation :string
+    email       :email_address
   end
 
-  has_many :members, :dependent => :destroy
+  belongs_to :user
 
 
   # --- Permissions --- #

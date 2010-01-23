@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100123195110) do
+ActiveRecord::Schema.define(:version => 20100123223011) do
 
   create_table "conferences", :force => true do |t|
     t.integer "colocated_with_id"
@@ -18,6 +18,19 @@ ActiveRecord::Schema.define(:version => 20100123195110) do
   end
 
   add_index "conferences", ["colocated_with_id"], :name => "index_conferences_on_colocated_with_id"
+
+  create_table "members", :force => true do |t|
+    t.integer "portfolio_id"
+    t.boolean "chair",        :default => false
+    t.string  "role",         :default => "member"
+    t.string  "name"
+    t.string  "affiliation"
+    t.string  "email"
+    t.integer "user_id"
+  end
+
+  add_index "members", ["portfolio_id"], :name => "index_members_on_portfolio_id"
+  add_index "members", ["user_id"], :name => "index_members_on_user_id"
 
   create_table "portfolios", :force => true do |t|
     t.integer "conference_id"

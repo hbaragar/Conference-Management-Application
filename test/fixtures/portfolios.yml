@@ -1,15 +1,15 @@
-splash_ooplsa:
+splash_general:
   id: 1
   conference_id: 1
-  name: OOPLSA Research Program
-  description: Papers the the heart of SPLASH
-splash_workshops:
+  name: General
+  description: N/A
+splash_oopsla:
   id: 2
   conference_id: 1
-  name: Workshops
-  description: Workshops are the lungs of SPLASH
-onward_papers:
+  name: OOPSLA Research Program
+  description: New Hear to SPLASH
+onward_general:
   id: 3
   conference_id: 2
-  name: Papers
-  description: "Onward! Papers"
+  name: General
+  description: N/A

@@ -17,7 +17,7 @@ class ConferenceTest < ActiveSupport::TestCase
     assert_equal 2, splash.portfolios.count
     onward = conferences(:onward)
     assert_equal 1, onward.portfolios.count
-    assert_equal "Papers", onward.portfolios.first.name
+    assert_equal "General", onward.portfolios.first.name
   end
 
 end
