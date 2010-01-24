@@ -13,22 +13,27 @@ class Portfolio < ActiveRecord::Base
   has_many :members, :dependent => :destroy
 
   def chair? user
-    member.chair && user == member.user
+    (members & user.members).select do |m|
+      m.chair
+    end.count > 0
   end
 
 
   # --- Permissions --- #
 
+  attr_readonly :conference_id
+
   def create_permitted?
-    acting_user.administrator?
+    conference.chair?(acting_user) || acting_user.administrator?
   end
 
   def update_permitted?
-    acting_user.administrator?
+    chair?(acting_user) || conference.chair?(acting_user) || acting_user.administrator?
   end
 
   def destroy_permitted?
-    acting_user.administrator?
+    return false if name == "General"
+    members.empty? && (conference.chair?(acting_user) || acting_user.administrator?)
   end
 
   def view_permitted?(field)
