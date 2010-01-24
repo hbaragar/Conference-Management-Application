@@ -1,0 +1,7 @@
+<show-page>
+  <collection: replace>
+  <table-plus with="&@members" fields="this, chair, affiliation, email_address">
+    <empty-message:>No members match your criteria</empty-message:>
+  </table-plus>
+  </collection:>
+</show-page>

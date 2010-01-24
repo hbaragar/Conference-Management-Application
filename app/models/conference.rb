@@ -13,6 +13,8 @@ class Conference < ActiveRecord::Base
   has_many :portfolios, :dependent => :destroy
   has_many :members, :through => :portfolios
 
+  named_scope :host_conferences, :conditions => {:colocated_with_id => nil}
+
   def after_create 
     portfolios << Portfolio.new(:name => "General")
   end
