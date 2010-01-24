@@ -6,10 +6,9 @@ class Member < ActiveRecord::Base
 
   fields do
     chair       :boolean, :default => false
-    role        :string, :default => "member"
     name        :string, :required
     affiliation :string
-    email       :email_address
+    email_address :email_address
   end
 
   belongs_to :user

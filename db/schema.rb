@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100123224127) do
+ActiveRecord::Schema.define(:version => 20100124184415) do
 
   create_table "conferences", :force => true do |t|
     t.integer "colocated_with_id"
@@ -21,11 +21,10 @@ ActiveRecord::Schema.define(:version => 20100123224127) do
 
   create_table "members", :force => true do |t|
     t.integer "portfolio_id"
-    t.boolean "chair",        :default => false
-    t.string  "role",         :default => "member"
+    t.boolean "chair",         :default => false
     t.string  "name"
     t.string  "affiliation"
-    t.string  "email"
+    t.string  "email_address"
     t.integer "user_id"
   end
 
