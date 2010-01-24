@@ -3,29 +3,29 @@ require File.dirname(__FILE__) + '/../test_helper'
 class ConferenceTest < ActiveSupport::TestCase
 
   def setup
-    @splash = conferences(:splash)
-    @onward = conferences(:onward)
+    @a_conference = conferences(:a_conference)
+    @another_conference = conferences(:another_conference)
   end
 
   def test_fields
-    assert_equal "Splash 2010", @splash.name
-    assert_equal "Onward! 2010", @onward.name
-    assert_equal "Splash 2010", @onward.colocated_with.name
-    assert_equal 1, @splash.colocated_conferences.size
-    assert_equal "Onward! 2010", @splash.colocated_conferences.first.name
+    assert_equal "Splash 2010", @a_conference.name
+    assert_equal "Onward! 2010", @another_conference.name
+    assert_equal "Splash 2010", @another_conference.colocated_with.name
+    assert_equal 1, @a_conference.colocated_conferences.size
+    assert_equal "Onward! 2010", @a_conference.colocated_conferences.first.name
   end
 
   def test_portfolios
-    assert_equal 2, @splash.portfolios.count
-    assert_equal 1, @onward.portfolios.count
-    assert_equal "General", @onward.portfolios.first.name
+    assert_equal 2, @a_conference.portfolios.count
+    assert_equal 1, @another_conference.portfolios.count
+    assert_equal "General", @another_conference.portfolios.first.name
   end
 
   def test_chair
-    assert @splash.chair?(users(:splash_chair))
-    assert !@splash.chair?(users(:oopsla_chair))
-    assert !@splash.chair?(users(:oopsla_member))
-    assert !@splash.chair?(users(:onward_chair))
+    assert @a_conference.chair?(users(:general_chair))
+    assert !@a_conference.chair?(users(:a_portfolio_chair))
+    assert !@a_conference.chair?(users(:a_portfolio_member))
+    assert !@a_conference.chair?(users(:another_conference_chair))
   end
 
   def test_after_create
@@ -40,25 +40,25 @@ class ConferenceTest < ActiveSupport::TestCase
   end
 
   def test_update_permissions
-    assert @splash.updatable_by?(users(:administrator))
-    assert @splash.updatable_by?(users(:splash_chair))
-    assert !@splash.updatable_by?(users(:onward_chair))
-    assert @onward.updatable_by?(users(:onward_chair))
-    assert !@onward.updatable_by?(users(:splash_chair))
-    assert !@splash.updatable_by?(users(:oopsla_chair))
-    assert !@splash.updatable_by?(users(:oopsla_member))
-    @splash.colocated_with_id = 5
-    assert @splash.updatable_by?(users(:administrator))
-    assert !@splash.updatable_by?(users(:splash_chair))
+    assert @a_conference.updatable_by?(users(:administrator))
+    assert @a_conference.updatable_by?(users(:general_chair))
+    assert !@a_conference.updatable_by?(users(:another_conference_chair))
+    assert @another_conference.updatable_by?(users(:another_conference_chair))
+    assert !@another_conference.updatable_by?(users(:general_chair))
+    assert !@a_conference.updatable_by?(users(:a_portfolio_chair))
+    assert !@a_conference.updatable_by?(users(:a_portfolio_member))
+    @a_conference.colocated_with_id = 5
+    assert @a_conference.updatable_by?(users(:administrator))
+    assert !@a_conference.updatable_by?(users(:general_chair))
   end
 
   def test_destroy_permissions
-    assert !@splash.destroyable_by?(users(:administrator))
-    assert !@splash.destroyable_by?(users(:splash_chair))
-    assert !@splash.destroyable_by?(users(:oopsla_chair))
-    assert !@splash.destroyable_by?(users(:oopsla_member))
-    @splash.portfolios.clear
-    assert @splash.destroyable_by?(users(:administrator))
+    assert !@a_conference.destroyable_by?(users(:administrator))
+    assert !@a_conference.destroyable_by?(users(:general_chair))
+    assert !@a_conference.destroyable_by?(users(:a_portfolio_chair))
+    assert !@a_conference.destroyable_by?(users(:a_portfolio_member))
+    @a_conference.portfolios.clear
+    assert @a_conference.destroyable_by?(users(:administrator))
   end
 
   def test_view_permissions

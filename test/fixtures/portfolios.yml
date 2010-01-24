@@ -1,14 +1,14 @@
-splash_general:
+a_conference_general:
   id: 1
   conference_id: 1
   name: General
   description: N/A
-splash_oopsla:
+a_portfolio:
   id: 2
   conference_id: 1
   name: OOPSLA Research Program
   description: New Hear to SPLASH
-onward_general:
+another_conference_general:
   id: 3
   conference_id: 2
   name: General

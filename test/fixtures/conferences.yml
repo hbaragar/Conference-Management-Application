@@ -1,10 +1,10 @@
-splash:
+a_conference:
   id: 1
   name: Splash 2010
   colocated_with_id: ~
   description: The successor to OOPSLA
 
-onward:
+another_conference:
   id: 2
   name: "Onward! 2010"
   colocated_with_id: 1

@@ -1,21 +1,21 @@
-splash_chair:
+general_chair:
   id: 1
   name: William Cook
   email_address: wc@ut.edu
-oopsla_chair:
+a_portfolio_chair:
   id: 2
   name: Martin Rinard
   email_address: mr@mit.edu
-onward_chair:
+another_conference_chair:
   id: 3
   name: Siobhan Clark
   email_address: sc@tc.edu
-oopsla_member:
+a_portfolio_member:
   id: 4
   name: Gary Leavens
   email_address: gl@ucf.edu
 administrator:
   id: 5
   name: Administrator
-  email_address: splash@instantiated.ca
+  email_address: a_conference@instantiated.ca
   administrator: 1
