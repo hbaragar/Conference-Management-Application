@@ -15,18 +15,26 @@ class Member < ActiveRecord::Base
   belongs_to :user
 
 
+  def conference
+    portfolio.conference
+  end
+
+
   # --- Permissions --- #
 
   def create_permitted?
-    acting_user.administrator?
+    portfolio.chair?(acting_user) || conference.chair?(acting_user) || acting_user.administrator?
   end
 
   def update_permitted?
-    acting_user.administrator?
+    (portfolio.chair?(acting_user) && none_changed?(:chair)) ||
+      conference.chair?(acting_user) ||
+      acting_user.administrator?
   end
 
   def destroy_permitted?
-    acting_user.administrator?
+    return false if acting_user == user
+    portfolio.chair?(acting_user) || conference.chair?(acting_user) || acting_user.administrator?
   end
 
   def view_permitted?(field)
