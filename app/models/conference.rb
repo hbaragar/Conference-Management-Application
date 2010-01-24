@@ -13,6 +13,10 @@ class Conference < ActiveRecord::Base
   has_many :portfolios, :dependent => :destroy
   has_many :members, :through => :portfolios
 
+  def after_create 
+    portfolios << Portfolio.new(:name => "General")
+  end
+
   def chair? user
     (members & user.members).select do |m|
       m.portfolio.name == "General" && m.chair

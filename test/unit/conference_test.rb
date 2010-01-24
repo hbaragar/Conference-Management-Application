@@ -28,6 +28,14 @@ class ConferenceTest < ActiveSupport::TestCase
     assert !@splash.chair?(users(:onward_chair))
   end
 
+  def test_after_create
+    count = Portfolio.count
+    new_one = Conference.create(:name => 'A new conference')
+    assert_equal 1, new_one.portfolios.count
+    assert_equal 1+count, Portfolio.count
+    assert_equal "General", new_one.portfolios.first.name
+  end
+
   def test_create_permissions
   end
 
