@@ -11,7 +11,13 @@ class Conference < ActiveRecord::Base
 
   has_many :colocated_conferences, :class_name => "Conference", :foreign_key => :colocated_with_id
   has_many :portfolios, :dependent => :destroy
+  has_many :members, :through => :portfolios
 
+  def chair? user
+    (members & user.members).select do |m|
+      m.portfolio.name == "General" && m.chair
+    end.count > 0
+  end
 
   # --- Permissions --- #
 
@@ -20,11 +26,11 @@ class Conference < ActiveRecord::Base
   end
 
   def update_permitted?
-    acting_user.administrator?
+    (chair?(acting_user) && none_changed?(:colocated_with_id)) || acting_user.administrator? 
   end
 
   def destroy_permitted?
-    acting_user.administrator?
+    portfolios.empty? && acting_user.administrator?
   end
 
   def view_permitted?(field)

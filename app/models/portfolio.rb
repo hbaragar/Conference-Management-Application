@@ -12,6 +12,10 @@ class Portfolio < ActiveRecord::Base
 
   has_many :members, :dependent => :destroy
 
+  def chair? user
+    member.chair && user == member.user
+  end
+
 
   # --- Permissions --- #
 

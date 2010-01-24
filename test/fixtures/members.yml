@@ -1,4 +1,4 @@
-william:
+splash_chair:
   id: 1
   portfolio_id: 1
   chair: 1
@@ -6,7 +6,8 @@ william:
   name: William Cook
   affiliation: University of Texas
   email: wc@ut.edu
-martin:
+  user_id: 1
+oopsla_chair:
   id: 2
   portfolio_id: 2
   chair: 1
@@ -14,7 +15,8 @@ martin:
   name: Martin Rinard
   affiliation: MIT
   email: mr@mit.edu
-siobhan:
+  user_id: 2
+onward_chair:
   id: 3
   portfolio_id: 3
   chair: 1
@@ -22,3 +24,13 @@ siobhan:
   name: Siobhan Clark
   affiliation: Trinity College
   email: sc@tc.edu
+  user_id: 3
+oopsla_member:
+  id: 4
+  portfolio_id: 2
+  chair: 0
+  role: Member
+  name: Gary Leavens
+  affiliation: University of Central Florida
+  email: gl@ucf.edu
+  user_id: 4
