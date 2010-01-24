@@ -24,10 +24,12 @@ class Portfolio < ActiveRecord::Base
   attr_readonly :conference_id
 
   def create_permitted?
-    conference.chair?(acting_user) || acting_user.administrator?
+    return true if acting_user.administrator?
+    conference && conference.chair?(acting_user)
   end
 
   def update_permitted?
+    return false if name_changed? && name_was == "General"
     chair?(acting_user) || conference.chair?(acting_user) || acting_user.administrator?
   end
 
@@ -37,7 +39,7 @@ class Portfolio < ActiveRecord::Base
   end
 
   def view_permitted?(field)
-    true
+    acting_user.signed_up?
   end
 
 end

@@ -22,7 +22,11 @@ class Member < ActiveRecord::Base
   # --- Permissions --- #
 
   def create_permitted?
-    portfolio.chair?(acting_user) || conference.chair?(acting_user) || acting_user.administrator?
+    return true if acting_user.administrator?
+    portfolio && (
+      portfolio.chair?(acting_user) ||
+      conference.chair?(acting_user)
+    )
   end
 
   def update_permitted?
@@ -37,7 +41,7 @@ class Member < ActiveRecord::Base
   end
 
   def view_permitted?(field)
-    true
+    acting_user.signed_up?
   end
 
 end
