@@ -2,6 +2,15 @@ require File.dirname(__FILE__) + '/../test_helper'
 
 class UserTest < ActiveSupport::TestCase
 
+  def test_user_validation
+    stranger = User.new(
+      :name => "Unknown Person",
+      :email_address => 'up@ufo.edu'
+    )
+    assert_equal false, stranger.valid?
+    assert_equal "not recognized", stranger.errors.on(:email_address)
+  end
+
   def test_user_propagate_to_members
     user = User.create(
       :name => "Gregor Kiczales",
