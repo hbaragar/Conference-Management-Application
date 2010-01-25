@@ -26,6 +26,19 @@ class Member < ActiveRecord::Base
     user.save
   end
 
+  def after_save
+    Member.find_all_by_email_address(email_address).each do |m|
+      if m.name != name
+	m.name = name
+	m.save
+      end
+      if m.affiliation != affiliation
+	m.affiliation = affiliation
+	m.save
+      end
+    end
+  end
+
   def conference
     portfolio.conference
   end

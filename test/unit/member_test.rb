@@ -36,6 +36,24 @@ class MemberTest < ActiveSupport::TestCase
     assert_equal "gl@new.edu", user.email_address
   end
 
+  def test_synchronize_names_and_affliations
+    new_member = Member.create(
+      :name => "Gary T. Leavens",
+      :affiliation => "UCF",
+      :email_address => "gl@ucf.edu",
+      :portfolio => @a_portfolio
+    )
+    @member.reload
+    assert_equal "Gary T. Leavens", @member.name
+    assert_equal "UCF", @member.affiliation
+    @member.name = "Gary Leavens"
+    @member.affiliation = "University of Central Florida"
+    @member.save
+    new_member.reload
+    assert_equal "Gary Leavens", new_member.name
+    assert_equal "University of Central Florida", new_member.affiliation
+  end
+
   def test_create_permissions
     new_member = Member.new :portfolio => @a_portfolio, :name => "A new member"
     assert new_member.creatable_by?(users(:administrator))
