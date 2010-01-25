@@ -30,3 +30,10 @@ a_portfolio_member:
   affiliation: University of Central Florida
   email_address: gl@ucf.edu
   user_id: 4
+another_portfolio_member:
+  id: 5
+  portfolio_id: 2
+  chair: 0
+  name: Gregor Kiczales
+  affiliation: University of British Columbia
+  email_address: gk@ubc.ca

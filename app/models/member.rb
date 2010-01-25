@@ -13,6 +13,18 @@ class Member < ActiveRecord::Base
 
   belongs_to :user
 
+  def after_create
+    if existing_user = User.find_by_email_address(email_address)
+      self.user = existing_user
+      save
+    end
+  end
+
+  def after_update
+    return unless user && user.email_address != email_address
+    user.email_address = email_address
+    user.save
+  end
 
   def conference
     portfolio.conference
@@ -30,8 +42,8 @@ class Member < ActiveRecord::Base
   end
 
   def update_permitted?
-    (portfolio.chair?(acting_user) && none_changed?(:chair)) ||
-      conference.chair?(acting_user) ||
+    (portfolio.chair?(acting_user) && none_changed?(:chair, :user_id)) ||
+      (conference.chair?(acting_user) && none_changed?(:user_id)) ||
       acting_user.administrator?
   end
 
