@@ -1,0 +1,2 @@
+module CfpsHelper
+end
