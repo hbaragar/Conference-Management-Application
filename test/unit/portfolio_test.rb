@@ -34,6 +34,12 @@ class PortfolioTest < ActiveSupport::TestCase
     assert !@general.updatable_by?(users(:a_portfolio_chair))
     assert !@general.updatable_by?(users(:another_conference_chair))
     assert !@general.updatable_by?(users(:a_portfolio_member))
+    @a_portfolio.conference = conferences(:another_conference)
+    assert @a_portfolio.updatable_by?(users(:administrator))
+    assert !@a_portfolio.updatable_by?(users(:general_chair))
+    assert !@a_portfolio.updatable_by?(users(:a_portfolio_chair))
+    assert !@a_portfolio.updatable_by?(users(:another_conference_chair))
+    assert !@a_portfolio.updatable_by?(users(:a_portfolio_member))
   end
 
   def test_destroy_permissions

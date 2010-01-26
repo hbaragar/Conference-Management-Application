@@ -31,6 +31,7 @@ class Portfolio < ActiveRecord::Base
 
   def update_permitted?
     return false if name_changed? && name_was == "General"
+    return false if any_changed?(:conference_id) && !acting_user.administrator?
     chair?(acting_user) || conference.chair?(acting_user) || acting_user.administrator?
   end
 

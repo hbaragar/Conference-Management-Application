@@ -1,5 +1,6 @@
 config/database.yml
 config/environments/
 app/views/taglibs/auto/
+.*.swp
 tmp
 log
