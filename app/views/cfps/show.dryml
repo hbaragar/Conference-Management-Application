@@ -1,0 +1,9 @@
+<show-page>
+  <content-body:>
+    <view:portfolio_description/>
+    <%= this.submission_summary %>
+    <view:conference_description/>
+    <view:details/>
+    <%= this.contact_info %>
+  </content-body:>
+</show-page>

@@ -10,6 +10,7 @@ class Portfolio < ActiveRecord::Base
     description :markdown
   end
 
+  has_many :chairs, :class_name => "Member", :conditions => {:chair => true}
   has_many :members, :dependent => :destroy
   has_many :cfps, :dependent => :destroy	# Really only one, but we want the hobo support
 

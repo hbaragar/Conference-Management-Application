@@ -1,0 +1,32 @@
+
+
+table.view.cfp-submission-summary {
+  float: right;
+  margin-left: 2em;
+  border: solid 1px #507599;
+}
+
+table.view.cfp-submission-summary tr {
+  background-color: #E1EFF6;
+}
+
+table.view.cfp-submission-summary th {
+  font-weight: bold;
+  text-align: center;
+  background-color: #0099CC;
+}
+
+table.view.cfp-submission-summary td {
+  padding: 0px 2px
+}
+
+table.view.cfp-submission-summary a:link,
+table.view.cfp-submission-summary a:visited,
+table.view.cfp-submission-summary a:active
+{
+  background-color: transparent;
+}
+
+body.cfp div.view {
+  margin: 1ex 0em;
+}
