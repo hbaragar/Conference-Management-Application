@@ -6,4 +6,15 @@
 
 <set-theme name="clean"/>
 
-<def tag="app-name">Management</def>
+<def tag="app-name">
+  <if test="&%w(Conferences Users).include? collection_name"><collection-name/></if>
+  <else>
+    <if:conference><a/></if>
+    <else>Conference</else>
+  </else>
+  Management
+</def>
+
+<def tag="view" for="HoboFields::EmailAddress">
+  <a/>
+</def>

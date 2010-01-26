@@ -18,6 +18,10 @@ class Cfp < ActiveRecord::Base
     portfolio && portfolio.conference
   end
 
+  def name
+    "#{portfolio} CFP"
+  end
+
   # --- Permissions --- #
 
   attr_readonly :portfolio_id
