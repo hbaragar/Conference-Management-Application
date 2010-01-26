@@ -50,10 +50,7 @@ class Member < ActiveRecord::Base
 
   def create_permitted?
     return true if acting_user.administrator?
-    portfolio && (
-      portfolio.chair?(acting_user) ||
-      conference.chair?(acting_user)
-    )
+    portfolio && (portfolio.chair?(acting_user) || conference.chair?(acting_user))
   end
 
   def update_permitted?

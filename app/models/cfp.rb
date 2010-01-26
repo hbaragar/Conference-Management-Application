@@ -14,22 +14,30 @@ class Cfp < ActiveRecord::Base
   end
 
 
+  def conference
+    portfolio && portfolio.conference
+  end
+
   # --- Permissions --- #
 
+  attr_readonly :portfolio_id
+
   def create_permitted?
-    acting_user.administrator?
+    return true if acting_user.administrator?
+    portfolio && (portfolio.chair?(acting_user) || conference.chair?(acting_user))
   end
 
   def update_permitted?
-    acting_user.administrator?
+    return true if acting_user.administrator?
+    none_changed?(:portfolio_id) && (portfolio.chair?(acting_user) || conference.chair?(acting_user))
   end
 
   def destroy_permitted?
-    acting_user.administrator?
+    portfolio.chair?(acting_user) || conference.chair?(acting_user) || acting_user.administrator?
   end
 
   def view_permitted?(field)
-    true
+    acting_user.signed_up?
   end
 
 end
