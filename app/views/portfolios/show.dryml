@@ -1,4 +1,26 @@
 <show-page>
+  <description: replace/>
+  <after-field-list:>
+    <table class="field-list">
+      <tr>
+	<th class="cfp-label">
+	  CFP
+	</th>
+	<td class="cfp-view">
+	  <if:cfps>
+	    <a:first action="show">
+	      <ht key="cfp.action.show">View</ht>
+	    </a:first>
+	  </if>
+	  <else>
+	    <a:cfps action="new" if="&can_create?(@portfolio.cfps)">
+	      <ht key="cfps.actions.new">Create</ht>
+	    </a:cfps>
+	  </else>
+	</td>
+      </tr>
+    </table> 
+  </after-field-list:>
   <collection: replace>
   <table-plus with="&@members" fields="this, chair, affiliation, email_address">
     <empty-message:>No members match your criteria</empty-message:>
