@@ -7,7 +7,7 @@ class Cfp < ActiveRecord::Base
   fields do
     due_on        :date, :required
     format_style  :string, :default => "ACM Proceedings format"
-    format_url    :string, :default => "http://cyberchair.acm.org/oopslapapers/submit/"
+    format_url    :string, :default => "http://www.acm.org/sigs/sigplan/authorInformation.htm"
     submit_to_url :string, :default => "http://cyberchair.acm.org/splash???/submit/"
     details       :text, :default => "To be completed by the portfolio chair"
     timestamps

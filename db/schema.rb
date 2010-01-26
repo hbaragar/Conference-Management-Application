@@ -9,13 +9,13 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100125173122) do
+ActiveRecord::Schema.define(:version => 20100126155229) do
 
   create_table "cfps", :force => true do |t|
     t.integer  "portfolio_id"
     t.date     "due_on"
     t.string   "format_style",  :default => "ACM Proceedings format"
-    t.string   "format_url",    :default => "http://cyberchair.acm.org/oopslapapers/submit/"
+    t.string   "format_url",    :default => "http://www.acm.org/sigs/sigplan/authorInformation.htm"
     t.string   "submit_to_url", :default => "http://cyberchair.acm.org/splash???/submit/"
     t.text     "details"
     t.datetime "created_at"
