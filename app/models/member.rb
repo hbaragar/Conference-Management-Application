@@ -13,6 +13,8 @@ class Member < ActiveRecord::Base
 
   belongs_to :user
 
+  default_scope :order => 'chair DESC, name'
+
   def after_create
     if existing_user = User.find_by_email_address(email_address)
       self.user = existing_user
