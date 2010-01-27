@@ -1,5 +1,6 @@
 <show-page>
   <content-body:>
+  <div class="cfp">
     <view:portfolio_description/>
     <a action="edit" with="&this.portfolio" if="&can_update?(this.portfolio)">
       <ht key="portfolio.actions.edit" name="&this.respond_to?(:name) ? this.name : ''">
@@ -15,5 +16,7 @@
     </a>
     <view:details/>
     <%= this.contact_info %>
+    <%= this.committee_members %>
+  </div>
   </content-body:>
 </show-page>

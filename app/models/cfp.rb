@@ -13,6 +13,8 @@ class Cfp < ActiveRecord::Base
     timestamps
   end
 
+  has_many :members, :through => :portfolio
+
 
   def conference
     portfolio && portfolio.conference
@@ -39,7 +41,7 @@ class Cfp < ActiveRecord::Base
   end
 
   def contact_info
-    div({:class => "view cfp-submission-summary"},
+    div("view cfp-submission-summary",
       "For additional information, clarification, or questions",
       " please contact the program committee chair, ",
       "#{chairs} at #{email_link}."
@@ -54,7 +56,7 @@ class Cfp < ActiveRecord::Base
       ),
       tr({},
 	td({},"Due on:"),
-	td({},due_on)
+	td({},due_on.strftime("%B %d, %Y"))
       ),
       tr({},
 	td({}, "Format:"),
@@ -69,6 +71,24 @@ class Cfp < ActiveRecord::Base
 	td({}, email_link(chairs), " (chair)")
       )
     )
+  end
+
+  def committee_members
+    return "" unless members.count > 0
+    div("cfp-committee-members",
+      h3({}, "#{portfolio} Committee"),
+      ul(
+	members.collect do |m|
+          li(
+	    [m.name, m.affiliation].join(", ") + role_of(m)
+	  )
+	end
+      )
+    )
+  end
+
+  def role_of member
+    member.chair ? " (chair)" : ""
   end
 
   # --- Permissions --- #
@@ -97,23 +117,42 @@ protected
 
   def div(css_class, *text)
     return "" unless text
-    %Q(<div class="#{css_class}">#{text.join("")}\n</div>\n)
+    %Q(<div #{tag_attributes({:class => css_class})}>#{text.join("")}\n</div>\n)
   end
 
-  def table(css_attributes,*text)
-    "\n<table #{attributes(css_attributes)}>\n#{text.join('')}\n</table>\n" unless text.empty?
+  def h3(*text)
+    return "" unless text
+    %Q(<h3>#{text.join("")}\n</h3>\n)
   end
 
-  def tr(css_attributes,*text)
-    %Q(\n<tr #{attributes(css_attributes)}>\n#{text.join('')}</tr>\n)
+  def ul(*text_list)
+    text = text_list.join("")
+    "\n<ul>\n#{text}</ul>\n" unless text.empty?
   end
 
-  def th(css_attributes, *text)
-    "<th #{attributes(css_attributes)}>#{text.join('')}</th>\n"
+  def ol(*text_list)
+    text = text_list.join("")
+    "\n<ol>\n#{text}</ol>\n" unless text.empty?
   end
 
-  def td(css_attributes, *text)
-    %Q(<td #{attributes(css_attributes)}>#{text.join('')}</td>\n)
+  def li(*text)
+    "<li>#{text.join('')}</li>\n"
+  end
+
+  def table(attributes,*text)
+    "\n<table #{tag_attributes(attributes)}>\n#{text.join('')}\n</table>\n" unless text.empty?
+  end
+
+  def tr(attributes,*text)
+    %Q(\n<tr #{tag_attributes(attributes)}>\n#{text.join('')}</tr>\n)
+  end
+
+  def th(attributes, *text)
+    "<th #{tag_attributes(attributes)}>#{text.join('')}</th>\n"
+  end
+
+  def td(attributes, *text)
+    %Q(<td #{tag_attributes(attributes)}>#{text.join('')}</td>\n)
   end
 
   def email_link addressees=email_address, address=email_address
@@ -124,8 +163,8 @@ protected
     %Q(<a href="#{url}" target="_blank">#{text}</a>)
   end
 
-  def attributes css_attributes
-    css_attributes.collect{|k,v| %Q(#{k}="#{v}")}.join(" ")
+  def tag_attributes attributes
+    attributes.collect{|k,v| %Q(#{k}="#{v}")}.join(" ")
   end
 
 end

@@ -30,3 +30,8 @@ table.view.cfp-submission-summary a:active
 body.cfp div.view {
   margin: 1ex 0em;
 }
+
+div.cfp h3 {
+  font-weight: bold;
+  font-size: 14px;
+}
