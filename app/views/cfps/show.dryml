@@ -1,8 +1,18 @@
 <show-page>
   <content-body:>
     <view:portfolio_description/>
+    <a action="edit" with="&this.portfolio" if="&can_update?(this.portfolio)">
+      <ht key="portfolio.actions.edit" name="&this.respond_to?(:name) ? this.name : ''">
+	&laquo; edit portfolio description &raquo;
+      </ht>
+    </a>
     <%= this.submission_summary %>
     <view:conference_description/>
+    <a action="edit" with="&this.conference" if="&can_update?(this.conference)">
+      <ht key="conference.actions.edit" name="&this.respond_to?(:name) ? this.name : ''">
+	&laquo; edit conference description &raquo;
+      </ht>
+    </a>
     <view:details/>
     <%= this.contact_info %>
   </content-body:>
