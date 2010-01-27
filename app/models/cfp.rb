@@ -14,6 +14,7 @@ class Cfp < ActiveRecord::Base
   end
 
   has_many :members, :through => :portfolio
+  has_many :dates, :class_name => "CfpDate", :dependent => :destroy
 
 
   def conference

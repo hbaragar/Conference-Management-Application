@@ -9,7 +9,16 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100127153041) do
+ActiveRecord::Schema.define(:version => 20100127163157) do
+
+  create_table "cfp_dates", :force => true do |t|
+    t.integer "cfp_id"
+    t.string  "label"
+    t.string  "due_on_prefix", :default => ""
+    t.date    "due_on"
+  end
+
+  add_index "cfp_dates", ["cfp_id"], :name => "index_cfp_dates_on_cfp_id"
 
   create_table "cfps", :force => true do |t|
     t.integer  "portfolio_id"
