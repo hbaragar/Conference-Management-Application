@@ -7,4 +7,9 @@ class ConferenceHints < Hobo::ViewHints
   
   children :portfolios, :colocated_conferences, :members
 
+  field_help :description => %q(will be converted to HTML using
+    <a href="http://daringfireball.net/projects/markdown/" target="_blank">markdown</a>
+    (similar to wiki markup) 
+  )
+
 end

@@ -8,7 +8,10 @@ class PortfolioHints < Hobo::ViewHints
   children :members
 
   field_help :email_address => "to be published on the website", 
-    :description => "will be used as an introduction to the CFP"
-
+    :description => %q(will be used as an introduction to the CFP,
+      and it will be converted to HTML using
+      <a href="http://daringfireball.net/projects/markdown/" target="_blank">markdown</a>
+      (similar to wiki markup)
+    )
 
 end
