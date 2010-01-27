@@ -80,7 +80,7 @@ class Cfp < ActiveRecord::Base
       ul(
 	members.collect do |m|
           li(
-	    [m.name, m.affiliation].join(", ") + role_of(m)
+	    [m.name, m.affiliation, m.country].select{|s| s && s[/\w/]}.join(", ") + role_of(m)
 	  )
 	end
       )

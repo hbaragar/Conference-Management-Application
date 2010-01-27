@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100126155229) do
+ActiveRecord::Schema.define(:version => 20100127153041) do
 
   create_table "cfps", :force => true do |t|
     t.integer  "portfolio_id"
@@ -39,6 +39,7 @@ ActiveRecord::Schema.define(:version => 20100126155229) do
     t.string  "affiliation"
     t.string  "email_address"
     t.integer "user_id"
+    t.string  "country"
   end
 
   add_index "members", ["portfolio_id"], :name => "index_members_on_portfolio_id"

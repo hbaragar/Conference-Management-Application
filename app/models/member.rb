@@ -8,6 +8,7 @@ class Member < ActiveRecord::Base
     chair       :boolean, :default => false
     name        :string, :required
     affiliation :string
+    country	:string
     email_address :email_address
   end
 
