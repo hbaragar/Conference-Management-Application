@@ -1,0 +1,18 @@
+#! /bin/bash
+
+DB=${1-conference_$RAILS_ENV}
+DATE=`date +%Y-%m-%d`
+DUMP=`dirname \`dirname $0\``/db/dump
+if [ -d $DUMP ]
+then
+    DIR=$DUMP
+else
+    DIR=.
+fi
+
+DUMPFILE="$DIR/$DB.$DATE.sql.gz"
+
+if echo quit | mysql $DB
+then
+    mysqldump $DB >$DUMPFILE
+fi
