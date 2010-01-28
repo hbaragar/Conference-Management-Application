@@ -36,7 +36,7 @@ class MemberTest < ActiveSupport::TestCase
     assert_equal "gl@new.edu", user.email_address
   end
 
-  def test_synchronize_names_and_affliations
+  def test_synchronize_names_and_affliations_and_countries
     new_member = Member.create(
       :name => "Gary T. Leavens",
       :affiliation => "UCF",
@@ -46,12 +46,15 @@ class MemberTest < ActiveSupport::TestCase
     @member.reload
     assert_equal "Gary T. Leavens", @member.name
     assert_equal "UCF", @member.affiliation
+    assert_nil @member.country
     @member.name = "Gary Leavens"
     @member.affiliation = "University of Central Florida"
+    @member.country = "USA"
     @member.save
     new_member.reload
     assert_equal "Gary Leavens", new_member.name
     assert_equal "University of Central Florida", new_member.affiliation
+    assert_equal "USA", new_member.country
   end
 
   def test_create_permissions
