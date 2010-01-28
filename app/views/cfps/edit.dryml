@@ -1,14 +1,21 @@
 <edit-page>
   <after-delete-button:>
-    <p>Note that the first "Save" button saves the CPF (and returns to viewing the CFP), but 
-      it does not save the Other Dates.
+    <p>Note that the first "Save CFP" button does not save the "Other Dates".
     </p>
   </after-delete-button:>
+  <form:>
+    <submit: label="Save CFP"/>
+    <after-submit:>and return</after-submit:>
+    <old-form:/>
+  </form:>
   <after-form:>
     <h3>Other Dates</h3>
     <p>Note that each of these dates must be saved individually:</p>
     <collection:other_dates part="other-dates">
-      <form update="other-dates"/>
+      <form update="other-dates">
+	<after-submit:>or <delete-button/> date</after-submit:>
+	<old-form:/>
+      </form>
     </collection:other_dates>
     <form:other_dates.new update="other-dates" reset-form refocus-form>
       <submit: label="Create Date"/>
