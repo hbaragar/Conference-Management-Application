@@ -36,6 +36,19 @@ class ConferenceTest < ActiveSupport::TestCase
     assert_equal "General", new_one.portfolios.first.name
   end
 
+  test "publish_cfp" do
+    assert_equal 0, JosSection.count
+    @a_conference.publish_cfp
+    assert_equal 1, JosSection.count
+    @a_conference.publish_cfp
+    assert_equal 1, JosSection.count
+    cfp_section = JosSection.find(:all).first
+    assert_equal "Call for Papers", cfp_section.title
+    assert_equal "cfp", cfp_section.alias
+    @a_conference.reload
+    assert_equal cfp_section, @a_conference.joomla_cfp_section
+  end
+
   def test_create_permissions
   end
 

@@ -9,6 +9,8 @@ class Conference < ActiveRecord::Base
     description :markdown
   end
 
+  belongs_to :joomla_cfp_section, :class_name => "JosSection"
+
   has_many :colocated_conferences, :class_name => "Conference", :foreign_key => :colocated_with_id
   has_many :portfolios, :dependent => :destroy
   has_many :members, :through => :portfolios
@@ -23,6 +25,11 @@ class Conference < ActiveRecord::Base
     (members & user.members).select do |m|
       m.portfolio.name == "General" && m.chair
     end.count > 0
+  end
+
+  def publish_cfp
+    self.joomla_cfp_section ||= JosSection.create(:title => "Call for Papers", :alias => "cfp")
+    save
   end
 
   # --- Permissions --- #
