@@ -1,6 +1,6 @@
 #! /bin/bash
 
-DB=${1-conference_$RAILS_ENV}
+DB=conference_${1-${RAILS_ENV-development}}
 DATE=`date +%Y-%m-%d`
 DUMP=`dirname \`dirname $0\``/db/dump
 if [ -d $DUMP ]
