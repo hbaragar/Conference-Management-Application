@@ -5,6 +5,6 @@ class MemberHints < Hobo::ViewHints
   # field_help :field1 => "Enter what you want in this field"
   # children :primary_collection1, :aside_collection1, :aside_collection2
 
-  field_help :email_address => "will not be published (for committee use only)"
+  field_help :private_email_address => "will not be published (for committee use only)"
 
 end

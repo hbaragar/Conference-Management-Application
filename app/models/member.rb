@@ -9,7 +9,7 @@ class Member < ActiveRecord::Base
     name        :string, :required
     affiliation :string
     country	:string
-    email_address :email_address
+    private_email_address :email_address
   end
 
   belongs_to :user
@@ -17,21 +17,21 @@ class Member < ActiveRecord::Base
   default_scope :order => 'chair DESC, name'
 
   def after_create
-    if existing_user = User.find_by_email_address(email_address)
+    if existing_user = User.find_by_email_address(private_email_address)
       self.user = existing_user
       save
     end
   end
 
   def after_update
-    return unless user && user.email_address != email_address
-    user.email_address = email_address
+    return unless user && user.email_address != private_email_address
+    user.email_address = private_email_address
     user.save
   end
 
   def after_save
     if any_changed?(:name, :affiliation, :country);
-      Member.find_all_by_email_address(email_address).each do |m|
+      Member.find_all_by_private_email_address(private_email_address).each do |m|
 	m.name = name
 	m.affiliation = affiliation
 	m.country = country

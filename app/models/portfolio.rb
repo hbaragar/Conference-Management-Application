@@ -6,7 +6,7 @@ class Portfolio < ActiveRecord::Base
 
   fields do
     name        :string, :required
-    email_address :email_address
+    public_email_address :email_address
     description :markdown
   end
 

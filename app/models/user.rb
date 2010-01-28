@@ -18,12 +18,12 @@ class User < ActiveRecord::Base
   def validate
     if new_record?
       errors.add(:email_address, "not recognized") unless
-	User.count == 0 || Member.find_by_email_address(email_address)
+	User.count == 0 || Member.find_by_private_email_address(email_address)
     end
   end
 
   def after_create
-    Member.find_all_by_email_address(email_address).each do |m|
+    Member.find_all_by_private_email_address(email_address).each do |m|
       m.user = self
       m.save
     end
@@ -31,7 +31,7 @@ class User < ActiveRecord::Base
 
   def after_update
     members.each do |m|
-      m.email_address = email_address
+      m.private_email_address = email_address
       m.save
     end
   end

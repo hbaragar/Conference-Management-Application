@@ -25,10 +25,10 @@ class UserTest < ActiveSupport::TestCase
     user.email_address = "gl@new.edu"
     user.save
     user.members.each do |m|
-      assert_equal user.email_address, m.email_address
+      assert_equal user.email_address, m.private_email_address
     end
     (Member.all - user.members).each do |m|
-      assert_not_equal user.email_address, m.email_address
+      assert_not_equal user.email_address, m.private_email_address
     end
   end
 

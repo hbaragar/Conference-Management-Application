@@ -38,7 +38,7 @@ class Cfp < ActiveRecord::Base
   end
 
   def email_address
-    portfolio.email_address
+    portfolio.public_email_address
   end
 
   def contact_info

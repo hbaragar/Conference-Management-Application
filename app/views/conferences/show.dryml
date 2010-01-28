@@ -1,6 +1,6 @@
 <show-page>
   <collection: replace>
-  <table-plus with="&@portfolios" fields="this, email_address, members">
+  <table-plus with="&@portfolios" fields="this, public_email_address, members">
     <empty-message:>No portfolios match your criteria</empty-message:>
   </table-plus>
   </collection:>

@@ -22,7 +22,7 @@
     </table> 
   </after-field-list:>
   <collection: replace>
-  <table-plus with="&@members" fields="this, chair, affiliation, email_address">
+  <table-plus with="&@members" fields="this, chair, affiliation, private_email_address">
     <empty-message:>No members match your criteria</empty-message:>
   </table-plus>
   </collection:>

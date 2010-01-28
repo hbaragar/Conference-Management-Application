@@ -4,7 +4,7 @@ general_chair:
   chair: 1
   name: William Cook
   affiliation: University of Texas
-  email_address: wc@ut.edu
+  private_email_address: wc@ut.edu
   user_id: 1
 a_portfolio_chair:
   id: 2
@@ -12,7 +12,7 @@ a_portfolio_chair:
   chair: 1
   name: Martin Rinard
   affiliation: MIT
-  email_address: mr@mit.edu
+  private_email_address: mr@mit.edu
   user_id: 2
 another_conference_chair:
   id: 3
@@ -20,7 +20,7 @@ another_conference_chair:
   chair: 1
   name: Siobhan Clark
   affiliation: Trinity College
-  email_address: sc@tc.edu
+  private_email_address: sc@tc.edu
   user_id: 3
 a_portfolio_member:
   id: 4
@@ -28,7 +28,7 @@ a_portfolio_member:
   chair: 0
   name: Gary Leavens
   affiliation: University of Central Florida
-  email_address: gl@ucf.edu
+  private_email_address: gl@ucf.edu
   user_id: 4
 another_portfolio_member:
   id: 5
@@ -36,4 +36,4 @@ another_portfolio_member:
   chair: 0
   name: Gregor Kiczales
   affiliation: University of British Columbia
-  email_address: gk@ubc.ca
+  private_email_address: gk@ubc.ca

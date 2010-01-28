@@ -13,7 +13,7 @@ class MemberTest < ActiveSupport::TestCase
   def test_auto_assign_user
     new_member = Member.create(
       :name => "Gary Leavens",
-      :email_address => "gl@ucf.edu",
+      :private_email_address => "gl@ucf.edu",
       :portfolio => @a_portfolio
     )
     existing_user = new_member.user
@@ -21,7 +21,7 @@ class MemberTest < ActiveSupport::TestCase
     assert_equal "Gary Leavens", existing_user.name
     another_new_member = Member.create(
       :name => "A Member",
-      :email_address => "am@some.edu",
+      :private_email_address => "am@some.edu",
       :portfolio => @a_portfolio
     )
     assert !another_new_member.user
@@ -30,7 +30,7 @@ class MemberTest < ActiveSupport::TestCase
   def test_email_propagation_to_user
     user = users(:a_portfolio_member)
     assert_equal "gl@ucf.edu", user.email_address
-    @member.email_address = "gl@new.edu"
+    @member.private_email_address = "gl@new.edu"
     @member.save
     user.reload
     assert_equal "gl@new.edu", user.email_address
@@ -40,7 +40,7 @@ class MemberTest < ActiveSupport::TestCase
     new_member = Member.create(
       :name => "Gary T. Leavens",
       :affiliation => "UCF",
-      :email_address => "gl@ucf.edu",
+      :private_email_address => "gl@ucf.edu",
       :portfolio => @a_portfolio
     )
     @member.reload
