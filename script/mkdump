@@ -15,4 +15,5 @@ DUMPFILE="$DIR/$DB.$DATE.sql.gz"
 if echo quit | mysql $DB
 then
     mysqldump $DB >$DUMPFILE
+    chmod a-w $DUMPFILE
 fi
