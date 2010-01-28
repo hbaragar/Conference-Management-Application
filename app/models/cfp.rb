@@ -14,7 +14,7 @@ class Cfp < ActiveRecord::Base
   end
 
   has_many :members, :through => :portfolio
-  has_many :dates, :class_name => "CfpDate", :dependent => :destroy
+  has_many :other_dates, :class_name => "CfpDate", :dependent => :destroy
 
 
   def conference
@@ -44,8 +44,7 @@ class Cfp < ActiveRecord::Base
   def contact_info
     div("view cfp-submission-summary",
       "For additional information, clarification, or questions",
-      " please contact the program committee chair, ",
-      "#{chairs} at #{email_link}."
+      " please contact the program committee chair, #{chairs}, at #{email_link}."
     )
   end
 
@@ -59,6 +58,12 @@ class Cfp < ActiveRecord::Base
 	td({},"Due on:"),
 	td({},due_on.strftime("%B %d, %Y"))
       ),
+      other_dates.collect do |od|
+	tr({},
+	  td({},"#{od.label}:"),
+	  td({},"#{od.due_on_prefix}#{od.due_on.strftime('%B %d, %Y')}")
+	)
+      end,
       tr({},
 	td({}, "Format:"),
 	td({}, external_link(format_url,format_style))

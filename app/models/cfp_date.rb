@@ -21,6 +21,10 @@ class CfpDate < ActiveRecord::Base
     cfp.conference
   end
 
+  def name
+    "#{label}: #{due_on_prefix}#{due_on.strftime('%B %d, %Y')}"
+  end
+
 
   # --- Permissions --- #
 
