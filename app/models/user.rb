@@ -30,9 +30,11 @@ class User < ActiveRecord::Base
   end
 
   def after_update
-    members.each do |m|
-      m.private_email_address = email_address
-      m.save
+    if email_address_changed?
+      members.each do |m|
+	m.private_email_address = email_address
+	m.save
+      end
     end
   end
 

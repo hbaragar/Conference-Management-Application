@@ -24,9 +24,10 @@ class Member < ActiveRecord::Base
   end
 
   def after_update
-    return unless user && user.email_address != private_email_address
-    user.email_address = private_email_address
-    user.save
+    if private_email_address_changed?
+      user.email_address = private_email_address
+      user.save
+    end
   end
 
   def after_save
