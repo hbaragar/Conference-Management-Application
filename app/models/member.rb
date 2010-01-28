@@ -30,11 +30,13 @@ class Member < ActiveRecord::Base
   end
 
   def after_save
-    Member.find_all_by_email_address(email_address).each do |m|
-      m.name = name			unless m.name == name
-      m.affiliation = affiliation	unless m.affiliation == affiliation
-      m.country = country		unless m.country == country
-      m.save if m.any_changed?(:name, :affiliation, :country);
+    if any_changed?(:name, :affiliation, :country);
+      Member.find_all_by_email_address(email_address).each do |m|
+	m.name = name
+	m.affiliation = affiliation
+	m.country = country
+	m.save
+      end
     end
   end
 
