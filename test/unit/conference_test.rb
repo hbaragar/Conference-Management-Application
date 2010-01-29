@@ -41,15 +41,17 @@ class ConferenceTest < ActiveSupport::TestCase
     assert_equal 1, JoomlaSection.count
     assert_equal 2, JoomlaCategory.count
     assert_equal 3, JoomlaArticle.count
+    assert_equal 3, JoomlaMenu.count
     @a_conference.publish_cfps
+    @a_conference.reload
     assert_equal 1, JoomlaSection.count
     assert_equal 2, JoomlaCategory.count
     assert_equal 3, JoomlaArticle.count
+    assert_equal 3, JoomlaMenu.count
     cfp_section = JoomlaSection.find(:all).first
     assert_equal "Call for Papers", cfp_section.title
     assert_equal "cfp", cfp_section.alias
     assert_equal 3, cfp_section.count
-    @a_conference.reload
     assert_equal cfp_section, @a_conference.joomla_cfp_section
     assert_equal 2, cfp_section.categories.count
     categories = cfp_section.categories
@@ -57,6 +59,10 @@ class ConferenceTest < ActiveSupport::TestCase
     assert_equal 2, categories[1].ordering
     assert_equal "Due March 13, 2010", categories[0].title
     assert_equal "Due June 13, 2010", categories[1].title
+    menu_entries = @a_conference.joomla_cfp_menu.entries
+    assert_equal 2, menu_entries.count
+    assert_equal 1, menu_entries[0].ordering
+    assert_equal 2, menu_entries[1].ordering
   end
 
   def test_create_permissions

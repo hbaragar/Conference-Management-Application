@@ -10,6 +10,7 @@ class Conference < ActiveRecord::Base
   end
 
   belongs_to :joomla_cfp_section, :class_name => "JoomlaSection"
+  belongs_to :joomla_cfp_menu, :class_name => "JoomlaMenu"
 
   has_many :colocated_conferences, :class_name => "Conference", :foreign_key => :colocated_with_id
   has_many :portfolios, :dependent => :destroy
@@ -33,6 +34,7 @@ class Conference < ActiveRecord::Base
     publish_joomla_cfp_articles
     publish_joomla_cfp_section
     publish_joomla_cfp_categories
+    publish_joomla_cfp_menu
   end
 
   def publish_joomla_cfp_articles
@@ -62,6 +64,25 @@ class Conference < ActiveRecord::Base
       v.count = v.articles.count
       v.move_to_top
       v.save
+    end
+  end
+
+  def publish_joomla_cfp_menu
+    unless joomla_cfp_menu
+      self.joomla_cfp_menu = JoomlaMenu.create(:name => "Call for Papers", :alias => "cfp")
+      save
+    end
+    joomla_cfp_section.categories.each do |c|
+      if entry = joomla_cfp_menu.entries.find_by_name(c.title)
+	entry.ordering = c.ordering
+	entry.save
+      else
+	joomla_cfp_menu.entries << JoomlaMenu.create(
+	  :name => c.title,
+	  :alias => c.alias,
+	  :ordering => c.ordering
+	)
+      end
     end
   end
 

@@ -7,6 +7,8 @@ class JoomlaMenu < ActiveRecord::Base
     self.alias = name.tr("A-Z","a-z").gsub(/\W+/,"-") unless self.alias[/\w/] if name
   end
 
+  has_many :entries, :class_name => 'JoomlaMenu', :foreign_key => :parent
+
   acts_as_list :column => :ordering
 
   validates_presence_of :name
