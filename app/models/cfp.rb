@@ -13,6 +13,8 @@ class Cfp < ActiveRecord::Base
     timestamps
   end
 
+  belongs_to :joomla_article, :class_name => "JosArticle"
+
   has_many :members, :through => :portfolio
   has_many :other_dates, :class_name => "CfpDate", :dependent => :destroy
 
@@ -41,6 +43,24 @@ class Cfp < ActiveRecord::Base
     portfolio.public_email_address
   end
 
+  def publish
+    self.joomla_article ||= JosArticle.create(:title => name)
+    joomla_article.introtext = portfolio.description
+    joomla_article.fulltext = full_details
+    joomla_article.save
+    save
+  end
+
+  def full_details
+    div("",
+	submission_summary,
+	conference_description,
+	details,
+	contact_info,
+	committee_members
+    )
+  end
+
   def contact_info
     div("view cfp-submission-summary",
       "For additional information, clarification, or questions",
@@ -49,7 +69,6 @@ class Cfp < ActiveRecord::Base
   end
 
   def submission_summary
-    #chairs = portfolio.chairs.collect{|m|
     table({:class => "view cfp-submission-summary"},
       tr({},
 	th({:colspan => 2},"Submission Summary")

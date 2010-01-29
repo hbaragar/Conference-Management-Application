@@ -5,7 +5,19 @@ class CfpTest < ActiveSupport::TestCase
   def setup
     @a_conference = conferences(:a_conference)
     @a_portfolio = portfolios(:a_portfolio)
-    @a_cfp = Cfp.create :portfolio => @a_portfolio, :due_on => 1.months.from_now
+    @a_cfp = cfps(:a_cfp)
+  end
+
+  def test_publish
+    @a_cfp.publish
+    @a_cfp.reload
+    assert joomla_article = @a_cfp.joomla_article
+    joomla_article.reload
+    assert_match /#{@a_cfp.portfolio.description}/, joomla_article.introtext
+    assert_match /#{@a_cfp.conference.description}/, joomla_article.fulltext
+    assert_match /#{@a_cfp.portfolio.public_email_address}/, joomla_article.fulltext
+    assert_match /#{@a_cfp.portfolio.chairs.first.name}/, joomla_article.fulltext
+    assert_match /#{@a_cfp.details}/, joomla_article.fulltext
   end
 
   def test_create_permissions
