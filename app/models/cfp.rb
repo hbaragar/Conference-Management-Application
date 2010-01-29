@@ -13,7 +13,7 @@ class Cfp < ActiveRecord::Base
     timestamps
   end
 
-  belongs_to :joomla_article, :class_name => "JosArticle"
+  belongs_to :joomla_article
 
   has_many :members, :through => :portfolio
   has_many :other_dates, :class_name => "CfpDate", :dependent => :destroy
@@ -50,7 +50,7 @@ class Cfp < ActiveRecord::Base
   end
 
   def publish
-    self.joomla_article ||= JosArticle.create(:title => name)
+    self.joomla_article ||= JoomlaArticle.create(:title => name)
     joomla_article.introtext = portfolio.description
     joomla_article.fulltext = full_details
     joomla_article.save

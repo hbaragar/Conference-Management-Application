@@ -9,7 +9,7 @@ class Conference < ActiveRecord::Base
     description :markdown
   end
 
-  belongs_to :joomla_cfp_section, :class_name => "JosSection"
+  belongs_to :joomla_cfp_section, :class_name => "JoomlaSection"
 
   has_many :colocated_conferences, :class_name => "Conference", :foreign_key => :colocated_with_id
   has_many :portfolios, :dependent => :destroy
@@ -41,7 +41,7 @@ class Conference < ActiveRecord::Base
 
   def publish_joomla_cfp_section
     unless joomla_cfp_section
-      self.joomla_cfp_section = JosSection.create(:title => "Call for Papers", :alias => "cfp")
+      self.joomla_cfp_section = JoomlaSection.create(:title => "Call for Papers", :alias => "cfp")
       save
     end
     cfps.each{|c| joomla_cfp_section.articles << c.joomla_article}

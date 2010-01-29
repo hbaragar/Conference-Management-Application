@@ -1,4 +1,4 @@
-class JosMenu < ActiveRecord::Base
+class JoomlaMenu < ActiveRecord::Base
 
   set_table_name 'jos_menu'
   #alias_attribute :parent, :parent_id

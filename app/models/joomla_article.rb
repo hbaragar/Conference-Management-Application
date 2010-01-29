@@ -1,4 +1,4 @@
-class JosArticle < ActiveRecord::Base
+class JoomlaArticle < ActiveRecord::Base
 
   set_table_name 'jos_content'
 

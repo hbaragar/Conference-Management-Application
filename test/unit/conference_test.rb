@@ -38,14 +38,14 @@ class ConferenceTest < ActiveSupport::TestCase
 
   test "publish_cfps" do
     @a_conference.publish_cfps
-    assert_equal 1, JosSection.count
-    assert_equal 2, JosCategory.count
-    assert_equal 3, JosArticle.count
+    assert_equal 1, JoomlaSection.count
+    assert_equal 2, JoomlaCategory.count
+    assert_equal 3, JoomlaArticle.count
     @a_conference.publish_cfps
-    assert_equal 1, JosSection.count
-    assert_equal 2, JosCategory.count
-    assert_equal 3, JosArticle.count
-    cfp_section = JosSection.find(:all).first
+    assert_equal 1, JoomlaSection.count
+    assert_equal 2, JoomlaCategory.count
+    assert_equal 3, JoomlaArticle.count
+    cfp_section = JoomlaSection.find(:all).first
     assert_equal "Call for Papers", cfp_section.title
     assert_equal "cfp", cfp_section.alias
     assert_equal 3, cfp_section.count
