@@ -12,7 +12,7 @@ class JosArticle < ActiveRecord::Base
     self.alias = title.tr("A-Z","a-z").gsub(/\W+/,"-") unless self.alias[/\w/]
   end
 
-  acts_as_list :column => :ordering
+  acts_as_list :column => :ordering, :scope => 'catid = #{catid}'
 
   validates_presence_of :title
   validates_uniqueness_of :title
