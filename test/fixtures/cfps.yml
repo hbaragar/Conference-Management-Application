@@ -1,6 +1,18 @@
-# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
-one:
+a_cfp:
   id: 1
+  portfolio_id: 2
+  due_on: 2010-03-13
+  details: Very important research
 
-two:
+another_cfp:
   id: 2
+  portfolio_id: 4
+  due_on: 2010-03-13
+  details: a working copy
+
+yet_another_cfp:
+  id: 3
+  portfolio_id: 5
+  due_on: 2010-06-13
+  details: needs some more design
+

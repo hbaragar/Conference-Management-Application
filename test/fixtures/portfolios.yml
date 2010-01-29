@@ -13,3 +13,13 @@ another_conference_general:
   conference_id: 2
   name: General
   description: N/A
+another_portfolio:
+  id: 4
+  conference_id: 1
+  name: Workshops
+  description: "Hi, Ho, Off to work we go!"
+yet_another_portfolio:
+  id: 5
+  conference_id: 1
+  name: DesignFest
+  description: A registered trademark
