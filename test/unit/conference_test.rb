@@ -37,14 +37,18 @@ class ConferenceTest < ActiveSupport::TestCase
   end
 
   test "publish_cfp" do
-    assert_equal 0, JosSection.count
     @a_conference.publish_cfp
     assert_equal 1, JosSection.count
+    #assert_equal 2, JosCategory.count
+    assert_equal 3, JosArticle.count
     @a_conference.publish_cfp
     assert_equal 1, JosSection.count
+    #assert_equal 2, JosCategory.count
+    assert_equal 3, JosArticle.count
     cfp_section = JosSection.find(:all).first
     assert_equal "Call for Papers", cfp_section.title
     assert_equal "cfp", cfp_section.alias
+    assert_equal 3, cfp_section.count
     @a_conference.reload
     assert_equal cfp_section, @a_conference.joomla_cfp_section
   end

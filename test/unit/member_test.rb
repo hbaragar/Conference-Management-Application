@@ -11,18 +11,16 @@ class MemberTest < ActiveSupport::TestCase
   end
 
   def test_auto_assign_user
-    new_member = Member.create(
+    new_member = @a_portfolio.members.create(
       :name => "Gary Leavens",
-      :private_email_address => "gl@ucf.edu",
-      :portfolio => @a_portfolio
+      :private_email_address => "gl@ucf.edu"
     )
     existing_user = new_member.user
     assert existing_user
     assert_equal "Gary Leavens", existing_user.name
-    another_new_member = Member.create(
+    another_new_member = @a_portfolio.members.create(
       :name => "A Member",
-      :private_email_address => "am@some.edu",
-      :portfolio => @a_portfolio
+      :private_email_address => "am@some.edu"
     )
     assert !another_new_member.user
   end
@@ -37,11 +35,10 @@ class MemberTest < ActiveSupport::TestCase
   end
 
   def test_synchronize_names_and_affliations_and_countries
-    new_member = Member.create(
+    new_member = @a_portfolio.members.create(
       :name => "Gary T. Leavens",
       :affiliation => "UCF",
-      :private_email_address => "gl@ucf.edu",
-      :portfolio => @a_portfolio
+      :private_email_address => "gl@ucf.edu"
     )
     @member.reload
     assert_equal "Gary T. Leavens", @member.name

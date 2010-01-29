@@ -13,6 +13,7 @@ class Conference < ActiveRecord::Base
 
   has_many :colocated_conferences, :class_name => "Conference", :foreign_key => :colocated_with_id
   has_many :portfolios, :dependent => :destroy
+  has_many :cfps, :through => :portfolios
   has_many :members, :through => :portfolios
 
   named_scope :host_conferences, :conditions => {:colocated_with_id => nil}
@@ -29,6 +30,12 @@ class Conference < ActiveRecord::Base
 
   def publish_cfp
     self.joomla_cfp_section ||= JosSection.create(:title => "Call for Papers", :alias => "cfp")
+    cfps.each do |c|
+      c.publish
+      joomla_cfp_section.articles << c.joomla_article
+    end
+    joomla_cfp_section.count = cfps.count
+    joomla_cfp_section.save
     save
   end
 

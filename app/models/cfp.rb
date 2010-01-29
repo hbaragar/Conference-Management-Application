@@ -18,6 +18,8 @@ class Cfp < ActiveRecord::Base
   has_many :members, :through => :portfolio
   has_many :other_dates, :class_name => "CfpDate", :dependent => :destroy
 
+  default_scope :order => "due_on"
+
 
   def conference
     portfolio && portfolio.conference

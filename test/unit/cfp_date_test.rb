@@ -5,8 +5,8 @@ class CfpDateTest < ActiveSupport::TestCase
   def setup
     @a_conference = conferences(:a_conference)
     @a_portfolio = portfolios(:a_portfolio)
-    @a_cfp = Cfp.create :portfolio => @a_portfolio, :due_on => 1.months.from_now
-    @a_cfp_date = CfpDate.create :cfp => @a_cfp, :label => "New due date", :due_on => 2.months.from_now
+    @a_cfp = @a_portfolio.cfps.create :due_on => 1.months.from_now
+    @a_cfp_date = @a_cfp.other_dates.create :label => "New due date", :due_on => 2.months.from_now
   end
 
   def test_create_permissions
