@@ -18,6 +18,7 @@ class CfpTest < ActiveSupport::TestCase
     assert_match /#{@a_cfp.portfolio.public_email_address}/, joomla_article.fulltext
     assert_match /#{@a_cfp.portfolio.chairs.first.name}/, joomla_article.fulltext
     assert_match /#{@a_cfp.details}/, joomla_article.fulltext
+    assert_equal "Due March 13, 2010", @a_cfp.joomla_category_title
   end
 
   def test_create_permissions

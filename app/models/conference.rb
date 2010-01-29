@@ -28,15 +28,41 @@ class Conference < ActiveRecord::Base
     end.count > 0
   end
 
-  def publish_cfp
-    self.joomla_cfp_section ||= JosSection.create(:title => "Call for Papers", :alias => "cfp")
-    cfps.each do |c|
-      c.publish
-      joomla_cfp_section.articles << c.joomla_article
+  def publish_cfps
+    # Order matters here:
+    publish_joomla_cfp_articles
+    publish_joomla_cfp_section
+    publish_joomla_cfp_categories
+  end
+
+  def publish_joomla_cfp_articles
+    cfps.each{|c| c.publish}
+  end
+
+  def publish_joomla_cfp_section
+    unless joomla_cfp_section
+      self.joomla_cfp_section = JosSection.create(:title => "Call for Papers", :alias => "cfp")
+      save
     end
+    cfps.each{|c| joomla_cfp_section.articles << c.joomla_article}
     joomla_cfp_section.count = cfps.count
     joomla_cfp_section.save
-    save
+  end
+
+  def publish_joomla_cfp_categories
+    categories = {}
+    cfps.each do |c|
+      title = c.joomla_category_title
+      category =
+	categories[c.due_on] ||= joomla_cfp_section.categories.find_by_title(title) ||
+      				 joomla_cfp_section.categories.create(:title => title) 
+      category.articles << c.joomla_article
+    end
+    categories.sort.reverse.each do |k, v|
+      v.count = v.articles.count
+      v.move_to_top
+      v.save
+    end
   end
 
   # --- Permissions --- #

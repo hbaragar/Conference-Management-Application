@@ -45,6 +45,10 @@ class Cfp < ActiveRecord::Base
     portfolio.public_email_address
   end
 
+  def joomla_category_title
+    "Due #{due_on.strftime('%B %d, %Y')}"
+  end
+
   def publish
     self.joomla_article ||= JosArticle.create(:title => name)
     joomla_article.introtext = portfolio.description

@@ -6,6 +6,7 @@ class JosSection < ActiveRecord::Base
     self.alias = title.tr("A-Z","a-z").gsub(/\W+/,"-") unless self.alias[/\w/]
   end
 
+  has_many :categories, :class_name => "JosCategory", :foreign_key => :section
   has_many :articles, :class_name => "JosArticle", :foreign_key => :sectionid
 
   acts_as_list :column => :ordering

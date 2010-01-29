@@ -36,14 +36,14 @@ class ConferenceTest < ActiveSupport::TestCase
     assert_equal "General", new_one.portfolios.first.name
   end
 
-  test "publish_cfp" do
-    @a_conference.publish_cfp
+  test "publish_cfps" do
+    @a_conference.publish_cfps
     assert_equal 1, JosSection.count
-    #assert_equal 2, JosCategory.count
+    assert_equal 2, JosCategory.count
     assert_equal 3, JosArticle.count
-    @a_conference.publish_cfp
+    @a_conference.publish_cfps
     assert_equal 1, JosSection.count
-    #assert_equal 2, JosCategory.count
+    assert_equal 2, JosCategory.count
     assert_equal 3, JosArticle.count
     cfp_section = JosSection.find(:all).first
     assert_equal "Call for Papers", cfp_section.title
@@ -51,6 +51,12 @@ class ConferenceTest < ActiveSupport::TestCase
     assert_equal 3, cfp_section.count
     @a_conference.reload
     assert_equal cfp_section, @a_conference.joomla_cfp_section
+    assert_equal 2, cfp_section.categories.count
+    categories = cfp_section.categories
+    assert_equal 1, categories[0].ordering
+    assert_equal 2, categories[1].ordering
+    assert_equal "Due March 13, 2010", categories[0].title
+    assert_equal "Due June 13, 2010", categories[1].title
   end
 
   def test_create_permissions
