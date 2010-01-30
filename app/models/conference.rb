@@ -88,6 +88,9 @@ class Conference < ActiveRecord::Base
 
   # --- Permissions --- #
 
+  never_show :joomla_cfp_menu
+  never_show :joomla_cfp_section
+
   def create_permitted?
     acting_user.administrator?
   end
