@@ -21,6 +21,10 @@ class Portfolio < ActiveRecord::Base
     end.count > 0
   end
 
+  def cfp
+    cfps.first
+  end
+
 
   # --- Permissions --- #
 
