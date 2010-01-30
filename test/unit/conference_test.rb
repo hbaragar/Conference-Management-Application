@@ -36,13 +36,13 @@ class ConferenceTest < ActiveSupport::TestCase
     assert_equal "General", new_one.portfolios.first.name
   end
 
-  test "publish_cfps" do
-    @a_conference.publish_cfps
+  test "generate_cfps" do
+    @a_conference.generate_cfps
     assert_equal 1, JoomlaSection.count
     assert_equal 2, JoomlaCategory.count
     assert_equal 3, JoomlaArticle.count
     assert_equal 3, JoomlaMenu.count
-    @a_conference.publish_cfps
+    @a_conference.generate_cfps
     @a_conference.reload
     assert_equal 1, JoomlaSection.count
     assert_equal 2, JoomlaCategory.count

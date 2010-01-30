@@ -29,19 +29,19 @@ class Conference < ActiveRecord::Base
     end.count > 0
   end
 
-  def publish_cfps
+  def generate_cfps
     # Order matters here:
-    publish_joomla_cfp_articles
-    publish_joomla_cfp_section
-    publish_joomla_cfp_categories
-    publish_joomla_cfp_menu
+    generate_joomla_cfp_articles
+    generate_joomla_cfp_section
+    generate_joomla_cfp_categories
+    generate_joomla_cfp_menu
   end
 
-  def publish_joomla_cfp_articles
+  def generate_joomla_cfp_articles
     cfps.each{|c| c.publish}
   end
 
-  def publish_joomla_cfp_section
+  def generate_joomla_cfp_section
     unless joomla_cfp_section
       self.joomla_cfp_section = JoomlaSection.create(:title => "Call for Papers", :alias => "cfp")
       save
@@ -51,7 +51,7 @@ class Conference < ActiveRecord::Base
     joomla_cfp_section.save
   end
 
-  def publish_joomla_cfp_categories
+  def generate_joomla_cfp_categories
     categories = {}
     cfps.each do |c|
       title = c.joomla_category_title
@@ -67,7 +67,7 @@ class Conference < ActiveRecord::Base
     end
   end
 
-  def publish_joomla_cfp_menu
+  def generate_joomla_cfp_menu
     unless joomla_cfp_menu
       self.joomla_cfp_menu = JoomlaMenu.create(:name => "Call for Papers", :alias => "cfp")
       save
