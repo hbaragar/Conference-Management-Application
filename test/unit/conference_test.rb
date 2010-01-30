@@ -59,10 +59,10 @@ class ConferenceTest < ActiveSupport::TestCase
     assert_equal 2, categories[1].ordering
     assert_equal "Due March 13, 2010", categories[0].title
     assert_equal "Due June 13, 2010", categories[1].title
-    menu_entries = @a_conference.joomla_cfp_menu.entries
-    assert_equal 2, menu_entries.count
-    assert_equal 1, menu_entries[0].ordering
-    assert_equal 2, menu_entries[1].ordering
+    menu_items = @a_conference.joomla_cfp_menu.items
+    assert_equal 2, menu_items.count
+    assert_equal 1, menu_items[0].ordering
+    assert_equal 2, menu_items[1].ordering
   end
 
   def test_create_permissions

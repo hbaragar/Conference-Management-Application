@@ -73,11 +73,11 @@ class Conference < ActiveRecord::Base
       save
     end
     joomla_cfp_section.categories.each do |c|
-      if entry = joomla_cfp_menu.entries.find_by_name(c.title)
-	entry.ordering = c.ordering
-	entry.save
+      if item = joomla_cfp_menu.items.find_by_name(c.title)
+	item.ordering = c.ordering
+	item.save
       else
-	joomla_cfp_menu.entries << JoomlaMenu.create(
+	joomla_cfp_menu.items << JoomlaMenu.create(
 	  :name => c.title,
 	  :alias => c.alias,
 	  :ordering => c.ordering
