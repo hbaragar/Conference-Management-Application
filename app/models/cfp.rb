@@ -3,6 +3,7 @@ class Cfp < ActiveRecord::Base
   hobo_model # Don't put anything above this
 
   belongs_to :portfolio
+  attr_readonly :portfolio_id
 
   fields do
     due_on        :date, :required
@@ -12,6 +13,7 @@ class Cfp < ActiveRecord::Base
     details       :text, :default => "To be completed by the portfolio chair"
     timestamps
   end
+
 
   belongs_to :joomla_article
 
@@ -124,7 +126,7 @@ class Cfp < ActiveRecord::Base
 
   # --- Permissions --- #
 
-  attr_readonly :portfolio_id
+  never_show :joomla_article
 
   def create_permitted?
     return true if acting_user.administrator?

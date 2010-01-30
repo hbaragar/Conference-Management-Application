@@ -3,6 +3,7 @@ class Portfolio < ActiveRecord::Base
   hobo_model # Don't put anything above this
 
   belongs_to :conference
+  attr_readonly :conference_id
 
   fields do
     name        :string, :required
@@ -23,7 +24,6 @@ class Portfolio < ActiveRecord::Base
 
   # --- Permissions --- #
 
-  attr_readonly :conference_id
 
   def create_permitted?
     return true if acting_user.administrator?
