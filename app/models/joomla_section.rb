@@ -3,8 +3,9 @@ class JoomlaSection < ActiveRecord::Base
   set_table_name 'jos_sections'
 
   def before_validation
-    self.checked_out_time = Time.now
+    self.checked_out_time = 5.hours.ago
     self.scope = "content"
+    self.published = 1
     self.alias = title.tr("A-Z","a-z").gsub(/\W+/,"-") unless self.alias[/\w/]
   end
 

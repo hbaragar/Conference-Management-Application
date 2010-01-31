@@ -18,6 +18,6 @@ DUMPFILE="$DIR/$DB.$DATE.sql.gz"
 
 if echo quit | mysql $DB
 then
-    mysqldump $DB >$DUMPFILE
+    mysqldump $DB |gzip >$DUMPFILE
     chmod a-w $DUMPFILE
 fi

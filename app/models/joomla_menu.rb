@@ -4,7 +4,8 @@ class JoomlaMenu < ActiveRecord::Base
   @inheritance_column = 'single_table_inheritance_not_being_used'
 
   def before_validation
-    self.checked_out_time = Time.now
+    self.checked_out_time = 5.hours.ago
+    self.published = 1
     self.alias = name.tr("A-Z","a-z").gsub(/\W+/,"-") unless self.alias[/\w/] if name
   end
 
