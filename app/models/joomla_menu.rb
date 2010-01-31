@@ -1,6 +1,7 @@
 class JoomlaMenu < ActiveRecord::Base
 
   set_table_name 'jos_menu'
+  @inheritance_column = 'single_table_inheritance_not_being_used'
 
   def before_validation
     self.checked_out_time = Time.now
