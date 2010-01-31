@@ -1,0 +1,9 @@
+#! /bin/bash
+
+BIN=`dirname $0`
+
+. $BIN/rails_env
+
+mysqldump conference_$RAILS_ENV \
+	jos_sections jos_categories jos_content jos_menu |
+    ssh splash@projects.instantiated.ca mysql splash2010_uat \

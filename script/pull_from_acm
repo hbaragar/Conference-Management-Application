@@ -1,6 +1,10 @@
 #! /bin/bash
 
+BIN=`dirname $0`
+
+. $BIN/rails_env
+
 ssh henry.baragar@oopsla.org mysqldump --single-transaction splashconjoomla \
 	jos_sections jos_categories jos_content jos_menu |
-    mysql conference_${RAILS_ENV-development}
+    mysql conference_$RAILS_ENV
 
