@@ -74,8 +74,8 @@ protected
 	:alias	=> "cfp",
 	:link	=> "index.php?option=com_content&view=section&layout=blog&id=#{joomla_cfp_section.id}"
       )
-      save
     end
+    save	# Always save in order to get the parametes updated
     purge_unused_menu_items
     create_new_menu_items
     reorder_cfp_menu_items

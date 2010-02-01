@@ -3,14 +3,14 @@ class JoomlaMenu < ActiveRecord::Base
   set_table_name 'jos_menu'
   @inheritance_column = 'single_table_inheritance_not_being_used'
 
-  @@sublevel_0_params = %q(show_description=0
+  PARAMS = %q(show_description=0
 show_description_image=0
 num_leading_articles=0
 num_intro_articles=100
 num_columns=1
 num_links=0
-orderby_pri=order
-orderby_sec=order
+orderby_pri=alpha
+orderby_sec=alpha
 multi_column_order=0
 show_pagination=2
 show_pagination_results=1
@@ -19,10 +19,10 @@ show_noauth=
 show_title=1
 link_titles=1
 show_intro=1
-show_section=
-link_section=
-show_category=
-link_category=
+show_section=0
+link_section=1
+show_category=1
+link_category=1
 show_author=0
 show_create_date=0
 show_modify_date=0
@@ -49,7 +49,16 @@ secure=0
     self.checked_out_time = 5.hours.ago
     self.published = 1
     self.alias = name.tr("A-Z","a-z").gsub(/\W+/,"-") unless self.alias[/\w/] if name
-    self.params = @@sublevel_0_params if sublevel == 0
+    self.params = PARAMS 
+  end
+
+  def before_save
+    self.params = PARAMS 
+    if sublevel == 0
+      self.params = params.sub(/orderby_pri=alpha/,"orderby_pri=order")
+    else
+      self.params = params.sub(/show_section=0/,"show_section=1")
+    end
   end
 
   has_many :items, :class_name => 'JoomlaMenu', :foreign_key => :parent

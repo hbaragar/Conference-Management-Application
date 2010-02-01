@@ -28,7 +28,7 @@ class Cfp < ActiveRecord::Base
   end
 
   def name
-    "#{portfolio} CFP"
+    portfolio.to_s
   end
 
   def portfolio_description
