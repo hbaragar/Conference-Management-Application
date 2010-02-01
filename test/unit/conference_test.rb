@@ -38,7 +38,7 @@ class ConferenceTest < ActiveSupport::TestCase
 
   test "generate_cfps" do
     @a_conference.generate_cfps
-    cfp_tests
+    cfp_article_tests
     assert_equal 1, JoomlaSection.count
     assert_equal 2, JoomlaCategory.count
     assert_equal 3, JoomlaArticle.count
@@ -60,13 +60,19 @@ class ConferenceTest < ActiveSupport::TestCase
     assert_equal 2, categories[1].ordering
     assert_equal "Due March 13, 2010", categories[0].title
     assert_equal "Due June 13, 2010", categories[1].title
-    menu_items = @a_conference.joomla_cfp_menu.items
+    cfp_menu = @a_conference.joomla_cfp_menu
+    assert_equal 0, cfp_menu.sublevel
+    assert_equal "index.php?option=com_content&view=section&layout=blog&id=#{cfp_section.id}", cfp_menu.link
+    menu_items = cfp_menu.items
+    item = menu_items[0]
+    assert_equal 1, item.sublevel
+    assert_equal "index.php?option=com_content&view=category&layout=blog&id=#{categories[0].id}", item.link
     assert_equal 2, menu_items.count
     assert_equal 1, menu_items[0].ordering
     assert_equal 2, menu_items[1].ordering
   end
 
-  def cfp_tests
+  def cfp_article_tests
     a_cfp = cfps(:a_cfp)
     assert joomla_article = a_cfp.joomla_article
     assert_equal a_cfp, joomla_article.cfp

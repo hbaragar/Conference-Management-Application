@@ -69,7 +69,11 @@ protected
 
   def generate_cfp_menu
     unless joomla_cfp_menu
-      self.joomla_cfp_menu = JoomlaMenu.create(:name => "Call for Papers", :alias => "cfp")
+      self.joomla_cfp_menu = JoomlaMenu.create(
+	:name	=> "Call for Papers",
+	:alias	=> "cfp",
+	:link	=> "index.php?option=com_content&view=section&layout=blog&id=#{joomla_cfp_section.id}"
+      )
       save
     end
     purge_unused_menu_items
@@ -88,8 +92,10 @@ protected
     joomla_cfp_section.categories.each do |c|
       next if joomla_cfp_menu.items.find_by_name(c.title)
       joomla_cfp_menu.items.create(
-	:name => c.title,
-	:alias => c.alias
+	:name	=> c.title,
+	:alias	=> c.alias,
+	:link	=> "index.php?option=com_content&view=category&layout=blog&id=#{c.id}",
+	:sublevel => 1
       )
     end
   end

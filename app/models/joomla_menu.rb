@@ -4,6 +4,7 @@ class JoomlaMenu < ActiveRecord::Base
   @inheritance_column = 'single_table_inheritance_not_being_used'
 
   def before_validation
+    self.menutype = "mainmenu"
     self.checked_out_time = 5.hours.ago
     self.published = 1
     self.alias = name.tr("A-Z","a-z").gsub(/\W+/,"-") unless self.alias[/\w/] if name
@@ -14,6 +15,7 @@ class JoomlaMenu < ActiveRecord::Base
   acts_as_list :column => :ordering
 
   validates_presence_of :name
+  validates_presence_of :link
   validates_uniqueness_of :name, :scope => :parent
   validates_format_of :alias, :with => /^[-\w]+/
   validates_uniqueness_of :alias, :scope => :parent
