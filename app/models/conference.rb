@@ -30,33 +30,8 @@ class Conference < ActiveRecord::Base
   end
 
   def generate_cfps
-    unless joomla_cfp_section
-      self.joomla_cfp_section = JoomlaSection.create(:title => "Call for Papers", :alias => "cfp")
-      save
-    end
-    cfps.each{|c| c.generate_joomla_article}
-    joomla_cfp_section.update_count!
-    joomla_cfp_section.clean_up_cfp_categories
-    generate_joomla_cfp_menu
-  end
-
-  def generate_joomla_cfp_menu
-    unless joomla_cfp_menu
-      self.joomla_cfp_menu = JoomlaMenu.create(:name => "Call for Papers", :alias => "cfp")
-      save
-    end
-    joomla_cfp_section.categories.each do |c|
-      if item = joomla_cfp_menu.items.find_by_name(c.title)
-	item.ordering = c.ordering
-	item.save
-      else
-	joomla_cfp_menu.items << JoomlaMenu.create(
-	  :name => c.title,
-	  :alias => c.alias,
-	  :ordering => c.ordering
-	)
-      end
-    end
+    generate_cfp_content
+    generate_cfp_menu
   end
 
   # --- Permissions --- #
@@ -78,6 +53,53 @@ class Conference < ActiveRecord::Base
 
   def view_permitted?(field)
     acting_user.signed_up?
+  end
+
+protected
+
+  def generate_cfp_content
+    unless joomla_cfp_section
+      self.joomla_cfp_section = JoomlaSection.create(:title => "Call for Papers", :alias => "cfp")
+      save
+    end
+    cfps.each{|c| c.generate_joomla_article}
+    joomla_cfp_section.update_count!
+    joomla_cfp_section.clean_up_cfp_categories
+  end
+
+  def generate_cfp_menu
+    unless joomla_cfp_menu
+      self.joomla_cfp_menu = JoomlaMenu.create(:name => "Call for Papers", :alias => "cfp")
+      save
+    end
+    purge_unused_menu_items
+    create_new_menu_items
+    reorder_cfp_menu_items
+  end
+
+  def purge_unused_menu_items
+    joomla_cfp_menu.items.each do |i|
+      next if joomla_cfp_section.categories.find_by_title(i.name)
+      i.destroy
+    end
+  end
+
+  def create_new_menu_items
+    joomla_cfp_section.categories.each do |c|
+      next if joomla_cfp_menu.items.find_by_name(c.title)
+      joomla_cfp_menu.items.create(
+	:name => c.title,
+	:alias => c.alias
+      )
+    end
+  end
+
+  def reorder_cfp_menu_items
+    joomla_cfp_section.categories.each do |c|
+      item = joomla_cfp_menu.items.find_by_name(c.title)
+      item.ordering = c.ordering
+      item.save
+    end
   end
 
 end
