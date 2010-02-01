@@ -62,6 +62,7 @@ class ConferenceTest < ActiveSupport::TestCase
     assert_equal "Due June 13, 2010", categories[1].title
     cfp_menu = @a_conference.joomla_cfp_menu
     assert_equal 0, cfp_menu.sublevel
+    assert_match /show_vote=0/, cfp_menu.params
     assert_equal "index.php?option=com_content&view=section&layout=blog&id=#{cfp_section.id}", cfp_menu.link
     menu_items = cfp_menu.items
     item = menu_items[0]

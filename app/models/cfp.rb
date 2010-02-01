@@ -63,7 +63,7 @@ class Cfp < ActiveRecord::Base
       save
     end
     joomla_article.category = joomla_category
-    joomla_article.introtext = portfolio.description
+    joomla_article.introtext = portfolio.description.to_html
     joomla_article.fulltext = full_details
     joomla_article.save
   end
@@ -71,8 +71,8 @@ class Cfp < ActiveRecord::Base
   def full_details
     div("",
 	submission_summary,
-	conference_description,
-	details,
+	conference_description.to_html,
+	details.to_html,
 	contact_info,
 	committee_members
     )
