@@ -44,6 +44,7 @@ secure=0
 
   def before_validation
     self.type = "component"
+    self.componentid = JoomlaComponent.find_by_name('Articles').id
     self.menutype = "mainmenu"
     self.checked_out_time = 5.hours.ago
     self.published = 1

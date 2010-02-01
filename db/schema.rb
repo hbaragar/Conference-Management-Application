@@ -70,6 +70,23 @@ ActiveRecord::Schema.define(:version => 20100129214114) do
   add_index "jos_categories", ["checked_out"], :name => "idx_checkout"
   add_index "jos_categories", ["section", "published", "access"], :name => "cat_idx"
 
+  create_table "jos_components", :force => true do |t|
+    t.string  "name",            :limit => 50, :default => "", :null => false
+    t.string  "link",                          :default => "", :null => false
+    t.integer "menuid",                        :default => 0,  :null => false
+    t.integer "parent",                        :default => 0,  :null => false
+    t.string  "admin_menu_link",               :default => "", :null => false
+    t.string  "admin_menu_alt",                :default => "", :null => false
+    t.string  "option",          :limit => 50, :default => "", :null => false
+    t.integer "ordering",                      :default => 0,  :null => false
+    t.string  "admin_menu_img",                :default => "", :null => false
+    t.integer "iscore",          :limit => 1,  :default => 0,  :null => false
+    t.text    "params",                                        :null => false
+    t.integer "enabled",         :limit => 1,  :default => 1,  :null => false
+  end
+
+  add_index "jos_components", ["parent", "option"], :name => "parent_option"
+
   create_table "jos_content", :force => true do |t|
     t.string   "title",                                :default => "", :null => false
     t.string   "alias",                                :default => "", :null => false

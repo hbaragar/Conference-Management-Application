@@ -12,6 +12,7 @@ class JoomlaMenuTest < ActiveSupport::TestCase
     assert_equal "Call for Papers", cfp.name
     assert_equal "cfp", cfp.alias
     assert_equal "link", cfp.link
+    assert_equal 20, cfp.componentid
     assert_equal 1, cfp.ordering
     assert_equal "mainmenu", cfp.menutype
     assert_equal "component", cfp.type
