@@ -19,4 +19,27 @@ class JoomlaSection < ActiveRecord::Base
   validates_format_of :alias, :with => /^[-\w]+/
   validates_uniqueness_of :alias
 
+  def update_count!
+    self.count = articles.count
+    save!
+  end
+
+  def clean_up_cfp_categories
+    in_use = {}
+    categories.each do |c|
+      c.update_count!
+      if c.count == 0
+	c.destroy
+      else
+	in_use[c.cfp.due_on] = c
+      end
+    end
+    sorted_categories = in_use.sort.collect{|a| a[1]}
+    1.upto(sorted_categories.count) do |i|
+      c = sorted_categories.shift
+      c.ordering = i
+      c.save
+    end
+  end
+
 end

@@ -8,19 +8,6 @@ class CfpTest < ActiveSupport::TestCase
     @a_cfp = cfps(:a_cfp)
   end
 
-  def test_publish
-    @a_cfp.publish
-    @a_cfp.reload
-    assert joomla_article = @a_cfp.joomla_article
-    joomla_article.reload
-    assert_match /#{@a_cfp.portfolio.description}/, joomla_article.introtext
-    assert_match /#{@a_cfp.conference.description}/, joomla_article.fulltext
-    assert_match /#{@a_cfp.portfolio.public_email_address}/, joomla_article.fulltext
-    assert_match /#{@a_cfp.portfolio.chairs.first.name}/, joomla_article.fulltext
-    assert_match /#{@a_cfp.details}/, joomla_article.fulltext
-    assert_equal "Due March 13, 2010", @a_cfp.joomla_category_title
-  end
-
   def test_create_permissions
     new_cfp = Cfp.new :portfolio => @a_portfolio, :due_on => 1.months.from_now
     assert new_cfp.creatable_by?(users(:administrator))

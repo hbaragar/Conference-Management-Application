@@ -2,6 +2,9 @@ class JoomlaArticle < ActiveRecord::Base
 
   set_table_name 'jos_content'
 
+  belongs_to :category, :class_name => "JoomlaCategory", :foreign_key => :catid
+  belongs_to :section, :class_name => "JoomlaSection", :foreign_key => :sectionid
+
   def before_validation
     self.modified = 5.hours.ago
     self.checked_out_time = 5.hours.ago
@@ -13,6 +16,8 @@ class JoomlaArticle < ActiveRecord::Base
   end
 
   acts_as_list :column => :ordering, :scope => 'catid = #{catid}'
+
+  has_one :cfp, :foreign_key => :joomla_article_id
 
   validates_presence_of :title
   validates_uniqueness_of :title

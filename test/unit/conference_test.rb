@@ -38,6 +38,7 @@ class ConferenceTest < ActiveSupport::TestCase
 
   test "generate_cfps" do
     @a_conference.generate_cfps
+    cfp_tests
     assert_equal 1, JoomlaSection.count
     assert_equal 2, JoomlaCategory.count
     assert_equal 3, JoomlaArticle.count
@@ -63,6 +64,19 @@ class ConferenceTest < ActiveSupport::TestCase
     assert_equal 2, menu_items.count
     assert_equal 1, menu_items[0].ordering
     assert_equal 2, menu_items[1].ordering
+  end
+
+  def cfp_tests
+    a_cfp = cfps(:a_cfp)
+    assert joomla_article = a_cfp.joomla_article
+    assert_equal a_cfp, joomla_article.cfp
+    assert_equal a_cfp.name, joomla_article.title
+    assert_equal "Due March 13, 2010", joomla_article.category.title
+    assert_match /#{a_cfp.portfolio.description}/, joomla_article.introtext
+    assert_match /#{a_cfp.conference.description}/, joomla_article.fulltext
+    assert_match /#{a_cfp.portfolio.public_email_address}/, joomla_article.fulltext
+    assert_match /#{a_cfp.portfolio.chairs.first.name}/, joomla_article.fulltext
+    assert_match /#{a_cfp.details}/, joomla_article.fulltext
   end
 
   def test_create_permissions

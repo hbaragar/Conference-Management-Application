@@ -47,16 +47,25 @@ class Cfp < ActiveRecord::Base
     portfolio.public_email_address
   end
 
-  def joomla_category_title
-    "Due #{due_on.strftime('%B %d, %Y')}"
+  def joomla_section
+    conference.joomla_cfp_section
   end
 
-  def publish
-    self.joomla_article ||= JoomlaArticle.create(:title => name)
+  def joomla_category
+    title = "Due #{due_on.strftime('%B %d, %Y')}"
+    categories = joomla_section.categories
+    categories.find_by_title(title) || categories.create!(:title => title)
+  end
+
+  def generate_joomla_article
+    unless joomla_article
+      self.joomla_article = joomla_section.articles.create(:title => name)
+      save
+    end
+    joomla_article.category = joomla_category
     joomla_article.introtext = portfolio.description
     joomla_article.fulltext = full_details
     joomla_article.save
-    save
   end
 
   def full_details

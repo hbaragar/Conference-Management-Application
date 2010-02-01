@@ -30,41 +30,14 @@ class Conference < ActiveRecord::Base
   end
 
   def generate_cfps
-    # Order matters here:
-    generate_joomla_cfp_articles
-    generate_joomla_cfp_section
-    generate_joomla_cfp_categories
-    generate_joomla_cfp_menu
-  end
-
-  def generate_joomla_cfp_articles
-    cfps.each{|c| c.publish}
-  end
-
-  def generate_joomla_cfp_section
     unless joomla_cfp_section
       self.joomla_cfp_section = JoomlaSection.create(:title => "Call for Papers", :alias => "cfp")
       save
     end
-    cfps.each{|c| joomla_cfp_section.articles << c.joomla_article}
-    joomla_cfp_section.count = cfps.count
-    joomla_cfp_section.save
-  end
-
-  def generate_joomla_cfp_categories
-    categories = {}
-    cfps.each do |c|
-      title = c.joomla_category_title
-      category =
-	categories[c.due_on] ||= joomla_cfp_section.categories.find_by_title(title) ||
-      				 joomla_cfp_section.categories.create(:title => title) 
-      category.articles << c.joomla_article
-    end
-    categories.sort.reverse.each do |k, v|
-      v.count = v.articles.count
-      v.move_to_top
-      v.save
-    end
+    cfps.each{|c| c.generate_joomla_article}
+    joomla_cfp_section.update_count!
+    joomla_cfp_section.clean_up_cfp_categories
+    generate_joomla_cfp_menu
   end
 
   def generate_joomla_cfp_menu
