@@ -19,6 +19,7 @@ class Cfp < ActiveRecord::Base
 
   has_many :members, :through => :portfolio
   has_many :other_dates, :class_name => "CfpDate", :dependent => :destroy
+  has_many :broadcast_emails, :dependent => :destroy
 
   default_scope :order => "due_on"
 

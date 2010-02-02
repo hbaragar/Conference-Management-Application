@@ -9,7 +9,16 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100129214114) do
+ActiveRecord::Schema.define(:version => 20100201235331) do
+
+  create_table "broadcast_emails", :force => true do |t|
+    t.integer  "cfp_id"
+    t.string   "address"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "broadcast_emails", ["cfp_id"], :name => "index_broadcast_emails_on_cfp_id"
 
   create_table "cfp_dates", :force => true do |t|
     t.integer "cfp_id"

@@ -9,6 +9,11 @@ class CfpDateTest < ActiveSupport::TestCase
     @a_cfp_date = @a_cfp.other_dates.create :label => "New due date", :due_on => 2.months.from_now
   end
 
+  def test_cfp_other_dates
+    assert_equal 1, @a_cfp.other_dates.count
+    assert_equal @a_cfp_date, @a_cfp.other_dates.first
+  end
+
   def test_create_permissions
     new_cfp_date = CfpDate.new :cfp => @a_cfp, :label => "Another date", :due_on => 3.months.from_now
     assert new_cfp_date.creatable_by?(users(:administrator))
