@@ -18,3 +18,11 @@
 <def tag="view" for="HoboFields::EmailAddress">
   <a/>
 </def>
+
+<extend tag="card" for="BroadcastEmail">
+  <old-card merge>
+    <after-header:>
+      <div><view:updated_at/></div>
+    </after-header:>
+  </old-card>
+</extend>

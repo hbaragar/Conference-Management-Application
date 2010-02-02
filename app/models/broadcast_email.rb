@@ -9,8 +9,14 @@ class BroadcastEmail < ActiveRecord::Base
     timestamps
   end
 
+  validates_uniqueness_of :address, :scope => :cfp_id
+
   default_scope :order => "address"
 
+
+  def name
+    address
+  end
 
   def portfolio
     cfp.portfolio
