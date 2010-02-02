@@ -25,5 +25,8 @@
     <collection:broadcast_emails part="broadcast-emails-collection"/>
     <div>Add new email addresses here as you send out this year's CFP:</div>
     <form with="&this.broadcast_emails.new" update="broadcast-emails-collection" reset-form refocus/>
+    <div>
+      <%= '<a href=mailto:%s>%s</a>' % [this.broadcast_emails.join(','), 'mailto:&lt;all-addresses&gt;'] %>
+    </div>
   </after-broadcast_emails-collection:>
 </show-page>
