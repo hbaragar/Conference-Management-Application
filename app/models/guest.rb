@@ -4,4 +4,8 @@ class Guest < Hobo::Guest
     false
   end
 
+  def members
+    []
+  end
+
 end

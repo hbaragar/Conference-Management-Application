@@ -2,11 +2,14 @@
 <show-page>
   <description: replace/>
   <after-field-list:><view:description/></after-field-list:>
+  <collection-section: replace>
+    <collection-section restore if="&can_view?(@portfolios)"/>
+  </collection-section:>
   <collection: replace>
-  <table-plus with="&@portfolios" fields="this, public_email_address, cfp, members">
-    <cfp-label:>Cfp Due On</cfp-label:>
-    <cfp-view:><a><view:due_on format="%b %d"/></a></cfp-view:>
-    <empty-message:>No portfolios match your criteria</empty-message:>
-  </table-plus>
+    <table-plus with="&@portfolios" fields="this, public_email_address, cfp, members">
+      <cfp-label:>Cfp Due On</cfp-label:>
+      <cfp-view:><a><view:due_on format="%b %d"/></a></cfp-view:>
+      <empty-message:>No portfolios match your criteria</empty-message:>
+    </table-plus>
   </collection:>
 </show-page>
