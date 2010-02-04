@@ -6,11 +6,11 @@ class CfpDateTest < ActiveSupport::TestCase
     @a_conference = conferences(:a_conference)
     @a_portfolio = portfolios(:a_portfolio)
     @a_cfp = @a_portfolio.cfps.create :due_on => 1.months.from_now
-    @a_cfp_date = @a_cfp.other_dates.create :label => "New due date", :due_on => 2.months.from_now
+    @a_cfp_date = @a_cfp.other_dates.create :label => "New due date", :due_on => 2.weeks.from_now
   end
 
   def test_cfp_other_dates
-    assert_equal 1, @a_cfp.other_dates.count
+    assert_equal 2+1, @a_cfp.other_dates.count
     assert_equal @a_cfp_date, @a_cfp.other_dates.first
   end
 
