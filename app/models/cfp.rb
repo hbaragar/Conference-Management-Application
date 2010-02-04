@@ -10,7 +10,7 @@ class Cfp < ActiveRecord::Base
     format_style  :string, :default => "ACM Proceedings format"
     format_url    :string, :default => "http://www.acm.org/sigs/sigplan/authorInformation.htm"
     submit_to_url :string, :default => "http://cyberchair.acm.org/splash???/submit/"
-    details       :text, :default => "To be completed by the portfolio chair"
+    details       :markdown
     timestamps
   end
 
@@ -22,6 +22,11 @@ class Cfp < ActiveRecord::Base
   has_many :broadcast_emails, :dependent => :destroy
 
   default_scope :order => "due_on"
+
+  def after_create
+    other_dates.create(:label => "Notifications", :due_on => due_on + 1.months)
+    other_dates.create(:label => "Camera-ready copy due", :due_on => due_on + 2.months)
+  end
 
 
   def conference
@@ -81,8 +86,9 @@ class Cfp < ActiveRecord::Base
 
   def contact_info
     div("view cfp-submission-summary",
-      "For additional information, clarification, or questions",
-      " please contact the program committee chair, #{chairs}, at #{email_link}."
+      h3("For More Information"),
+      "For additional information, clarification, or answers to questions",
+      " please contact the #{name} Chair, #{chairs}, at #{email_link}."
     )
   end
 
@@ -209,5 +215,19 @@ protected
   def tag_attributes attributes
     attributes.collect{|k,v| %Q(#{k}="#{v}")}.join(" ")
   end
+
+private
+
+  def initialize *args
+    super *args
+    self.details = %Q(
+### Selection Process
+&lt;selection process&gt;
+
+### Submission
+&lt;submission format and process&gt;
+)
+  end
+
 
 end
