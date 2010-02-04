@@ -16,6 +16,12 @@ class Member < ActiveRecord::Base
 
   default_scope :order => 'chair DESC, name'
 
+
+  def validate 
+    errors.add(:private_email_address, "belongs to another user") if 
+      private_email_address_changed? && user && User.find_by_email_address(private_email_address)
+  end
+
   def after_create
     if existing_user = User.find_by_email_address(private_email_address)
       self.user = existing_user

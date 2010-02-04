@@ -33,7 +33,7 @@ class User < ActiveRecord::Base
     if email_address_changed?
       members.each do |m|
 	m.private_email_address = email_address
-	m.save
+	m.save(false)
       end
     end
   end
