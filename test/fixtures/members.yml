@@ -30,6 +30,7 @@ a_portfolio_member:
   affiliation: University of Central Florida
   private_email_address: gl@ucf.edu
   user_id: 4
+  country: USA
 another_portfolio_member:
   id: 5
   portfolio_id: 2

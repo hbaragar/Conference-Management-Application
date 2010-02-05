@@ -16,6 +16,17 @@ class Member < ActiveRecord::Base
 
   default_scope :order => 'chair DESC, name'
 
+  validates_uniqueness_of :name, :scope => :portfolio_id
+
+  def before_validation_on_create
+    if user && other_member = user.members.first
+      self.name ||= other_member.name
+      self.private_email_address ||= other_member.private_email_address
+      self.affiliation ||= other_member.affiliation
+      self.country ||= other_member.country
+    end
+  end
+
 
   def conference
     portfolio.conference

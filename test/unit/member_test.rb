@@ -10,6 +10,31 @@ class MemberTest < ActiveSupport::TestCase
     @a_portfolio = portfolios(:a_portfolio)
   end
 
+  def test_validation
+    existing_member = @a_portfolio.members.create(
+      :name => "Gary Leavens",
+      :private_email_address => "gl@ucf.edu"
+    )
+    assert !existing_member.valid?
+  end
+
+  test "auto fill from user" do
+    existing_user = users(:a_portfolio_member)
+    assert new_member = portfolios(:another_portfolio).members.create(:user => existing_user)
+    assert_equal "Gary Leavens", new_member.name
+    assert_equal "gl@ucf.edu", new_member.private_email_address
+    assert_equal "University of Central Florida", new_member.affiliation
+    assert_equal "USA", new_member.country
+    assert new_member = portfolios(:yet_another_portfolio).members.create(
+      :user => existing_user,
+      :name => "Gary T. Leavens"
+    )
+    assert_equal "Gary T. Leavens", new_member.name
+    assert_equal "gl@ucf.edu", new_member.private_email_address
+    assert_equal "University of Central Florida", new_member.affiliation
+    assert_equal "USA", new_member.country
+  end
+
   def no_test_auto_assign_user
     new_member = @a_portfolio.members.create(
       :name => "Gary Leavens",
