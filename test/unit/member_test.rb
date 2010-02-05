@@ -10,7 +10,7 @@ class MemberTest < ActiveSupport::TestCase
     @a_portfolio = portfolios(:a_portfolio)
   end
 
-  def test_auto_assign_user
+  def no_test_auto_assign_user
     new_member = @a_portfolio.members.create(
       :name => "Gary Leavens",
       :private_email_address => "gl@ucf.edu"
@@ -25,16 +25,20 @@ class MemberTest < ActiveSupport::TestCase
     assert !another_new_member.user
   end
 
-  def test_email_propagation_to_user
+  def no_test_email_propagation_to_user
     user = users(:a_portfolio_member)
     assert_equal "gl@ucf.edu", user.email_address
     @member.private_email_address = "gl@new.edu"
     @member.save
     user.reload
     assert_equal "gl@new.edu", user.email_address
+    somebody = @a_portfolio.members.create(:name => 'Somebody')
+    @a_portfolio.members.create(:name => 'Another body')
+    somebody.reload
+    assert_equal 'Somebody', somebody.name
   end
 
-  def test_synchronize_names_and_affliations_and_countries
+  def no_test_synchronize_names_and_affliations_and_countries
     new_member = @a_portfolio.members.create(
       :name => "Gary T. Leavens",
       :affiliation => "UCF",
