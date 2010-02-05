@@ -25,6 +25,7 @@ class User < ActiveRecord::Base
   def after_create
     Member.find_all_by_private_email_address(email_address).each do |m|
       m.user = self
+      m.name = name
       m.save
     end
   end

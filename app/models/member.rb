@@ -27,6 +27,20 @@ class Member < ActiveRecord::Base
     end
   end
 
+  def before_save
+    if private_email_address_changed? && !user
+      self.user = User.find_by_email_address(private_email_address)
+    end
+  end
+
+  def after_save
+    if user && (user.name != name || user.email_address != private_email_address)
+      user.email_address = private_email_address
+      user.name = name
+      user.save
+    end
+  end
+
 
   def conference
     portfolio.conference

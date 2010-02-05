@@ -35,14 +35,21 @@ class MemberTest < ActiveSupport::TestCase
     assert_equal "USA", new_member.country
   end
 
-  def no_test_auto_assign_user
-    new_member = @a_portfolio.members.create(
+  test "auto assign the user on create" do
+    new_member = portfolios(:another_portfolio).members.create(
       :name => "Gary Leavens",
       :private_email_address => "gl@ucf.edu"
     )
     existing_user = new_member.user
     assert existing_user
     assert_equal "Gary Leavens", existing_user.name
+    new_member = portfolios(:yet_another_portfolio).members.create(
+      :name => "Gary T. Leavens",
+      :private_email_address => "gl@ucf.edu"
+    )
+    existing_user = new_member.user
+    assert existing_user
+    assert_equal "Gary T. Leavens", existing_user.name
     another_new_member = @a_portfolio.members.create(
       :name => "A Member",
       :private_email_address => "am@some.edu"
@@ -50,7 +57,20 @@ class MemberTest < ActiveSupport::TestCase
     assert !another_new_member.user
   end
 
-  def no_test_email_propagation_to_user
+  test "auto assign the user on update" do
+    new_member = portfolios(:another_portfolio).members.create(
+      :name => "Gary T. Leavens"
+    )
+    assert !new_member.user
+    existing_user = users(:a_portfolio_member)
+    assert_equal "Gary Leavens", existing_user.name
+    new_member.private_email_address = existing_user.email_address
+    new_member.save
+    assert_equal existing_user, new_member.user
+    assert_equal "Gary T. Leavens", new_member.user.name
+  end
+
+  test "test email propagation to user" do
     user = users(:a_portfolio_member)
     assert_equal "gl@ucf.edu", user.email_address
     @member.private_email_address = "gl@new.edu"
