@@ -4,6 +4,6 @@ class MembersController < ApplicationController
 
   auto_actions :all, :except => [:index, :show]
 
-  auto_actions_for :portfolio, [:new, :create]
+  auto_actions_for :portfolio, [:create]
 
 end
