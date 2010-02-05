@@ -13,10 +13,20 @@ class UserTest < ActiveSupport::TestCase
 
   def test_user_propagate_to_members
     user = User.create(
-      :name => "Gregor Kiczales",
+      :name => "GK",
       :email_address => "gk@ubc.ca"
     )
-    assert_equal user, members(:another_portfolio_member).user
+    member = members(:another_portfolio_member)
+    assert_equal user, member.user
+    assert_equal "GK", member.name
+    user.email_address = "gk@parc.com"
+    assert user.save
+    member.reload
+    assert_equal "gk@parc.com", member.private_email_address
+    user.name = "Gregor Kiczales"
+    assert user.save
+    member.reload
+    assert_equal "Gregor Kiczales", member.name
   end
 
   def test_email_address_propagate
@@ -25,7 +35,7 @@ class UserTest < ActiveSupport::TestCase
     user.email_address = "gl@new.edu"
     user.save
     user.members.each do |m|
-      assert_equal user.email_address, m.private_email_address
+      assert_equal "gl@new.edu", m.private_email_address
     end
     (Member.all - user.members).each do |m|
       assert_not_equal user.email_address, m.private_email_address

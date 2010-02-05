@@ -29,11 +29,12 @@ class User < ActiveRecord::Base
     end
   end
 
-  def after_update
-    if email_address_changed?
+  def after_save
+    if any_changed?(:name, :email_address)
       members.each do |m|
+	m.name = name
 	m.private_email_address = email_address
-	m.save(false)
+	m.save
       end
     end
   end
