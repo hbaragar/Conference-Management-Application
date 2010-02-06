@@ -74,13 +74,27 @@ class MemberTest < ActiveSupport::TestCase
     user = users(:a_portfolio_member)
     assert_equal "gl@ucf.edu", user.email_address
     @member.private_email_address = "gl@new.edu"
-    @member.save
+    assert @member.save
     user.reload
     assert_equal "gl@new.edu", user.email_address
     somebody = @a_portfolio.members.create(:name => 'Somebody')
     @a_portfolio.members.create(:name => 'Another body')
     somebody.reload
     assert_equal 'Somebody', somebody.name
+  end
+
+  test "re/un-assigning user when email is changed" do
+    assert @member.user
+    @member.private_email_address = ""
+    assert @member.save
+    @member.reload
+    assert !@member.user
+  end
+
+  test "cannot change email address to that of a different user" do
+    @member.private_email_address = @a_portfolio_chair.private_email_address
+    assert @member.user
+    assert !@member.valid?
   end
 
   def no_test_synchronize_names_and_affliations_and_countries

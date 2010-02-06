@@ -16,20 +16,34 @@ class Member < ActiveRecord::Base
 
   default_scope :order => 'chair DESC, name'
 
+  validates_presence_of :name
   validates_uniqueness_of :name, :scope => :portfolio_id
 
   def before_validation_on_create
-    if user && other_member = user.members.first
-      self.name ||= other_member.name
-      self.private_email_address ||= other_member.private_email_address
-      self.affiliation ||= other_member.affiliation
-      self.country ||= other_member.country
+    if user
+      self.name ||= user.name
+      self.private_email_address ||= user.email_address
+      if other_member = user.members.first
+	self.affiliation ||= other_member.affiliation
+	self.country ||= other_member.country
+      end
+    end
+  end
+
+  def validate
+    errors.add(:user_id, "cannot be changed after being set") if user_id && user_id_was && user_id_changed?
+    if user && user.reload && private_email_address != user.email_address
+      errors.add(:private_email_address, "can't change to another user") if User.find_by_email_address(private_email_address)
     end
   end
 
   def before_save
-    if private_email_address_changed? && !user
-      self.user = User.find_by_email_address(private_email_address)
+    if private_email_address_changed?
+      if user
+	self.user = nil unless private_email_address && private_email_address[/@/]
+     else
+	self.user = User.find_by_email_address(private_email_address)
+      end
     end
   end
 
