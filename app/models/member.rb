@@ -21,11 +21,12 @@ class Member < ActiveRecord::Base
 
   def before_validation_on_create
     if user
-      self.name ||= user.name
-      self.private_email_address ||= user.email_address
+      puts "user=#{user}"
+      self.name = user.name unless user && user[/\w/]
+      self.private_email_address = user.email_address unless private_email_address && private_email_address[/@/]
       if other_member = user.members.first
-	self.affiliation ||= other_member.affiliation
-	self.country ||= other_member.country
+	self.affiliation = other_member.affiliation unless affiliation && affiliation[/\w/]
+	self.country = other_member.country unless country && country[/\w/]
       end
     end
   end
