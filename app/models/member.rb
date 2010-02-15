@@ -21,7 +21,6 @@ class Member < ActiveRecord::Base
 
   def before_validation_on_create
     if user
-      puts "user=#{user}"
       self.name = user.name unless user && user[/\w/]
       self.private_email_address = user.email_address unless private_email_address && private_email_address[/@/]
       if other_member = user.members.first
