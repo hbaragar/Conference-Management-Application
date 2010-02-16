@@ -9,7 +9,10 @@
 <def tag="app-name">
   <if test="&%w(Conferences Users).include? collection_name"><collection-name/></if>
   <else>
-    <if:conference><a/></if>
+    <if test="&current_user.signed_up?">
+      <if:conference><a/></if>
+      <else>Conference</else>
+    </if>
     <else>Conference</else>
   </else>
   Management
