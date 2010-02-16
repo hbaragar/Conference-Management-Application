@@ -7,14 +7,14 @@
 <set-theme name="clean"/>
 
 <def tag="app-name">
-  <if test="&current_user.signed_up?">
-    <if test="&%w(Conferences Users).include? collection_name"><collection-name/></if>
-    <else>
+  <if test="&%w(Conferences Users).include? collection_name"><collection-name/></if>
+  <else>
+    <if test="&current_user.signed_up?">
       <if:conference><a/></if>
       <else>Conference</else>
-    </else>
-  </if>
-  <else>Conference</else>
+    </if>
+    <else>Conference</else>
+  </else>
   Management
 </def>
 
