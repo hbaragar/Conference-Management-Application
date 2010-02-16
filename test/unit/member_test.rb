@@ -10,14 +10,46 @@ class MemberTest < ActiveSupport::TestCase
     @a_portfolio = portfolios(:a_portfolio)
   end
 
-  def no_test_auto_assign_user
-    new_member = @a_portfolio.members.create(
+  def test_validation
+    existing_member = @a_portfolio.members.create(
+      :name => "Gary Leavens",
+      :private_email_address => "gl@ucf.edu"
+    )
+    assert !existing_member.valid?
+  end
+
+  test "auto fill from user" do
+    existing_user = users(:a_portfolio_member)
+    assert new_member = portfolios(:another_portfolio).members.create(:user => existing_user)
+    assert_equal "Gary Leavens", new_member.name
+    assert_equal "gl@ucf.edu", new_member.private_email_address
+    assert_equal "University of Central Florida", new_member.affiliation
+    assert_equal "USA", new_member.country
+    assert new_member = portfolios(:yet_another_portfolio).members.create(
+      :user => existing_user,
+      :name => "Gary T. Leavens"
+    )
+    assert_equal "Gary T. Leavens", new_member.name
+    assert_equal "gl@ucf.edu", new_member.private_email_address
+    assert_equal "University of Central Florida", new_member.affiliation
+    assert_equal "USA", new_member.country
+  end
+
+  test "auto assign the user on create" do
+    new_member = portfolios(:another_portfolio).members.create(
       :name => "Gary Leavens",
       :private_email_address => "gl@ucf.edu"
     )
     existing_user = new_member.user
     assert existing_user
     assert_equal "Gary Leavens", existing_user.name
+    new_member = portfolios(:yet_another_portfolio).members.create(
+      :name => "Gary T. Leavens",
+      :private_email_address => "gl@ucf.edu"
+    )
+    existing_user = new_member.user
+    assert existing_user
+    assert_equal "Gary T. Leavens", existing_user.name
     another_new_member = @a_portfolio.members.create(
       :name => "A Member",
       :private_email_address => "am@some.edu"
@@ -25,17 +57,44 @@ class MemberTest < ActiveSupport::TestCase
     assert !another_new_member.user
   end
 
-  def no_test_email_propagation_to_user
+  test "auto assign the user on update" do
+    new_member = portfolios(:another_portfolio).members.create(
+      :name => "Gary T. Leavens"
+    )
+    assert !new_member.user
+    existing_user = users(:a_portfolio_member)
+    assert_equal "Gary Leavens", existing_user.name
+    new_member.private_email_address = existing_user.email_address
+    new_member.save
+    assert_equal existing_user, new_member.user
+    assert_equal "Gary T. Leavens", new_member.user.name
+  end
+
+  test "test email propagation to user" do
     user = users(:a_portfolio_member)
     assert_equal "gl@ucf.edu", user.email_address
     @member.private_email_address = "gl@new.edu"
-    @member.save
+    assert @member.save
     user.reload
     assert_equal "gl@new.edu", user.email_address
     somebody = @a_portfolio.members.create(:name => 'Somebody')
     @a_portfolio.members.create(:name => 'Another body')
     somebody.reload
     assert_equal 'Somebody', somebody.name
+  end
+
+  test "re/un-assigning user when email is changed" do
+    assert @member.user
+    @member.private_email_address = ""
+    assert @member.save
+    @member.reload
+    assert !@member.user
+  end
+
+  test "cannot change email address to that of a different user" do
+    @member.private_email_address = @a_portfolio_chair.private_email_address
+    assert @member.user
+    assert !@member.valid?
   end
 
   def no_test_synchronize_names_and_affliations_and_countries
