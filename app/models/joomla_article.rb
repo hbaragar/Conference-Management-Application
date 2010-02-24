@@ -5,6 +5,8 @@ class JoomlaArticle < ActiveRecord::Base
   belongs_to :category, :class_name => "JoomlaCategory", :foreign_key => :catid
   belongs_to :section, :class_name => "JoomlaSection", :foreign_key => :sectionid
 
+  has_one :conference
+
   def before_validation
     self.modified = 5.hours.ago
     self.checked_out_time = 5.hours.ago

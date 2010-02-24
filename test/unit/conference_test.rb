@@ -36,6 +36,23 @@ class ConferenceTest < ActiveSupport::TestCase
     assert_equal "General", new_one.portfolios.first.name
   end
 
+  test "generate_general_info" do
+    @a_conference.generate_general_information
+    @a_conference.reload
+    assert @a_conference.joomla_general_section
+    assert category = @a_conference.joomla_general_section.categories.find_by_title('Colocated Conferences')
+    assert_equal 1, category.articles.count
+    assert_equal @a_conference, @another_conference.colocated_with
+    @another_conference.reload
+    assert_equal category.articles.first, @another_conference.joomla_article
+    @a_conference.generate_general_information
+    assert_equal 1, category.articles.count
+    @another_conference.destroy
+    @a_conference.reload
+    @a_conference.generate_general_information
+    assert_equal 0, category.articles.count
+  end
+
   test "generate_cfps" do
     @a_conference.generate_cfps
     cfp_article_tests

@@ -9,6 +9,10 @@ class Conference < ActiveRecord::Base
     description :markdown
   end
 
+  belongs_to :joomla_general_section, :class_name => "JoomlaSection"	# For the Hosting conference
+
+  belongs_to :joomla_article, :class_name => "JoomlaArticle"		# For Colocated conferences
+
   belongs_to :joomla_cfp_section, :class_name => "JoomlaSection"
   belongs_to :joomla_cfp_menu, :class_name => "JoomlaMenu"
 
@@ -27,6 +31,11 @@ class Conference < ActiveRecord::Base
     (members & user.members).select do |m|
       m.portfolio.name == "General" && m.chair
     end.count > 0
+  end
+
+  def generate_general_information
+    set_up_joomla_general_section
+    set_up_colocated_conferences
   end
 
   def generate_cfps
@@ -56,6 +65,39 @@ class Conference < ActiveRecord::Base
   end
 
 protected
+
+  def set_up_joomla_general_section
+    return if colocated_with
+    return if joomla_general_section
+    self.joomla_general_section = JoomlaSection.create!(:title => "General Information")
+    save
+  end
+
+  def set_up_colocated_conferences
+    colocated_conferences.each {|c| c.set_up_colocated_conference_article}
+    general_category_for('Colocated Conferences').articles.each do |a|
+      a.conference or a.destroy 
+    end
+  end
+
+  def set_up_colocated_conference_article
+    category = general_category_for('Colocated Conferences') or return
+    unless joomla_article
+      self.joomla_article = category.articles.create(
+	:title	=> category.title,
+	:sectionid => category.section
+      )
+      save!
+    end
+  end
+
+  def general_category_for title
+    host_conference = colocated_with || self
+    host_conference.joomla_general_section.categories.find_by_title(title) ||
+      host_conference.joomla_general_section.categories.create!(:title => title)
+  rescue
+    nil
+  end
 
   def generate_cfp_content
     unless joomla_cfp_section
