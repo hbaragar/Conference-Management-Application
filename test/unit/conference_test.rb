@@ -116,7 +116,7 @@ class ConferenceTest < ActiveSupport::TestCase
     assert @a_conference.updatable_by?(users(:general_chair))
     assert !@a_conference.updatable_by?(users(:another_conference_chair))
     assert @another_conference.updatable_by?(users(:another_conference_chair))
-    assert !@another_conference.updatable_by?(users(:general_chair))
+    assert @another_conference.updatable_by?(users(:general_chair))
     assert !@a_conference.updatable_by?(users(:a_portfolio_chair))
     assert !@a_conference.updatable_by?(users(:a_portfolio_member))
     @a_conference.colocated_with_id = 5

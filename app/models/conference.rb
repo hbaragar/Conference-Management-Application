@@ -46,15 +46,16 @@ class Conference < ActiveRecord::Base
 
   # --- Permissions --- #
 
-  never_show :joomla_cfp_menu
-  never_show :joomla_cfp_section
+  never_show :joomla_general_section, :joomla_article, :joomla_cfp_menu, :joomla_cfp_section
 
   def create_permitted?
     acting_user.administrator?
   end
 
   def update_permitted?
-    (chair?(acting_user) && none_changed?(:colocated_with_id)) || acting_user.administrator? 
+    return true if acting_user.administrator? 
+    return false if any_changed?(:colocated_with_id)
+    chair?(acting_user) || (colocated_with && colocated_with.chair?(acting_user))
   end
 
   def destroy_permitted?
