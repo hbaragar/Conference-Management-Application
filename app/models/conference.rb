@@ -1,5 +1,7 @@
 class Conference < ActiveRecord::Base
 
+  include MyHtml
+
   hobo_model # Don't put anything above this
 
   belongs_to :colocated_with, :class_name => "Conference"
@@ -99,7 +101,7 @@ protected
       )
       save!
     end
-    joomla_article.introtext = [name, description].join("\n")
+    joomla_article.introtext = [h2(name), description].join("\n")
     joomla_article.save
   end
 

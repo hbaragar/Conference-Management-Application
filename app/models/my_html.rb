@@ -7,9 +7,14 @@ protected
     %Q(<div #{tag_attributes({:class => css_class})}>#{text.join("")}\n</div>\n)
   end
 
+  def h2(*text)
+    return "" unless text
+    %Q(<h2>#{text.join("")}</h2>\n)
+  end
+
   def h3(*text)
     return "" unless text
-    %Q(<h3>#{text.join("")}\n</h3>\n)
+    %Q(<h3>#{text.join("")}</h3>\n)
   end
 
   def ul(*text_list)
