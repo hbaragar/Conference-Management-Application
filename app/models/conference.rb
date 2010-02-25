@@ -80,13 +80,16 @@ protected
   end
 
   def set_up_general_colocated_conferences_menu_item
-    return if general_menu_item_for('Colocated Conferences')
     category = general_category_for('Colocated Conferences') or return
-    JoomlaMenu.create(
+    menu = general_menu_item_for('Colocated Conferences') || JoomlaMenu.create(
       :name => 'Colocated Conferences',
       :sublevel => 0,
       :link => "index.php?option=com_content&view=category&layout=blog&id=#{category.id}"
     )
+    menu.params[/show_title=\d/] = "show_title=0"
+    menu.params[/show_category=\d/] = "show_category=0"
+    menu.params += " "		# Force the save
+    menu.save!
   end
 
   def generate_general_colocated_conferences_content
@@ -98,7 +101,7 @@ protected
     category = general_category_for('Colocated Conferences') or return
     unless joomla_article
       self.joomla_article = category.articles.create(
-	:title	=> category.title,
+	:title => name,
 	:sectionid => category.section
       )
       save!

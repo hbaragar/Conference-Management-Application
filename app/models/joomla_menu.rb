@@ -42,18 +42,21 @@ menu_image=-1
 secure=0
     )
 
-  def before_validation
+  def before_validation_on_create
     self.type = "component"
     self.componentid = JoomlaComponent.find_by_name('Articles').id
     self.menutype = "mainmenu"
     self.checked_out_time = 5.hours.ago
     self.published = 1
-    self.alias = name.tr("A-Z","a-z").gsub(/\W+/,"-") unless self.alias[/\w/] if name
-    self.params = PARAMS 
+    self.params = PARAMS
+    self.alias = name.tr("A-Z","a-z").gsub(/\W+/,"-")
+  end
+
+  def before_validataion
+    self.alias = name.tr("A-Z","a-z").gsub(/\W+/,"-") unless self.alias =~ /\w/
   end
 
   def before_save
-    self.params = PARAMS 
     if sublevel == 0
       self.params = params.sub(/orderby_pri=alpha/,"orderby_pri=order")
     else
