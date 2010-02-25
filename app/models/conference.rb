@@ -35,7 +35,7 @@ class Conference < ActiveRecord::Base
 
   def generate_general_information
     set_up_joomla_general_section
-    set_up_colocated_conferences
+    generate_general_colocated_conferences_content
   end
 
   def generate_cfps
@@ -73,14 +73,12 @@ protected
     save
   end
 
-  def set_up_colocated_conferences
-    colocated_conferences.each {|c| c.set_up_colocated_conference_article}
-    general_category_for('Colocated Conferences').articles.each do |a|
-      a.conference or a.destroy 
-    end
+  def generate_general_colocated_conferences_content
+    colocated_conferences.each {|c| c.generate_general_colocated_conference_article}
+    purge_unused_general_colocated_conference_articles
   end
 
-  def set_up_colocated_conference_article
+  def generate_general_colocated_conference_article
     category = general_category_for('Colocated Conferences') or return
     unless joomla_article
       self.joomla_article = category.articles.create(
@@ -88,6 +86,12 @@ protected
 	:sectionid => category.section
       )
       save!
+    end
+  end
+
+  def purge_unused_general_colocated_conference_articles
+    general_category_for('Colocated Conferences').articles.each do |a|
+      a.conference or a.destroy 
     end
   end
 
