@@ -107,9 +107,13 @@ protected
       save!
     end
     fancy_title = name
-    fancy_title = img(logo_url, "#{name} logo") if logo_url
-    fancy_title = external_link(url, fancy_title) if url
-    joomla_article.introtext = div("colocated_conference", h2(fancy_title), description)
+    fancy_title = img(logo_url, "#{name} logo") if logo_url =~ /\w/
+    fancy_title = external_link(url, fancy_title) if url =~ /\w/
+    joomla_article.introtext = div("colocated_conference",
+      h2(fancy_title),
+      description,
+      div("readon", external_link(url,"Read more: #{name}"))
+    )
     joomla_article.save
   end
 
