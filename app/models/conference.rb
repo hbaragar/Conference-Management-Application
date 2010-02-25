@@ -87,6 +87,8 @@ protected
       )
       save!
     end
+    joomla_article.introtext = [name, description].join("\n")
+    joomla_article.save
   end
 
   def purge_unused_general_colocated_conference_articles
