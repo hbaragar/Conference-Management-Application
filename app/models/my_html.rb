@@ -55,6 +55,10 @@ protected
     %Q(<a href="#{url}" target="_blank">#{text}</a>)
   end
 
+  def img src, alt=""
+    %Q(<img src="#{src}" alt="#{alt}")
+  end
+
   def tag_attributes attributes
     attributes.collect{|k,v| %Q(#{k}="#{v}")}.join(" ")
   end

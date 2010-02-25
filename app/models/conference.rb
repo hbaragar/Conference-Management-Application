@@ -8,6 +8,8 @@ class Conference < ActiveRecord::Base
 
   fields do
     name        :string, :required
+    url		:string
+    logo_url	:string
     description :markdown
   end
 
@@ -101,7 +103,10 @@ protected
       )
       save!
     end
-    joomla_article.introtext = [h2(name), description].join("\n")
+    fancy_title = name
+    fancy_title = img(logo_url, "#{name} logo") if logo_url
+    fancy_title = external_link(url, fancy_title) if url
+    joomla_article.introtext = div("colocated_conference", h2(fancy_title), description)
     joomla_article.save
   end
 

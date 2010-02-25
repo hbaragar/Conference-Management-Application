@@ -49,7 +49,8 @@ class ConferenceTest < ActiveSupport::TestCase
     article = @another_conference.joomla_article
     assert_equal category.articles.first, article
     assert_match /<h2.*Onward! 2010.*<.h2>/, article.introtext
-    #assert_match /<a.*Onward! 2010.*<.a>/, article.introtext
+    assert_match /<a.*href="http:..www.onward-conference.org.".*Onward! 2010.*<.a>/, article.introtext
+    assert_match /<img.*src="http:..www.onward-conference.org.logo.gif.*>/, article.introtext
     assert_match /Was part of OOPSLA/, article.introtext
     @a_conference.generate_general_information
     assert_equal 1, category.articles.count

@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100224223615) do
+ActiveRecord::Schema.define(:version => 20100225191515) do
 
   create_table "broadcast_emails", :force => true do |t|
     t.integer  "cfp_id"
@@ -52,6 +52,8 @@ ActiveRecord::Schema.define(:version => 20100224223615) do
     t.integer "joomla_cfp_menu_id"
     t.integer "joomla_general_section_id"
     t.integer "joomla_article_id"
+    t.string  "url"
+    t.string  "logo_url"
   end
 
   add_index "conferences", ["colocated_with_id"], :name => "index_conferences_on_colocated_with_id"
