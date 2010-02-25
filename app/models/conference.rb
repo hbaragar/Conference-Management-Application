@@ -36,6 +36,7 @@ class Conference < ActiveRecord::Base
   def generate_general_information
     set_up_joomla_general_section
     generate_general_colocated_conferences_content
+    set_up_general_colocated_conferences_menu_item
   end
 
   def generate_cfps
@@ -73,6 +74,16 @@ protected
     save
   end
 
+  def set_up_general_colocated_conferences_menu_item
+    return if general_menu_item_for('Colocated Conferences')
+    category = general_category_for('Colocated Conferences') or return
+    JoomlaMenu.create(
+      :name => 'Colocated Conferences',
+      :sublevel => 0,
+      :link => "index.php?option=com_content&view=category&layout=blog&id=#{category.id}"
+    )
+  end
+
   def generate_general_colocated_conferences_content
     colocated_conferences.each {|c| c.generate_general_colocated_conference_article}
     purge_unused_general_colocated_conference_articles
@@ -103,6 +114,10 @@ protected
       host_conference.joomla_general_section.categories.create!(:title => title)
   rescue
     nil
+  end
+
+  def general_menu_item_for name, sublevel = 0
+    JoomlaMenu.find_by_name_and_sublevel(name,sublevel)
   end
 
   def generate_cfp_content

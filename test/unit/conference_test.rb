@@ -40,7 +40,9 @@ class ConferenceTest < ActiveSupport::TestCase
     @a_conference.generate_general_information
     @a_conference.reload
     assert @a_conference.joomla_general_section
+    assert menu_item = JoomlaMenu.find_by_name_and_sublevel('Colocated Conferences',0)
     assert category = @a_conference.joomla_general_section.categories.find_by_title('Colocated Conferences')
+    assert_match /#{category.id}$/, menu_item.link
     assert_equal 1, category.articles.count
     assert_equal @a_conference, @another_conference.colocated_with
     @another_conference.reload
