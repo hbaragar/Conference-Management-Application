@@ -1,8 +1,5 @@
 class FrontController < ApplicationController
 
-  include Hobo::AuthenticationSupport
-  before_filter :login_required
-
   hobo_controller
 
   def index; end
