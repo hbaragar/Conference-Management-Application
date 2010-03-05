@@ -49,7 +49,8 @@ secure=0
     self.checked_out_time = 5.hours.ago
     self.published = 1
     self.params = PARAMS
-    self.alias = name.tr("A-Z","a-z").gsub(/\W+/,"-")
+    self.name ||= ""
+    self.alias = name.tr("A-Z","a-z").gsub(/\W+/,"-") unless self.alias =~ /\w/
   end
 
   def before_validataion
