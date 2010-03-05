@@ -5,9 +5,6 @@ class ApplicationController < ActionController::Base
   helper :all # include all helpers, all the time
   protect_from_forgery # See ActionController::RequestForgeryProtection for details
 
-  include Hobo::AuthenticationSupport
-  before_filter :login_required
-
   def rescue_action_in_public exception
     case exception
     when Hobo::PermissionDeniedError 
