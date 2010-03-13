@@ -113,10 +113,12 @@ class Cfp < ActiveRecord::Base
 	td({}, "Format:"),
 	td({}, external_link(format_url,format_style))
       ),
-      tr({},
-	td({}, "Submit to:"),
-	td({}, external_link(submit_to_url,submit_to_url))
-      ),
+      if submit_to_url && submit_to_url =~ /\w/
+	tr({},
+	  td({}, "Submit to:"),
+	  td({}, external_link(submit_to_url,submit_to_url))
+	)
+      end,
       tr({},
 	td({}, "Contact:"),
 	td({}, email_link(chairs), " (chair)")
