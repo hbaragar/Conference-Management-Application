@@ -23,3 +23,8 @@ yet_another_portfolio:
   conference_id: 1
   name: DesignFest
   description: A registered trademark
+the_support_portfolio:
+  id: 6
+  conference_id: 1
+  name: Corporate Support
+  description: Give us money

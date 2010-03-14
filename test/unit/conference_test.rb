@@ -16,7 +16,7 @@ class ConferenceTest < ActiveSupport::TestCase
   end
 
   def test_portfolios
-    assert_equal 4, @a_conference.portfolios.count
+    assert_equal 5, @a_conference.portfolios.count
     assert_equal 1, @another_conference.portfolios.count
     assert_equal "General", @another_conference.portfolios.first.name
   end

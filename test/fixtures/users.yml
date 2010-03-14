@@ -19,3 +19,11 @@ administrator:
   name: Administrator
   email_address: a_conference@instantiated.ca
   administrator: 1
+the_supporter_portfolio_chair:
+  id: 6
+  name: Shail Arora
+  email_address: sa@ai.com
+a_supporter_portfolio_member:
+  id: 7
+  name: Gail Harris
+  email_address: gh@isi.com

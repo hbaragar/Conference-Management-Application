@@ -38,3 +38,20 @@ another_portfolio_member:
   name: Gregor Kiczales
   affiliation: University of British Columbia
   private_email_address: gk@ubc.ca
+the_supporter_portfolio_chair:
+  id: 6
+  portfolio_id: 6
+  chair: 1
+  name: Shail Arora
+  affiliation: Adayana, Inc.
+  private_email_address: sa@ai.com
+  user_id: 6
+a_supporter_portfolio_member:
+  id: 7
+  portfolio_id: 6
+  chair: 0
+  name: Gail Harris
+  affiliation: Instantiated Software Inc.
+  private_email_address: gh@isi.com
+  user_id: 7
+  country: Canada

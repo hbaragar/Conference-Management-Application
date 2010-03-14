@@ -15,6 +15,8 @@ class Portfolio < ActiveRecord::Base
   has_many :members, :dependent => :destroy
   has_many :cfps, :dependent => :destroy	# Really only one, but we want the hobo support
 
+  has_many :call_for_supporters, :dependent => :destroy
+
   def chair? user
     (members & user.members).select do |m|
       m.chair

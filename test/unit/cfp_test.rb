@@ -9,7 +9,7 @@ class CfpTest < ActiveSupport::TestCase
   end
 
   def test_create_permissions
-    new_cfp = Cfp.new :portfolio => @a_portfolio, :due_on => 1.months.from_now
+    new_cfp = @a_portfolio.cfps.new :due_on => 1.months.from_now
     assert new_cfp.creatable_by?(users(:administrator))
     assert new_cfp.creatable_by?(users(:general_chair))
     assert new_cfp.creatable_by?(users(:a_portfolio_chair))
