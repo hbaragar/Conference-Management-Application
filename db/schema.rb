@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100314211500) do
+ActiveRecord::Schema.define(:version => 20100314221125) do
 
   create_table "broadcast_emails", :force => true do |t|
     t.integer  "cfp_id"
@@ -43,7 +43,7 @@ ActiveRecord::Schema.define(:version => 20100314211500) do
     t.date     "due_on"
     t.string   "format_style",      :default => "ACM Proceedings format"
     t.string   "format_url",        :default => "http://www.acm.org/sigs/sigplan/authorInformation.htm"
-    t.string   "submit_to_url",     :default => "http://cyberchair.acm.org/splash???/submit/"
+    t.string   "submit_to_url",     :default => ""
     t.text     "details"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -216,6 +216,19 @@ ActiveRecord::Schema.define(:version => 20100314211500) do
   end
 
   add_index "portfolios", ["conference_id"], :name => "index_portfolios_on_conference_id"
+
+  create_table "supporter_levels", :force => true do |t|
+    t.integer  "call_for_supporter_id"
+    t.string   "name"
+    t.integer  "minimum_donation",      :default => 0
+    t.integer  "medium_logo_max_area",  :default => 0
+    t.integer  "small_logo_max_area",   :default => 0
+    t.text     "description"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "supporter_levels", ["call_for_supporter_id"], :name => "index_supporter_levels_on_call_for_supporter_id"
 
   create_table "users", :force => true do |t|
     t.string   "crypted_password",          :limit => 40

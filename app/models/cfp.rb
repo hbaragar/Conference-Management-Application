@@ -11,7 +11,7 @@ class Cfp < ActiveRecord::Base
     due_on        :date, :required
     format_style  :string, :default => "ACM Proceedings format"
     format_url    :string, :default => "http://www.acm.org/sigs/sigplan/authorInformation.htm"
-    submit_to_url :string, :default => "http://cyberchair.acm.org/splash???/submit/"
+    submit_to_url :string, :default => ""
     details       :markdown
     timestamps
   end

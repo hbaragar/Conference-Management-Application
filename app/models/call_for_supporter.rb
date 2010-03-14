@@ -10,6 +10,8 @@ class CallForSupporter < ActiveRecord::Base
     timestamps
   end
 
+  has_many :supporter_levels, :dependent => :destroy
+
 
   def conference
     portfolio && portfolio.conference
