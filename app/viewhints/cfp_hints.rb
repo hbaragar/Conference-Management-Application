@@ -16,4 +16,5 @@ class CfpHints < Hobo::ViewHints
       <a href="http://daringfireball.net/projects/markdown/" target="_blank">markdown</a>
       (similar to wiki markup)
     )
+
 end

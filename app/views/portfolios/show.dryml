@@ -1,23 +1,43 @@
 <show-page>
   <description: replace/>
+  <field-list: skip="call_type"/>
   <after-field-list:>
     <table class="field-list">
       <tr>
-	<th class="cfp-label">
-	  CFP
-	</th>
-	<td class="cfp-view">
-	  <if:cfps>
-	    <a:first action="show">
-	      <ht key="cfp.action.show">View</ht>
-	    </a:first>
-	  </if>
-	  <else>
-	    <a:cfps action="new" if="&can_create?(@portfolio.cfps)">
-	      <ht key="cfps.actions.new">Create</ht>
-	    </a:cfps>
-	  </else>
-	</td>
+	<if test="&this.call_type == 'for_presentations' ? 'Y' : '' ">
+	  <th class="cfp-label">
+	    CFP
+	  </th>
+	  <td class="cfp-view">
+	    <if:cfps>
+	      <a:first action="show">
+		<ht key="cfp.action.show">View</ht>
+	      </a:first>
+	    </if>
+	    <else>
+	      <a:cfps action="new" if="&can_create?(@portfolio.cfps)">
+		<ht key="cfps.actions.new">Create</ht>
+	      </a:cfps>
+	    </else>
+	  </td>
+	</if>
+	<if test="&this.call_type == 'for_supporters' ? 'Y' : '' ">
+	  <th class="cfp-label">
+	    Call for Supporters
+	  </th>
+	  <td class="call-for-supporters-view">
+	    <if:call_for_supporters>
+	      <a:first action="show">
+		<ht key="call_for_supporters.action.show">View</ht>
+	      </a:first>
+	    </if>
+	    <else>
+	      <a:call_for_supporters action="new" if="&can_create?(@portfolio.call_for_supporters)">
+		<ht key="call_for_supporters.actions.new">Create</ht>
+	      </a:call_for_supporters>
+	    </else>
+	  </td>
+	</if>
       </tr>
     </table> 
   </after-field-list:>

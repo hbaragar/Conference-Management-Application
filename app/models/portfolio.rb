@@ -8,6 +8,7 @@ class Portfolio < ActiveRecord::Base
   fields do
     name        :string, :required
     public_email_address :email_address
+    call_type	enum_string(:no_call, :for_presentations, :for_supporters), :default => 'no_call', :required => true
     description :markdown
   end
 
@@ -29,7 +30,6 @@ class Portfolio < ActiveRecord::Base
 
 
   # --- Permissions --- #
-
 
   def create_permitted?
     return true if acting_user.administrator?
