@@ -14,6 +14,7 @@ class SupporterLevel < ActiveRecord::Base
     timestamps
   end
 
+  default_scope :order => 'minimum_donation DESC'
 
   def portfolio
     call_for_supporter.portfolio
@@ -27,7 +28,8 @@ class SupporterLevel < ActiveRecord::Base
 
   def create_permitted?
     return true if acting_user.administrator?
-    portfolio && (portfolio.chair?(acting_user) || conference.chair?(acting_user))
+    return false unless portfolio
+    portfolio.chair?(acting_user) || conference.chair?(acting_user)
   end
 
   def update_permitted?

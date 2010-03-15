@@ -1,0 +1,8 @@
+<show-page>
+  <collection: replace>
+  <table-plus:supporter_levels fields="this, minimum_donation, medium_logo_max_area, small_logo_max_area, description">
+    <this-view:><a action="edit"/></this-view:>
+    <empty-message:>No support levels match your criteria</empty-message:>
+  </table-plus>
+  </collection:>
+</show-page>

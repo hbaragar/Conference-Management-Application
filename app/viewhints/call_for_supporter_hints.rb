@@ -9,8 +9,7 @@ class CallForSupporterHints < Hobo::ViewHints
 
   children :supporter_levels
 
-  field_help :due_on => "Other important dates can be added after the CFP has been created",
-    :details => %q(Introductory paragraphs are automatically generated from the
+  field_help :details => %q(Introductory paragraphs are automatically generated from the
       portfolio and conference descriptions,
       and it will be converted to HTML using
       <a href="http://daringfireball.net/projects/markdown/" target="_blank">markdown</a>

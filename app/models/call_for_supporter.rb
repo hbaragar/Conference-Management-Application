@@ -22,12 +22,13 @@ class CallForSupporter < ActiveRecord::Base
 
   def create_permitted?
     return true if acting_user.administrator?
-    portfolio && (portfolio.chair?(acting_user) || conference.chair?(acting_user))
+    return false unless portfolio
+    portfolio.chair?(acting_user) || conference.chair?(acting_user)
   end
 
   def update_permitted?
-    return true if acting_user.administrator?
-    none_changed?(:portfolio_id) && (portfolio.chair?(acting_user) || conference.chair?(acting_user))
+    return false if portfolio_id_changed?
+    portfolio.chair?(acting_user) || conference.chair?(acting_user) || acting_user.administrator?
   end
 
   def destroy_permitted?

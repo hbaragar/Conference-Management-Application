@@ -1,0 +1,24 @@
+<edit-page>
+  <after-delete-button:>
+    <p>Note that the first "Save Call for Supporters" button does not save the "Supporter Levels".
+    </p>
+  </after-delete-button:>
+  <form:>
+    <submit: label="Save Call for Supporters"/>
+    <after-submit:>and return</after-submit:>
+    <old-form:/>
+  </form:>
+  <after-form:>
+    <h3>Supporter Levels</h3>
+    <p>Note that each of these levels must be saved individually:</p>
+    <collection:supporter_levels part="supporter-levels">
+      <form update="supporter-levels">
+	<after-submit:>or <delete-button/> supporter level</after-submit:>
+	<old-form:/>
+      </form>
+    </collection:supporter_levels>
+    <form:supporter_levels.new update="supporter-levels" reset-form refocus-form>
+      <submit: label="Create Level"/>
+    </form:supporter_levels.new>
+  </after-form:>
+</edit-page>
