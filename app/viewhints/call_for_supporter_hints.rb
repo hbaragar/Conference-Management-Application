@@ -7,7 +7,7 @@ class CallForSupporterHints < Hobo::ViewHints
 
   parent :portfolio
 
-  children :supporter_levels
+  children :supporter_levels, :supporter_levels
 
   field_help :details => %q(Introductory paragraphs are automatically generated from the
       portfolio and conference descriptions,

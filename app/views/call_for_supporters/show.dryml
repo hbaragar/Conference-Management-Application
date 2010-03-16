@@ -17,4 +17,10 @@
     <view:details/>
   </div>
   </content-body:>
+  <supporter_levels-collection: replace>
+    <table-plus:supporter_levels fields="this, medium_logo_max_area, small_logo_max_area">
+      <this-view:><a action="edit"/></this-view:>
+      <search-form: replace/>
+    </table-plus>
+  </supporter_levels-collection:>
 </show-page>

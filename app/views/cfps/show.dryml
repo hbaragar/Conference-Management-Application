@@ -19,8 +19,6 @@
     <%= this.committee_members %>
   </div>
   </content-body:>
-  <broadcast_emails-collection:>
-  </broadcast_emails-collection:>
   <after-broadcast_emails-collection:>
     <collection:broadcast_emails part="broadcast-emails-collection"/>
     <div>Add new email addresses here as you send out this year's CFP:</div>
