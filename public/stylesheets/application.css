@@ -39,3 +39,39 @@ div.cfp h3 {
 div.collection-section td.cfp-view {
     width: 4em;
 }
+
+table.view.supporter-level-summary {
+  float: right;
+  margin-left: 2em;
+  border: solid 1px #507599;
+}
+
+table.view.supporter-level-summary tr {
+  background-color: #E1EFF6;
+}
+
+table.view.supporter-level-summary th {
+  font-weight: bold;
+  text-align: center;
+  background-color: #0099CC;
+}
+
+table.view.supporter-level-summary td {
+  padding: 0px 2px
+}
+
+table.view.supporter-level-summary td.level {
+  text-align: center;
+}
+
+table.view.supporter-level-summary td.level div.name{
+  font-weight: bold;
+}
+
+table.view.supporter-level-summary a:link,
+table.view.supporter-level-summary a:visited,
+table.view.supporter-level-summary a:active
+{
+  background-color: transparent;
+}
+

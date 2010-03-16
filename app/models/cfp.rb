@@ -71,7 +71,7 @@ class Cfp < ActiveRecord::Base
       save
     end
     joomla_article.category = joomla_category
-    joomla_article.introtext = portfolio.description.to_html
+    joomla_article.introtext = portfolio_description.to_html
     joomla_article.fulltext = full_details
     joomla_article.save
   end

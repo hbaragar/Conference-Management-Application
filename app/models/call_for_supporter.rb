@@ -29,6 +29,10 @@ class CallForSupporter < ActiveRecord::Base
     conference.description
   end
 
+  def portfolio_description
+    portfolio.description
+  end
+
   def generate_joomla_article joomla_category
     unless joomla_article
       self.joomla_article = joomla_category.articles.create(
@@ -37,30 +41,30 @@ class CallForSupporter < ActiveRecord::Base
       )
       save
     end
-    joomla_article.introtext = portfolio.description.to_html
+    joomla_article.introtext = portfolio_description.to_html
     joomla_article.fulltext = full_details
     joomla_article.save
   end
 
   def full_details
     div("",
-	supporter_level_summary,
+	supporter_levels_summary,
 	conference_description.to_html,
 	details.to_html
     )
   end
 
-  def supporter_level_summary
+  def supporter_levels_summary
     table({:class => "view supporter-level-summary"},
       tr({},
-	td({}, "Donation & Level:"),
-	td({}, "Benefits")
+	th({}, "Donation & Level"),
+	th({}, "Benefits")
       ),
       supporter_levels.collect do |sl|
 	tr({},
-	  td({:class => "level"},
-	    div({:class => "minimum_donation"}, sl.minimum_donation, " (USD)"),
-	    div({:class => "name"}, sl.name)
+	  td({:class=>"level"},
+	    div("minimum_donation", sl.minimum_donation, " (USD)"),
+	    div("name", sl.name)
 	  ),
 	  td({:class => "description"},sl.description)
 	)

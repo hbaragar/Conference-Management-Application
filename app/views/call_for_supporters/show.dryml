@@ -1,8 +1,20 @@
 <show-page>
-  <collection: replace>
-  <table-plus:supporter_levels fields="this, minimum_donation, medium_logo_max_area, small_logo_max_area, description">
-    <this-view:><a action="edit"/></this-view:>
-    <empty-message:>No support levels match your criteria</empty-message:>
-  </table-plus>
-  </collection:>
+  <content-body:>
+  <div class="call-for-supporters">
+    <view:portfolio_description/>
+    <a action="edit" with="&this.portfolio" if="&can_update?(this.portfolio)">
+      <ht key="portfolio.actions.edit" name="&this.respond_to?(:name) ? this.name : ''">
+	&laquo; edit portfolio description &raquo;
+      </ht>
+    </a>
+    <%= this.supporter_levels_summary %>
+    <view:conference_description/>
+    <a action="edit" with="&this.conference" if="&can_update?(this.conference)">
+      <ht key="conference.actions.edit" name="&this.respond_to?(:name) ? this.name : ''">
+	&laquo; edit conference description &raquo;
+      </ht>
+    </a>
+    <view:details/>
+  </div>
+  </content-body:>
 </show-page>
