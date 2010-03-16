@@ -1,5 +1,7 @@
 class CallForSupporter < ActiveRecord::Base
 
+  include MyHtml
+
   hobo_model # Don't put anything above this
 
   belongs_to :portfolio
@@ -10,15 +12,66 @@ class CallForSupporter < ActiveRecord::Base
     timestamps
   end
 
+  belongs_to :joomla_article
+
   has_many :supporter_levels, :dependent => :destroy
 
+
+  def name
+    portfolio.name
+  end
 
   def conference
     portfolio && portfolio.conference
   end
 
+  def conference_description
+    conference.description
+  end
+
+  def generate_joomla_article joomla_category
+    unless joomla_article
+      self.joomla_article = joomla_category.articles.create(
+	:title 	 => name,
+	:section => joomla_category.joomla_section
+      )
+      save
+    end
+    joomla_article.introtext = portfolio.description.to_html
+    joomla_article.fulltext = full_details
+    joomla_article.save
+  end
+
+  def full_details
+    div("",
+	supporter_level_summary,
+	conference_description.to_html,
+	details.to_html
+    )
+  end
+
+  def supporter_level_summary
+    table({:class => "view supporter-level-summary"},
+      tr({},
+	td({}, "Donation & Level:"),
+	td({}, "Benefits")
+      ),
+      supporter_levels.collect do |sl|
+	tr({},
+	  td({:class => "level"},
+	    div({:class => "minimum_donation"}, sl.minimum_donation, " (USD)"),
+	    div({:class => "name"}, sl.name)
+	  ),
+	  td({:class => "description"},sl.description)
+	)
+      end
+    )
+  end
+
 
   # --- Permissions --- #
+
+  never_show :joomla_article
 
   def create_permitted?
     return true if acting_user.administrator?

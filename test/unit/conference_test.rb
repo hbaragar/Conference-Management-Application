@@ -58,6 +58,27 @@ class ConferenceTest < ActiveSupport::TestCase
     @a_conference.reload
     @a_conference.generate_general_information
     assert_equal 0, category.articles.count
+    plus_test_for_generating_call_for_supporters
+  end
+
+  def plus_test_for_generating_call_for_supporters
+    # Content
+    a_call_for_supporter = call_for_supporters(:a_call_for_supporter)
+    assert joomla_article = a_call_for_supporter.joomla_article
+    assert_equal a_call_for_supporter, joomla_article.call_for_supporter
+    assert_equal a_call_for_supporter.name, joomla_article.title
+    assert_equal "Supporters", joomla_article.category.title
+    assert_match /#{a_call_for_supporter.portfolio.description}/, joomla_article.introtext
+    assert_match /#{a_call_for_supporter.conference.description}/, joomla_article.fulltext
+    assert_match /#{a_call_for_supporter.portfolio.public_email_address}/, joomla_article.fulltext
+    assert_match /Gold/, joomla_article.fulltext
+    assert_match /#{a_call_for_supporter.details}/, joomla_article.fulltext
+    # Menu
+    assert call_for_supporter_menu = JoomlaMenu.find_by_name_and_sublevel('Corporate Support', 0)
+    assert_equal 0, call_for_supporter_menu.sublevel
+    assert_match /show_vote=0/, call_for_supporter_menu.params
+    assert call_for_supporter_article = a_call_for_supporter.joomla_article
+    assert_equal "index.php?option=com_content&view=article&id=#{call_for_supporter_article.id}", call_for_supporter_menu.link
   end
 
   test "generate_cfps" do

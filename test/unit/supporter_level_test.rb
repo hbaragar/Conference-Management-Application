@@ -4,8 +4,8 @@ class SupporterLevelTest < ActiveSupport::TestCase
 
   def setup
     @a_conference = conferences(:a_conference)
-    @the_support_portfolio = portfolios(:the_support_portfolio)
-    @a_call_for_supporter = @the_support_portfolio.call_for_supporters.create
+    @the_supporter_portfolio = portfolios(:the_supporter_portfolio)
+    @a_call_for_supporter = @the_supporter_portfolio.call_for_supporters.create
     @a_supporter_level = @a_call_for_supporter.supporter_levels.create(
       :name		=> "gold",
       :minimum_donation	=> 10000,

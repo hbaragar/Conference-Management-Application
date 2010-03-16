@@ -1,6 +1,4 @@
-# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
-one:
+a_call_for_supporter:
   id: 1
-
-two:
-  id: 2
+  portfolio_id: 6
+  details: Send us your money

@@ -1,6 +1,5 @@
-# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
-one:
+gold_level_supporter:
   id: 1
-
-two:
-  id: 2
+  name: Gold
+  call_for_supporter_id: 1
+  minimum_donation: 10000

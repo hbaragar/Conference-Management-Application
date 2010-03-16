@@ -20,6 +20,7 @@ class JoomlaArticle < ActiveRecord::Base
   acts_as_list :column => :ordering, :scope => 'catid = #{catid}'
 
   has_one :cfp, :foreign_key => :joomla_article_id
+  has_one :call_for_supporter, :foreign_key => :joomla_article_id
 
   validates_presence_of :title
   validates_uniqueness_of :title

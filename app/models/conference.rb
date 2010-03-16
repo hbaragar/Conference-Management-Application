@@ -23,6 +23,7 @@ class Conference < ActiveRecord::Base
   has_many :colocated_conferences, :class_name => "Conference", :foreign_key => :colocated_with_id
   has_many :portfolios, :dependent => :destroy
   has_many :cfps, :through => :portfolios
+  has_many :call_for_supporters, :through => :portfolios
   has_many :members, :through => :portfolios
 
   named_scope :host_conferences, :conditions => {:colocated_with_id => nil}
@@ -38,9 +39,8 @@ class Conference < ActiveRecord::Base
   end
 
   def generate_general_information
-    set_up_joomla_general_section
-    generate_general_colocated_conferences_content
-    set_up_general_colocated_conferences_menu_item
+    generate_general_content
+    set_up_general_menu
   end
 
   def generate_cfps
@@ -77,6 +77,18 @@ protected
     return if joomla_general_section
     self.joomla_general_section = JoomlaSection.create!(:title => "General Information")
     save
+  end
+
+  def generate_general_content
+    set_up_joomla_general_section
+    generate_general_colocated_conferences_content
+    generate_general_call_for_supporters_content
+    joomla_general_section.update_count!
+  end
+
+  def set_up_general_menu
+    set_up_general_colocated_conferences_menu_item
+    set_up_general_call_for_supporters_menu_item
   end
 
   def set_up_general_colocated_conferences_menu_item
@@ -133,6 +145,26 @@ protected
 
   def general_menu_item_for name, sublevel = 0
     JoomlaMenu.find_by_name_and_sublevel(name,sublevel)
+  end
+
+  def generate_general_call_for_supporters_content
+    category = general_category_for 'Supporters'
+    call_for_supporters.each{|c| c.generate_joomla_article(category)}
+  end
+
+  def set_up_general_call_for_supporters_menu_item
+    category = general_category_for('Supporters') or return
+    call_for_supporters.each do |c|
+      menu = general_menu_item_for(c.name) || JoomlaMenu.create(
+	:name => c.name,
+	:sublevel => 0,
+	:link => "index.php?option=com_content&view=article&id=#{c.joomla_article_id}"
+      )
+      menu.params[/show_title=\d/] = "show_title=0"
+      menu.params[/show_category=\d/] = "show_category=0"
+      menu.params += " "		# Force the save
+      menu.save!
+    end
   end
 
   def generate_cfp_content
