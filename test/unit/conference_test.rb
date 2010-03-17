@@ -74,8 +74,13 @@ class ConferenceTest < ActiveSupport::TestCase
     assert_match /Gold/, joomla_article.fulltext
     assert_match /#{a_call_for_supporter.details}/, joomla_article.fulltext
     # Menu
-    assert call_for_supporter_menu = JoomlaMenu.find_by_name_and_sublevel('Corporate Support', 0)
-    assert_equal 0, call_for_supporter_menu.sublevel
+    assert supporter_menu = JoomlaMenu.find_by_name('Supporters')
+    assert_equal 0, supporter_menu.sublevel
+    assert_match /show_vote=0/, supporter_menu.params
+    supporters_category = @a_conference.general_category_for 'Supporters'
+    assert_equal "index.php?option=com_content&view=category&layout=blog&id=#{supporters_category.id}", supporter_menu.link
+    assert call_for_supporter_menu = JoomlaMenu.find_by_name('Corporate Support')
+    assert_equal 1, call_for_supporter_menu.sublevel
     assert_match /show_vote=0/, call_for_supporter_menu.params
     assert call_for_supporter_article = a_call_for_supporter.joomla_article
     assert_equal "index.php?option=com_content&view=article&id=#{call_for_supporter_article.id}", call_for_supporter_menu.link

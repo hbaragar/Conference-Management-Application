@@ -8,8 +8,8 @@ class Conference < ActiveRecord::Base
 
   fields do
     name        :string, :required
-    url		:string
-    logo_url	:string
+    url         :string
+    logo_url    :string
     description :markdown
   end
 
@@ -47,6 +47,15 @@ class Conference < ActiveRecord::Base
     generate_cfp_content
     generate_cfp_menu
   end
+
+  def general_category_for title
+    host_conference = colocated_with || self
+    host_conference.joomla_general_section.categories.find_by_title(title) ||
+      host_conference.joomla_general_section.categories.create!(:title => title)
+  rescue
+    nil
+  end
+
 
   # --- Permissions --- #
 
@@ -113,8 +122,8 @@ protected
     category = general_category_for('Colocated Conferences') or return
     unless joomla_article
       self.joomla_article = category.articles.create(
-	:title => name,
-	:sectionid => category.section
+        :title => name,
+        :sectionid => category.section
       )
       save!
     end
@@ -135,14 +144,6 @@ protected
     end
   end
 
-  def general_category_for title
-    host_conference = colocated_with || self
-    host_conference.joomla_general_section.categories.find_by_title(title) ||
-      host_conference.joomla_general_section.categories.create!(:title => title)
-  rescue
-    nil
-  end
-
   def general_menu_item_for name, sublevel = 0
     JoomlaMenu.find_by_name_and_sublevel(name,sublevel)
   end
@@ -153,17 +154,19 @@ protected
   end
 
   def set_up_general_call_for_supporters_menu_item
-    category = general_category_for('Supporters') or return
+    menu_name = 'Supporters'
+    category = general_category_for(menu_name) or return
+    menu = general_menu_item_for(menu_name) || JoomlaMenu.create(
+      :name => menu_name,
+      :sublevel => 0,
+      :link => "index.php?option=com_content&view=category&layout=blog&id=#{category.id}"
+    )
     call_for_supporters.each do |c|
-      menu = general_menu_item_for(c.name) || JoomlaMenu.create(
-	:name => c.name,
-	:sublevel => 0,
-	:link => "index.php?option=com_content&view=article&id=#{c.joomla_article_id}"
+      item = general_menu_item_for(c.name, 1) || menu.items.create(
+        :name => c.name,
+        :sublevel => 1,
+        :link => "index.php?option=com_content&view=article&id=#{c.joomla_article_id}"
       )
-      menu.params[/show_title=\d/] = "show_title=0"
-      menu.params[/show_category=\d/] = "show_category=0"
-      menu.params += " "		# Force the save
-      menu.save!
     end
   end
 
@@ -180,9 +183,9 @@ protected
   def generate_cfp_menu
     unless joomla_cfp_menu
       self.joomla_cfp_menu = JoomlaMenu.create(
-	:name	=> "Call for Papers",
-	:alias	=> "cfp",
-	:link	=> "index.php?option=com_content&view=section&layout=blog&id=#{joomla_cfp_section.id}"
+        :name  => "Call for Papers",
+        :alias => "cfp",
+        :link  => "index.php?option=com_content&view=section&layout=blog&id=#{joomla_cfp_section.id}"
       )
     end
     save	# Always save in order to get the parametes updated
@@ -202,10 +205,10 @@ protected
     joomla_cfp_section.categories.each do |c|
       next if joomla_cfp_menu.items.find_by_name(c.title)
       joomla_cfp_menu.items.create(
-	:name	=> c.title,
-	:alias	=> c.alias,
-	:link	=> "index.php?option=com_content&view=category&layout=blog&id=#{c.id}",
-	:sublevel => 1
+        :name	=> c.title,
+        :alias	=> c.alias,
+        :link	=> "index.php?option=com_content&view=category&layout=blog&id=#{c.id}",
+        :sublevel => 1
       )
     end
   end
