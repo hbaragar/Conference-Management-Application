@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100315211117) do
+ActiveRecord::Schema.define(:version => 20100322162713) do
 
   create_table "broadcast_emails", :force => true do |t|
     t.integer  "cfp_id"
@@ -31,16 +31,7 @@ ActiveRecord::Schema.define(:version => 20100315211117) do
   add_index "call_for_supporters", ["joomla_article_id"], :name => "index_call_for_supporters_on_joomla_article_id"
   add_index "call_for_supporters", ["portfolio_id"], :name => "index_call_for_supporters_on_portfolio_id"
 
-  create_table "cfp_dates", :force => true do |t|
-    t.integer "cfp_id"
-    t.string  "label"
-    t.string  "due_on_prefix", :default => ""
-    t.date    "due_on"
-  end
-
-  add_index "cfp_dates", ["cfp_id"], :name => "index_cfp_dates_on_cfp_id"
-
-  create_table "cfps", :force => true do |t|
+  create_table "calls", :force => true do |t|
     t.integer  "portfolio_id"
     t.date     "due_on"
     t.string   "format_style",      :default => "ACM Proceedings format"
@@ -50,10 +41,21 @@ ActiveRecord::Schema.define(:version => 20100315211117) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "joomla_article_id"
+    t.string   "type"
   end
 
-  add_index "cfps", ["joomla_article_id"], :name => "index_cfps_on_joomla_article_id"
-  add_index "cfps", ["portfolio_id"], :name => "index_cfps_on_portfolio_id"
+  add_index "calls", ["joomla_article_id"], :name => "index_calls_on_joomla_article_id"
+  add_index "calls", ["portfolio_id"], :name => "index_calls_on_portfolio_id"
+  add_index "calls", ["type"], :name => "index_calls_on_type"
+
+  create_table "cfp_dates", :force => true do |t|
+    t.integer "cfp_id"
+    t.string  "label"
+    t.string  "due_on_prefix", :default => ""
+    t.date    "due_on"
+  end
+
+  add_index "cfp_dates", ["cfp_id"], :name => "index_cfp_dates_on_cfp_id"
 
   create_table "conferences", :force => true do |t|
     t.integer "colocated_with_id"

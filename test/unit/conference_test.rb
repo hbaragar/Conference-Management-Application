@@ -124,7 +124,7 @@ class ConferenceTest < ActiveSupport::TestCase
   end
 
   def cfp_article_tests
-    a_cfp = cfps(:a_cfp)
+    a_cfp = calls(:a_cfp)
     assert joomla_article = a_cfp.joomla_article
     assert_equal a_cfp, joomla_article.cfp
     assert_equal a_cfp.name, joomla_article.title

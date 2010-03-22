@@ -1,25 +1,6 @@
-class Cfp < ActiveRecord::Base
-
-  include MyHtml
-
-  hobo_model # Don't put anything above this
-
-  belongs_to :portfolio
-  attr_readonly :portfolio_id
-
-  fields do
-    due_on        :date, :required
-    format_style  :string, :default => "ACM Proceedings format"
-    format_url    :string, :default => "http://www.acm.org/sigs/sigplan/authorInformation.htm"
-    submit_to_url :string, :default => ""
-    details       :markdown
-    timestamps
-  end
+class Cfp < Call
 
 
-  belongs_to :joomla_article
-
-  has_many :members, :through => :portfolio
   has_many :other_dates, :class_name => "CfpDate", :dependent => :destroy
   has_many :broadcast_emails, :dependent => :destroy
 
@@ -30,30 +11,6 @@ class Cfp < ActiveRecord::Base
     other_dates.create(:label => "Camera-ready copy due", :due_on => due_on + 2.months)
   end
 
-
-  def conference
-    portfolio && portfolio.conference
-  end
-
-  def name
-    portfolio.to_s
-  end
-
-  def portfolio_description
-    portfolio.description
-  end
-
-  def conference_description
-    conference.description
-  end
-
-  def chairs
-    portfolio.chairs.join(" and ")
-  end
-
-  def email_address
-    portfolio.public_email_address
-  end
 
   def joomla_section
     conference.joomla_cfp_section
@@ -145,26 +102,6 @@ class Cfp < ActiveRecord::Base
   end
 
   # --- Permissions --- #
-
-  never_show :joomla_article
-
-  def create_permitted?
-    return true if acting_user.administrator?
-    portfolio && (portfolio.chair?(acting_user) || conference.chair?(acting_user))
-  end
-
-  def update_permitted?
-    return true if acting_user.administrator?
-    none_changed?(:portfolio_id) && (portfolio.chair?(acting_user) || conference.chair?(acting_user))
-  end
-
-  def destroy_permitted?
-    portfolio.chair?(acting_user) || conference.chair?(acting_user) || acting_user.administrator?
-  end
-
-  def view_permitted?(field)
-    acting_user.signed_up?
-  end
 
 
 private

@@ -9,8 +9,11 @@ class PortfolioTest < ActiveSupport::TestCase
   end
 
   def test_members
-    portfolio = portfolios(:a_conference_general)
-    assert_equal 1, portfolio.members.count
+    assert_equal 1, @general.members.count
+  end
+
+  def test_cfps
+    assert_equal 1, @a_portfolio.cfps.count
   end
 
   def test_create_permissions

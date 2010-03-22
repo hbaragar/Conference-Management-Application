@@ -1,18 +1,21 @@
 a_cfp:
   id: 1
   portfolio_id: 2
+  type: Cfp
   due_on: 2010-03-13
   details: Very important research
 
 another_cfp:
   id: 2
   portfolio_id: 4
+  type: Cfp
   due_on: 2010-03-13
   details: a working copy
 
 yet_another_cfp:
   id: 3
   portfolio_id: 5
+  type: Cfp
   due_on: 2010-06-13
   details: needs some more design
 

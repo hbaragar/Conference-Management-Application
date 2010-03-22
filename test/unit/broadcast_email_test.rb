@@ -15,7 +15,7 @@ class BroadcastEmailTest < ActiveSupport::TestCase
   end
 
   def test_create_permissions
-    new_broadcast_email = BroadcastEmail.new :cfp => @a_cfp, :address => "software@mailing.list"
+    new_broadcast_email = @a_cfp.broadcast_emails.new :address => "software@mailing.list"
     assert new_broadcast_email.creatable_by?(users(:administrator))
     assert new_broadcast_email.creatable_by?(users(:general_chair))
     assert new_broadcast_email.creatable_by?(users(:a_portfolio_chair))
