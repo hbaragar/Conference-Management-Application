@@ -1,6 +1,5 @@
 <show-page>
   <content-body:>
-  <div class="cfp">
     <view:portfolio_description/>
     <a action="edit" with="&this.portfolio" if="&can_update?(this.portfolio)">
       <ht key="portfolio.actions.edit" name="&this.respond_to?(:name) ? this.name : ''">
@@ -17,7 +16,6 @@
     <view:details/>
     <%= this.contact_info %>
     <%= this.committee_members %>
-  </div>
   </content-body:>
   <after-broadcast_emails-collection:>
     <collection:broadcast_emails part="broadcast-emails-collection"/>
