@@ -1,5 +1,6 @@
 class Cfp < Call
 
+  validates_presence_of :due_on
 
   has_many :other_dates, :class_name => "CfpDate", :dependent => :destroy
   has_many :broadcast_emails, :dependent => :destroy

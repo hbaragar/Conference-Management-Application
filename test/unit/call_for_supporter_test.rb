@@ -5,7 +5,7 @@ class CallForSupporterTest < ActiveSupport::TestCase
   def setup
     @a_conference = conferences(:a_conference)
     @the_supporter_portfolio = portfolios(:the_supporter_portfolio)
-    @a_call_for_supporter = @the_supporter_portfolio.call_for_supporters.create
+    @a_call_for_supporter = @the_supporter_portfolio.call_for_supporters.first
   end
 
   def test_create_permissions

@@ -8,7 +8,7 @@ class Call < ActiveRecord::Base
   attr_readonly :portfolio_id
 
   fields do
-    due_on        :date, :required
+    due_on        :date
     format_style  :string, :default => "ACM Proceedings format"
     format_url    :string, :default => "http://www.acm.org/sigs/sigplan/authorInformation.htm"
     submit_to_url :string, :default => ""

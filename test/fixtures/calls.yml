@@ -19,3 +19,8 @@ yet_another_cfp:
   due_on: 2010-06-13
   details: needs some more design
 
+a_call_for_supporter:
+  id: 4
+  portfolio_id: 6
+  type: CallForSupporter
+  details: Send us your money

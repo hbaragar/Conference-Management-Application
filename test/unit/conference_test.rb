@@ -63,7 +63,7 @@ class ConferenceTest < ActiveSupport::TestCase
 
   def plus_test_for_generating_call_for_supporters
     # Content
-    a_call_for_supporter = call_for_supporters(:a_call_for_supporter)
+    a_call_for_supporter = calls(:a_call_for_supporter)
     assert joomla_article = a_call_for_supporter.joomla_article
     assert_equal a_call_for_supporter, joomla_article.call_for_supporter
     assert_equal a_call_for_supporter.name, joomla_article.title

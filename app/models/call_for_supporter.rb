@@ -1,37 +1,7 @@
-class CallForSupporter < ActiveRecord::Base
-
-  include MyHtml
-
-  hobo_model # Don't put anything above this
-
-  belongs_to :portfolio
-  attr_readonly :portfolio_id
-
-  fields do
-    details :markdown
-    timestamps
-  end
-
-  belongs_to :joomla_article
+class CallForSupporter < Call
 
   has_many :supporter_levels, :dependent => :destroy
 
-
-  def name
-    portfolio.name
-  end
-
-  def conference
-    portfolio && portfolio.conference
-  end
-
-  def conference_description
-    conference.description
-  end
-
-  def portfolio_description
-    portfolio.description
-  end
 
   def generate_joomla_article joomla_category
     unless joomla_article
@@ -75,25 +45,6 @@ class CallForSupporter < ActiveRecord::Base
 
   # --- Permissions --- #
 
-  never_show :joomla_article
-
-  def create_permitted?
-    return true if acting_user.administrator?
-    return false unless portfolio
-    portfolio.chair?(acting_user) || conference.chair?(acting_user)
-  end
-
-  def update_permitted?
-    return false if portfolio_id_changed?
-    portfolio.chair?(acting_user) || conference.chair?(acting_user) || acting_user.administrator?
-  end
-
-  def destroy_permitted?
-    portfolio.chair?(acting_user) || conference.chair?(acting_user) || acting_user.administrator?
-  end
-
-  def view_permitted?(field)
-    acting_user.signed_up?
-  end
+  never_show :due_on, :format_style, :format_url, :submit_to_url
 
 end

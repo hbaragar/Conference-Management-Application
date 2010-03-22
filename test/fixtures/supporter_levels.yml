@@ -1,5 +1,5 @@
 gold_level_supporter:
   id: 1
   name: Gold
-  call_for_supporter_id: 1
+  call_for_supporter_id: 4
   minimum_donation: 10000
