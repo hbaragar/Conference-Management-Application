@@ -4,8 +4,8 @@
 
 TABLES="jos_sections jos_categories jos_content jos_menu"
 
-BIN=`dirname $0`
-RAILS_ENV=`$BIN/rails-env $1`
+PATH=`dirname $0`:$PATH
+RAILS_ENV=`rails-env $1`
 
 mysqldump conference_$RAILS_ENV --skip-add-locks --skip-disable-keys $TABLES |
     case $RAILS_ENV in 

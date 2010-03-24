@@ -2,9 +2,9 @@
 #
 # Clone the Joomla and Conference Management databases.
 
-BIN=`dirname $0`
+PATH=`dirname $0`:$PATH
 SOURCE=${1-production}
-TARGET=`$BIN/rails-env`
+TARGET=`rails-env`
 
 if [ $TARGET = production ]
 then
