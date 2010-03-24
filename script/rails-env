@@ -5,4 +5,4 @@ case $PWD/ in
     */uat/*)		ENV=uat;;
     *)			ENV=development;;
 esac
-export RAILS_ENV="${1-${RAILS_ENV-$ENV}}"
+echo "${1-${RAILS_ENV-$ENV}}"

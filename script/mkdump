@@ -2,7 +2,7 @@
 
 BIN=`dirname $0`
 
-. $BIN/rails_env
+export RAILS_ENV=`$BIN/rails-env`
 
 DB=conference_${1-${RAILS_ENV-development}}
 DATE=`date +%Y-%m-%d`
