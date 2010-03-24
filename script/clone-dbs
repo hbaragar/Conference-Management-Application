@@ -1,0 +1,34 @@
+#! /bin/sh
+#
+# Clone the Joomla and Conference Management databases.
+
+BIN=`dirname $0`
+SOURCE=${1-production}
+TARGET=`$BIN/rails-env`
+
+if [ $TARGET = production ]
+then
+    echo >&2 "$0 error: not allowed to clobber production"
+    exit 1
+fi
+
+# Clone the Joomla database
+case $SOURCE in 
+    production)
+	ssh henry.baragar@oopsla.org mysqldump --single-transaction splashconjoomla 
+	;;
+    uat)
+	ssh splash@projects.instantiated.ca mysqldump splash2010_uat 
+	;;
+    development)
+	echo >&2 "$0 error: not allowed to clone development"
+	exit 1
+	;;
+    *)
+	echo >&2 "$0 error: source not one of: production, uat"
+	;;
+esac | mysql "splash2010_$TARGET"
+
+# Clone the Conference Management database
+ssh splash@projects.instantiated.ca mysqldump "conference_$SOURCE" |
+    mysql "conference_$TARGET"
