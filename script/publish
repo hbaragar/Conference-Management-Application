@@ -1,0 +1,13 @@
+#!/usr/bin/ruby
+#
+# Usage:  publish [cfps|general_information]
+
+ENV['RAILS_ENV'] ||= File.expand_path('.')[/production|uat|development/]
+ENV['PATH'] = File.dirname(__FILE__) + ":" + ENV['PATH']
+
+require File.dirname(__FILE__) + '/../config/environment'
+
+system("pull-from-joomla") &&
+  Conference.find_by_name('SPLASH 2010').method("generate_#{ARGV[0]}").call &&
+  system("push-to-joomla") 
+

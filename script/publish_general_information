@@ -1,7 +1,0 @@
-#! /bin/bash
-
-PATH=`dirname $0`:$PATH
-
-export RAILS_ENV=`rails-env`
-
-pull-from-joomla && generate_general_information && push-to-joomla

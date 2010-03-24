@@ -1,6 +1,0 @@
-#!/usr/bin/ruby
-
-require File.dirname(__FILE__) + '/../config/environment'
-
-Conference.find_by_name('SPLASH 2010').generate_cfps
-
