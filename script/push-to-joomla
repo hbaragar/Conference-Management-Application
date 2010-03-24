@@ -1,0 +1,24 @@
+#! /bin/sh
+#
+# Push Joomla tables in the Conference Management database back to Joomla
+
+TABLES="jos_sections jos_categories jos_content jos_menu"
+
+BIN=`dirname $0`
+RAILS_ENV=`$BIN/rails-env $1`
+
+mysqldump conference_$RAILS_ENV --skip-add-locks --skip-disable-keys $TABLES |
+    case $RAILS_ENV in 
+	production)
+	    ssh henry.baragar@oopsla.org mysql splashconjoomla 
+	    ;;
+	uat)
+	    ssh splash@projects.instantiated.ca mysql splash2010_uat 
+	    ;;
+	development)
+	    mysql splash2010_development
+	    ;;
+	*)
+	    echo >&2 "$0 error: source not one of: production, uat, development"
+	    ;;
+    esac
