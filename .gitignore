@@ -4,4 +4,4 @@ app/views/taglibs/auto/
 .*.swp
 tmp
 log
-dump
+backups

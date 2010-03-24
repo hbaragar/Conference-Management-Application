@@ -1,0 +1,23 @@
+#! /bin/bash
+
+BIN=`dirname $0`
+
+
+DB="conference_`$BIN/rails-env $1`"
+DATE=`date +%Y-%m-%d`
+
+STANDARD_BACKUP_DIRECTORY=`dirname $BIN`/db/backups
+if [ -d $STANDARD_BACKUP_DIRECTORY ]
+then
+    BACKUP_DIRECTORY=$STANDARD_BACKUP_DIRECTORY
+else
+    BACKUP_DIRECTORY=.
+fi
+
+BACKUP_FILE="$BACKUP_DIRECTORY/$DB.$DATE.sql.gz"
+
+if echo quit | mysql $DB
+then
+    mysqldump $DB |gzip >$BACKUP_FILE
+    chmod a-w $BACKUP_FILE
+fi
