@@ -12,6 +12,10 @@ class CfpDate < ActiveRecord::Base
 
   default_scope :order => "due_on"
 
+  def after_save
+    cfp.changes_pending!
+  end
+
 
   def portfolio
     cfp.portfolio

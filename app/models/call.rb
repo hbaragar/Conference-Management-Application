@@ -21,6 +21,16 @@ class Call < ActiveRecord::Base
 
   has_many :members, :through => :portfolio
 
+  def before_save
+    return if only_changed? :state
+    self.state = 'changes_pending' unless state_changed?
+  end
+
+  def changes_pending!
+    self.state = 'changes_pending'
+    save
+  end
+
 
   def name
     portfolio.to_s
@@ -44,6 +54,32 @@ class Call < ActiveRecord::Base
 
   def email_address
     portfolio.public_email_address
+  end
+
+  def publish
+    joomla_article.state = 1
+    joomla_article.save
+  end
+
+  def unpublish
+    joomla_article.state = 0
+    joomla_article.save
+  end
+
+
+  # --- LifeCycle --- #
+
+  lifecycle do
+
+    state :unpublished, :default => true
+    state :published
+    state :changes_pending
+
+    transition :publish,		{ :unpublished => :published }		do publish	end
+    transition :publish_changes,	{ :changes_pending => :published }	do publish	end
+    transition :unpublish,		{ :published => :unpublished }		do unpublish	end
+    transition :unpublish,		{ :changes_pending => :unpublished }	do unpublish	end
+
   end
 
   # --- Permissions --- #

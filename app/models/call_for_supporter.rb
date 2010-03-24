@@ -3,6 +3,11 @@ class CallForSupporter < Call
   has_many :supporter_levels, :dependent => :destroy
 
 
+  def publish
+    super.publish
+    conference.publish 'general_information'
+  end
+
   def generate_joomla_article joomla_category
     unless joomla_article
       self.joomla_article = joomla_category.articles.create(

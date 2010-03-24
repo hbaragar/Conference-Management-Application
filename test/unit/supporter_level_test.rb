@@ -13,6 +13,19 @@ class SupporterLevelTest < ActiveSupport::TestCase
     )
   end
 
+  def test_after_save
+    @a_call_for_supporter.reload
+    assert_equal 'changes_pending', @a_call_for_supporter.state
+    @a_call_for_supporter.state = 'published'
+    @a_call_for_supporter.save
+    @a_call_for_supporter.reload
+    assert_equal 'published', @a_call_for_supporter.state
+    @a_supporter_level.name = 'Changed name'
+    @a_supporter_level.save
+    @a_call_for_supporter = @a_supporter_level.call_for_supporter
+    assert_equal 'changes_pending', @a_call_for_supporter.state
+  end
+
   def test_create_permissions
     new_supporter_level = @a_call_for_supporter.supporter_levels.new 
     assert new_supporter_level.creatable_by?(users(:administrator))

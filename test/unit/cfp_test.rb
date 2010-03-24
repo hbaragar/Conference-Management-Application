@@ -8,6 +8,30 @@ class CfpTest < ActiveSupport::TestCase
     @a_cfp = calls(:a_cfp)
   end
 
+  def test_after_save
+    assert_equal "published", @a_cfp.state
+    @a_cfp.due_on = '2010-04-04'
+    @a_cfp.save
+    @a_cfp.reload
+    assert_equal "changes_pending", @a_cfp.state
+    @a_cfp.state = 'published'
+    @a_cfp.save
+    @a_cfp.reload
+    @a_cfp.details = 'changes'
+    @a_cfp.save
+    @a_cfp.reload
+    assert_equal "changes_pending", @a_cfp.state
+    @a_cfp.state = 'published'
+    @a_cfp.save
+    @a_cfp.reload
+    assert_equal "published", @a_cfp.state
+    @a_cfp.details = 'more changes'
+    @a_cfp.state = 'unpublished'
+    @a_cfp.save
+    @a_cfp.reload
+    assert_equal "unpublished", @a_cfp.state
+  end
+
   def test_create_permissions
     new_cfp = @a_portfolio.cfps.new :due_on => 1.months.from_now
     assert new_cfp.creatable_by?(users(:administrator))

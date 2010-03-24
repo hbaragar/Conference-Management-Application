@@ -9,6 +9,19 @@ class CfpDateTest < ActiveSupport::TestCase
     @a_cfp_date = @a_cfp.other_dates.create :label => "New due date", :due_on => 2.weeks.from_now
   end
 
+  def test_after_save
+    @a_cfp.reload
+    assert_equal 'changes_pending', @a_cfp.state
+    @a_cfp.state = 'published'
+    @a_cfp.save
+    @a_cfp.reload
+    assert_equal 'published', @a_cfp.state
+    @a_cfp_date.label = 'Changed due date'
+    @a_cfp_date.save
+    @a_cfp = @a_cfp_date.cfp
+    assert_equal 'changes_pending', @a_cfp.state
+  end
+
   def test_cfp_other_dates
     assert_equal 2+1, @a_cfp.other_dates.count
     assert_equal @a_cfp_date, @a_cfp.other_dates.first

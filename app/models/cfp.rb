@@ -23,6 +23,11 @@ class Cfp < Call
     categories.find_by_title(title) || categories.create!(:title => title)
   end
 
+  def publish
+    super.publish
+    conference.publish 'cfps'
+  end
+
   def generate_joomla_article
     unless joomla_article
       self.joomla_article = joomla_section.articles.create(:title => name)

@@ -16,6 +16,11 @@ class SupporterLevel < ActiveRecord::Base
 
   default_scope :order => 'minimum_donation DESC'
 
+
+  def after_save
+    call_for_supporter.changes_pending!
+  end
+
   def portfolio
     call_for_supporter.portfolio
   end
