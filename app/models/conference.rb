@@ -38,6 +38,14 @@ class Conference < ActiveRecord::Base
     end.count > 0
   end
 
+  def publish content
+    script_path =  "#{File.dirname(__FILE__)}/../../script"
+    unless ENV['PATH'][/^script_path/]
+	ENV['PATH'] = script_path + ":" + ENV['PATH']
+    end
+    system("pull-from-joomla") && self.method("generate_#{content}").call && system("push-to-joomla") 
+  end
+
   def generate_general_information
     generate_general_content
     set_up_general_menu
