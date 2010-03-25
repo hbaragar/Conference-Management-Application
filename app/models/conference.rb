@@ -38,7 +38,7 @@ class Conference < ActiveRecord::Base
     end.count > 0
   end
 
-  def publish content
+  def publish_to_joomla content
     script_path =  "#{File.dirname(__FILE__)}/../../script"
     unless ENV['PATH'][/^script_path/]
 	ENV['PATH'] = script_path + ":" + ENV['PATH']
