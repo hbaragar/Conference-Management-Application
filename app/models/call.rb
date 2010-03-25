@@ -27,7 +27,7 @@ class Call < ActiveRecord::Base
   end
 
   def changes_pending!
-    self.state = 'changes_pending'
+    self.state = 'changes_pending' if state == 'published'
     save
   end
 
@@ -56,12 +56,12 @@ class Call < ActiveRecord::Base
     portfolio.public_email_address
   end
 
-  def publish
+  def publish_joomla_article
     joomla_article.state = 1
     joomla_article.save
   end
 
-  def unpublish
+  def unpublish_joomla_article
     joomla_article.state = 0
     joomla_article.save
   end
@@ -75,10 +75,18 @@ class Call < ActiveRecord::Base
     state :published
     state :changes_pending
 
-    transition :publish,		{ :unpublished => :published }		do publish	end
-    transition :publish_changes,	{ :changes_pending => :published }	do publish	end
-    transition :unpublish,		{ :published => :unpublished }		do unpublish	end
-    transition :unpublish,		{ :changes_pending => :unpublished }	do unpublish	end
+    transition :publish,	{ :unpublished => :published }	do
+      publish_joomla_article
+    end
+    transition :publish_changes,{ :changes_pending => :published } do
+      publish_joomla_article
+    end
+    transition :unpublish,	{ :published => :unpublished } do
+      unpublish_joomla_article
+    end
+    transition :unpublish,	{ :changes_pending => :unpublished } do
+      unpublish_joomla_article
+    end
 
   end
 
