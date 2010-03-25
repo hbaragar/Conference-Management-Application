@@ -19,9 +19,7 @@ class Portfolio < ActiveRecord::Base
   has_many :call_for_supporters, :dependent => :destroy
 
   def chair? user
-    (members & user.members).select do |m|
-      m.chair
-    end.count > 0
+    not (chairs & user.members).empty?
   end
 
   def cfp
