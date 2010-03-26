@@ -1,4 +1,7 @@
 <show-page>
+  <after-edit-link:>
+    <manage-call-publishing />
+  </after-edit-link:>
   <content-body:>
   <div class="call-for-supporters">
     <view:portfolio_description/>

@@ -15,14 +15,15 @@ class SupporterLevelTest < ActiveSupport::TestCase
 
   def test_after_save
     @a_call_for_supporter.reload
-    assert_equal 'changes_pending', @a_call_for_supporter.state
+    assert_equal 'unpublished', @a_call_for_supporter.state
     @a_call_for_supporter.state = 'published'
     @a_call_for_supporter.save
     @a_call_for_supporter.reload
     assert_equal 'published', @a_call_for_supporter.state
+    @a_supporter_level.reload
     @a_supporter_level.name = 'Changed name'
     @a_supporter_level.save
-    @a_call_for_supporter = @a_supporter_level.call_for_supporter
+    @a_call_for_supporter.reload
     assert_equal 'changes_pending', @a_call_for_supporter.state
   end
 

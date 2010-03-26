@@ -1,4 +1,7 @@
 <show-page>
+  <after-edit-link:>
+    <manage-call-publishing />
+  </after-edit-link:>
   <content-body:>
     <view:portfolio_description/>
     <a action="edit" with="&this.portfolio" if="&can_update?(this.portfolio)">

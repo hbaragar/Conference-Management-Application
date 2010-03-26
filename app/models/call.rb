@@ -21,9 +21,9 @@ class Call < ActiveRecord::Base
 
   has_many :members, :through => :portfolio
 
-  def before_save
-    return if only_changed? :state
-    self.state = 'changes_pending' unless state_changed?
+  def before_update
+    return if only_changed? :state, :joomla_article_id
+    self.state = 'changes_pending' if state == 'published'
   end
 
   def changes_pending!
@@ -56,16 +56,6 @@ class Call < ActiveRecord::Base
     portfolio.public_email_address
   end
 
-  def publish_joomla_article
-    joomla_article.state = 1
-    joomla_article.save
-  end
-
-  def unpublish_joomla_article
-    joomla_article.state = 0
-    joomla_article.save
-  end
-
 
   # --- LifeCycle --- #
 
@@ -75,17 +65,17 @@ class Call < ActiveRecord::Base
     state :published
     state :changes_pending
 
-    transition :publish,	{ :unpublished => :published }	do
-      publish_joomla_article
+    transition :publish,	{ :unpublished => :published }, :available_to => :all	do
+      publish_to_joomla
     end
-    transition :publish_changes,{ :changes_pending => :published } do
-      publish_joomla_article
+    transition :push_changes,{ :changes_pending => :published }, :available_to => :all do
+      publish_to_joomla
     end
-    transition :unpublish,	{ :published => :unpublished } do
-      unpublish_joomla_article
+    transition :unpublish,	{ :published => :unpublished }, :available_to => :all do
+      publish_to_joomla
     end
-    transition :unpublish,	{ :changes_pending => :unpublished } do
-      unpublish_joomla_article
+    transition :unpublish,	{ :changes_pending => :unpublished }, :available_to => :all do
+      publish_to_joomla
     end
 
   end

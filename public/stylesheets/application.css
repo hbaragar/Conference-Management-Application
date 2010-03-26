@@ -75,3 +75,6 @@ table.view.supporter-level-summary a:active
   background-color: transparent;
 }
 
+.show-page .content-header form .actions input.submit-button {
+  position: absolute; right: 0; margin-top: -40px;
+}

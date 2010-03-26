@@ -3,22 +3,26 @@ class CallForSupporter < Call
   has_many :supporter_levels, :dependent => :destroy
 
 
-  def publish
-    super.publish
-    conference.publish 'general_information'
+  def publish_to_joomla
+    conference.publish_to_joomla 'general_information'
   end
 
   def generate_joomla_article joomla_category
-    unless joomla_article
-      self.joomla_article = joomla_category.articles.create(
-	:title 	 => name,
-	:section => joomla_category.joomla_section
-      )
+    if state == 'unpublished'
+      joomla_article && joomla_article.destroy
       save
+    else
+      unless joomla_article
+	self.joomla_article = joomla_category.articles.create(
+	  :title 	=> name,
+	  :section	=> joomla_category.joomla_section
+	)
+	save
+      end
+      joomla_article.introtext = portfolio_description.to_html
+      joomla_article.fulltext = full_details
+      joomla_article.save
     end
-    joomla_article.introtext = portfolio_description.to_html
-    joomla_article.fulltext = full_details
-    joomla_article.save
   end
 
   def full_details

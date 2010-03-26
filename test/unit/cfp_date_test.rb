@@ -11,14 +11,15 @@ class CfpDateTest < ActiveSupport::TestCase
 
   def test_after_save
     @a_cfp.reload
-    assert_equal 'changes_pending', @a_cfp.state
+    assert_equal 'unpublished', @a_cfp.state
     @a_cfp.state = 'published'
     @a_cfp.save
     @a_cfp.reload
     assert_equal 'published', @a_cfp.state
+    @a_cfp_date.reload
     @a_cfp_date.label = 'Changed due date'
     @a_cfp_date.save
-    @a_cfp = @a_cfp_date.cfp
+    @a_cfp.reload
     assert_equal 'changes_pending', @a_cfp.state
   end
 

@@ -23,20 +23,24 @@ class Cfp < Call
     categories.find_by_title(title) || categories.create!(:title => title)
   end
 
-  def publish
-    super.publish
-    conference.publish 'cfps'
+  def publish_to_joomla
+    conference.publish_to_joomla 'cfps'
   end
 
   def generate_joomla_article
-    unless joomla_article
-      self.joomla_article = joomla_section.articles.create(:title => name)
+    if state == 'unpublished'
+      joomla_article && joomla_article.destroy
       save
+    else
+      unless joomla_article
+	self.joomla_article = joomla_section.articles.create(:title => name)
+	save
+      end
+      joomla_article.category = joomla_category
+      joomla_article.introtext = portfolio_description.to_html
+      joomla_article.fulltext = full_details
+      joomla_article.save
     end
-    joomla_article.category = joomla_category
-    joomla_article.introtext = portfolio_description.to_html
-    joomla_article.fulltext = full_details
-    joomla_article.save
   end
 
   def full_details
