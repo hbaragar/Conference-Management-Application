@@ -10,7 +10,7 @@ class SupporterLevel < ActiveRecord::Base
     minimum_donation     :integer, :required, :default => 0
     medium_logo_max_area :integer, :required, :default => 0
     small_logo_max_area  :integer, :required, :default => 0
-    description          :text
+    description          :markdown
     timestamps
   end
 

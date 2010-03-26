@@ -28,7 +28,6 @@ class CallForSupporter < Call
   def full_details
     div("",
 	supporter_levels_summary,
-	conference_description.to_html,
 	details.to_html
     )
   end
@@ -45,7 +44,7 @@ class CallForSupporter < Call
 	    div("minimum_donation", sl.minimum_donation, " (USD)"),
 	    div("name", sl.name)
 	  ),
-	  td({:class => "description"},sl.description)
+	  td({:class => "description"},sl.description.to_html)
 	)
       end
     )
