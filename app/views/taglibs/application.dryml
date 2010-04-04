@@ -29,21 +29,3 @@
     </after-header:>
   </old-card>
 </extend>
-
-<def tag="manage-call-publishing">
-  <if test="&this.state == 'unpublished' ? 'Y' : '' ">
-    <publish-form>
-      <cancel: replace/>
-    </publish-form>
-  </if>
-  <if test="&this.state == 'changes_pending' ? 'Y': '' ">
-    <push-changes-form>
-      <cancel: replace/>
-    </push-changes-form>
-  </if>
-  <if test="&this.state != 'unpublished' ? 'Y' : '' ">
-    <unpublish-form>
-      <cancel: replace/>
-    </unpublish-form>
-  </if>
-</def>

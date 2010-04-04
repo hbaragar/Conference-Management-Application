@@ -1,6 +1,6 @@
 <show-page>
   <after-edit-link:>
-    <manage-call-publishing />
+    <transition-buttons />
   </after-edit-link:>
   <content-body:>
   <div class="call-for-supporters">

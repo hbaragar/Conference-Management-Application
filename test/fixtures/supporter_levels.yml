@@ -3,3 +3,4 @@ gold_level_supporter:
   name: Gold
   call_for_supporter_id: 4
   minimum_donation: 10000
+  description: "Give us lots of gold"

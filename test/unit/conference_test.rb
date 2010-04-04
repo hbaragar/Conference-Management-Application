@@ -69,7 +69,6 @@ class ConferenceTest < ActiveSupport::TestCase
     assert_equal a_call_for_supporter.name, joomla_article.title
     assert_equal "Supporters", joomla_article.category.title
     assert_match /#{a_call_for_supporter.portfolio.description}/, joomla_article.introtext
-    assert_match /#{a_call_for_supporter.conference.description}/, joomla_article.fulltext
     assert_match /#{a_call_for_supporter.portfolio.public_email_address}/, joomla_article.fulltext
     assert_match /Gold/, joomla_article.fulltext
     assert_match /#{a_call_for_supporter.details}/, joomla_article.fulltext
