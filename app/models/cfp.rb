@@ -54,15 +54,17 @@ class Cfp < Call
   end
 
   def contact_info
-    div("view cfp-submission-summary",
+    div("",
       h3("For More Information"),
+      "<p>",
       "For additional information, clarification, or answers to questions",
-      " please contact the #{name} Chair, #{chairs}, at #{email_link}."
+      " please contact the #{name} Chair, #{chairs}, at #{email_link}.",
+      "</p>"
     )
   end
 
   def submission_summary
-    table({:class => "view cfp-submission-summary"},
+    table({:class => "view cfp-submission-summary", :cellspacing => "0"},
       tr({},
 	th({:colspan => 2},"Submission Summary")
       ),
