@@ -1,6 +1,8 @@
 <show-page>
   <description: replace/>
-  <field-list: skip="call_type"/>
+  <field-list: fields="chairs, public_email_address" >
+    <chairs-label:><%= @portfolio.chairs.count > 1 ? 'Chairs' : 'Chair' %></chairs-label:>
+  </field-list:>
   <after-field-list:>
     <table class="field-list">
       <tr>
@@ -41,10 +43,10 @@
       </tr>
     </table> 
   </after-field-list:>
-  <collection: replace>
-  <table-plus with="&@members" fields="this, chair, affiliation, private_email_address">
+  <members-collection: replace>
+  <table-plus with="&@members" fields="this, affiliation, private_email_address">
     <this-view:><a action="edit"/></this-view:>
     <empty-message:>No members match your criteria</empty-message:>
   </table-plus>
-  </collection:>
+  </members-collection:>
 </show-page>

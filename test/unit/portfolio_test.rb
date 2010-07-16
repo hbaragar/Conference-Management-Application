@@ -12,8 +12,9 @@ class PortfolioTest < ActiveSupport::TestCase
     assert_equal 1, @general.members.count
   end
 
-  def test_cfps
+  def test_dependents
     assert_equal 1, @a_portfolio.cfps.count
+    assert_equal 1, @a_portfolio.presentations.count
   end
 
   def test_create_permissions
