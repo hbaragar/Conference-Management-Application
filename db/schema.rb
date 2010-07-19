@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100716145740) do
+ActiveRecord::Schema.define(:version => 20100719203046) do
 
   create_table "broadcast_emails", :force => true do |t|
     t.integer  "cfp_id"
@@ -220,6 +220,7 @@ ActiveRecord::Schema.define(:version => 20100716145740) do
     t.string   "short_title"
     t.text     "abstract"
     t.string   "external_reference"
+    t.string   "url"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
