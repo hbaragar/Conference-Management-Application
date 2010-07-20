@@ -23,7 +23,7 @@ class Presentation < ActiveRecord::Base
 
   def load_from xml
     involvements.destroy_all
-    xml.root.elements.each do |element|
+    xml.elements.each do |element|
       string = element.to_s
       text = element.text
       case element.name
