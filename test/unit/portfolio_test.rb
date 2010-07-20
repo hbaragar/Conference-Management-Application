@@ -18,7 +18,7 @@ class PortfolioTest < ActiveSupport::TestCase
 
   test "loading a CyberChair XML file" do
     count = Presentation.count
-    @a_portfolio.load_presentations_from_xml File.new(files_dir + "cyber_chair_v1.xml")
+    @a_portfolio.load_presentation_from File.new(files_dir + "cyber_chair_v1.xml")
     assert_equal 1+count, Presentation.count
     assert p = Presentation.find_by_external_reference("res0000008")
     assert_equal "Sound and Extensible Renaming for Java", p.title
@@ -34,8 +34,8 @@ class PortfolioTest < ActiveSupport::TestCase
 
   test "reloading CyberChair XML file does not clobber existing data" do
     count = Presentation.count
-    @a_portfolio.load_presentations_from_xml File.new(files_dir + "cyber_chair_v1.xml")
-    @a_portfolio.load_presentations_from_xml File.new(files_dir + "cyber_chair_v2.xml")
+    @a_portfolio.load_presentation_from File.new(files_dir + "cyber_chair_v1.xml")
+    @a_portfolio.load_presentation_from File.new(files_dir + "cyber_chair_v2.xml")
     assert_equal 1+count, Presentation.count
     assert p = Presentation.find_by_external_reference("res0000008")
     assert_equal "Sound and Extensible Regaming for Java", p.title

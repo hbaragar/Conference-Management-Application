@@ -31,21 +31,17 @@ class Portfolio < ActiveRecord::Base
   end
 
 
-  def load_presentations_from_xml io
-    Document.new(io).elements.collect do |xml|
-      load_presentation_from xml
-    end
-  end
-
-  def load_presentation_from xml
-    new_or_existing_presentation(xml).load_from xml.elements
+  def load_presentation_from source
+    xml = source.class == 'REXML::Document' ? source : Document.new(source )
+    new_or_existing_presentation(xml).load_from xml
   end
 
   def new_or_existing_presentation xml
+    root = xml.root
     references = {
-      :external_reference	=> xml.attributes["id"],
-      :title			=> xml.elements["title"].text,
-      :short_title		=> xml.elements["shorttitle"].text,
+      :external_reference	=> root.attributes["id"],
+      :title			=> root.elements["title"].text,
+      :short_title		=> root.elements["shorttitle"].text,
     }
     [:external_reference, :title, :short_title].each do |field|
       value = references[field]
