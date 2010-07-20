@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<tutorials id="tut0000027">
+        <title>SOA in Practice</title>
+        <shorttitle>SOA in Practice</shorttitle>
+        <registration_id>6</registration_id>
+        <space-time/>
+        <author>
+                <name>Nicolai Josuttis</name>
+                <email>nico@josuttis.de</email>
+                <affiliation>IT Communication</affiliation>
+                <bio>Nicolai Josuttis (www.josuttis.com) is an independent system architect, technical manager, author, and consultant. He designs mid-sized and large software systems for the telecommunication, traffic, finance, and manufacturing industries. He is well known both in the C++ and SOA Community as well as to attendees at various conferences. He not only speaks and writes with authority (being the author of 'SOA in Practice', 'The C++ Standard Library' and 'C++ Templates') but is also an innovative presenter. He is a partner of IT-communication.com. Currently, he is a team lead for the operational realization of a SOA at an international mobile phone company running with Millions of service calls each day.</bio>
+        </author>
+       <objectives>
+After this tutorial the participant will (1) understand the concepts and
+definitions of SOA, (2) be able to distinguish between hype and reality of the
+SOA approach, and (3) know a lot about the real benefit (and its effort) a SOA
+can provide for an enterprise.       </objectives>
+       <format>
+This tutorial will be lecture based.       </format>
+       <tutresume>
+This tutorial was held several times as a public and inhouse tutorial at
+various enterprises. It was also influenced by some talks and keynotes,
+Nicolai Josuttis gave about this topic at multiple conferences.
+Such as:
+- public tutorials at SD best Practices, OOPSLA 2007,
+  and other conferences
+see http://www.josuttis.com/talks/ for details       </tutresume>
+       <tutclass>
+Practice       </tutclass>
+       <tutaudience>
+Researchers, Practitioners, Managers, Educators       </tutaudience>
+        <abstract>
+SOA (Service Oriented Architecture) is switching from hype to mainstream, which means that we are going to have real-worl expereinces with establishing and running SOA in practice. 
+In this tutorial, Nicolai Josuttis will separate the SOA hype from reality. As a team leader of the realization of a SOA at a world-wide mobile phone company with a heterogeneous infrastructure, about 30 service participants, and about 300 services in production, he knows about the big difference between was is being said and promised about SOA and what it means in practice to run a SOA in a large and heterogeneous environment. Starting with a short clarification of the fundamental SOA concepts, he will present the most important steps and traps of bringing SOA into production. 
+Facts and knowledge based on a broad understanding of large and distributed systems spiced with important insights based on his experience. Note that this tutorial covers the concepts and isn't just a tutorial about Web-Services (although there is a lot to say about Web-Services as a preferred SOA implementation strategy).        </abstract>
+<workshop_url>soa.org</workshop_url>
+</tutorials>

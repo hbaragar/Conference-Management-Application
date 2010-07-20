@@ -8,13 +8,38 @@ class PortfolioTest < ActiveSupport::TestCase
     @a_portfolio = portfolios(:a_portfolio)
   end
 
-  def test_members
-    assert_equal 1, @general.members.count
-  end
+  files_dir = File.dirname(__FILE__) + "/../xml/"
 
   def test_dependents
+    assert_equal 1, @general.members.count
     assert_equal 1, @a_portfolio.cfps.count
     assert_equal 1, @a_portfolio.presentations.count
+  end
+
+  test "loading a CyberChair XML file" do
+    count = Presentation.count
+    @a_portfolio.load_presentations_from_xml File.new(files_dir + "cyber_chair_v1.xml")
+    assert_equal 1+count, Presentation.count
+    assert p = Presentation.find_by_external_reference("res0000008")
+    assert_equal "Sound and Extensible Renaming for Java", p.title
+    assert_equal "SERJ", p.short_title
+    assert_match /^Descriptive names/, p.abstract
+    #assert_equal 3, p.participants.count
+    #author = p.participants.find_by_name("Oege de Moor")
+    #assert_equal "oege.de.moor@comlab.ox.ac.uk", author.email
+    #assert_equal "University of Oxford", author.affiliation
+    #assert_equal "oege biography", author.bio
+  end
+
+  test "reloading CyberChair XML file does not clobber existing data" do
+    count = Presentation.count
+    @a_portfolio.load_presentations_from_xml File.new(files_dir + "cyber_chair_v1.xml")
+    @a_portfolio.load_presentations_from_xml File.new(files_dir + "cyber_chair_v2.xml")
+    assert_equal 1+count, Presentation.count
+    assert p = Presentation.find_by_external_reference("res0000008")
+    assert_equal "Sound and Extensible Regaming for Java", p.title
+    #assert_equal 3, p.roles.count
+    #assert_equal 3, p.participants.count
   end
 
   def test_create_permissions

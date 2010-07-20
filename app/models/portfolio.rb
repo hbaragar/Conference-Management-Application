@@ -1,5 +1,8 @@
 class Portfolio < ActiveRecord::Base
 
+  require 'rexml/document'
+  include REXML
+
   hobo_model # Don't put anything above this
 
   belongs_to :conference
@@ -26,6 +29,33 @@ class Portfolio < ActiveRecord::Base
   def cfp
     cfps.first
   end
+
+
+  def load_presentations_from_xml io
+    Document.new(io).elements.collect do |xml|
+      load_presentation_from xml
+    end
+  end
+
+  def load_presentation_from xml
+    new_or_used_presentation(xml).load_from xml.elements
+  end
+
+  def new_or_used_presentation presentation_element
+    references = {
+      :external_reference	=> presentation_element.attributes["id"],
+      :title			=> presentation_element.elements["title"].text,
+      :short_title		=> presentation_element.elements["shorttitle"].text,
+    }
+    [:external_reference, :title, :short_title].each do |field|
+      value = references[field]
+      next unless value && value[/\S/]
+      matches = presentations.find(:all, :conditions => {field => value})
+      return matches.first if matches.count == 1
+    end
+    presentations.create(references)
+  end
+
 
 
   # --- Permissions --- #

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<posters id="pos0000060">
+        <title>Pattern-Oriented Software Architecture: A Pattern Language for Distributed Computing</title>
+        <shorttitle></shorttitle>
+        <author>
+                <name>Douglas Schmidt</name>
+                <email>d.schmidt@vanderbilt.edu</email>
+                <affiliation>Vanderbilt University</affiliation>
+        </author>
+        <abstract>
+Developing software for distributed computing applications that effectively utilizes concurrency over high-speed, low-speed, and mobile networks is hard; developing high quality reusable distributed applications is even harder. Many patterns in the software literature focus on distributed computing. Until recently, however, there has been no holistic view of distributed computing that emphasizes how groups of patterns complete and complement each other. Building complex distributed systems has therefore been a craft that many have tried, but few have mastered. To address this issue, this tutorial describes a pattern language that links hundreds of patterns relevant for distributed computing, including: (1) Object interaction, (2) Interface and component partitioning, (3) Application control, (4) Resource management, (5) Concurrency and synchronization. This pattern language has been used successfully by the speaker on production distributed applications and middleware at hundreds of commercial companies for telecommunication systems, network management for personal communication systems, electronic medical imaging systems, real-time avionics and aerospace systems, and automated stock trading. The material presented in this tutorial appears in the book "Pattern-Oriented Software Architecture: A Pattern Language for Distributed Computing", Wiley &amp; Sons, 2007 by Frank Buschmann, Kevlin Henney, and Douglas Schmidt.        </abstract>
+</posters>

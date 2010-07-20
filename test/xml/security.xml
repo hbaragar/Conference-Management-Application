@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<tutorials id="tut0000023">
+        <title>Security - Philosophy, Patterns and Practices</title>
+        <shorttitle></shorttitle>
+        <registration_id>16</registration_id>
+        <space-time/>
+        <author>
+                <name>Munawar Hafiz</name>
+                <email>mhafiz@uiuc.edu</email>
+                <affiliation>University of Illinois at Urbana-Champaign</affiliation>
+                <bio>Munawar Hafiz is a Ph.D. student at the University of Illinois at Urbana-Champaign. His research interests are software architecture and design, software patterns and security. He aims to change the philosophy of security engineering through his research. Currently, he is working on techniques to retrofit security into existing software.</bio>
+        </author>
+       <objectives>
+This tutorial delivers new ideas to software architects, managers, and researchers.
+
+Software architects will learn about the security problems and solutions
+and will be able to incorporate these solutions in
+their own design. They will learn fundamental security principles and new security practices.
+
+Managers will be introduced to security concepts in this
+tutorial. They will learn the jargons and will be able to use
+these jargons in their communication with software architects
+and designers.
+
+Educators and researchers will learn about the research issues on security pattern classification, and new approaches to security engineering.       </objectives>
+       <format>
+The three hour time slot is not equally sliced between the three parts of the tutorial. I shall spend about thirty minutes on the ﬁrst topic, and split the remaining time between the second and the third topic.
+
+The three topics are not covered sequentially. After a brief introduction to basic security concepts, I shall introduce the architecture of three Mail Transfer Agents (MTA): sendmail, qmail and Postﬁx. The architecture
+will be described in a top-down manner highlighting the design decisions that contribute to their security (or insecurity). I shall also introduce some related security patterns present in the architecture. This will be followed by an introduction to security pattern classification schemes and a discussion of a subset of access control patterns.
+
+Then, I shall start discussing the core philosophies of security. Failing to understand the core philosophies is the root couse of our security woes. I shall describe core security principles such as partitioning of privilege, least privilege principle, content dependent processing, trust partitioning, etc and cite examples showing that violation of these rules is the main cause of security problems. 
+
+Finally, I shall cover buffer overﬂow attacks and the family of injection attacks and show how these problems can be solved in new ways. These techniques are part of new methodologies of security engineering that can be used to retroﬁt security into existing systems.       </format>
+       <tutresume>
+Title. Security Patterns and Secure Software Architecture
+Presenter. Munawar Haﬁz
+Duration. Half day
+Year. 2007
+Where Taught. OOPSLA 2007, Montreal, Quebec, Canada
+Note. It was among the top ﬁve tutorials in terms of attendant count.
+
+
+Title. Security Patterns and Secure Software Architecture
+Presenter. Munawar Haﬁz
+Duration. Half day
+Year. 2006
+Where Taught. OOPSLA 2006, Portland, Oregon, USA
+Note. It was among the top ten tutorials in terms of attendant count.       </tutresume>
+       <tutclass>
+Several Areas       </tutclass>
+       <tutaudience>
+Researchers, Practitioners, Managers, Educators       </tutaudience>
+        <abstract>
+Every year, OOPSLA attendees find more than one tutorial on security related issues. So what is different about this tutorial? It builds on core security philosophies and patterns, but more importantly it introduces the participants to  many successful security architecture. Additionally this tutorial looks into the future of security engineering and discusses new ways of solving problems. 
+
+The tutorial will cover three issues.
+1. Philosophy. The core philosophies of security architecture.
+2. Patterns. Comprehensive view of security pattern catalog and pattern classiﬁcation.
+3. Practices. Explanation of secure software architecture to understand the tradeoffs between different non-functional requirements. Concentration on buffer overﬂow attacks and the family of injection attacks, and methods to deal with them.        </abstract>
+</tutorials>

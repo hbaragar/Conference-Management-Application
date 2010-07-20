@@ -18,6 +18,22 @@ class Presentation < ActiveRecord::Base
     portfolio.conference
   end
 
+  def load_from xml
+    xml.each do |element|
+      string = element.to_s
+      text = element.text
+      case element.name
+      when "title":		self.title = text
+      when "shorttitle":	self.short_title = text
+      when "abstract":		self.abstract = string
+      when "workshop_url":	self.url = text
+      else
+	logger.info "Presentation::load_from does not handle #{element.name} elements"
+      end
+    end
+    save
+  end
+
   # --- Permissions --- #
 
   def create_permitted?
