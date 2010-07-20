@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100720142427) do
+ActiveRecord::Schema.define(:version => 20100720193013) do
 
   create_table "broadcast_emails", :force => true do |t|
     t.integer  "cfp_id"
@@ -243,9 +243,24 @@ ActiveRecord::Schema.define(:version => 20100720142427) do
     t.string   "url"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "session_id"
   end
 
   add_index "presentations", ["portfolio_id"], :name => "index_presentations_on_portfolio_id"
+  add_index "presentations", ["session_id"], :name => "index_presentations_on_session_id"
+
+  create_table "sessions", :force => true do |t|
+    t.integer  "portfolio_id"
+    t.string   "name"
+    t.datetime "starts_at",         :default => '2010-10-22 08:00:00'
+    t.datetime "ends_at",           :default => '2010-10-22 09:00:00'
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "joomla_article_id"
+  end
+
+  add_index "sessions", ["joomla_article_id"], :name => "index_sessions_on_joomla_article_id"
+  add_index "sessions", ["portfolio_id"], :name => "index_sessions_on_portfolio_id"
 
   create_table "supporter_levels", :force => true do |t|
     t.integer  "call_for_supporter_id"

@@ -18,6 +18,8 @@ class Portfolio < ActiveRecord::Base
   has_many :chairs, :class_name => "Member", :conditions => {:chair => true}
   has_many :members, :dependent => :destroy
   has_many :cfps, :dependent => :destroy	# Really only one, but we want the hobo support
+
+  has_many :sessions, :dependent => :destroy
   has_many :presentations, :dependent => :destroy
 
   has_many :call_for_supporters, :dependent => :destroy

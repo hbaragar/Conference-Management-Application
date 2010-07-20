@@ -3,6 +3,7 @@ class Presentation < ActiveRecord::Base
   hobo_model # Don't put anything above this
 
   belongs_to :portfolio
+  belongs_to :session
 
   fields do
     title	:string, :mandatory
@@ -12,6 +13,7 @@ class Presentation < ActiveRecord::Base
     url		:string
     timestamps
   end
+
 
   has_many :involvements, :dependent => :destroy
   has_many :participants, :through => :involvements
