@@ -38,14 +38,14 @@ class Portfolio < ActiveRecord::Base
   end
 
   def load_presentation_from xml
-    new_or_used_presentation(xml).load_from xml.elements
+    new_or_existing_presentation(xml).load_from xml.elements
   end
 
-  def new_or_used_presentation presentation_element
+  def new_or_existing_presentation xml
     references = {
-      :external_reference	=> presentation_element.attributes["id"],
-      :title			=> presentation_element.elements["title"].text,
-      :short_title		=> presentation_element.elements["shorttitle"].text,
+      :external_reference	=> xml.attributes["id"],
+      :title			=> xml.elements["title"].text,
+      :short_title		=> xml.elements["shorttitle"].text,
     }
     [:external_reference, :title, :short_title].each do |field|
       value = references[field]

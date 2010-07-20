@@ -13,12 +13,16 @@ class Presentation < ActiveRecord::Base
     timestamps
   end
 
+  has_many :involvements, :dependent => :destroy
+  has_many :participants, :through => :involvements
+
 
   def conference
     portfolio.conference
   end
 
   def load_from xml
+    involvements.destroy_all
     xml.each do |element|
       string = element.to_s
       text = element.text
@@ -26,12 +30,39 @@ class Presentation < ActiveRecord::Base
       when "title":		self.title = text
       when "shorttitle":	self.short_title = text
       when "abstract":		self.abstract = string
+      when "author":		self.involvements.create(
+				  :role => 'author',
+				  :participant =>  new_or_existing_participant(element)
+				)
       when "workshop_url":	self.url = text
+      #when "registration_id"]
+      #when "tutclass"]
+      #when "objectives"]
+      #when "format"]
+      #when "tutaudience"]
+      #when "tutresume"]
       else
 	logger.info "Presentation::load_from does not handle #{element.name} elements"
       end
     end
     save
+  end
+
+
+  def new_or_existing_participant xml
+    data = {
+      :private_email_address	=> xml.elements["email"].text,
+      :name			=> xml.elements["name"].text,
+      :affiliation		=> xml.elements["affiliation"].text,
+      :bio			=> xml.elements["bio"] && xml.elements["bio"].text,
+    }
+    [:private_email_address, :name].each do |field|
+      value = data[field]
+      next unless value && value[/\S/]
+      matches = Participant.find(:all, :conditions => {field => value})
+      return matches.first if matches.count == 1
+    end
+    Participant.create(data)
   end
 
   # --- Permissions --- #

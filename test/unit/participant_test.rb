@@ -7,6 +7,11 @@ class ParticipantTest < ActiveSupport::TestCase
     @a_participant = participants(:a_participant)
   end
 
+  def test_associations
+    assert_equal 1, @a_participant.involvements.count
+    assert_equal 1, @a_participant.presentations.count
+  end
+
   def test_create_permissions
     new_participant = Participant.new :name => "Another Author"
     assert new_participant.creatable_by?(users(:administrator))

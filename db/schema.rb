@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100720140133) do
+ActiveRecord::Schema.define(:version => 20100720142427) do
 
   create_table "broadcast_emails", :force => true do |t|
     t.integer  "cfp_id"
@@ -66,6 +66,17 @@ ActiveRecord::Schema.define(:version => 20100720140133) do
   add_index "conferences", ["joomla_cfp_menu_id"], :name => "index_conferences_on_joomla_cfp_menu_id"
   add_index "conferences", ["joomla_cfp_section_id"], :name => "index_conferences_on_joomla_cfp_section_id"
   add_index "conferences", ["joomla_general_section_id"], :name => "index_conferences_on_joomla_general_section_id"
+
+  create_table "involvements", :force => true do |t|
+    t.integer  "participant_id"
+    t.integer  "presentation_id"
+    t.string   "role"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "involvements", ["participant_id"], :name => "index_involvements_on_participant_id"
+  add_index "involvements", ["presentation_id"], :name => "index_involvements_on_presentation_id"
 
   create_table "jos_categories", :force => true do |t|
     t.integer  "parent_id",                      :default => 0,     :null => false

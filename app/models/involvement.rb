@@ -1,19 +1,14 @@
-class Participant < ActiveRecord::Base
+class Involvement < ActiveRecord::Base
 
   hobo_model # Don't put anything above this
 
+  belongs_to :participant
+  belongs_to :presentation
+
   fields do
-    name                  :string, :mandatory, :unique
-    affiliation           :string
-    private_email_address :email_address
-    bio                   :markdown
+    role :string
     timestamps
   end
-
-  has_many :involvements, :dependent => :destroy
-  has_many :presentations, :through => :involvements
-
-  default_scope :order => :name
 
 
   # --- Permissions --- #

@@ -8,6 +8,11 @@ class PresentationTest < ActiveSupport::TestCase
     @a_portfolio = @a_presentation.portfolio
   end
 
+  def test_associations
+    assert_equal 1, @a_presentation.involvements.count
+    assert_equal 1, @a_presentation.participants.count
+  end
+
   def test_create_permissions
     new_presentation = @a_portfolio.presentations.new :title => "Another Important Result"
     assert new_presentation.creatable_by?(users(:administrator))

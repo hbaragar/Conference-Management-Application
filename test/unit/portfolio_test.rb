@@ -24,11 +24,12 @@ class PortfolioTest < ActiveSupport::TestCase
     assert_equal "Sound and Extensible Renaming for Java", p.title
     assert_equal "SERJ", p.short_title
     assert_match /^Descriptive names/, p.abstract
-    #assert_equal 3, p.participants.count
-    #author = p.participants.find_by_name("Oege de Moor")
-    #assert_equal "oege.de.moor@comlab.ox.ac.uk", author.email
-    #assert_equal "University of Oxford", author.affiliation
-    #assert_equal "oege biography", author.bio
+    assert_equal 3, p.involvements.count
+    assert_equal 3, p.participants.count
+    author = p.participants.find_by_name("Oege de Moor")
+    assert_equal "oege.de.moor@comlab.ox.ac.uk", author.private_email_address
+    assert_equal "University of Oxford", author.affiliation
+    assert_equal "oege biography", author.bio
   end
 
   test "reloading CyberChair XML file does not clobber existing data" do
@@ -38,8 +39,8 @@ class PortfolioTest < ActiveSupport::TestCase
     assert_equal 1+count, Presentation.count
     assert p = Presentation.find_by_external_reference("res0000008")
     assert_equal "Sound and Extensible Regaming for Java", p.title
-    #assert_equal 3, p.roles.count
-    #assert_equal 3, p.participants.count
+    assert_equal 2, p.involvements.count
+    assert_equal 2, p.participants.count
   end
 
   def test_create_permissions

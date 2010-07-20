@@ -4,6 +4,10 @@ class Guest < Hobo::Guest
     false
   end
 
+  def portfolio_chair?
+    false
+  end
+
   def members
     []
   end
