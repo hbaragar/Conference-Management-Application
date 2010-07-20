@@ -40,6 +40,11 @@ class User < ActiveRecord::Base
     end
   end
 
+
+  def portfolio_chair?
+    members.detect {|m| m.chair?}
+  end
+
   
   # --- Signup lifecycle --- #
 
