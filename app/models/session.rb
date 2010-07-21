@@ -2,6 +2,8 @@ class Session < ActiveRecord::Base
 
   DEFAULT_NAME = "To Be Scheduled".freeze
 
+  include MyHtml
+
   hobo_model # Don't put anything above this
 
   belongs_to :portfolio
@@ -19,6 +21,23 @@ class Session < ActiveRecord::Base
 
   def conference
     portfolio.conference
+  end
+
+  def multiple_presentations?
+    portfolio.session_type == "multiple_presentations"
+  end
+
+  def to_html
+    div("session",
+      coordinates_to_html,
+      presentations.collect {|p| p.to_html}
+   )
+  end
+
+  def coordinates_to_html
+    div("coordinates",
+      "Co-ordinates TBA"
+    )
   end
 
 

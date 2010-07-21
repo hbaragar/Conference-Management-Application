@@ -1,4 +1,8 @@
 a_session:
   id: 1
   portfolio_id: 2
-  name: "A Session"
+  name: "A Session Title"
+b_session:
+  id: 2
+  portfolio_id: 4
+  name: "Another Session Title"

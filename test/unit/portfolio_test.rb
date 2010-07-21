@@ -12,10 +12,10 @@ class PortfolioTest < ActiveSupport::TestCase
 
   files_dir = File.dirname(__FILE__) + "/../xml/"
 
-  def test_dependents
+  def test_associations
     assert_equal 1, @general.members.count
     assert_equal 1, @a_portfolio.cfps.count
-    assert_equal 1, @a_portfolio.presentations.count
+    assert_equal 4, @a_portfolio.presentations.count
   end
 
   test "loading a CyberChair XML file" do

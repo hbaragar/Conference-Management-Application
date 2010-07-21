@@ -9,7 +9,21 @@ class SessionTest < ActiveSupport::TestCase
   end
 
   def test_associations
-    assert_equal 1, @a_session.presentations.count
+    assert_equal 3, @a_session.presentations.count
+  end
+
+  def test_to_html
+    html = @a_session.to_html
+    assert_match /Co-ordinates TBA/, html
+    assert_match /An Important Title/, html
+    assert_match /An Abstract/, html
+    assert_match /Another Important Title/, html
+    assert_match /Another Abstract/, html
+    assert_match /A Really Important Title/, html
+    assert_match /More Abstract Abstract/, html
+    assert_no_match /Another Session/, html
+    assert_no_match /An Interesting Title/, html
+    assert_no_match /An Interesting Abstract/, html
   end
 
   def test_create_permissions

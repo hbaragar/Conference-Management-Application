@@ -2,4 +2,23 @@ a_presentation:
   id: 1
   portfolio_id: 2
   session_id: 1
-  title: An Important Result
+  title: An Important Title
+  abstract: An Abstract
+b_presentation:
+  id: 2
+  portfolio_id: 2
+  session_id: 1
+  title: Another Important Title
+  abstract: Another Abstract
+c_presentation:
+  id: 3
+  portfolio_id: 2
+  session_id: 1
+  title: A Really Important Title
+  abstract: More Abstract Abstract
+d_presentation:
+  id: 4
+  portfolio_id: 2
+  session_id: 2
+  title: An Interesting Title
+  abstract: An Interesting Abstract

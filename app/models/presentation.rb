@@ -1,5 +1,7 @@
 class Presentation < ActiveRecord::Base
 
+  include MyHtml
+
   hobo_model # Don't put anything above this
 
   belongs_to :portfolio
@@ -52,7 +54,6 @@ class Presentation < ActiveRecord::Base
     self
   end
 
-
   def new_or_existing_participant xml
     data = {
       :private_email_address	=> xml.elements["email"].text,
@@ -68,6 +69,23 @@ class Presentation < ActiveRecord::Base
     end
     Participant.create(data)
   end
+
+
+  def to_html
+    div("presentation",
+      title_to_html,
+      participants_to_html,
+      abstract.to_html
+    )
+  end
+
+  def title_to_html
+    div("title", title) if session.multiple_presentations?
+  end
+
+  def participants_to_html
+  end
+
 
   # --- Permissions --- #
 
