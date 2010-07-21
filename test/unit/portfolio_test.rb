@@ -45,8 +45,7 @@ class PortfolioTest < ActiveSupport::TestCase
     assert_equal 2, p.participants.count
   end
 
-  test "creating sessions when needed" do
-    # multiple presentations per session portfolio
+  test "creating sessions when needed for multiple presentations per session portfolios" do
     count =  @a_portfolio.sessions.count
     presentation = @a_portfolio.load_presentation_from File.new(files_dir + "cyber_chair_v1.xml")
     @a_portfolio.reload
@@ -65,7 +64,9 @@ class PortfolioTest < ActiveSupport::TestCase
     one_more_presentation = @a_portfolio.load_presentation_from File.new(files_dir + "poster_2.xml")
     @a_portfolio.reload
     assert_equal 2+count, @a_portfolio.sessions.count
-    # single presentations per session portfolio
+  end
+
+  test "creating sessions when needed for single presentation per session portfolios" do
     count =  @solo_portfolio.sessions.count
     solo_presentation = @solo_portfolio.load_presentation_from File.new(files_dir + "poster_1.xml")
     @solo_portfolio.reload
@@ -76,6 +77,9 @@ class PortfolioTest < ActiveSupport::TestCase
     assert_equal 2+count, @solo_portfolio.sessions.count
     assert_equal another_solo_presentation.title, another_solo_presentation.session.name
     # all presentations in one session portfolio
+  end
+
+  test "creating sessions when needed for all presentations in one session portfolios" do
     count =  @all_in_one_portfolio.sessions.count
     all_in_one_presentation = @all_in_one_portfolio.load_presentation_from File.new(files_dir + "poster_1.xml")
     @all_in_one_portfolio.reload
