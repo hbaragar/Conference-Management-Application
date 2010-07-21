@@ -44,6 +44,9 @@ class Portfolio < ActiveRecord::Base
     case session_type
     when 'multiple_presentations':	sessions.find_by_name(Session::DEFAULT_NAME) || sessions.create
     when 'single_presentation':		sessions.create(:name => single_presentation_session_name)
+    when 'all_in_one':			sessions.first || sessions.create(:name => name)
+    else
+      sessions.create
     end
   end
 

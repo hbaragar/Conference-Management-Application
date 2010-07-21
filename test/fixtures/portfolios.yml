@@ -22,7 +22,7 @@ single_presentation_portfolio:
   name: Workshops
   description: "Hi, Ho, Off to work we go!"
   session_type: single_presentation
-yet_another_portfolio:
+all_in_one_portfolio:
   id: 5
   conference_id: 1
   name: DesignFest

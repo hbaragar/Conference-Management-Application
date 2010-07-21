@@ -25,7 +25,7 @@ class MemberTest < ActiveSupport::TestCase
     assert_equal "gl@ucf.edu", new_member.private_email_address
     assert_equal "University of Central Florida", new_member.affiliation
     assert_equal "USA", new_member.country
-    assert new_member = portfolios(:yet_another_portfolio).members.create(
+    assert new_member = portfolios(:all_in_one_portfolio).members.create(
       :user => existing_user,
       :name => "Gary T. Leavens"
     )
@@ -43,7 +43,7 @@ class MemberTest < ActiveSupport::TestCase
     existing_user = new_member.user
     assert existing_user
     assert_equal "Gary Leavens", existing_user.name
-    new_member = portfolios(:yet_another_portfolio).members.create(
+    new_member = portfolios(:all_in_one_portfolio).members.create(
       :name => "Gary T. Leavens",
       :private_email_address => "gl@ucf.edu"
     )

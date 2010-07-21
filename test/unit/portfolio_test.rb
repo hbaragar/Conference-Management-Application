@@ -7,6 +7,7 @@ class PortfolioTest < ActiveSupport::TestCase
     @general = portfolios(:a_conference_general)
     @a_portfolio = portfolios(:a_portfolio)
     @solo_portfolio = portfolios(:single_presentation_portfolio)
+    @all_in_one_portfolio = portfolios(:all_in_one_portfolio)
   end
 
   files_dir = File.dirname(__FILE__) + "/../xml/"
@@ -75,6 +76,15 @@ class PortfolioTest < ActiveSupport::TestCase
     assert_equal 2+count, @solo_portfolio.sessions.count
     assert_equal another_solo_presentation.title, another_solo_presentation.session.name
     # all presentations in one session portfolio
+    count =  @all_in_one_portfolio.sessions.count
+    all_in_one_presentation = @all_in_one_portfolio.load_presentation_from File.new(files_dir + "poster_1.xml")
+    @all_in_one_portfolio.reload
+    assert_equal 1+count, @all_in_one_portfolio.sessions.count
+    assert_equal @all_in_one_portfolio.name, all_in_one_presentation.session.name 
+    another_one_presentation = @all_in_one_portfolio.load_presentation_from File.new(files_dir + "poster_2.xml")
+    @all_in_one_portfolio.reload
+    assert_equal 1+count, @all_in_one_portfolio.sessions.count
+    assert_equal @all_in_one_portfolio.name, another_one_presentation.session.name
   end
 
   def test_create_permissions
