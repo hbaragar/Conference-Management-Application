@@ -6,6 +6,7 @@ class PortfolioTest < ActiveSupport::TestCase
     @a_conference = conferences(:a_conference)
     @general = portfolios(:a_conference_general)
     @a_portfolio = portfolios(:a_portfolio)
+    @solo_portfolio = portfolios(:single_presentation_portfolio)
   end
 
   files_dir = File.dirname(__FILE__) + "/../xml/"
@@ -44,6 +45,7 @@ class PortfolioTest < ActiveSupport::TestCase
   end
 
   test "creating sessions when needed" do
+    # multiple presentations per session portfolio
     count =  @a_portfolio.sessions.count
     presentation = @a_portfolio.load_presentation_from File.new(files_dir + "cyber_chair_v1.xml")
     @a_portfolio.reload
@@ -60,21 +62,19 @@ class PortfolioTest < ActiveSupport::TestCase
     @a_portfolio.reload
     assert_match /To Be Scheduled/, another_presentation.session.name
     one_more_presentation = @a_portfolio.load_presentation_from File.new(files_dir + "poster_2.xml")
-    assert_equal 2+count, @a_portfolio.sessions.count
     @a_portfolio.reload
-    #soa_session = Presentation.load_from(File.new(files_dir + "soa.xml"))[0].session
-    #assert_equal "SOA in Practice", soa_session.name
-    #assert_match "(6)", soa_session.title
-    #assert_equal @tutorials_category, soa_session.jos_category
-    #security_session = Presentation.load_from(File.new(files_dir + "security.xml"))[0].session
-    #assert_equal "Security - Philosophy, Patterns and Practices", security_session.name
-    #poster_session = Presentation.load_from(File.new(files_dir + "poster_1.xml"))[0].session
-    #assert_equal "Posters", poster_session.name
-    #assert_equal @posters_category, poster_session.jos_category
-    #count = Session.count
-    #poster_session = Presentation.load_from(File.new(files_dir + "poster_2.xml"))[0].session
-    #assert_equal "Posters", poster_session.name
-    #assert_equal count, Session.count
+    assert_equal 2+count, @a_portfolio.sessions.count
+    # single presentations per session portfolio
+    count =  @solo_portfolio.sessions.count
+    solo_presentation = @solo_portfolio.load_presentation_from File.new(files_dir + "poster_1.xml")
+    @solo_portfolio.reload
+    assert_equal 1+count, @solo_portfolio.sessions.count
+    assert_equal solo_presentation.title, solo_presentation.session.name
+    another_solo_presentation = @solo_portfolio.load_presentation_from File.new(files_dir + "poster_2.xml")
+    @solo_portfolio.reload
+    assert_equal 2+count, @solo_portfolio.sessions.count
+    assert_equal another_solo_presentation.title, another_solo_presentation.session.name
+    # all presentations in one session portfolio
   end
 
   def test_create_permissions

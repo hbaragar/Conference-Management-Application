@@ -40,8 +40,11 @@ class Portfolio < ActiveRecord::Base
     new_or_existing_presentation(xml).load_from xml
   end
 
-  def new_or_existing_session
-    sessions.find_by_name(Session::DEFAULT_NAME) || sessions.create
+  def new_or_existing_session single_presentation_session_name = nil
+    case session_type
+    when 'multiple_presentations':	sessions.find_by_name(Session::DEFAULT_NAME) || sessions.create
+    when 'single_presentation':		sessions.create(:name => single_presentation_session_name)
+    end
   end
 
   def new_or_existing_presentation xml

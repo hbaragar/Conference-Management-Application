@@ -31,7 +31,7 @@ a_portfolio_member:
   private_email_address: gl@ucf.edu
   user_id: 4
   country: USA
-another_portfolio_member:
+single_presentation_portfolio_member:
   id: 5
   portfolio_id: 2
   chair: 0

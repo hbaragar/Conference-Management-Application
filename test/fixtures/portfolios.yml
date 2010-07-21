@@ -16,7 +16,7 @@ another_conference_general:
   name: General
   description: N/A
   session_type: no_sessions
-another_portfolio:
+single_presentation_portfolio:
   id: 4
   conference_id: 1
   name: Workshops

@@ -47,7 +47,7 @@ class Presentation < ActiveRecord::Base
 	logger.info "Presentation::load_from does not handle #{element.name} elements"
       end
     end
-    self.session ||= portfolio.new_or_existing_session
+    self.session ||= portfolio.new_or_existing_session title
     save
     self
   end

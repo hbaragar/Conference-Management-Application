@@ -20,7 +20,7 @@ class MemberTest < ActiveSupport::TestCase
 
   test "auto fill from user" do
     existing_user = users(:a_portfolio_member)
-    assert new_member = portfolios(:another_portfolio).members.create(:user => existing_user)
+    assert new_member = portfolios(:single_presentation_portfolio).members.create(:user => existing_user)
     assert_equal "Gary Leavens", new_member.name
     assert_equal "gl@ucf.edu", new_member.private_email_address
     assert_equal "University of Central Florida", new_member.affiliation
@@ -36,7 +36,7 @@ class MemberTest < ActiveSupport::TestCase
   end
 
   test "auto assign the user on create" do
-    new_member = portfolios(:another_portfolio).members.create(
+    new_member = portfolios(:single_presentation_portfolio).members.create(
       :name => "Gary Leavens",
       :private_email_address => "gl@ucf.edu"
     )
@@ -58,7 +58,7 @@ class MemberTest < ActiveSupport::TestCase
   end
 
   test "auto assign the user on update" do
-    new_member = portfolios(:another_portfolio).members.create(
+    new_member = portfolios(:single_presentation_portfolio).members.create(
       :name => "Gary T. Leavens"
     )
     assert !new_member.user

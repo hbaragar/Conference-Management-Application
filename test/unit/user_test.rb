@@ -16,7 +16,7 @@ class UserTest < ActiveSupport::TestCase
       :name => "GK",
       :email_address => "gk@ubc.ca"
     )
-    member = members(:another_portfolio_member)
+    member = members(:single_presentation_portfolio_member)
     assert_equal user, member.user
     assert_equal "GK", member.name
     user.email_address = "gk@parc.com"
