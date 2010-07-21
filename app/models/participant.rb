@@ -3,7 +3,7 @@ class Participant < ActiveRecord::Base
   hobo_model # Don't put anything above this
 
   fields do
-    name                  :string, :mandatory, :unique
+    name                  :string, :required, :unique
     affiliation           :string
     private_email_address :email_address
     bio                   :markdown

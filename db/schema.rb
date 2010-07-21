@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100720193013) do
+ActiveRecord::Schema.define(:version => 20100721143815) do
 
   create_table "broadcast_emails", :force => true do |t|
     t.integer  "cfp_id"
@@ -230,6 +230,7 @@ ActiveRecord::Schema.define(:version => 20100720193013) do
     t.text    "description"
     t.string  "public_email_address"
     t.string  "call_type",            :default => "no_call"
+    t.string  "session_type",         :default => "no_sessions"
   end
 
   add_index "portfolios", ["conference_id"], :name => "index_portfolios_on_conference_id"
@@ -251,7 +252,7 @@ ActiveRecord::Schema.define(:version => 20100720193013) do
 
   create_table "sessions", :force => true do |t|
     t.integer  "portfolio_id"
-    t.string   "name"
+    t.string   "name",              :default => "To Be Scheduled"
     t.datetime "starts_at",         :default => '2010-10-22 08:00:00'
     t.datetime "ends_at",           :default => '2010-10-22 09:00:00'
     t.datetime "created_at"

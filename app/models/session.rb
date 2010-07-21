@@ -1,13 +1,15 @@
 class Session < ActiveRecord::Base
 
+  DEFAULT_NAME = "To Be Scheduled".freeze
+
   hobo_model # Don't put anything above this
 
   belongs_to :portfolio
 
   fields do
-    name      :string, :mandatory
-    starts_at :datetime, :mandatory, :default => '2010-10-22 08:00'
-    ends_at   :datetime, :mandatory, :default => '2010-10-22 09:00'
+    name      :string, :required, :default => DEFAULT_NAME
+    starts_at :datetime, :required, :default => '2010-10-22 08:00'
+    ends_at   :datetime, :required, :default => '2010-10-22 09:00'
     timestamps
   end
 

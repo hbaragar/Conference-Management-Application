@@ -6,9 +6,9 @@ class Presentation < ActiveRecord::Base
   belongs_to :session
 
   fields do
-    title	:string, :mandatory
+    title	:string, :required
     short_title	:string
-    abstract	:markdown, :mandatory
+    abstract	:markdown
     external_reference	:string
     url		:string
     timestamps
@@ -47,7 +47,9 @@ class Presentation < ActiveRecord::Base
 	logger.info "Presentation::load_from does not handle #{element.name} elements"
       end
     end
+    self.session ||= portfolio.new_or_existing_session
     save
+    self
   end
 
 

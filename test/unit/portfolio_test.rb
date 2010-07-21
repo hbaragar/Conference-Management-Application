@@ -43,6 +43,40 @@ class PortfolioTest < ActiveSupport::TestCase
     assert_equal 2, p.participants.count
   end
 
+  test "creating sessions when needed" do
+    count =  @a_portfolio.sessions.count
+    presentation = @a_portfolio.load_presentation_from File.new(files_dir + "cyber_chair_v1.xml")
+    @a_portfolio.reload
+    assert_equal 1+count, @a_portfolio.sessions.count
+    session = presentation.session
+    assert_match /To Be Scheduled/, session.name
+    session.name = "Another Session"
+    session.save
+    @a_portfolio.load_presentation_from File.new(files_dir + "cyber_chair_v2.xml")
+    @a_portfolio.reload
+    assert_equal 1+count, @a_portfolio.sessions.count
+    another_presentation = @a_portfolio.load_presentation_from File.new(files_dir + "poster_1.xml")
+    assert_equal 2+count, @a_portfolio.sessions.count
+    @a_portfolio.reload
+    assert_match /To Be Scheduled/, another_presentation.session.name
+    one_more_presentation = @a_portfolio.load_presentation_from File.new(files_dir + "poster_2.xml")
+    assert_equal 2+count, @a_portfolio.sessions.count
+    @a_portfolio.reload
+    #soa_session = Presentation.load_from(File.new(files_dir + "soa.xml"))[0].session
+    #assert_equal "SOA in Practice", soa_session.name
+    #assert_match "(6)", soa_session.title
+    #assert_equal @tutorials_category, soa_session.jos_category
+    #security_session = Presentation.load_from(File.new(files_dir + "security.xml"))[0].session
+    #assert_equal "Security - Philosophy, Patterns and Practices", security_session.name
+    #poster_session = Presentation.load_from(File.new(files_dir + "poster_1.xml"))[0].session
+    #assert_equal "Posters", poster_session.name
+    #assert_equal @posters_category, poster_session.jos_category
+    #count = Session.count
+    #poster_session = Presentation.load_from(File.new(files_dir + "poster_2.xml"))[0].session
+    #assert_equal "Posters", poster_session.name
+    #assert_equal count, Session.count
+  end
+
   def test_create_permissions
     new_portfolio = Portfolio.new :conference => @a_conference, :name => "New Portfolio"
     assert new_portfolio.creatable_by?(users(:administrator))
