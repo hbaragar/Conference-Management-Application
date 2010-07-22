@@ -1,5 +1,7 @@
 class Participant < ActiveRecord::Base
 
+  include MyHtml
+
   hobo_model # Don't put anything above this
 
   fields do
@@ -15,6 +17,10 @@ class Participant < ActiveRecord::Base
 
   default_scope :order => :name
 
+
+  def to_html
+    [span("name", name), span("affiliation",affiliation)]
+  end
 
   # --- Permissions --- #
 

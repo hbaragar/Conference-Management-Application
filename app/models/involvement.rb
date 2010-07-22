@@ -1,5 +1,7 @@
 class Involvement < ActiveRecord::Base
 
+  include MyHtml
+
   hobo_model # Don't put anything above this
 
   belongs_to :participant
@@ -10,6 +12,9 @@ class Involvement < ActiveRecord::Base
     timestamps
   end
 
+  def to_html
+    [span("role", role), participant.to_html]
+  end
 
   # --- Permissions --- #
 

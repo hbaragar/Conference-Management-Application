@@ -4,7 +4,7 @@ protected
 
   def div(css_class, *text)
     return "" unless text
-    %Q(<div #{tag_attributes({:class => css_class})}>#{text.join("")}\n</div>\n)
+    %Q(<div #{tag_attributes({:class => css_class})}>#{text.join("")}</div>\n)
   end
 
   def h2(*text)
@@ -57,6 +57,11 @@ protected
 
   def img src, alt=""
     %Q(<img src="#{src}" alt="#{alt}")
+  end
+
+  def span(css_class, *text)
+    return "" unless text
+    %Q(<span class="#{css_class}">#{text.join("")}</span>)
   end
 
   def tag_attributes attributes

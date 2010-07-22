@@ -17,6 +17,8 @@ class SessionTest < ActiveSupport::TestCase
     assert_match /Co-ordinates TBA/, html
     assert_match /An Important Title/, html
     assert_match /An Abstract/, html
+    assert_match /Paper Author/, html
+    assert_match /Author Affiliation/, html
     assert_match /Another Important Title/, html
     assert_match /Another Abstract/, html
     assert_match /A Really Important Title/, html

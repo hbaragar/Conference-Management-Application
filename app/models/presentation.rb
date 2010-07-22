@@ -84,6 +84,9 @@ class Presentation < ActiveRecord::Base
   end
 
   def participants_to_html
+    div("participant",
+      involvements.collect{|i| i.to_html}
+    )
   end
 
 
