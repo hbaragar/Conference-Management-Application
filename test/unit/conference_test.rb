@@ -105,10 +105,8 @@ class ConferenceTest < ActiveSupport::TestCase
     assert_equal cfp_section, @a_conference.joomla_cfp_section
     assert_equal 2, cfp_section.categories.count
     categories = cfp_section.categories
-    assert_equal 1, categories[0].ordering
-    assert_equal 2, categories[1].ordering
-    assert_equal "Due March 13, 2010", categories[0].title
-    assert_equal "Due June 13, 2010", categories[1].title
+    assert_equal (1..2).to_a, categories.collect{|c| c.ordering}
+    assert_equal ["Due March 13, 2010", "Due June 13, 2010"], categories.collect{|c| c.title}
     cfp_menu = @a_conference.joomla_cfp_menu
     assert_equal 0, cfp_menu.sublevel
     assert_match /show_vote=0/, cfp_menu.params
@@ -118,8 +116,7 @@ class ConferenceTest < ActiveSupport::TestCase
     assert_equal 1, item.sublevel
     assert_equal "index.php?option=com_content&view=category&layout=blog&id=#{categories[0].id}", item.link
     assert_equal 2, menu_items.count
-    assert_equal 1, menu_items[0].ordering
-    assert_equal 2, menu_items[1].ordering
+    assert_equal (1..2).to_a, menu_items.collect{|m| m.ordering}
   end
 
   def cfp_article_tests
@@ -139,13 +136,13 @@ class ConferenceTest < ActiveSupport::TestCase
     @a_conference.generate_program
     program_article_tests
     assert_equal 1, JoomlaSection.count
-    #assert_equal 2, JoomlaCategory.count
+    assert_equal 3, JoomlaCategory.count
     #assert_equal 3, JoomlaArticle.count
     #assert_equal 3, JoomlaMenu.count
     @a_conference.generate_program
     @a_conference.reload
     assert_equal 1, JoomlaSection.count
-    #assert_equal 2, JoomlaCategory.count
+    assert_equal 3, JoomlaCategory.count
     #assert_equal 3, JoomlaArticle.count
     #assert_equal 3, JoomlaMenu.count
     program_section = JoomlaSection.find(:all).first
@@ -153,12 +150,10 @@ class ConferenceTest < ActiveSupport::TestCase
     assert_equal "program", program_section.alias
     #assert_equal 3, program_section.count
     assert_equal program_section, @a_conference.joomla_program_section
-    #assert_equal 2, program_section.categories.count
-    #categories = program_section.categories
-    #assert_equal 1, categories[0].ordering
-    #assert_equal 2, categories[1].ordering
-    #assert_equal "Due March 13, 2010", categories[0].title
-    #assert_equal "Due June 13, 2010", categories[1].title
+    #assert_equal 3, program_section.categories.count
+    categories = program_section.categories
+    assert_equal (1..3).to_a, categories.collect{|c| c.ordering}
+    assert_equal ["DesignFest", "OOPSLA Research Program", "Workshops"], categories.collect{|c| c.title}
     #program_menu = @a_conference.joomla_program_menu
     #assert_equal 0, program_menu.sublevel
     #assert_match /show_vote=0/, program_menu.params

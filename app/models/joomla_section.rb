@@ -42,4 +42,16 @@ class JoomlaSection < ActiveRecord::Base
     end
   end
 
+  def clean_up_program_categories
+    categories.each do |c|
+      c.update_count!
+    end
+    sorted_categories = categories.all(:order => :title)
+    1.upto(sorted_categories.count) do |i|
+      c = sorted_categories[i-1]
+      c.ordering = i
+      c.save
+    end
+  end
+
 end

@@ -242,8 +242,9 @@ protected
       self.joomla_program_section = JoomlaSection.create(:title => "Program", :alias => "program")
       save
     end
-    #sessions.each{|s| s.generate_joomla_article}
+    portfolios.each{|p| p.generate_program_content}
     joomla_program_section.update_count!
+    joomla_program_section.clean_up_program_categories
   end
 
   def generate_program_menu

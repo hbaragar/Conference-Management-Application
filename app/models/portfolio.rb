@@ -17,6 +17,9 @@ class Portfolio < ActiveRecord::Base
     description :markdown
   end
 
+  belongs_to :joomla_category
+  belongs_to :joomla_menu
+
   has_many :chairs, :class_name => "Member", :conditions => {:chair => true}
   has_many :members, :dependent => :destroy
   has_many :cfps, :dependent => :destroy	# Really only one, but we want the hobo support
@@ -63,6 +66,15 @@ class Portfolio < ActiveRecord::Base
       return matches.first if matches.count == 1
     end
     presentations.create!(references)
+  end
+
+
+  def generate_program_content
+    return if session_type == 'no_sessions'
+    unless joomla_category
+      self.joomla_category = conference.joomla_program_section.categories.create(:title => name)
+      save
+    end
   end
 
 
