@@ -135,6 +135,56 @@ class ConferenceTest < ActiveSupport::TestCase
     assert_match /#{a_cfp.details}/, joomla_article.fulltext
   end
 
+  test "generate program" do
+    @a_conference.generate_program
+    program_article_tests
+    assert_equal 1, JoomlaSection.count
+    #assert_equal 2, JoomlaCategory.count
+    #assert_equal 3, JoomlaArticle.count
+    #assert_equal 3, JoomlaMenu.count
+    @a_conference.generate_program
+    @a_conference.reload
+    assert_equal 1, JoomlaSection.count
+    #assert_equal 2, JoomlaCategory.count
+    #assert_equal 3, JoomlaArticle.count
+    #assert_equal 3, JoomlaMenu.count
+    program_section = JoomlaSection.find(:all).first
+    assert_equal "Program", program_section.title
+    assert_equal "program", program_section.alias
+    #assert_equal 3, program_section.count
+    assert_equal program_section, @a_conference.joomla_program_section
+    #assert_equal 2, program_section.categories.count
+    #categories = program_section.categories
+    #assert_equal 1, categories[0].ordering
+    #assert_equal 2, categories[1].ordering
+    #assert_equal "Due March 13, 2010", categories[0].title
+    #assert_equal "Due June 13, 2010", categories[1].title
+    #program_menu = @a_conference.joomla_program_menu
+    #assert_equal 0, program_menu.sublevel
+    #assert_match /show_vote=0/, program_menu.params
+    #assert_equal "index.php?option=com_content&view=section&layout=blog&id=#{program_section.id}", program_menu.link
+    #menu_items = program_menu.items
+    #item = menu_items[0]
+    #assert_equal 1, item.sublevel
+    #assert_equal "index.php?option=com_content&view=category&layout=blog&id=#{categories[0].id}", item.link
+    #assert_equal 2, menu_items.count
+    #assert_equal 1, menu_items[0].ordering
+    #assert_equal 2, menu_items[1].ordering
+  end
+
+  def program_article_tests
+    #a_program = calls(:a_program)
+    #assert joomla_article = a_program.joomla_article
+    #assert_equal a_program, joomla_article.program
+    #assert_equal a_program.name, joomla_article.title
+    #assert_equal "Due March 13, 2010", joomla_article.category.title
+    #assert_match /#{a_program.portfolio.description}/, joomla_article.introtext
+    #assert_match /#{a_program.conference.description}/, joomla_article.fulltext
+    #assert_match /#{a_program.portfolio.public_email_address}/, joomla_article.fulltext
+    #assert_match /#{a_program.portfolio.chairs.first.name}/, joomla_article.fulltext
+    #assert_match /#{a_program.details}/, joomla_article.fulltext
+  end
+
   def test_create_permissions
   end
 

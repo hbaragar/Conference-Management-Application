@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100721143815) do
+ActiveRecord::Schema.define(:version => 20100722132706) do
 
   create_table "broadcast_emails", :force => true do |t|
     t.integer  "cfp_id"
@@ -59,6 +59,8 @@ ActiveRecord::Schema.define(:version => 20100721143815) do
     t.integer "joomla_article_id"
     t.string  "url"
     t.string  "logo_url"
+    t.integer "joomla_program_section_id"
+    t.integer "joomla_program_menu_id"
   end
 
   add_index "conferences", ["colocated_with_id"], :name => "index_conferences_on_colocated_with_id"
@@ -66,6 +68,8 @@ ActiveRecord::Schema.define(:version => 20100721143815) do
   add_index "conferences", ["joomla_cfp_menu_id"], :name => "index_conferences_on_joomla_cfp_menu_id"
   add_index "conferences", ["joomla_cfp_section_id"], :name => "index_conferences_on_joomla_cfp_section_id"
   add_index "conferences", ["joomla_general_section_id"], :name => "index_conferences_on_joomla_general_section_id"
+  add_index "conferences", ["joomla_program_menu_id"], :name => "index_conferences_on_joomla_program_menu_id"
+  add_index "conferences", ["joomla_program_section_id"], :name => "index_conferences_on_joomla_program_section_id"
 
   create_table "involvements", :force => true do |t|
     t.integer  "participant_id"

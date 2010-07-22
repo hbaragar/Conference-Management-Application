@@ -20,10 +20,14 @@ class Conference < ActiveRecord::Base
   belongs_to :joomla_cfp_section, :class_name => "JoomlaSection"
   belongs_to :joomla_cfp_menu, :class_name => "JoomlaMenu"
 
+  belongs_to :joomla_program_section, :class_name => "JoomlaSection"
+  belongs_to :joomla_program_menu, :class_name => "JoomlaMenu"
+
   has_many :colocated_conferences, :class_name => "Conference", :foreign_key => :colocated_with_id
   has_many :portfolios, :dependent => :destroy
   has_many :cfps, :through => :portfolios
   has_many :call_for_supporters, :through => :portfolios
+  has_many :sessions, :through => :portfolios
   has_many :members, :through => :portfolios
 
   named_scope :host_conferences, :conditions => {:colocated_with_id => nil}
@@ -54,6 +58,11 @@ class Conference < ActiveRecord::Base
   def generate_cfps
     generate_cfp_content
     generate_cfp_menu
+  end
+
+  def generate_program
+    generate_program_content
+    generate_program_menu
   end
 
   def general_category_for title
@@ -204,8 +213,7 @@ protected
 
   def purge_unused_menu_items
     joomla_cfp_menu.items.each do |i|
-      next if joomla_cfp_section.categories.find_by_title(i.name)
-      i.destroy
+      i.destroy unless joomla_cfp_section.categories.find_by_title(i.name)
     end
   end
 
@@ -227,6 +235,18 @@ protected
       item.ordering = c.ordering
       item.save
     end
+  end
+
+  def generate_program_content
+    unless joomla_program_section
+      self.joomla_program_section = JoomlaSection.create(:title => "Program", :alias => "program")
+      save
+    end
+    #sessions.each{|s| s.generate_joomla_article}
+    joomla_program_section.update_count!
+  end
+
+  def generate_program_menu
   end
 
 end
