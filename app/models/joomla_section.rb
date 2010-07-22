@@ -2,8 +2,8 @@ class JoomlaSection < ActiveRecord::Base
 
   set_table_name 'jos_sections'
 
-  def before_validation
-    self.checked_out_time = 5.hours.ago
+  def before_validation_on_create
+    self.checked_out_time = 5.hours.ago unless checked_out_time
     self.scope = "content"
     self.published = 1
     self.alias = title.tr("A-Z","a-z").gsub(/\W+/,"-") unless self.alias[/\w/]
@@ -19,39 +19,13 @@ class JoomlaSection < ActiveRecord::Base
   validates_format_of :alias, :with => /^[-\w]+/
   validates_uniqueness_of :alias
 
-  def update_count!
+  def restore_integrity! order_on = :title
+    correct_order = categories.all(:order => order_on)
+    1.upto(correct_order.count) do |i|
+      correct_order[i-1].restore_integrity! i
+    end
     self.count = articles.count
     save!
-  end
-
-  def clean_up_cfp_categories
-    in_use = {}
-    categories.each do |c|
-      c.update_count!
-      if c.count == 0
-	c.destroy
-      else
-	in_use[c.cfp.due_on] = c
-      end
-    end
-    sorted_categories = in_use.sort.collect{|a| a[1]}
-    1.upto(sorted_categories.count) do |i|
-      c = sorted_categories.shift
-      c.ordering = i
-      c.save
-    end
-  end
-
-  def clean_up_program_categories
-    categories.each do |c|
-      c.update_count!
-    end
-    sorted_categories = categories.all(:order => :title)
-    1.upto(sorted_categories.count) do |i|
-      c = sorted_categories[i-1]
-      c.ordering = i
-      c.save
-    end
   end
 
 end

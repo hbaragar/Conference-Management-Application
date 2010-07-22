@@ -109,7 +109,7 @@ protected
     set_up_joomla_general_section
     generate_general_colocated_conferences_content
     generate_general_call_for_supporters_content
-    joomla_general_section.update_count!
+    joomla_general_section.restore_integrity!
   end
 
   def set_up_general_menu
@@ -193,8 +193,7 @@ protected
       save
     end
     cfps.each{|c| c.generate_joomla_article}
-    joomla_cfp_section.update_count!
-    joomla_cfp_section.clean_up_cfp_categories
+    joomla_cfp_section.restore_integrity! :checked_out_time
   end
 
   def generate_cfp_menu
@@ -243,8 +242,7 @@ protected
       save
     end
     portfolios.each{|p| p.generate_program_content}
-    joomla_program_section.update_count!
-    joomla_program_section.clean_up_program_categories
+    joomla_program_section.restore_integrity!
   end
 
   def generate_program_menu

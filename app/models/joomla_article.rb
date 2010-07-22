@@ -7,9 +7,9 @@ class JoomlaArticle < ActiveRecord::Base
 
   has_one :conference
 
-  def before_validation
+  def before_validation_on_create
     self.modified = 5.hours.ago
-    self.checked_out_time = 5.hours.ago
+    self.checked_out_time = 5.hours.ago unless checked_out_time
     self.publish_up = 5.hours.ago
     self.publish_down = 20.years.from_now - 5.hours
     self.created = 5.hours.ago

@@ -18,9 +18,11 @@ class Cfp < Call
   end
 
   def joomla_category
-    title = "Due #{due_on.strftime('%B %d, %Y')}"
+    # Kluge: category checked_out_time is not used during the generatation of content,
+    #        so co-opt it for sorting purposes (see JoomlaSection::restore_integrity!)
     categories = joomla_section.categories
-    categories.find_by_title(title) || categories.create!(:title => title)
+    categories.find_by_checked_out_time(due_on) ||
+      categories.create!(:title => "Due #{due_on.strftime('%B %d, %Y')}", :checked_out_time => due_on.to_datetime)
   end
 
   def publish_to_joomla
