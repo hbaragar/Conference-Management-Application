@@ -76,7 +76,7 @@ class ConferenceTest < ActiveSupport::TestCase
     assert supporter_menu = JoomlaMenu.find_by_name('Supporters')
     assert_equal 0, supporter_menu.sublevel
     assert_match /show_vote=0/, supporter_menu.params
-    supporters_category = @a_conference.general_category_for 'Supporters'
+    supporters_category = @a_conference.joomla_category_for 'Supporters'
     assert_equal "index.php?option=com_content&view=category&layout=blog&id=#{supporters_category.id}", supporter_menu.link
     assert call_for_supporter_menu = JoomlaMenu.find_by_name('Corporate Support')
     assert_equal 1, call_for_supporter_menu.sublevel

@@ -29,31 +29,47 @@ class Conference < ActiveRecord::Base
   end
 
   def joomla_general_section
-    joomla_section "General Information"
+    joomla_section_for "General Information"
+  end
+
+  def joomla_colocated_conferences_category 
+    joomla_category_for 'Colocated Conferences'
+  end
+
+  def joomla_colocated_conferences_menu 
+    joomla_menu_for 'Colocated Conferences'
   end
 
   def joomla_cfp_section
-    joomla_section "Call for Papers"
+    joomla_section_for "Call for Papers"
   end
 
   def joomla_cfp_menu
-    joomla_menu "Call for Papers"
+    joomla_menu_for "Call for Papers"
   end
 
   def joomla_program_section
-    joomla_section "Program"
+    joomla_section_for "Program"
   end
 
   def joomla_program_menu
-    joomla_menu "Program"
+    joomla_menu_for "Program"
   end
 
-  def joomla_section title
+  def joomla_menu_for name
+    JoomlaMenu.find_by_name_and_sublevel name, 0
+  end
+
+  def joomla_section_for title
     JoomlaSection.find_by_title title
   end
 
-  def joomla_menu name
-    JoomlaMenu.find_by_name_and_sublevel name, 0
+  def joomla_category_for title
+    query = {
+      :title	=> title,
+      :section	=> joomla_general_section.id,
+    }
+    JoomlaCategory.find(:first, :conditions => query) || JoomlaCategory.create(query)
   end
 
   def chair? user
@@ -104,14 +120,6 @@ class Conference < ActiveRecord::Base
     joomla_program_menu.restore_integrity!
   end
 
-  def general_category_for title
-    host_conference = colocated_with || self
-    host_conference.joomla_general_section.categories.find_by_title(title) ||
-      host_conference.joomla_general_section.categories.create!(:title => title)
-  rescue
-    nil
-  end
-
 
   # --- Permissions --- #
 
@@ -158,11 +166,10 @@ protected
   end
 
   def set_up_general_colocated_conferences_menu_item
-    category = general_category_for('Colocated Conferences') or return
-    menu = general_menu_item_for('Colocated Conferences') || JoomlaMenu.create(
+    menu = joomla_colocated_conferences_menu || JoomlaMenu.create(
       :name => 'Colocated Conferences',
       :sublevel => 0,
-      :link => "index.php?option=com_content&view=category&layout=blog&id=#{category.id}"
+      :link => "index.php?option=com_content&view=category&layout=blog&id=#{joomla_colocated_conferences_category.id}"
     )
     menu.params[/show_title=\d/] = "show_title=0"
     menu.params[/show_category=\d/] = "show_category=0"
@@ -176,11 +183,10 @@ protected
   end
 
   def generate_general_colocated_conference_article
-    category = general_category_for('Colocated Conferences') or return
     unless joomla_article
-      self.joomla_article = category.articles.create(
+      self.joomla_article = joomla_general_section.articles.create(
         :title => name,
-        :sectionid => category.section
+        :catid => joomla_colocated_conferences_category.id
       )
       save!
     end
@@ -196,7 +202,7 @@ protected
   end
 
   def purge_unused_general_colocated_conference_articles
-    general_category_for('Colocated Conferences').articles.each do |a|
+    joomla_colocated_conferences_category.articles.each do |a|
       a.conference or a.destroy 
     end
   end
@@ -206,13 +212,13 @@ protected
   end
 
   def generate_general_call_for_supporters_content
-    category = general_category_for 'Supporters'
+    category = joomla_category_for 'Supporters'
     call_for_supporters.each{|c| c.generate_joomla_article(category)}
   end
 
   def set_up_general_call_for_supporters_menu_item
     menu_name = 'Supporters'
-    category = general_category_for(menu_name) or return
+    category = joomla_category_for(menu_name) or return
     menu = general_menu_item_for(menu_name) || JoomlaMenu.create(
       :name => menu_name,
       :sublevel => 0,
