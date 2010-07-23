@@ -132,13 +132,13 @@ class ConferenceTest < ActiveSupport::TestCase
     assert_match /#{a_cfp.details}/, joomla_article.fulltext
   end
 
-  test "generate program" do
-    @a_conference.generate_program
+  test "populate program" do
+    @a_conference.populate_joomla
     assert_equal 1, JoomlaSection.count
     assert_equal 3, JoomlaCategory.count
     assert_equal 2, JoomlaArticle.count
     #assert_equal 3, JoomlaMenu.count
-    @a_conference.generate_program
+    @a_conference.populate_joomla
     @a_conference.reload
     assert_equal 1, JoomlaSection.count
     assert_equal 3, JoomlaCategory.count
@@ -148,13 +148,13 @@ class ConferenceTest < ActiveSupport::TestCase
     assert_equal "Program", program_section.title
     assert_equal "program", program_section.alias
     assert_equal 2, program_section.count
-    assert_equal program_section, @a_conference.joomla_program_section
+    assert_equal program_section, @a_conference.joomla_section_for("Program")
     assert_equal 3, program_section.categories.count
     categories = program_section.categories
     assert_equal (1..3).to_a, categories.collect{|c| c.ordering}
     assert_equal ["DesignFest", "OOPSLA Research Program", "Workshops"], categories.collect{|c| c.title}
     @a_conference.sessions.each {|s| program_article_tests s}
-    program_menu = @a_conference.joomla_program_menu
+    program_menu = @a_conference.joomla_menu_for("Program")
     assert_equal 0, program_menu.sublevel
     assert_match /show_vote=0/, program_menu.params
     assert_equal "index.php?option=com_content&view=section&layout=blog&id=#{program_section.id}", program_menu.link

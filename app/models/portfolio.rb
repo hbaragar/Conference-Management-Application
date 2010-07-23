@@ -68,22 +68,23 @@ class Portfolio < ActiveRecord::Base
     presentations.create!(references)
   end
 
-  def generate_program
+  def populate_joomla section, menu
     return if session_type == 'no_sessions'
-    unless joomla_category
-      self.joomla_category = conference.joomla_program_section.categories.create(:title => name)
-      menu = conference.joomla_program_menu
+    if joomla_category
+      joomla_category.write_attribute(:title, name)
+      joomla_menu.write_attribute(:name, name)
+    else
+      self.joomla_category = section.categories.create(:title => name)
       self.joomla_menu = menu.items.create(
 	:name => name,
 	:parent => menu.id,
 	:sublevel => 1,
-        :link  => "index.php?option=com_content&view=category&layout=blog&id=#{joomla_category.id}"
+        :link  => JoomlaMenu::link_for(joomla_category)
       )
       save
     end
-    sessions.each{|s| s.generate_program}
+    sessions.each{|s| s.populate_joomla_program joomla_category}
   end
-
 
 
   # --- Permissions --- #

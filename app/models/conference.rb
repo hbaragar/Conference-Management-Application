@@ -28,6 +28,28 @@ class Conference < ActiveRecord::Base
     portfolios << Portfolio.new(:name => "General")
   end
 
+  MAIN_MENU = [
+    { :name		=> "Program",
+      :collection	=> "portfolios",
+    },
+  ]
+
+  def populate_joomla
+    MAIN_MENU.each_with_index do |config, index|
+      section_config = {:title => config[:name]}
+      section = JoomlaSection.find(:first, :conditions => section_config) || JoomlaSection.create(section_config)
+      menu_config = {:name => config[:name], :link => JoomlaMenu::link_for(section)}
+      menu = JoomlaMenu.find(:first, :conditions => menu_config) || JoomlaMenu.create(menu_config)
+      populate_joomla_with config[:collection], section, menu
+      section.restore_integrity!
+      menu.restore_integrity!
+    end
+  end
+
+  def populate_joomla_with collection_name, target, menu
+    method(collection_name).call.each {|item| item.populate_joomla(target, menu)}
+  end
+
   def joomla_general_section
     joomla_section_for "General Information"
   end
@@ -48,14 +70,6 @@ class Conference < ActiveRecord::Base
     joomla_menu_for "Call for Papers"
   end
 
-  def joomla_program_section
-    joomla_section_for "Program"
-  end
-
-  def joomla_program_menu
-    joomla_menu_for "Program"
-  end
-
   def joomla_menu_for name
     JoomlaMenu.find_by_name_and_sublevel name, 0
   end
@@ -65,11 +79,11 @@ class Conference < ActiveRecord::Base
   end
 
   def joomla_category_for title
-    query = {
+    conditions = {
       :title	=> title,
       :section	=> joomla_general_section.id,
     }
-    JoomlaCategory.find(:first, :conditions => query) || JoomlaCategory.create(query)
+    JoomlaCategory.find(:first, :conditions => conditions) || JoomlaCategory.create(conditions)
   end
 
   def chair? user
@@ -108,24 +122,9 @@ class Conference < ActiveRecord::Base
     joomla_cfp_menu.restore_integrity! :checked_out_time
   end
 
-  def generate_program
-    unless joomla_program_section
-      JoomlaSection.create(:title => "Program")
-      JoomlaMenu.create(:name  => "Program",
-        :link  => "index.php?option=com_content&view=section&layout=blog&id=#{joomla_program_section.id}"
-      )
-    end
-    portfolios.each{|p| p.generate_program}
-    joomla_program_section.restore_integrity!
-    joomla_program_menu.restore_integrity!
-  end
-
-
   # --- Permissions --- #
 
-  never_show :joomla_general_section, :joomla_article
-  never_show :joomla_cfp_menu, :joomla_cfp_section
-  never_show :joomla_program_menu, :joomla_program_section
+  never_show :joomla_article
 
   def create_permitted?
     acting_user.administrator?
@@ -250,9 +249,6 @@ protected
 	:checked_out_time => c.checked_out_time
       )
     end
-  end
-
-  def generate_program_menu
   end
 
 end

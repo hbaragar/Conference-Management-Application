@@ -77,6 +77,11 @@ secure=0
   validates_format_of :alias, :with => /^[-\w]+/
   validates_uniqueness_of :alias, :scope => :parent
 
+  def self.link_for target
+    view = target.class.name[/Joomla(\w+)/,1].downcase
+    "index.php?option=com_content&view=#{view}&layout=blog&id=#{target.id}"
+  end
+
   def restore_integrity! order_on = :name
     items.all(:order => order_on).each_with_index do |item, index|
       item.ordering = index + 1
