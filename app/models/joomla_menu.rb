@@ -78,11 +78,9 @@ secure=0
   validates_uniqueness_of :alias, :scope => :parent
 
   def restore_integrity! order_on = :name
-    correct_order = items.all(:order => order_on)
-    1.upto(correct_order.count) do |i|
-      item = correct_order[i-1]
-      item.ordering = i
-      item.save!
+    items.all(:order => order_on).each_with_index do |item, index|
+      item.ordering = index + 1
+      item.save
     end
   end
 

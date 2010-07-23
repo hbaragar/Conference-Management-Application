@@ -20,9 +20,9 @@ class JoomlaSection < ActiveRecord::Base
   validates_uniqueness_of :alias
 
   def restore_integrity! order_on = :title
-    correct_order = categories.all(:order => order_on)
-    1.upto(correct_order.count) do |i|
-      correct_order[i-1].restore_integrity! i
+    categories.all(:order => order_on).each_with_index do |category, index|
+      category.ordering = index + 1
+      category.save
     end
     self.count = articles.count
     save!
