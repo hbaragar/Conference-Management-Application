@@ -76,7 +76,9 @@ class Conference < ActiveRecord::Base
 
   # --- Permissions --- #
 
-  never_show :joomla_general_section, :joomla_article, :joomla_cfp_menu, :joomla_cfp_section
+  never_show :joomla_general_section, :joomla_article
+  never_show :joomla_cfp_menu, :joomla_cfp_section
+  never_show :joomla_program_menu, :joomla_program_section
 
   def create_permitted?
     acting_user.administrator?
@@ -194,6 +196,7 @@ protected
     end
     cfps.each{|c| c.generate_joomla_article}
     joomla_cfp_section.restore_integrity! :checked_out_time
+    joomla_cfp_section.categories.find_all_by_count(0){|c| c.destroy}
   end
 
   def generate_cfp_menu

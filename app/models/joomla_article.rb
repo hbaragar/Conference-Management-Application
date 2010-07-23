@@ -7,6 +7,25 @@ class JoomlaArticle < ActiveRecord::Base
 
   has_one :conference
 
+  DEFAULT_ATTRIBS="show_title=
+link_titles=
+show_intro=
+show_section=
+link_section=
+show_category=
+link_category=
+show_vote=
+show_author=
+show_create_date=
+show_modify_date=
+show_pdf_icon=
+show_print_icon=
+show_email_icon=
+language=
+keyref=
+readmore=
+"
+
   def before_validation_on_create
     self.modified = 5.hours.ago
     self.checked_out_time = 5.hours.ago unless checked_out_time
@@ -15,6 +34,7 @@ class JoomlaArticle < ActiveRecord::Base
     self.created = 5.hours.ago
     self.state = 1
     self.alias = title.tr("A-Z","a-z").gsub(/\W+/,"-") unless self.alias[/\w/]
+    self.attribs = DEFAULT_ATTRIBS
   end
 
   acts_as_list :column => :ordering, :scope => 'catid = #{catid}'

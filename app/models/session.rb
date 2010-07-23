@@ -40,8 +40,28 @@ class Session < ActiveRecord::Base
     )
   end
 
+  def joomla_category
+    portfolio.joomla_category
+  end
+
+  def generate_program_content
+    if joomla_article
+      joomla_article.title = name
+      joomla_article.sectionid = joomla_category.section
+    else
+      self.joomla_article = joomla_category.articles.create(:title => name, :sectionid => joomla_category.section)
+      save
+    end
+    joomla_article.fulltext = to_html
+    joomla_article.attribs = joomla_article.attribs.sub /show_category=(\d+)?/, "show_category=0"
+    joomla_article.attribs = joomla_article.attribs.sub /show_section=(\d+)?/, "show_section=0"
+    joomla_article.save
+  end
+
 
   # --- Permissions --- #
+
+  never_show :joomla_article
 
   def create_permitted?
     return true if acting_user.administrator?

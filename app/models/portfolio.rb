@@ -68,18 +68,20 @@ class Portfolio < ActiveRecord::Base
     presentations.create!(references)
   end
 
-
   def generate_program_content
     return if session_type == 'no_sessions'
     unless joomla_category
       self.joomla_category = conference.joomla_program_section.categories.create(:title => name)
       save
     end
+    sessions.each{|s| s.generate_program_content}
   end
 
 
 
   # --- Permissions --- #
+  
+  never_show :joomla_category, :joomla_menu
 
   def create_permitted?
     return true if acting_user.administrator?
