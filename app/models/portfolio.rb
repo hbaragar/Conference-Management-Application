@@ -68,7 +68,7 @@ class Portfolio < ActiveRecord::Base
     presentations.create!(references)
   end
 
-  def populate_joomla section, menu
+  def populate_joomla_program section, menu
     return if session_type == 'no_sessions'
     if joomla_category
       joomla_category.write_attribute(:title, name)

@@ -29,25 +29,25 @@ class Conference < ActiveRecord::Base
   end
 
   MAIN_MENU = [
-    { :name		=> "Program",
-      :collection	=> "portfolios",
-    },
+    { :name => "Program",	:class => JoomlaSection,	:collection => "portfolios" },
   ]
 
   def populate_joomla
     MAIN_MENU.each_with_index do |config, index|
-      section_config = {:title => config[:name]}
-      section = JoomlaSection.find(:first, :conditions => section_config) || JoomlaSection.create(section_config)
-      menu_config = {:name => config[:name], :link => JoomlaMenu::link_for(section)}
+      target_class = config[:class]
+      target_config = {:title => config[:name]}
+      target = target_class.find(:first, :conditions => target_config) || target_class.create(target_config)
+      menu_config = {:name => config[:name], :link => JoomlaMenu::link_for(target)}
       menu = JoomlaMenu.find(:first, :conditions => menu_config) || JoomlaMenu.create(menu_config)
-      populate_joomla_with config[:collection], section, menu
-      section.restore_integrity!
+      populate_joomla_with config[:collection], target, menu
+      target.restore_integrity!
       menu.restore_integrity!
     end
   end
 
   def populate_joomla_with collection_name, target, menu
-    method(collection_name).call.each {|item| item.populate_joomla(target, menu)}
+    populator = "populate_joomla_" + target.alias.gsub(/\W/,"_")
+    method(collection_name).call.each {|item| item.method(populator).call(target, menu)}
   end
 
   def joomla_general_section
