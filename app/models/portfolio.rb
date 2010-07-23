@@ -72,6 +72,13 @@ class Portfolio < ActiveRecord::Base
     return if session_type == 'no_sessions'
     unless joomla_category
       self.joomla_category = conference.joomla_program_section.categories.create(:title => name)
+      menu = conference.joomla_program_menu
+      self.joomla_menu = menu.items.create(
+	:name => name,
+	:parent => menu.id,
+	:sublevel => 1,
+        :link  => "index.php?option=com_content&view=category&layout=blog&id=#{joomla_category.id}"
+      )
       save
     end
     sessions.each{|s| s.generate_program_content}

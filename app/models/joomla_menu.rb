@@ -69,10 +69,21 @@ secure=0
 
   acts_as_list :column => :ordering
 
+  default_scope :order => "ordering"
+
   validates_presence_of :name
   validates_presence_of :link
   validates_uniqueness_of :name, :scope => :parent
   validates_format_of :alias, :with => /^[-\w]+/
   validates_uniqueness_of :alias, :scope => :parent
+
+  def restore_integrity!
+    correct_order = items.all(:order => :name)
+    1.upto(correct_order.count) do |i|
+      item = correct_order[i-1]
+      item.ordering = i
+      item.save!
+    end
+  end
 
 end

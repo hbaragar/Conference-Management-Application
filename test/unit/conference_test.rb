@@ -154,17 +154,20 @@ class ConferenceTest < ActiveSupport::TestCase
     assert_equal (1..3).to_a, categories.collect{|c| c.ordering}
     assert_equal ["DesignFest", "OOPSLA Research Program", "Workshops"], categories.collect{|c| c.title}
     @a_conference.sessions.each {|s| program_article_tests s}
-    #program_menu = @a_conference.joomla_program_menu
-    #assert_equal 0, program_menu.sublevel
-    #assert_match /show_vote=0/, program_menu.params
-    #assert_equal "index.php?option=com_content&view=section&layout=blog&id=#{program_section.id}", program_menu.link
-    #menu_items = program_menu.items
-    #item = menu_items[0]
-    #assert_equal 1, item.sublevel
-    #assert_equal "index.php?option=com_content&view=category&layout=blog&id=#{categories[0].id}", item.link
-    #assert_equal 2, menu_items.count
-    #assert_equal 1, menu_items[0].ordering
-    #assert_equal 2, menu_items[1].ordering
+    program_menu = @a_conference.joomla_program_menu
+    assert_equal 0, program_menu.sublevel
+    assert_match /show_vote=0/, program_menu.params
+    assert_equal "index.php?option=com_content&view=section&layout=blog&id=#{program_section.id}", program_menu.link
+    menu_items = program_menu.items
+    assert_equal 3, menu_items.count
+    assert_equal (1..3).to_a, menu_items.collect{|i| i.ordering}
+    assert_equal [1] * 3, menu_items.collect{|i| i.sublevel}
+    assert_equal ["DesignFest", "OOPSLA Research Program", "Workshops"], menu_items.collect{|i| i.name}
+    categories.each do |c|
+      submenu = JoomlaMenu.find_by_name_and_parent(c.title,program_menu.id)
+      assert_equal "index.php?option=com_content&view=category&layout=blog&id=#{c.id}", submenu.link
+      assert_equal submenu, menu_items[submenu.ordering-1]
+    end
   end
 
   def program_article_tests session

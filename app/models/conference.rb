@@ -206,8 +206,8 @@ protected
         :alias => "cfp",
         :link  => "index.php?option=com_content&view=section&layout=blog&id=#{joomla_cfp_section.id}"
       )
+      save
     end
-    save	# Always save in order to get the parametes updated
     purge_unused_menu_items
     create_new_menu_items
     reorder_cfp_menu_items
@@ -241,11 +241,15 @@ protected
 
   def generate_program_content
     unless joomla_program_section
-      self.joomla_program_section = JoomlaSection.create(:title => "Program", :alias => "program")
+      self.joomla_program_section = JoomlaSection.create(:title => "Program")
+      self.joomla_program_menu = JoomlaMenu.create(:name  => "Program",
+        :link  => "index.php?option=com_content&view=section&layout=blog&id=#{joomla_program_section.id}"
+      )
       save
     end
     portfolios.each{|p| p.generate_program_content}
     joomla_program_section.restore_integrity!
+    joomla_program_menu.restore_integrity!
   end
 
   def generate_program_menu
