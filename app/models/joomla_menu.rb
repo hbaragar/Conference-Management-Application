@@ -77,8 +77,8 @@ secure=0
   validates_format_of :alias, :with => /^[-\w]+/
   validates_uniqueness_of :alias, :scope => :parent
 
-  def restore_integrity!
-    correct_order = items.all(:order => :name)
+  def restore_integrity! order_on = :name
+    correct_order = items.all(:order => order_on)
     1.upto(correct_order.count) do |i|
       item = correct_order[i-1]
       item.ordering = i

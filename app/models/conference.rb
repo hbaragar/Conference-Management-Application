@@ -56,8 +56,21 @@ class Conference < ActiveRecord::Base
   end
 
   def generate_cfps
-    generate_cfp_content
-    generate_cfp_menu
+    unless joomla_cfp_section
+      self.joomla_cfp_section = JoomlaSection.create(:title => "Call for Papers", :alias => "cfp")
+      self.joomla_cfp_menu = JoomlaMenu.create(
+        :name  => "Call for Papers",
+        :alias => "cfp",
+        :link  => "index.php?option=com_content&view=section&layout=blog&id=#{joomla_cfp_section.id}"
+      )
+      save
+    end
+    cfps.each{|c| c.generate_joomla_article}
+    joomla_cfp_section.restore_integrity! :checked_out_time
+    joomla_cfp_section.categories.find_all_by_count(0){|c| c.destroy}
+    purge_unused_menu_items
+    create_new_menu_items
+    joomla_cfp_menu.restore_integrity! :checked_out_time
   end
 
   def generate_program
@@ -197,30 +210,6 @@ protected
     end
   end
 
-  def generate_cfp_content
-    unless joomla_cfp_section
-      self.joomla_cfp_section = JoomlaSection.create(:title => "Call for Papers", :alias => "cfp")
-      save
-    end
-    cfps.each{|c| c.generate_joomla_article}
-    joomla_cfp_section.restore_integrity! :checked_out_time
-    joomla_cfp_section.categories.find_all_by_count(0){|c| c.destroy}
-  end
-
-  def generate_cfp_menu
-    unless joomla_cfp_menu
-      self.joomla_cfp_menu = JoomlaMenu.create(
-        :name  => "Call for Papers",
-        :alias => "cfp",
-        :link  => "index.php?option=com_content&view=section&layout=blog&id=#{joomla_cfp_section.id}"
-      )
-      save
-    end
-    purge_unused_menu_items
-    create_new_menu_items
-    reorder_cfp_menu_items
-  end
-
   def purge_unused_menu_items
     joomla_cfp_menu.items.each do |i|
       i.destroy unless joomla_cfp_section.categories.find_by_title(i.name)
@@ -234,16 +223,9 @@ protected
         :name	=> c.title,
         :alias	=> c.alias,
         :link	=> "index.php?option=com_content&view=category&layout=blog&id=#{c.id}",
-        :sublevel => 1
+        :sublevel => 1,
+	:checked_out_time => c.checked_out_time
       )
-    end
-  end
-
-  def reorder_cfp_menu_items
-    joomla_cfp_section.categories.each do |c|
-      item = joomla_cfp_menu.items.find_by_name(c.title)
-      item.ordering = c.ordering
-      item.save
     end
   end
 
