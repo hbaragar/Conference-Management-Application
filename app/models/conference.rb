@@ -13,15 +13,7 @@ class Conference < ActiveRecord::Base
     description :markdown
   end
 
-  belongs_to :joomla_general_section, :class_name => "JoomlaSection"	# For the Hosting conference
-
   belongs_to :joomla_article, :class_name => "JoomlaArticle"		# For Colocated conferences
-
-  belongs_to :joomla_cfp_section, :class_name => "JoomlaSection"
-  belongs_to :joomla_cfp_menu, :class_name => "JoomlaMenu"
-
-  belongs_to :joomla_program_section, :class_name => "JoomlaSection"
-  belongs_to :joomla_program_menu, :class_name => "JoomlaMenu"
 
   has_many :colocated_conferences, :class_name => "Conference", :foreign_key => :colocated_with_id
   has_many :portfolios, :dependent => :destroy
@@ -34,6 +26,34 @@ class Conference < ActiveRecord::Base
 
   def after_create 
     portfolios << Portfolio.new(:name => "General")
+  end
+
+  def joomla_general_section
+    joomla_section "General Information"
+  end
+
+  def joomla_cfp_section
+    joomla_section "Call for Papers"
+  end
+
+  def joomla_cfp_menu
+    joomla_menu "Call for Papers"
+  end
+
+  def joomla_program_section
+    joomla_section "Program"
+  end
+
+  def joomla_program_menu
+    joomla_menu "Program"
+  end
+
+  def joomla_section title
+    JoomlaSection.find_by_title title
+  end
+
+  def joomla_menu name
+    JoomlaMenu.find_by_name_and_sublevel name, 0
   end
 
   def chair? user
@@ -57,13 +77,12 @@ class Conference < ActiveRecord::Base
 
   def generate_cfps
     unless joomla_cfp_section
-      self.joomla_cfp_section = JoomlaSection.create(:title => "Call for Papers", :alias => "cfp")
-      self.joomla_cfp_menu = JoomlaMenu.create(
+      JoomlaSection.create(:title => "Call for Papers", :alias => "cfp")
+      JoomlaMenu.create(
         :name  => "Call for Papers",
         :alias => "cfp",
         :link  => "index.php?option=com_content&view=section&layout=blog&id=#{joomla_cfp_section.id}"
       )
-      save
     end
     cfps.each{|c| c.generate_joomla_article}
     joomla_cfp_section.restore_integrity! :checked_out_time
@@ -75,11 +94,10 @@ class Conference < ActiveRecord::Base
 
   def generate_program
     unless joomla_program_section
-      self.joomla_program_section = JoomlaSection.create(:title => "Program")
-      self.joomla_program_menu = JoomlaMenu.create(:name  => "Program",
+      JoomlaSection.create(:title => "Program")
+      JoomlaMenu.create(:name  => "Program",
         :link  => "index.php?option=com_content&view=section&layout=blog&id=#{joomla_program_section.id}"
       )
-      save
     end
     portfolios.each{|p| p.generate_program}
     joomla_program_section.restore_integrity!
@@ -124,8 +142,7 @@ protected
   def set_up_joomla_general_section
     return if colocated_with
     return if joomla_general_section
-    self.joomla_general_section = JoomlaSection.create!(:title => "General Information")
-    save
+    JoomlaSection.create!(:title => "General Information")
   end
 
   def generate_general_content
