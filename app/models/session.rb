@@ -44,14 +44,14 @@ class Session < ActiveRecord::Base
     portfolio.joomla_category
   end
 
-  def generate_program_content
+  def generate_program
     if joomla_article
       joomla_article.title = name
       joomla_article.sectionid = joomla_category.section
     else
       self.joomla_article = joomla_category.articles.create(:title => name, :sectionid => joomla_category.section)
-      save
     end
+    save
     joomla_article.fulltext = to_html
     joomla_article.attribs = joomla_article.attribs.sub /show_category=(\d+)?/, "show_category=0"
     joomla_article.attribs = joomla_article.attribs.sub /show_section=(\d+)?/, "show_section=0"

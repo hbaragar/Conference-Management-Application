@@ -61,8 +61,16 @@ class Conference < ActiveRecord::Base
   end
 
   def generate_program
-    generate_program_content
-    generate_program_menu
+    unless joomla_program_section
+      self.joomla_program_section = JoomlaSection.create(:title => "Program")
+      self.joomla_program_menu = JoomlaMenu.create(:name  => "Program",
+        :link  => "index.php?option=com_content&view=section&layout=blog&id=#{joomla_program_section.id}"
+      )
+      save
+    end
+    portfolios.each{|p| p.generate_program}
+    joomla_program_section.restore_integrity!
+    joomla_program_menu.restore_integrity!
   end
 
   def general_category_for title
@@ -237,19 +245,6 @@ protected
       item.ordering = c.ordering
       item.save
     end
-  end
-
-  def generate_program_content
-    unless joomla_program_section
-      self.joomla_program_section = JoomlaSection.create(:title => "Program")
-      self.joomla_program_menu = JoomlaMenu.create(:name  => "Program",
-        :link  => "index.php?option=com_content&view=section&layout=blog&id=#{joomla_program_section.id}"
-      )
-      save
-    end
-    portfolios.each{|p| p.generate_program_content}
-    joomla_program_section.restore_integrity!
-    joomla_program_menu.restore_integrity!
   end
 
   def generate_program_menu

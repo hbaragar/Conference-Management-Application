@@ -68,7 +68,7 @@ class Portfolio < ActiveRecord::Base
     presentations.create!(references)
   end
 
-  def generate_program_content
+  def generate_program
     return if session_type == 'no_sessions'
     unless joomla_category
       self.joomla_category = conference.joomla_program_section.categories.create(:title => name)
@@ -81,7 +81,7 @@ class Portfolio < ActiveRecord::Base
       )
       save
     end
-    sessions.each{|s| s.generate_program_content}
+    sessions.each{|s| s.generate_program}
   end
 
 
