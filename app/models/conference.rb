@@ -31,6 +31,7 @@ class Conference < ActiveRecord::Base
   MAIN_MENU = [
     { :name => "Home",		:class => JoomlaSection,	:collection => "selves",	:alias => 'general-information' },
     { :name => "Program",	:class => JoomlaSection,	:collection => "portfolios" },
+    { :name => "Colocated Conferences",	:class => JoomlaCategory,	:collection => "colocated_conferences" },
   ]
 
   def populate_joomla
@@ -48,6 +49,7 @@ class Conference < ActiveRecord::Base
   def populate_joomla_menu_area_configured_by config, index
     target_class = config[:class]
     target_config = {:title => config[:name]}
+    target_config[:section] = joomla_general_section.id if target_class == JoomlaCategory
     target = target_class.find(:first, :conditions => target_config) || target_class.create(target_config)
     menu_config = {:name => config[:name], :link => JoomlaMenu::link_for(target)}
     menu = JoomlaMenu.find(:first, :conditions => menu_config) || JoomlaMenu.create(menu_config)
@@ -69,12 +71,25 @@ class Conference < ActiveRecord::Base
     # Populated through Joomla itself
   end
 
-  def joomla_general_section
-    joomla_section_for "General Information"
+  def populate_joomla_colocated_conferences category, index
+    # called for each colocated conference (not for the host conference)
+    unless joomla_article
+      self.joomla_article = joomla_general_section.articles.create(:title => name, :catid => category.id)
+      save!
+    end
+    fancy_title = name
+    fancy_title = img(logo_url, "#{name} logo") if logo_url =~ /\w/
+    fancy_title = external_link(url, fancy_title) if url =~ /\w/
+    joomla_article.introtext = div("colocated_conference",
+      h2(fancy_title),
+      description,
+      div("readon", external_link(url,"Read more: #{name}"))
+    )
+    joomla_article.save
   end
 
-  def joomla_colocated_conferences_category 
-    joomla_category_for 'Colocated Conferences'
+  def joomla_general_section
+    joomla_section_for "General Information"
   end
 
   def joomla_colocated_conferences_menu 
@@ -173,56 +188,12 @@ protected
 
   def generate_general_content
     set_up_joomla_general_section
-    generate_general_colocated_conferences_content
     generate_general_call_for_supporters_content
     joomla_general_section.restore_integrity!
   end
 
   def set_up_general_menu
-    set_up_general_colocated_conferences_menu_item
     set_up_general_call_for_supporters_menu_item
-  end
-
-  def set_up_general_colocated_conferences_menu_item
-    menu = joomla_colocated_conferences_menu || JoomlaMenu.create(
-      :name => 'Colocated Conferences',
-      :sublevel => 0,
-      :link => "index.php?option=com_content&view=category&layout=blog&id=#{joomla_colocated_conferences_category.id}"
-    )
-    menu.params[/show_title=\d/] = "show_title=0"
-    menu.params[/show_category=\d/] = "show_category=0"
-    menu.params += " "		# Force the save
-    menu.save!
-  end
-
-  def generate_general_colocated_conferences_content
-    colocated_conferences.each {|c| c.generate_general_colocated_conference_article}
-    purge_unused_general_colocated_conference_articles
-  end
-
-  def generate_general_colocated_conference_article
-    unless joomla_article
-      self.joomla_article = joomla_general_section.articles.create(
-        :title => name,
-        :catid => joomla_colocated_conferences_category.id
-      )
-      save!
-    end
-    fancy_title = name
-    fancy_title = img(logo_url, "#{name} logo") if logo_url =~ /\w/
-    fancy_title = external_link(url, fancy_title) if url =~ /\w/
-    joomla_article.introtext = div("colocated_conference",
-      h2(fancy_title),
-      description,
-      div("readon", external_link(url,"Read more: #{name}"))
-    )
-    joomla_article.save
-  end
-
-  def purge_unused_general_colocated_conference_articles
-    joomla_colocated_conferences_category.articles.each do |a|
-      a.conference or a.destroy 
-    end
   end
 
   def general_menu_item_for name, sublevel = 0

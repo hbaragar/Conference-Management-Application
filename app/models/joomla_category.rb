@@ -22,9 +22,15 @@ class JoomlaCategory < ActiveRecord::Base
   validates_uniqueness_of :alias
 
   def restore_integrity! position = nil
+    purge_articles_for_deleted_colocated_conferences
     self.ordering = position if position
     self.count = articles.count
     save!
+  end
+
+  def purge_articles_for_deleted_colocated_conferences
+    return unless self.alias == 'colocated-conferences'
+    articles.each {|a| a.destroy unless a.conference}
   end
 
   def cfp

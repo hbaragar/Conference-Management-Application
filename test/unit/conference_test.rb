@@ -37,9 +37,7 @@ class ConferenceTest < ActiveSupport::TestCase
   end
 
   test "generate_general_info" do
-    @a_conference.generate_general_information
-    @a_conference.reload
-    assert @a_conference.joomla_general_section
+    @a_conference.populate_joomla_menu_area_for "Colocated Conferences"
     assert menu_item = JoomlaMenu.find_by_name_and_sublevel('Colocated Conferences',0)
     assert category = @a_conference.joomla_general_section.categories.find_by_title('Colocated Conferences')
     assert_match /#{category.id}$/, menu_item.link
@@ -56,12 +54,13 @@ class ConferenceTest < ActiveSupport::TestCase
     assert_equal 1, category.articles.count
     @another_conference.destroy
     @a_conference.reload
-    @a_conference.generate_general_information
+    @a_conference.populate_joomla_menu_area_for "Colocated Conferences"
     assert_equal 0, category.articles.count
-    plus_test_for_generating_call_for_supporters
   end
 
-  def plus_test_for_generating_call_for_supporters
+  test "generate call for supporters" do
+    @a_conference.generate_general_information
+    @a_conference.reload
     # Content
     a_call_for_supporter = calls(:a_call_for_supporter)
     assert joomla_article = a_call_for_supporter.joomla_article
@@ -88,19 +87,18 @@ class ConferenceTest < ActiveSupport::TestCase
   test "generate_cfps" do
     @a_conference.generate_cfps
     cfp_article_tests
-    assert_equal 1, JoomlaSection.count
+    assert_equal 2, JoomlaSection.count
     assert_equal 2, JoomlaCategory.count
     assert_equal 3, JoomlaArticle.count
     assert_equal 3, JoomlaMenu.count
     @a_conference.generate_cfps
     @a_conference.reload
-    assert_equal 1, JoomlaSection.count
+    assert_equal 2, JoomlaSection.count
     assert_equal 2, JoomlaCategory.count
     assert_equal 3, JoomlaArticle.count
     assert_equal 3, JoomlaMenu.count
-    cfp_section = JoomlaSection.find(:all).first
+    assert cfp_section = JoomlaSection.find_by_alias("cfp")
     assert_equal "Call for Papers", cfp_section.title
-    assert_equal "cfp", cfp_section.alias
     assert_equal 3, cfp_section.count
     assert_equal cfp_section, @a_conference.joomla_cfp_section
     assert_equal 2, cfp_section.categories.count
@@ -134,19 +132,18 @@ class ConferenceTest < ActiveSupport::TestCase
 
   test "populate joomla program menu area" do
     @a_conference.populate_joomla_menu_area_for "Program"
-    assert_equal 1, JoomlaSection.count
+    assert_equal 2, JoomlaSection.count
     assert_equal 3, JoomlaCategory.count
     assert_equal 2, JoomlaArticle.count
     #assert_equal 3, JoomlaMenu.count
     @a_conference.populate_joomla_menu_area_for "Program"
     @a_conference.reload
-    assert_equal 1, JoomlaSection.count
+    assert_equal 2, JoomlaSection.count
     assert_equal 3, JoomlaCategory.count
     assert_equal 2, JoomlaArticle.count
     #assert_equal 3, JoomlaMenu.count
-    program_section = JoomlaSection.find(:all).first
+    assert program_section = JoomlaSection.find_by_alias("program")
     assert_equal "Program", program_section.title
-    assert_equal "program", program_section.alias
     assert_equal 2, program_section.count
     assert_equal program_section, @a_conference.joomla_section_for("Program")
     assert_equal 3, program_section.categories.count
