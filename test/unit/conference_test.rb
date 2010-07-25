@@ -132,13 +132,13 @@ class ConferenceTest < ActiveSupport::TestCase
     assert_match /#{a_cfp.details}/, joomla_article.fulltext
   end
 
-  test "populate program" do
-    @a_conference.populate_joomla
+  test "populate joomla program menu area" do
+    @a_conference.populate_joomla_menu_area_for "Program"
     assert_equal 1, JoomlaSection.count
     assert_equal 3, JoomlaCategory.count
     assert_equal 2, JoomlaArticle.count
     #assert_equal 3, JoomlaMenu.count
-    @a_conference.populate_joomla
+    @a_conference.populate_joomla_menu_area_for "Program"
     @a_conference.reload
     assert_equal 1, JoomlaSection.count
     assert_equal 3, JoomlaCategory.count

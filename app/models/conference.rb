@@ -29,25 +29,44 @@ class Conference < ActiveRecord::Base
   end
 
   MAIN_MENU = [
+    { :name => "Home",		:class => JoomlaSection,	:collection => "selves",	:alias => 'general-information' },
     { :name => "Program",	:class => JoomlaSection,	:collection => "portfolios" },
   ]
 
   def populate_joomla
     MAIN_MENU.each_with_index do |config, index|
-      target_class = config[:class]
-      target_config = {:title => config[:name]}
-      target = target_class.find(:first, :conditions => target_config) || target_class.create(target_config)
-      menu_config = {:name => config[:name], :link => JoomlaMenu::link_for(target)}
-      menu = JoomlaMenu.find(:first, :conditions => menu_config) || JoomlaMenu.create(menu_config)
-      populate_joomla_with config[:collection], target, menu
-      target.restore_integrity!
-      menu.restore_integrity!
+      populate_joomla_menu_area_configured_by config, index
     end
   end
 
-  def populate_joomla_with collection_name, target, menu
+  def populate_joomla_menu_area_for item_name
+    MAIN_MENU.each_with_index do |config, index|
+      populate_joomla_menu_area_configured_by(config, index) if config[:name] == item_name
+    end
+  end
+
+  def populate_joomla_menu_area_configured_by config, index
+    target_class = config[:class]
+    target_config = {:title => config[:name]}
+    target = target_class.find(:first, :conditions => target_config) || target_class.create(target_config)
+    menu_config = {:name => config[:name], :link => JoomlaMenu::link_for(target)}
+    menu = JoomlaMenu.find(:first, :conditions => menu_config) || JoomlaMenu.create(menu_config)
+    populate_joomla_menu_area_with config[:collection], target, menu
+    target.restore_integrity!
+    menu.restore_integrity!
+  end
+
+  def populate_joomla_menu_area_with collection_name, target, menu
     populator = "populate_joomla_" + target.alias.gsub(/\W/,"_")
     method(collection_name).call.each {|item| item.method(populator).call(target, menu)}
+  end
+
+  def selves
+    [self]
+  end
+
+  def populate_joomla_home section, index
+    # Populated through Joomla itself
   end
 
   def joomla_general_section
