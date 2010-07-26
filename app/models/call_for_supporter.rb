@@ -7,7 +7,7 @@ class CallForSupporter < Call
     conference.publish_to_joomla 'general_information'
   end
 
-  def generate_joomla_article joomla_category
+  def populate_joomla_supporters joomla_category
     if state == 'unpublished'
       joomla_article && joomla_article.destroy
       save
@@ -23,6 +23,7 @@ class CallForSupporter < Call
       joomla_article.fulltext = full_details
       joomla_article.save
     end
+    joomla_article
   end
 
   def full_details

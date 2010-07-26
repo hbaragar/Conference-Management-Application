@@ -50,7 +50,7 @@ class ConferenceTest < ActiveSupport::TestCase
     assert_match /<a.*href="http:..www.onward-conference.org.".*Onward! 2010.*<.a>/, article.introtext
     assert_match /<img.*src="http:..www.onward-conference.org.logo.gif.*>/, article.introtext
     assert_match /Was part of OOPSLA/, article.introtext
-    @a_conference.generate_general_information
+    @a_conference.populate_joomla_menu_area_for "Colocated Conferences"
     assert_equal 1, category.articles.count
     @another_conference.destroy
     @a_conference.reload
@@ -58,8 +58,8 @@ class ConferenceTest < ActiveSupport::TestCase
     assert_equal 0, category.articles.count
   end
 
-  test "generate call for supporters" do
-    @a_conference.generate_general_information
+  test "populate menu area for supporters" do
+    @a_conference.populate_joomla_menu_area_for "Supporters"
     @a_conference.reload
     # Content
     a_call_for_supporter = calls(:a_call_for_supporter)
@@ -84,7 +84,7 @@ class ConferenceTest < ActiveSupport::TestCase
     assert_equal "index.php?option=com_content&view=article&id=#{call_for_supporter_article.id}", call_for_supporter_menu.link
   end
 
-  test "generate_cfps" do
+  test "populate menu area for call for papers" do
     @a_conference.populate_joomla_menu_area_for "Call for Papers"
     assert_equal 2, JoomlaSection.count
     assert_equal 2, JoomlaCategory.count

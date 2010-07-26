@@ -79,7 +79,8 @@ secure=0
 
   def self.link_for target
     view = target.class.name[/Joomla(\w+)/,1].downcase
-    "index.php?option=com_content&view=#{view}&layout=blog&id=#{target.id}"
+    layout="&layout=blog" if view =~ /section|category/
+    "index.php?option=com_content&view=#{view}#{layout}&id=#{target.id}"
   end
 
   def restore_integrity! order_on = :name

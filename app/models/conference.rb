@@ -23,9 +23,20 @@ class Conference < ActiveRecord::Base
   has_many :members, :through => :portfolios
 
   def cfp_due_dates
+    # For populating Call for Papers menu area
     cfps.collect{|c| c.due_on}.uniq.collect do |due_on|
       CfpDueDate.new(:due_on => due_on, :cfps => cfps.find_all_by_due_on(due_on))
     end
+  end
+
+  def selves
+    # Kluge for populating the Home menu area
+    [self]
+  end
+
+  def supporter_portfolios
+    # Kluge for populating the Supporters menu area
+    call_for_supporters.collect{|c| c.portfolio}.uniq
   end
 
   named_scope :host_conferences, :conditions => {:colocated_with_id => nil}
@@ -35,10 +46,11 @@ class Conference < ActiveRecord::Base
   end
 
   MAIN_MENU = [
-    { :name => "Home",		:class => JoomlaSection,	:collection => "selves",	:alias => 'general-information' },
-    { :name => "Program",	:class => JoomlaSection,	:collection => "portfolios" },
-    { :name => "Call for Papers",	:class => JoomlaSection,	:collection => "cfp_due_dates", :alias => 'cfp', :order_on => :checked_out_time},
-    { :name => "Colocated Conferences",	:class => JoomlaCategory,	:collection => "colocated_conferences" },
+    { :name => "Home",			:class => JoomlaSection,  :collection => "selves",	:alias => 'general-information' },
+    { :name => "Program",		:class => JoomlaSection,  :collection => "portfolios" },
+    { :name => "Call for Papers",	:class => JoomlaSection,  :collection => "cfp_due_dates", :alias => 'cfp', :order_on => :checked_out_time},
+    { :name => "Colocated Conferences",	:class => JoomlaCategory, :collection => "colocated_conferences" },
+    { :name => "Supporters",		:class => JoomlaCategory, :collection => "supporter_portfolios" },
   ]
 
   def populate_joomla
@@ -69,10 +81,6 @@ class Conference < ActiveRecord::Base
   def populate_joomla_menu_area_with collection_name, target, menu
     populator = "populate_joomla_" + target.alias.gsub(/\W/,"_")
     method(collection_name).call.each {|item| item.method(populator).call(target, menu)}
-  end
-
-  def selves
-    [self]
   end
 
   def populate_joomla_home section, index
@@ -130,11 +138,6 @@ class Conference < ActiveRecord::Base
     system("pull-from-joomla") && self.method("generate_#{content}").call && system("push-to-joomla") 
   end
 
-  def generate_general_information
-    generate_general_content
-    set_up_general_menu
-  end
-
 
   # --- Permissions --- #
 
@@ -164,42 +167,6 @@ protected
     return if colocated_with
     return if joomla_general_section
     JoomlaSection.create!(:title => "General Information")
-  end
-
-  def generate_general_content
-    set_up_joomla_general_section
-    generate_general_call_for_supporters_content
-    joomla_general_section.restore_integrity!
-  end
-
-  def set_up_general_menu
-    set_up_general_call_for_supporters_menu_item
-  end
-
-  def general_menu_item_for name, sublevel = 0
-    JoomlaMenu.find_by_name_and_sublevel(name,sublevel)
-  end
-
-  def generate_general_call_for_supporters_content
-    category = joomla_category_for 'Supporters'
-    call_for_supporters.each{|c| c.generate_joomla_article(category)}
-  end
-
-  def set_up_general_call_for_supporters_menu_item
-    menu_name = 'Supporters'
-    category = joomla_category_for(menu_name) or return
-    menu = general_menu_item_for(menu_name) || JoomlaMenu.create(
-      :name => menu_name,
-      :sublevel => 0,
-      :link => "index.php?option=com_content&view=category&layout=blog&id=#{category.id}"
-    )
-    call_for_supporters.each do |c|
-      item = general_menu_item_for(c.name, 1) || menu.items.create(
-        :name => c.name,
-        :sublevel => 1,
-        :link => "index.php?option=com_content&view=article&id=#{c.joomla_article_id}"
-      )
-    end
   end
 
 end

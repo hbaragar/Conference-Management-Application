@@ -87,6 +87,18 @@ class Portfolio < ActiveRecord::Base
   end
 
 
+  def populate_joomla_supporters category, menu
+    call_for_supporters.each do |c|
+      article = c.populate_joomla_supporters category 
+      menu.items.find_by_name(name) || menu.items.create(
+        :name => name,
+        :sublevel => 1,
+        :link => JoomlaMenu::link_for(article)
+      )
+    end
+  end
+
+
   # --- Permissions --- #
   
   never_show :joomla_category, :joomla_menu
