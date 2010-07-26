@@ -4,13 +4,12 @@ class CallForSupporter < Call
 
 
   def publish_to_joomla
-    conference.publish_to_joomla 'general_information'
+    conference.publish_to_joomla 'Supporters'
   end
 
   def populate_joomla_supporters joomla_category
     if state == 'unpublished'
-      joomla_article && joomla_article.destroy
-      save
+      joomla_article.update_attributes(:state => 0) if joomla_article
     else
       unless joomla_article
 	self.joomla_article = joomla_category.articles.create(
@@ -19,9 +18,13 @@ class CallForSupporter < Call
 	)
 	save
       end
-      joomla_article.introtext = portfolio_description.to_html
-      joomla_article.fulltext = full_details
-      joomla_article.save
+      joomla_article.update_attributes(
+	:title		=> name,
+        :alias		=> nil,
+        :section	=> joomla_category.joomla_section,
+        :introtext	=> portfolio_description.to_html,
+        :fulltext	=> full_details
+      )
     end
     joomla_article
   end

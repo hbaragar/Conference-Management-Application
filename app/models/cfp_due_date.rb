@@ -15,24 +15,28 @@ class CfpDueDate
   def populate_joomla_cfp section, menu
     # Kluge: category checked_out_time is not used during the generatation of content,
     #        so co-opt it for sorting purposes (see JoomlaSection::restore_integrity!)
-    self.joomla_category = find_or_create_category_in section
-    self.joomla_menu = find_or_create_item_in menu
+    find_or_create_joomla_category_in section
+    find_or_create_joomla_menu_in menu
     cfps.each{|c| c.populate_joomla_call_for_papers joomla_category}
   end
 
-  def find_or_create_category_in section
-    fields = { :title => name, :checked_out_time => due_on.to_datetime }
-    section.categories.find(:first, :conditions => fields) || section.categories.create!(fields)
+  def find_or_create_joomla_category_in section
+    self.joomla_category = section.categories.find_by_title(name) ||
+      section.categories.create!(:title => name, :checked_out_time => due_on.to_datetime)
+    joomla_category.update_attributes(:alias => nil)
+    joomla_category
   end
 
-  def find_or_create_item_in menu
-    fields = {
-      :name		=> name, 
+  def find_or_create_joomla_menu_in menu
+    joomla_menu = menu.items.find_by_name(name) || menu.items.create(:name => name)
+    joomla_menu.update_attributes(
       :checked_out_time	=> due_on.to_datetime,
+      :parent		=> menu.id,
       :sublevel		=> 1,
-      :link		=> JoomlaMenu::link_for(joomla_category)
-    }
-    menu.items.find(:first, :conditions => fields) || menu.items.create(fields)
+      :link		=> JoomlaMenu::link_for(joomla_category),
+      :alias		=> nil
+    )
+    joomla_menu
   end
 
 end

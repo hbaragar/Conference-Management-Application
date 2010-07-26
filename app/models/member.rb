@@ -49,10 +49,9 @@ class Member < ActiveRecord::Base
 
   def after_save
     if user && (user.name != name || user.email_address != private_email_address)
-      user.email_address = private_email_address
-      user.name = name
-      user.save
+      user.update_attributes(:name => name, :email_address => private_email_address)
     end
+    portfolio.cfp.changes_pending!
   end
 
 

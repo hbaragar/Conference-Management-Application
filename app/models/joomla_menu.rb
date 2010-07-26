@@ -42,6 +42,11 @@ menu_image=-1
 secure=0
     )
 
+  def before_validation
+    return unless name	# Can't create an alias from nothing!
+    self.alias = name.tr("A-Z","a-z").gsub(/\W+/,"-") unless self.alias && self.alias =~ /\w/
+  end
+
   def before_validation_on_create
     self.type = "component"
     self.componentid = JoomlaComponent.find_by_name('Articles').id
@@ -50,11 +55,6 @@ secure=0
     self.published = 1
     self.params = PARAMS
     self.name ||= ""
-    self.alias = name.tr("A-Z","a-z").gsub(/\W+/,"-") unless self.alias =~ /\w/
-  end
-
-  def before_validataion
-    self.alias = name.tr("A-Z","a-z").gsub(/\W+/,"-") unless self.alias =~ /\w/
   end
 
   def before_save
@@ -85,8 +85,7 @@ secure=0
 
   def restore_integrity! order_on = :name
     items.all(:order => (order_on||:name)).each_with_index do |item, index|
-      item.ordering = index + 1
-      item.save!
+      item.update_attributes(:ordering => index + 1)
     end
   end
 

@@ -59,20 +59,23 @@ class Conference < ActiveRecord::Base
     end
   end
 
-  def populate_joomla_menu_area_for item_name
+  def populate_joomla_menu_area_for menu_name
     MAIN_MENU.each_with_index do |config, index|
-      populate_joomla_menu_area_configured_by(config, index) if config[:name] == item_name
+      populate_joomla_menu_area_configured_by(config, index) if config[:name] == menu_name
     end
   end
 
   def populate_joomla_menu_area_configured_by config, index
     target_class = config[:class]
     target_config = {:title => config[:name]}
-    target_config[:alias] = config[:alias] if config[:alias]
     target_config[:section] = joomla_general_section.id if target_class == JoomlaCategory
-    target = target_class.find(:first, :conditions => target_config) || target_class.create(target_config)
-    menu_config = {:name => config[:name], :link => JoomlaMenu::link_for(target)}
-    menu = JoomlaMenu.find(:first, :conditions => menu_config) || JoomlaMenu.create(menu_config)
+    target = target_class.find(:first, :conditions => target_config) || target_class.create!(target_config)
+    target.update_attributes!(:alias => config[:alias])
+    menu = JoomlaMenu.find_by_name(config[:name]) || JoomlaMenu.create!(
+    	:name => config[:name],
+	:link => JoomlaMenu::link_for(target)
+    )
+    menu.update_attributes(:link => JoomlaMenu::link_for(target), :alias => config[:menu])
     populate_joomla_menu_area_with config[:collection], target, menu
     target.restore_integrity! config[:order_on]
     menu.restore_integrity! config[:order_on]
@@ -96,12 +99,13 @@ class Conference < ActiveRecord::Base
     fancy_title = name
     fancy_title = img(logo_url, "#{name} logo") if logo_url =~ /\w/
     fancy_title = external_link(url, fancy_title) if url =~ /\w/
-    joomla_article.introtext = div("colocated_conference",
-      h2(fancy_title),
-      description,
-      div("readon", external_link(url,"Read more: #{name}"))
+    joomla_article.update_attributes(
+      :introtext => div("colocated_conference",
+	h2(fancy_title),
+	description,
+	div("readon", external_link(url,"Read more: #{name}"))
+      )
     )
-    joomla_article.save
   end
 
   def joomla_general_section
@@ -114,12 +118,12 @@ class Conference < ActiveRecord::Base
     end.count > 0
   end
 
-  def publish_to_joomla content
+  def publish_to_joomla menu_name
     script_path =  "#{File.dirname(__FILE__)}/../../script"
     unless ENV['PATH'][/^script_path/]
 	ENV['PATH'] = script_path + ":" + ENV['PATH']
     end
-    system("pull-from-joomla") && self.method("generate_#{content}").call && system("push-to-joomla") 
+    system("pull-from-joomla") && populate_joomla_menu_area_for(menu_name) && system("push-to-joomla") 
   end
 
 

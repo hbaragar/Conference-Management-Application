@@ -2,11 +2,14 @@ class JoomlaSection < ActiveRecord::Base
 
   set_table_name 'jos_sections'
 
+  def before_validation
+    self.alias = title.tr("A-Z","a-z").gsub(/\W+/,"-") unless self.alias && self.alias[/\w/]
+  end
+
   def before_validation_on_create
     self.checked_out_time = 5.hours.ago unless checked_out_time
     self.scope = "content"
     self.published = 1
-    self.alias = title.tr("A-Z","a-z").gsub(/\W+/,"-") unless self.alias[/\w/]
   end
 
   has_many :categories, :class_name => "JoomlaCategory", :foreign_key => :section
@@ -22,8 +25,7 @@ class JoomlaSection < ActiveRecord::Base
   def restore_integrity! order_on = :title
     purge_categories_for_deleted_cfp_due_dates
     categories.all(:order => (order_on||:title)).each_with_index do |category, index|
-      category.ordering = index + 1
-      category.save
+      category.update_attributes(:ordering => index + 1)
     end
     self.count = articles.count
     save!

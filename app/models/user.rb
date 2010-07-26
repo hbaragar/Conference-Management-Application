@@ -24,18 +24,14 @@ class User < ActiveRecord::Base
 
   def after_create
     Member.find_all_by_private_email_address(email_address).each do |m|
-      m.user = self
-      m.name = name
-      m.save
+      m.update_attributes(:name => name, :user => self)
     end
   end
 
   def after_save
     if any_changed?(:name, :email_address)
       members.each do |m|
-	m.name = name
-	m.private_email_address = email_address
-	m.save
+	m.update_attributes(:name => name, :private_email_address => email_address)
       end
     end
   end

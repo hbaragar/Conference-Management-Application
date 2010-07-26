@@ -26,6 +26,10 @@ keyref=
 readmore=
 "
 
+  def before_validation
+    self.alias = title.tr("A-Z","a-z").gsub(/\W+/,"-") unless self.alias && self.alias[/\w/]
+  end
+
   def before_validation_on_create
     self.modified = 5.hours.ago
     self.checked_out_time = 5.hours.ago unless checked_out_time
@@ -33,7 +37,6 @@ readmore=
     self.publish_down = 20.years.from_now - 5.hours
     self.created = 5.hours.ago
     self.state = 1
-    self.alias = title.tr("A-Z","a-z").gsub(/\W+/,"-") unless self.alias[/\w/]
     self.attribs = DEFAULT_ATTRIBS
   end
 

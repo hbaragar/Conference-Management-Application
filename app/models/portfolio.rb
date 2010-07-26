@@ -71,8 +71,8 @@ class Portfolio < ActiveRecord::Base
   def populate_joomla_program section, menu
     return if session_type == 'no_sessions'
     if joomla_category
-      joomla_category.write_attribute(:title, name)
-      joomla_menu.write_attribute(:name, name)
+      joomla_category.update_attributes(:title => name)
+      joomla_menu.update_attributes(:name => name)
     else
       self.joomla_category = section.categories.create(:title => name)
       self.joomla_menu = menu.items.create(

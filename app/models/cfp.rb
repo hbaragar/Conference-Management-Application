@@ -13,7 +13,7 @@ class Cfp < Call
   end
 
   def publish_to_joomla
-    conference.publish_to_joomla 'cfps'
+    conference.publish_to_joomla 'Call for Papers'
   end
 
   def populate_joomla_call_for_papers category
@@ -25,11 +25,15 @@ class Cfp < Call
 	self.joomla_article = category.articles.create!(:title => name, :sectionid => category.section)
 	save
       end
-      joomla_article.category = category
-      joomla_article.introtext = portfolio_description.to_html
-      joomla_article.fulltext = full_details
-      joomla_article.save
+      joomla_article.update_attributes(
+	:title		=> name,
+        :category	=> category,
+        :introtext	=> portfolio_description.to_html,
+        :fulltext	=> full_details
+      )
+      save
     end
+    joomla_article
   end
 
   def full_details

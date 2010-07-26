@@ -4,10 +4,13 @@ class JoomlaCategory < ActiveRecord::Base
 
   belongs_to :joomla_section, :class_name => "JoomlaSection", :foreign_key => :section
 
+  def before_validation
+    self.alias = title.tr("A-Z","a-z").gsub(/\W+/,"-") unless self.alias && self.alias[/\w/]
+  end
+
   def before_validation_on_create
     self.checked_out_time = 5.hours.ago unless checked_out_time
     self.published = 1
-    self.alias = title.tr("A-Z","a-z").gsub(/\W+/,"-") unless self.alias[/\w/]
   end
 
   has_many :articles, :class_name => "JoomlaArticle", :foreign_key => :catid
