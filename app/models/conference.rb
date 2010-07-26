@@ -22,6 +22,12 @@ class Conference < ActiveRecord::Base
   has_many :sessions, :through => :portfolios
   has_many :members, :through => :portfolios
 
+  def cfp_due_dates
+    cfps.collect{|c| c.due_on}.uniq.collect do |due_on|
+      CfpDueDate.new(:due_on => due_on, :cfps => cfps.find_all_by_due_on(due_on))
+    end
+  end
+
   named_scope :host_conferences, :conditions => {:colocated_with_id => nil}
 
   def after_create 
@@ -31,6 +37,7 @@ class Conference < ActiveRecord::Base
   MAIN_MENU = [
     { :name => "Home",		:class => JoomlaSection,	:collection => "selves",	:alias => 'general-information' },
     { :name => "Program",	:class => JoomlaSection,	:collection => "portfolios" },
+    { :name => "Call for Papers",	:class => JoomlaSection,	:collection => "cfp_due_dates", :alias => 'cfp', :order_on => :checked_out_time},
     { :name => "Colocated Conferences",	:class => JoomlaCategory,	:collection => "colocated_conferences" },
   ]
 
@@ -49,13 +56,14 @@ class Conference < ActiveRecord::Base
   def populate_joomla_menu_area_configured_by config, index
     target_class = config[:class]
     target_config = {:title => config[:name]}
+    target_config[:alias] = config[:alias] if config[:alias]
     target_config[:section] = joomla_general_section.id if target_class == JoomlaCategory
     target = target_class.find(:first, :conditions => target_config) || target_class.create(target_config)
     menu_config = {:name => config[:name], :link => JoomlaMenu::link_for(target)}
     menu = JoomlaMenu.find(:first, :conditions => menu_config) || JoomlaMenu.create(menu_config)
     populate_joomla_menu_area_with config[:collection], target, menu
-    target.restore_integrity!
-    menu.restore_integrity!
+    target.restore_integrity! config[:order_on]
+    menu.restore_integrity! config[:order_on]
   end
 
   def populate_joomla_menu_area_with collection_name, target, menu
@@ -90,18 +98,6 @@ class Conference < ActiveRecord::Base
 
   def joomla_general_section
     joomla_section_for "General Information"
-  end
-
-  def joomla_colocated_conferences_menu 
-    joomla_menu_for 'Colocated Conferences'
-  end
-
-  def joomla_cfp_section
-    joomla_section_for "Call for Papers"
-  end
-
-  def joomla_cfp_menu
-    joomla_menu_for "Call for Papers"
   end
 
   def joomla_menu_for name
@@ -139,22 +135,6 @@ class Conference < ActiveRecord::Base
     set_up_general_menu
   end
 
-  def generate_cfps
-    unless joomla_cfp_section
-      JoomlaSection.create(:title => "Call for Papers", :alias => "cfp")
-      JoomlaMenu.create(
-        :name  => "Call for Papers",
-        :alias => "cfp",
-        :link  => "index.php?option=com_content&view=section&layout=blog&id=#{joomla_cfp_section.id}"
-      )
-    end
-    cfps.each{|c| c.generate_joomla_article}
-    joomla_cfp_section.restore_integrity! :checked_out_time
-    joomla_cfp_section.categories.find_all_by_count(0){|c| c.destroy}
-    purge_unused_menu_items
-    create_new_menu_items
-    joomla_cfp_menu.restore_integrity! :checked_out_time
-  end
 
   # --- Permissions --- #
 
@@ -218,25 +198,6 @@ protected
         :name => c.name,
         :sublevel => 1,
         :link => "index.php?option=com_content&view=article&id=#{c.joomla_article_id}"
-      )
-    end
-  end
-
-  def purge_unused_menu_items
-    joomla_cfp_menu.items.each do |i|
-      i.destroy unless joomla_cfp_section.categories.find_by_title(i.name)
-    end
-  end
-
-  def create_new_menu_items
-    joomla_cfp_section.categories.each do |c|
-      next if joomla_cfp_menu.items.find_by_name(c.title)
-      joomla_cfp_menu.items.create(
-        :name	=> c.title,
-        :alias	=> c.alias,
-        :link	=> "index.php?option=com_content&view=category&layout=blog&id=#{c.id}",
-        :sublevel => 1,
-	:checked_out_time => c.checked_out_time
       )
     end
   end

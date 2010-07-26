@@ -36,7 +36,7 @@ class ConferenceTest < ActiveSupport::TestCase
     assert_equal "General", new_one.portfolios.first.name
   end
 
-  test "generate_general_info" do
+  test "populate menu area for colocated conferences" do
     @a_conference.populate_joomla_menu_area_for "Colocated Conferences"
     assert menu_item = JoomlaMenu.find_by_name_and_sublevel('Colocated Conferences',0)
     assert category = @a_conference.joomla_general_section.categories.find_by_title('Colocated Conferences')
@@ -85,13 +85,13 @@ class ConferenceTest < ActiveSupport::TestCase
   end
 
   test "generate_cfps" do
-    @a_conference.generate_cfps
-    cfp_article_tests
+    @a_conference.populate_joomla_menu_area_for "Call for Papers"
     assert_equal 2, JoomlaSection.count
     assert_equal 2, JoomlaCategory.count
     assert_equal 3, JoomlaArticle.count
     assert_equal 3, JoomlaMenu.count
-    @a_conference.generate_cfps
+    cfp_article_tests
+    @a_conference.populate_joomla_menu_area_for "Call for Papers"
     @a_conference.reload
     assert_equal 2, JoomlaSection.count
     assert_equal 2, JoomlaCategory.count
@@ -100,12 +100,12 @@ class ConferenceTest < ActiveSupport::TestCase
     assert cfp_section = JoomlaSection.find_by_alias("cfp")
     assert_equal "Call for Papers", cfp_section.title
     assert_equal 3, cfp_section.count
-    assert_equal cfp_section, @a_conference.joomla_cfp_section
+    assert_equal cfp_section, @a_conference.joomla_section_for("Call for Papers")
     assert_equal 2, cfp_section.categories.count
     categories = cfp_section.categories
     assert_equal (1..2).to_a, categories.collect{|c| c.ordering}
     assert_equal ["Due March 13, 2010", "Due June 13, 2010"], categories.collect{|c| c.title}
-    cfp_menu = @a_conference.joomla_cfp_menu
+    cfp_menu = @a_conference.joomla_menu_for("Call for Papers")
     assert_equal 0, cfp_menu.sublevel
     assert_match /show_vote=0/, cfp_menu.params
     assert_equal "index.php?option=com_content&view=section&layout=blog&id=#{cfp_section.id}", cfp_menu.link

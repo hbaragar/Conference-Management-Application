@@ -83,9 +83,9 @@ secure=0
   end
 
   def restore_integrity! order_on = :name
-    items.all(:order => order_on).each_with_index do |item, index|
+    items.all(:order => (order_on||:name)).each_with_index do |item, index|
       item.ordering = index + 1
-      item.save
+      item.save!
     end
   end
 

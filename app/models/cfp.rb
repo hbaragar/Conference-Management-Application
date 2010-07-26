@@ -12,33 +12,20 @@ class Cfp < Call
     other_dates.create(:label => "Camera-ready copy due", :due_on => due_on + 2.months)
   end
 
-
-  def joomla_section
-    conference.joomla_cfp_section
-  end
-
-  def joomla_category
-    # Kluge: category checked_out_time is not used during the generatation of content,
-    #        so co-opt it for sorting purposes (see JoomlaSection::restore_integrity!)
-    categories = joomla_section.categories
-    categories.find_by_checked_out_time(due_on) ||
-      categories.create!(:title => "Due #{due_on.strftime('%B %d, %Y')}", :checked_out_time => due_on.to_datetime)
-  end
-
   def publish_to_joomla
     conference.publish_to_joomla 'cfps'
   end
 
-  def generate_joomla_article
+  def populate_joomla_call_for_papers category
     if state == 'unpublished'
       joomla_article && joomla_article.destroy
       save
     else
       unless joomla_article
-	self.joomla_article = joomla_section.articles.create(:title => name)
+	self.joomla_article = category.articles.create!(:title => name, :sectionid => category.section)
 	save
       end
-      joomla_article.category = joomla_category
+      joomla_article.category = category
       joomla_article.introtext = portfolio_description.to_html
       joomla_article.fulltext = full_details
       joomla_article.save
