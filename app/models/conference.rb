@@ -105,23 +105,7 @@ class Conference < ActiveRecord::Base
   end
 
   def joomla_general_section
-    joomla_section_for "General Information"
-  end
-
-  def joomla_menu_for name
-    JoomlaMenu.find_by_name_and_sublevel name, 0
-  end
-
-  def joomla_section_for title
-    JoomlaSection.find_by_title title
-  end
-
-  def joomla_category_for title
-    conditions = {
-      :title	=> title,
-      :section	=> joomla_general_section.id,
-    }
-    JoomlaCategory.find(:first, :conditions => conditions) || JoomlaCategory.create(conditions)
+    JoomlaSection.find_by_title "General Information"
   end
 
   def chair? user
@@ -159,14 +143,6 @@ class Conference < ActiveRecord::Base
 
   def view_permitted?(field)
     true
-  end
-
-protected
-
-  def set_up_joomla_general_section
-    return if colocated_with
-    return if joomla_general_section
-    JoomlaSection.create!(:title => "General Information")
   end
 
 end

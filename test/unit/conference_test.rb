@@ -75,7 +75,7 @@ class ConferenceTest < ActiveSupport::TestCase
     assert supporter_menu = JoomlaMenu.find_by_name('Supporters')
     assert_equal 0, supporter_menu.sublevel
     assert_match /show_vote=0/, supporter_menu.params
-    supporters_category = @a_conference.joomla_category_for 'Supporters'
+    supporters_category = JoomlaCategory.find_by_title 'Supporters'
     assert_equal "index.php?option=com_content&view=category&layout=blog&id=#{supporters_category.id}", supporter_menu.link
     assert call_for_supporter_menu = JoomlaMenu.find_by_name('Corporate Support')
     assert_equal 1, call_for_supporter_menu.sublevel
@@ -100,12 +100,12 @@ class ConferenceTest < ActiveSupport::TestCase
     assert cfp_section = JoomlaSection.find_by_alias("cfp")
     assert_equal "Call for Papers", cfp_section.title
     assert_equal 3, cfp_section.count
-    assert_equal cfp_section, @a_conference.joomla_section_for("Call for Papers")
+    assert_equal cfp_section, JoomlaSection.find_by_title("Call for Papers")
     assert_equal 2, cfp_section.categories.count
     categories = cfp_section.categories
     assert_equal (1..2).to_a, categories.collect{|c| c.ordering}
     assert_equal ["Due March 13, 2010", "Due June 13, 2010"], categories.collect{|c| c.title}
-    cfp_menu = @a_conference.joomla_menu_for("Call for Papers")
+    cfp_menu = JoomlaMenu.find_by_name "Call for Papers"
     assert_equal 0, cfp_menu.sublevel
     assert_match /show_vote=0/, cfp_menu.params
     assert_equal "index.php?option=com_content&view=section&layout=blog&id=#{cfp_section.id}", cfp_menu.link
@@ -145,13 +145,13 @@ class ConferenceTest < ActiveSupport::TestCase
     assert program_section = JoomlaSection.find_by_alias("program")
     assert_equal "Program", program_section.title
     assert_equal 2, program_section.count
-    assert_equal program_section, @a_conference.joomla_section_for("Program")
+    assert_equal program_section, JoomlaSection.find_by_title("Program")
     assert_equal 3, program_section.categories.count
     categories = program_section.categories
     assert_equal (1..3).to_a, categories.collect{|c| c.ordering}
     assert_equal ["DesignFest", "OOPSLA Research Program", "Workshops"], categories.collect{|c| c.title}
     @a_conference.sessions.each {|s| program_article_tests s}
-    program_menu = @a_conference.joomla_menu_for("Program")
+    program_menu = JoomlaMenu.find_by_name "Program"
     assert_equal 0, program_menu.sublevel
     assert_match /show_vote=0/, program_menu.params
     assert_equal "index.php?option=com_content&view=section&layout=blog&id=#{program_section.id}", program_menu.link
