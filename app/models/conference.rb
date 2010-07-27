@@ -102,7 +102,7 @@ class Conference < ActiveRecord::Base
     joomla_article.update_attributes(
       :introtext => div("colocated_conference",
 	h2(fancy_title),
-	description,
+	description.to_html,
 	div("readon", external_link(url,"Read more: #{name}"))
       )
     )
