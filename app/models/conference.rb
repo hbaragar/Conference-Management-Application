@@ -53,15 +53,9 @@ class Conference < ActiveRecord::Base
     { :name => "Supporters",		:class => JoomlaCategory, :collection => "supporter_portfolios" },
   ]
 
-  def populate_joomla
-    MAIN_MENU.each_with_index do |config, index|
-      populate_joomla_menu_area_configured_by config, index
-    end
-  end
-
   def populate_joomla_menu_area_for menu_name
     MAIN_MENU.each_with_index do |config, index|
-      populate_joomla_menu_area_configured_by(config, index) if config[:name] == menu_name
+      populate_joomla_menu_area_configured_by(config, index) if [config[:name], "All Areas"].include? menu_name
     end
   end
 
@@ -86,7 +80,7 @@ class Conference < ActiveRecord::Base
     method(collection_name).call.each {|item| item.method(populator).call(target, menu)}
   end
 
-  def populate_joomla_home section, index
+  def populate_joomla_general_information section, index
     # Populated through Joomla itself
   end
 
@@ -109,7 +103,7 @@ class Conference < ActiveRecord::Base
   end
 
   def joomla_general_section
-    JoomlaSection.find_by_title "General Information"
+    JoomlaSection.find_by_alias "general-information"
   end
 
   def chair? user

@@ -135,7 +135,7 @@ class ConferenceTest < ActiveSupport::TestCase
     assert_equal 2, JoomlaSection.count
     assert_equal 3, JoomlaCategory.count
     assert_equal 2, JoomlaArticle.count
-    #assert_equal 3, JoomlaMenu.count
+    assert_equal 4, JoomlaMenu.count
     @a_conference.populate_joomla_menu_area_for "Program"
     @a_conference.reload
     assert_equal 2, JoomlaSection.count
@@ -184,6 +184,13 @@ class ConferenceTest < ActiveSupport::TestCase
 	#assert_match /#{participant.country}/, content
       end
     end
+  end
+
+  test "populate all joomla menu areas" do
+    @a_conference.populate_joomla_menu_area_for "All Areas"
+    assert_equal 3, JoomlaSection.count
+    assert_equal 7, JoomlaCategory.count
+    assert_equal 7, JoomlaArticle.count
   end
 
   def test_create_permissions

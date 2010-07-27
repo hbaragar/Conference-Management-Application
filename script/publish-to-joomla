@@ -1,6 +1,6 @@
 #!/usr/bin/ruby
 #
-# Usage:  publish-to-joomla [cfps|general_information]
+# Usage:  publish-to-joomla [<Menu Name>|All Areas]
 
 ENV['RAILS_ENV'] ||= File.expand_path('.')[/production|uat|development/]
 
