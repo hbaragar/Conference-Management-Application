@@ -11,9 +11,10 @@ class Portfolio < ActiveRecord::Base
   fields do
     name        :string, :required
     public_email_address :email_address
+    call_type	enum_string(:no_call, :for_presentations, :for_supporters), :required, :default => 'no_call'
     session_type enum_string(:no_sessions, :single_presentation, :multiple_presentations, :all_in_one), :required,
       :default => 'no_sessions'
-    call_type	enum_string(:no_call, :for_presentations, :for_supporters), :required, :default => 'no_call'
+    typical_session_duration :integer, :default => 90
     external_reference_prefix	:string
     description :markdown
   end
@@ -44,16 +45,6 @@ class Portfolio < ActiveRecord::Base
     new_or_existing_presentation(xml).load_from xml
   end
 
-  def new_or_existing_session single_presentation_session_name = nil
-    case session_type
-    when 'multiple_presentations':	sessions.find_by_name(Session::DEFAULT_NAME) || sessions.create
-    when 'single_presentation':		sessions.create(:name => single_presentation_session_name)
-    when 'all_in_one':			sessions.first || sessions.create(:name => name)
-    else
-      sessions.create
-    end
-  end
-
   def new_or_existing_presentation xml
     references = {
       :external_reference	=> xml.attributes["id"],
@@ -67,6 +58,16 @@ class Portfolio < ActiveRecord::Base
       return matches.first if matches.count == 1
     end
     presentations.create!(references)
+  end
+
+  def new_or_existing_session single_presentation_session_name = nil
+    case session_type
+    when 'multiple_presentations':	sessions.find_by_name(Session::DEFAULT_NAME) || sessions.create
+    when 'single_presentation':		sessions.create(:name => single_presentation_session_name)
+    when 'all_in_one':			sessions.first || sessions.create(:name => name)
+    else
+      sessions.create
+    end
   end
 
   def populate_joomla_program section, menu

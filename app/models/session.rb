@@ -11,16 +11,25 @@ class Session < ActiveRecord::Base
   fields do
     name      :string, :required, :default => DEFAULT_NAME
     starts_at :datetime, :required, :default => '2010-10-22 08:00'
-    ends_at   :datetime, :required, :default => '2010-10-22 09:00'
+    duration  :integer
     timestamps
   end
 
+  belongs_to :room
   belongs_to :joomla_article
 
   has_many :presentations
   has_many :involvements, :through => :presentations
 
   default_scope :order => "starts_at, name"
+
+  def before_create
+    self.duration ||= portfolio.typical_session_duration
+  end
+
+  def ends_at
+    starts_at + duration.minutes
+  end
 
   def conference
     portfolio.conference

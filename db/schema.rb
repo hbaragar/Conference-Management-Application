@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100726211614) do
+ActiveRecord::Schema.define(:version => 20100727171500) do
 
   create_table "broadcast_emails", :force => true do |t|
     t.integer  "cfp_id"
@@ -228,6 +228,7 @@ ActiveRecord::Schema.define(:version => 20100726211614) do
     t.integer "joomla_category_id"
     t.integer "joomla_menu_id"
     t.string  "external_reference_prefix"
+    t.integer "typical_session_duration",  :default => 90
   end
 
   add_index "portfolios", ["conference_id"], :name => "index_portfolios_on_conference_id"
@@ -249,18 +250,29 @@ ActiveRecord::Schema.define(:version => 20100726211614) do
   add_index "presentations", ["portfolio_id"], :name => "index_presentations_on_portfolio_id"
   add_index "presentations", ["session_id"], :name => "index_presentations_on_session_id"
 
+  create_table "rooms", :force => true do |t|
+    t.string   "name"
+    t.string   "capacity"
+    t.string   "area"
+    t.string   "short_name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "sessions", :force => true do |t|
     t.integer  "portfolio_id"
     t.string   "name",              :default => "To Be Scheduled"
     t.datetime "starts_at",         :default => '2010-10-22 08:00:00'
-    t.datetime "ends_at",           :default => '2010-10-22 09:00:00'
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "joomla_article_id"
+    t.integer  "duration"
+    t.integer  "room_id"
   end
 
   add_index "sessions", ["joomla_article_id"], :name => "index_sessions_on_joomla_article_id"
   add_index "sessions", ["portfolio_id"], :name => "index_sessions_on_portfolio_id"
+  add_index "sessions", ["room_id"], :name => "index_sessions_on_room_id"
 
   create_table "supporter_levels", :force => true do |t|
     t.integer  "call_for_supporter_id"

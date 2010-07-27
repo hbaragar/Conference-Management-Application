@@ -10,6 +10,16 @@ class SessionTest < ActiveSupport::TestCase
 
   def test_associations
     assert_equal 3, @a_session.presentations.count
+    assert_equal 1, @a_session.involvements.count
+  end
+
+  def test_before_create
+    @a_portfolio.typical_session_duration = 510
+    @a_portfolio.save
+    @a_portfolio.reload
+    session = @a_portfolio.sessions.create!(:name => "A New session")
+    assert_equal @a_portfolio, session.portfolio
+    assert_equal 510, session.duration
   end
 
   def test_to_html
