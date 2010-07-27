@@ -69,7 +69,7 @@ class Conference < ActiveRecord::Base
     	:name => config[:name],
 	:link => JoomlaMenu::link_for(target)
     )
-    menu.update_attributes(:link => JoomlaMenu::link_for(target), :alias => config[:menu])
+    menu.update_attributes(:link => JoomlaMenu::link_for(target), :alias => config[:menu], :ordering => index+1)
     populate_joomla_menu_area_with config[:collection], target, menu
     target.restore_integrity! config[:order_on]
     menu.restore_integrity! config[:order_on]

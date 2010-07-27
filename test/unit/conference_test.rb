@@ -191,6 +191,9 @@ class ConferenceTest < ActiveSupport::TestCase
     assert_equal 3, JoomlaSection.count
     assert_equal 7, JoomlaCategory.count
     assert_equal 7, JoomlaArticle.count
+    assert_equal (1..5).to_a, JoomlaMenu.find_all_by_sublevel(0).collect{|m| m.ordering}
+    top_menu = ["Home", "Program", "Call for Papers", "Colocated Conferences", "Supporters"]
+    assert_equal top_menu, JoomlaMenu.find_all_by_sublevel(0).collect{|m| m.name}
   end
 
   def test_create_permissions
