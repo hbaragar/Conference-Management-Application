@@ -61,13 +61,16 @@ class Portfolio < ActiveRecord::Base
   end
 
   def new_or_existing_session single_presentation_session_name = nil
-    case session_type
-    when 'multiple_presentations':	sessions.find_by_name(Session::DEFAULT_NAME) || sessions.create
-    when 'single_presentation':		sessions.create(:name => single_presentation_session_name)
-    when 'all_in_one':			sessions.first || sessions.create(:name => name)
-    else
-      sessions.create
-    end
+    fields = {
+      :name =>  case session_type
+		when 'multiple_presentations':	"#{name} Unscheduled"
+		when 'single_presentation':	single_presentation_session_name
+		when 'all_in_one':		name
+		else
+		  "Unscheduled"
+		end
+    }
+    sessions.find(:first, :conditions => fields) || sessions.create(fields)
   end
 
   def populate_joomla_program section, menu

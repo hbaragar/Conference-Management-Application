@@ -51,7 +51,7 @@ class PortfolioTest < ActiveSupport::TestCase
     @a_portfolio.reload
     assert_equal 1+count, @a_portfolio.sessions.count
     session = presentation.session
-    assert_match /To Be Scheduled/, session.name
+    assert_match /Unscheduled/, session.name
     session.name = "Another Session"
     session.save
     @a_portfolio.load_presentation_from File.new(files_dir + "cyber_chair_v2.xml")
@@ -60,7 +60,7 @@ class PortfolioTest < ActiveSupport::TestCase
     another_presentation = @a_portfolio.load_presentation_from File.new(files_dir + "poster_1.xml")
     assert_equal 2+count, @a_portfolio.sessions.count
     @a_portfolio.reload
-    assert_match /To Be Scheduled/, another_presentation.session.name
+    assert_match /Unscheduled/, another_presentation.session.name
     one_more_presentation = @a_portfolio.load_presentation_from File.new(files_dir + "poster_2.xml")
     @a_portfolio.reload
     assert_equal 2+count, @a_portfolio.sessions.count
