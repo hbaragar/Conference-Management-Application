@@ -18,6 +18,9 @@ class Session < ActiveRecord::Base
   belongs_to :joomla_article
 
   has_many :presentations
+  has_many :involvements, :through => :presentations
+
+  default_scope :order => "starts_at, name"
 
   def conference
     portfolio.conference
@@ -25,6 +28,10 @@ class Session < ActiveRecord::Base
 
   def multiple_presentations?
     portfolio.session_type == "multiple_presentations"
+  end
+
+  def time_slot
+    (starts_at.strftime("%a %H:%M") + ends_at.strftime("-%H:%M %p").downcase).gsub(/(\s|-)0/, '\1')
   end
 
   def to_html

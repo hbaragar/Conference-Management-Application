@@ -1,0 +1,23 @@
+#!/usr/bin/ruby
+#
+# Usage: load-presentation-from-xml <ref999999.xml> [<ref999999.xml>]+
+#
+# where 
+# 	ref	- is the external_reference_prefix from the portfolio
+
+ENV['RAILS_ENV'] ||= File.expand_path('.')[/production|uat|development/]
+
+require File.dirname(__FILE__) + '/../config/environment'
+
+ARGV.each do |path|
+  fname = path.split('/').last
+  ref = fname[/\D+/]||"???"
+  if portfolio = Portfolio.find_by_external_reference_prefix(ref)
+    portfolio.load_presentation_from File.new(path)
+    puts "#{fname} loaded into: #{portfolio}"
+  else
+    puts "#{path} NOT loaded: external_reference_prefix not recognized (#{ref})"
+  end
+end
+
+

@@ -17,6 +17,10 @@ class Participant < ActiveRecord::Base
 
   default_scope :order => :name
 
+  def sessions
+    presentations.collect{|p| p.session}
+  end
+
 
   def to_html
     [span("name", name), span("affiliation",affiliation)]

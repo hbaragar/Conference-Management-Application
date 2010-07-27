@@ -5,7 +5,7 @@ class PortfolioHints < Hobo::ViewHints
   # field_help :field1 => "Enter what you want in this field"
   # children :primary_collection1, :aside_collection1, :aside_collection2
 
-  children :presentations, :members
+  children :sessions, :members
 
   field_help :public_email_address => "to be published on the website", 
     :description => %q(will be used as an introduction to the CFP,

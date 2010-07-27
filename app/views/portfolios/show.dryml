@@ -1,15 +1,13 @@
 <show-page>
   <description: replace/>
-  <field-list: fields="chairs, public_email_address" >
+  <field-list: fields="chairs, public_email_address, session_type, external_reference_prefix" >
     <chairs-label:><%= @portfolio.chairs.count > 1 ? 'Chairs' : 'Chair' %></chairs-label:>
   </field-list:>
   <after-field-list:>
     <table class="field-list">
       <tr>
 	<if test="&this.call_type == 'for_presentations' ? 'Y' : '' ">
-	  <th class="cfp-label">
-	    CFP
-	  </th>
+	  <th class="cfp-label">CFP</th>
 	  <td class="cfp-view">
 	    <if:cfps>
 	      <a:first action="show">
@@ -43,8 +41,22 @@
       </tr>
     </table> 
   </after-field-list:>
+  <collection: replace>
+    <table-plus:sessions fields="time_slot, this, presentations" part="sessions" >
+      <search-form: replace />
+      <time-slot-view:><a with="&this_parent" action="edit"><view:time_slot/></a></time-slot-view:>
+    </table-plus:sessions>
+    <form with="&this.sessions.new" update="sessions" reset-form refocus >
+      <cancel: replace/>
+    </form>
+    <h3>Presentations</h3>
+    <table-plus:presentations fields="this, session, participants">
+      <search-form: replace />
+      <session-view:><editor update="sessions" reset-form refocus /></session-view>
+    </table-plus:presentations>
+  </collection:>
   <members-collection: replace>
-  <table-plus with="&@members" fields="this, affiliation, private_email_address">
+  <table-plus:members fields="this, affiliation, private_email_address">
     <this-view:><a action="edit"/></this-view:>
     <empty-message:>No members match your criteria</empty-message:>
   </table-plus>

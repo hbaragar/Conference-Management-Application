@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100723151726) do
+ActiveRecord::Schema.define(:version => 20100726211614) do
 
   create_table "broadcast_emails", :force => true do |t|
     t.integer  "cfp_id"
@@ -223,10 +223,11 @@ ActiveRecord::Schema.define(:version => 20100723151726) do
     t.string  "name"
     t.text    "description"
     t.string  "public_email_address"
-    t.string  "call_type",            :default => "no_call"
-    t.string  "session_type",         :default => "no_sessions"
+    t.string  "call_type",                 :default => "no_call"
+    t.string  "session_type",              :default => "no_sessions"
     t.integer "joomla_category_id"
     t.integer "joomla_menu_id"
+    t.string  "external_reference_prefix"
   end
 
   add_index "portfolios", ["conference_id"], :name => "index_portfolios_on_conference_id"

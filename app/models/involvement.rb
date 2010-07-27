@@ -7,6 +7,8 @@ class Involvement < ActiveRecord::Base
   belongs_to :participant
   belongs_to :presentation
 
+  has_many :sessions, :through => :presentation
+
   fields do
     role :string
     timestamps

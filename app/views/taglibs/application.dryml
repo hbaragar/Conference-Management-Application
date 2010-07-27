@@ -29,3 +29,17 @@
     </after-header:>
   </old-card>
 </extend>
+
+<extend tag="card" for="Presentation">
+  <old-card merge>
+    <body: replace>
+      <table-plus:participants fields="this, affiliation" >
+	<thead: replace />
+	<search-form: replace />
+	<this-view:><a action="edit"/></this-view:>
+      </table-plus:participants>
+      <view:abstract/>
+    </body:>
+  </old-card>
+</extend>
+

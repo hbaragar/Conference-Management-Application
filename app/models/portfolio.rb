@@ -14,6 +14,7 @@ class Portfolio < ActiveRecord::Base
     session_type enum_string(:no_sessions, :single_presentation, :multiple_presentations, :all_in_one), :required,
       :default => 'no_sessions'
     call_type	enum_string(:no_call, :for_presentations, :for_supporters), :required, :default => 'no_call'
+    external_reference_prefix	:string
     description :markdown
   end
 
@@ -25,7 +26,7 @@ class Portfolio < ActiveRecord::Base
   has_many :cfps, :dependent => :destroy	# Really only one, but we want the hobo support
 
   has_many :sessions, :dependent => :destroy
-  has_many :presentations, :dependent => :destroy
+  has_many :presentations, :dependent => :destroy, :order => :title
 
   has_many :call_for_supporters, :dependent => :destroy
 

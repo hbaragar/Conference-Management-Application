@@ -1,0 +1,6 @@
+<show-page>
+  <involvements-collection-heading:>Participants</involvements-collection-heading:>
+  <involvements-collection: replace>
+    <table:involvements class="table-plus" fields="participant, role"/>
+  </involvements-collection:>
+</show-page>

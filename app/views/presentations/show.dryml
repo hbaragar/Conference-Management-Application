@@ -1,0 +1,8 @@
+<show-page>
+  <collection: replace>
+    <table-plus:participants fields="this, affiliation, private_email_address" >
+      <this-view:><a action="edit" /></this-view:>
+      <search-form: replace/>
+    </table-plus:participants>
+  </collection:>
+</show-page>
