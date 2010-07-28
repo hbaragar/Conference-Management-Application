@@ -56,6 +56,9 @@
 	<session-view:><editor update="sessions" reset-form refocus /></session-view>
       </table-plus:presentations>
     </div>
+    <a:presentations action="new" if="&can_create?(@portfolio.presentations)" >
+      <ht key="presentations.actions.new">New Presentation</ht>
+    </a:presentations>
   </collection:>
   <members-collection: replace>
   <table-plus:members fields="this, affiliation, private_email_address">
