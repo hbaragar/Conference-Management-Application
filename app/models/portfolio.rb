@@ -63,11 +63,11 @@ class Portfolio < ActiveRecord::Base
   def new_or_existing_session single_presentation_session_name = nil
     fields = {
       :name =>  case session_type
-		when 'multiple_presentations':	"#{name} Unscheduled"
+		when 'multiple_presentations':	"#{name} (Unscheduled)"
 		when 'single_presentation':	single_presentation_session_name
 		when 'all_in_one':		name
 		else
-		  "Unscheduled"
+		  "Miscelaneous"
 		end
     }
     sessions.find(:first, :conditions => fields) || sessions.create(fields)
