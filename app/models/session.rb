@@ -90,6 +90,7 @@ class Session < ActiveRecord::Base
   end
 
   def destroy_permitted?
+    return false if presentations.count > 0
     portfolio.chair?(acting_user) || conference.chair?(acting_user) || acting_user.administrator?
   end
 

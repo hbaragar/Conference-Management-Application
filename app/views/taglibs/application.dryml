@@ -43,3 +43,12 @@
   </old-card>
 </extend>
 
+
+<extend tag="form" for="Presentation">
+  <old-form merge>
+    <field-list:>
+      <session-view:><select-one options="&this_parent.portfolio.sessions"/></session-view:>
+    </field-list:>
+  </old-form>
+</extend>
+

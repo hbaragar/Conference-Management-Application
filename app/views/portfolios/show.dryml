@@ -46,14 +46,14 @@
       <search-form: replace />
       <time-slot-view:><a with="&this_parent" action="edit"><view:time_slot/></a></time-slot-view:>
     </table-plus:sessions>
-    <form with="&this.sessions.new" update="sessions" reset-form refocus >
+    <form with="&this.sessions.new" update="sessions,presentations" reset-form refocus >
       <cancel: replace/>
     </form>
     <div if="&this.session_type == 'multiple_presentations'">
       <h3>Presentations</h3>
-      <table-plus:presentations fields="this, session, participants">
+      <table-plus:presentations fields="this, session, participants" part="presentations">
 	<search-form: replace />
-	<session-view:><editor update="sessions" reset-form refocus /></session-view>
+	<session-view:><editor options="&this_parent.session_options" update="sessions" reset-form refocus /></session-view:>
       </table-plus:presentations>
       <a:presentations action="new" if="&can_create?(@portfolio.presentations)" >
 	<ht key="presentations.actions.new">New Presentation</ht>

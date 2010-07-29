@@ -89,6 +89,11 @@ class Presentation < ActiveRecord::Base
   end
 
 
+  def session_options
+    portfolio.sessions.collect { |s| [s.name, s.id] }.sort
+  end
+
+
   # --- Permissions --- #
 
   def create_permitted?
