@@ -12,6 +12,7 @@ class PortfolioHints < Hobo::ViewHints
       and it will be converted to HTML using
       <a href="http://daringfireball.net/projects/markdown/" target="_blank">markdown</a>
       (similar to wiki markup)
-    )
+    ),
+    :typical_session_duration => "use 210 for half sessions and 510 for full day sesssions"
 
 end
