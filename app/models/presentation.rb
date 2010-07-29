@@ -28,12 +28,11 @@ class Presentation < ActiveRecord::Base
   def load_from xml
     involvements.destroy_all
     xml.elements.each do |element|
-      string = element.to_s
       text = element.text
       case element.name
       when "title":		self.title = text
       when "shorttitle":	self.short_title = text
-      when "abstract":		self.abstract = string
+      when "abstract":		self.abstract = text
       when "author":		self.involvements.create(
 				  :role => 'author',
 				  :participant =>  new_or_existing_participant(element)

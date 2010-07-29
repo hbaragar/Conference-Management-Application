@@ -42,18 +42,23 @@
     </table> 
   </after-field-list:>
   <collection: replace>
-    <table-plus:sessions fields="time_slot, this, presentations" part="sessions" >
+    <table-plus:sessions fields="& 'time_slot, this' + (this.session_type == 'multiple_presentations' ? ', presentations' : '')" part="sessions" >
       <search-form: replace />
       <time-slot-view:><a with="&this_parent" action="edit"><view:time_slot/></a></time-slot-view:>
     </table-plus:sessions>
     <form with="&this.sessions.new" update="sessions" reset-form refocus >
       <cancel: replace/>
     </form>
-    <h3>Presentations</h3>
-    <table-plus:presentations fields="this, session, participants">
-      <search-form: replace />
-      <session-view:><editor update="sessions" reset-form refocus /></session-view>
-    </table-plus:presentations>
+    <div if="&this.session_type == 'multiple_presentations'">
+      <h3>Presentations</h3>
+      <table-plus:presentations fields="this, session, participants">
+	<search-form: replace />
+	<session-view:><editor update="sessions" reset-form refocus /></session-view>
+      </table-plus:presentations>
+    </div>
+    <a:presentations action="new" if="&can_create?(@portfolio.presentations)" >
+      <ht key="presentations.actions.new">New Presentation</ht>
+    </a:presentations>
   </collection:>
   <members-collection: replace>
   <table-plus:members fields="this, affiliation, private_email_address">
