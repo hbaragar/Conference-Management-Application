@@ -30,5 +30,15 @@ case $SOURCE in
 esac | mysql "splash2010_$TARGET"
 
 # Clone the Conference Management database
+TARGET_DB="conference_$TARGET"
 ssh splash@projects.instantiated.ca mysqldump "conference_$SOURCE" |
-    mysql "conference_$TARGET"
+    perl -pe "
+	BEGIN{
+	    print qq{
+		drop database if exists $TARGET_DB;
+		create database $TARGET_DB;
+		use $TARGET_DB;
+	    }
+	}
+    " |
+    mysql 
