@@ -46,8 +46,8 @@ readmore=
   has_one :call_for_supporter, :foreign_key => :joomla_article_id
 
   validates_presence_of :title
-  validates_uniqueness_of :title
+  validates_uniqueness_of :title, :scope => :catid
   validates_format_of :alias, :with => /^[-\w]+/
-  validates_uniqueness_of :alias
+  validates_uniqueness_of :alias, :scope => :catid
 
 end

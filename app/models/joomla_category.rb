@@ -20,9 +20,9 @@ class JoomlaCategory < ActiveRecord::Base
   acts_as_list :column => :ordering, :scope => %q{section = '#{section}'}
 
   validates_presence_of :title
-  validates_uniqueness_of :title
+  validates_uniqueness_of :title, :scope => :section
   validates_format_of :alias, :with => /^[-\w]+/
-  validates_uniqueness_of :alias
+  validates_uniqueness_of :alias, :scope => :section
 
   def restore_integrity! position = nil
     purge_articles_for_deleted_colocated_conferences
