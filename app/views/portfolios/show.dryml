@@ -46,6 +46,7 @@
       <search-form: replace />
       <time-slot-view:><a with="&this_parent" action="edit"><view:time_slot/></a></time-slot-view:>
     </table-plus:sessions>
+    <h4>New Session</h4>
     <form with="&this.sessions.new" update="sessions,presentations" reset-form refocus >
       <cancel: replace/>
     </form>
