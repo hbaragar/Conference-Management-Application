@@ -35,7 +35,7 @@ class PortfolioTest < ActiveSupport::TestCase
     assert_equal "oege biography", author.bio
   end
 
-  test "reloading CyberChair XML file does not clobber existing data" do
+  test "reloading CyberChair XML file gets new data" do
     count = Presentation.count
     @a_portfolio.load_presentation_from File.new(files_dir + "cyber_chair_v1.xml")
     @a_portfolio.load_presentation_from File.new(files_dir + "cyber_chair_v2.xml")
@@ -44,6 +44,9 @@ class PortfolioTest < ActiveSupport::TestCase
     assert_equal "Sound and Extensible Regaming for Java", p.title
     assert_equal 2, p.involvements.count
     assert_equal 2, p.participants.count
+    assert !p.participants.find_by_name("Oege de Moor")
+    author = p.participants.find_by_private_email_address("torbjorn.ekman@comlab.ox.ac.uk")
+    assert_equal "Great Britain", author.country
   end
 
   test "creating sessions when needed for multiple presentations per session portfolios" do

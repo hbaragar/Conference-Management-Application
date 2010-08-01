@@ -54,7 +54,7 @@ class Presentation < ActiveRecord::Base
   end
 
   def new_or_existing_participant xml
-    data = {
+    fields = {
       :private_email_address	=> xml.elements["email"].text,
       :name			=> xml.elements["name"].text,
       :affiliation		=> xml.elements["affiliation"].text,
@@ -62,12 +62,16 @@ class Presentation < ActiveRecord::Base
       :bio			=> xml.elements["bio"] && xml.elements["bio"].text,
     }
     [:private_email_address, :name].each do |field|
-      value = data[field]
+      value = fields[field]
       next unless value && value[/\S/]
       matches = Participant.find(:all, :conditions => {field => value})
-      return matches.first if matches.count == 1
+      if matches.count == 1
+	existing = matches.first
+	existing.update_attributes(fields) or next
+	return existing
+      end
     end
-    Participant.create(data)
+    Participant.create(fields)
   end
 
 
