@@ -31,6 +31,7 @@ class PortfolioTest < ActiveSupport::TestCase
     author = p.participants.find_by_name("Oege de Moor")
     assert_equal "oege.de.moor@comlab.ox.ac.uk", author.private_email_address
     assert_equal "University of Oxford", author.affiliation
+    assert_equal "Britain", author.country
     assert_equal "oege biography", author.bio
   end
 

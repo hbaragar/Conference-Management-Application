@@ -8,6 +8,7 @@ class Participant < ActiveRecord::Base
     name                  :string, :required, :unique
     affiliation           :string
     private_email_address :email_address
+    country		  :string
     bio                   :markdown
     timestamps
   end
@@ -23,7 +24,7 @@ class Participant < ActiveRecord::Base
 
 
   def to_html
-    [span("name", name), span("affiliation",affiliation)]
+    [span("name", name), span("affiliation",affiliation), span("country", country)].grep(/\S/).join(", ")
   end
 
   # --- Permissions --- #

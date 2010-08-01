@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100727171500) do
+ActiveRecord::Schema.define(:version => 20100801002656) do
 
   create_table "broadcast_emails", :force => true do |t|
     t.integer  "cfp_id"
@@ -216,6 +216,7 @@ ActiveRecord::Schema.define(:version => 20100727171500) do
     t.text     "bio"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "country"
   end
 
   create_table "portfolios", :force => true do |t|

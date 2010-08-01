@@ -11,12 +11,14 @@
                 <name>Torbjörn Ekman</name>
                 <email>torbjorn.ekman@comlab.ox.ac.uk</email>
                 <affiliation>University of Oxford</affiliation>
+		<country>Britain</country>
         </author>
         <author>
                 <name>Oege de Moor</name>
                 <email>oege.de.moor@comlab.ox.ac.uk</email>
                 <affiliation>University of Oxford</affiliation>
 		<bio>oege biography</bio>
+		<country>Britain</country>
         </author>
         <abstract>
 Descriptive names are crucial to understand code. However, good

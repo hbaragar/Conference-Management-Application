@@ -56,6 +56,7 @@ class SessionTest < ActiveSupport::TestCase
   end
 
   def test_destroy_permissions
+    @a_session.presentations.*.destroy
     assert  @a_session.destroyable_by?(users(:administrator))
     assert  @a_session.destroyable_by?(users(:general_chair))
     assert  @a_session.destroyable_by?(users(:a_portfolio_chair))

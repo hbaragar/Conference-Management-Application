@@ -58,6 +58,7 @@ class Presentation < ActiveRecord::Base
       :private_email_address	=> xml.elements["email"].text,
       :name			=> xml.elements["name"].text,
       :affiliation		=> xml.elements["affiliation"].text,
+      :country			=> xml.elements["country"] && xml.elements["country"].text,
       :bio			=> xml.elements["bio"] && xml.elements["bio"].text,
     }
     [:private_email_address, :name].each do |field|

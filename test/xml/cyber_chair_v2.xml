@@ -6,11 +6,13 @@
                 <name>Max Schäfer</name>
                 <email>max.schaefer@comlab.ox.ac.uk</email>
                 <affiliation>University of Oxford</affiliation>
+		<country>Britain</country>
         </author>
         <author>
                 <name>Torbjörn Ekman</name>
                 <email>torbjorn.ekman@comlab.ox.ac.uk</email>
                 <affiliation>University of Oxford</affiliation>
+		<country>Britain</country>
         </author>
         <abstract>
 Descriptive games are crucial to understand code. However, good
