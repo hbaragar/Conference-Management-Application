@@ -35,6 +35,10 @@ class Session < ActiveRecord::Base
     portfolio.conference
   end
 
+  def multiple_presentations?
+    portfolio.session_type == "multiple_presentations"
+  end
+
   def single_presentation?
     portfolio.session_type == "single_presentation"
   end
