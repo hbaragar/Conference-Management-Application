@@ -13,6 +13,6 @@ class PortfolioHints < Hobo::ViewHints
       <a href="http://daringfireball.net/projects/markdown/" target="_blank">markdown</a>
       (similar to wiki markup)
     ),
-    :typical_session_duration => "use 210 for half day sessions and 510 for full day sesssions"
+    :typical_session_duration => "in minutes &mdash; use 210 for half day sessions and 510 for full day sesssions"
 
 end
