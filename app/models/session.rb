@@ -35,8 +35,8 @@ class Session < ActiveRecord::Base
     portfolio.conference
   end
 
-  def multiple_presentations?
-    portfolio.session_type == "multiple_presentations"
+  def single_presentation?
+    portfolio.session_type == "single_presentation"
   end
 
   def time_slot
@@ -62,8 +62,8 @@ class Session < ActiveRecord::Base
       save
     end
     attribs = joomla_article.attribs.clone
-    attribs[/show_category=(\d*)/,1] = "0"
-    attribs[/show_section=(\d*)/,1] = "0"
+    attribs[/show_category=(\d*)/,1] = "1"
+    attribs[/show_section=(\d*)/,1] = "1"
     joomla_article.update_attributes!(
       :title	=> name,
       :sectionid=> category.section,
