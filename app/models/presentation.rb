@@ -54,13 +54,19 @@ class Presentation < ActiveRecord::Base
   end
 
   def new_or_existing_participant xml
-    fields = {
-      :private_email_address	=> xml.elements["email"].text,
-      :name			=> xml.elements["name"].text,
-      :affiliation		=> xml.elements["affiliation"].text,
-      :country			=> xml.elements["country"] && xml.elements["country"].text,
-      :bio			=> xml.elements["bio"] && xml.elements["bio"].text,
-    }
+    fields = {}
+    xml.elements.each do |element|
+      text = element.text
+      case element.name
+      when "name":		fields[:name] = text
+      when "email":		fields[:private_email_address] = text
+      when "affiliation":	fields[:affiliation] = text
+      when "country":		fields[:country] = text
+      when "bio":		fields[:bio] = text
+      else
+	logger.info "Presentation::load_from does not handle author.#{element.name} elements"
+      end
+    end
     [:private_email_address, :name].each do |field|
       value = fields[field]
       next unless value && value[/\S/]
