@@ -90,7 +90,7 @@ class Presentation < ActiveRecord::Base
   end
 
   def title_to_html
-    div("title", title) if session.multiple_presentations?
+    div("title", title) unless session.single_presentation?
   end
 
   def participants_to_html

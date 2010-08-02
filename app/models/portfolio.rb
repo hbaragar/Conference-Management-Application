@@ -88,6 +88,9 @@ class Portfolio < ActiveRecord::Base
       )
       save
     end
+    params = joomla_menu.params.clone
+    params[/show_section=(\d*)/,1] = "1"
+    joomla_menu.update_attributes!(:params => params)
     sessions.each{|s| s.populate_joomla_program joomla_category}
   end
 
