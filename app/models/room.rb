@@ -15,7 +15,7 @@ class Room < ActiveRecord::Base
 
   default_scope :order => :name
 
-  validates_uniqueness_of :name, :scope => :facility_area
+  validates_uniqueness_of :name, :scope => :facility_area_id
 
 
   # --- Permissions --- #
