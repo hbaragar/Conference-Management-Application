@@ -1,24 +1,26 @@
-class Room < ActiveRecord::Base
+class FacilityArea < ActiveRecord::Base
 
   hobo_model # Don't put anything above this
 
+  belongs_to :conference
+
   fields do
-    name       :string
-    capacity   :string
-    short_name :string
+    name :string
     timestamps
   end
 
-  belongs_to :facility_area
+  belongs_to :joomla_article
 
-  has_many :sessions
+  has_many :rooms, :dependent => :destroy
 
   default_scope :order => :name
 
-  validates_uniqueness_of :name, :scope => :facility_area
+  validates_uniqueness_of :name, :scope => :conference_id
 
 
   # --- Permissions --- #
+
+  never_show :joomla_article
 
   def create_permitted?
     acting_user.administrator?

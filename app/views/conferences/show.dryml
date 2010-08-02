@@ -12,4 +12,11 @@
       <empty-message:>No portfolios match your criteria</empty-message:>
     </table-plus>
   </collection:>
+  <after-facility_areas-collection:>
+      <a:facility_areas action="new" if="&can_create?(@conference.facility_areas)">
+	<ht key="facility_areas.actions.new">
+	  New Facility Area
+	</ht>
+      </a:facility_areas>
+  </after-facility_areas-collection:>
 </show-page>

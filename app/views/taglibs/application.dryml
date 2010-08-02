@@ -7,7 +7,7 @@
 <set-theme name="clean"/>
 
 <def tag="app-name">
-  <if test="&%w(Conferences Users Participants Rooms).include? collection_name"><collection-name/></if>
+  <if test="&['Conferences', 'Users', 'Participants', 'Facility Areas', 'Rooms'].include? collection_name"><collection-name/></if>
   <else>
     <if test="&current_user.signed_up?">
       <if:conference><a/></if>
@@ -43,7 +43,6 @@
   </old-card>
 </extend>
 
-
 <extend tag="form" for="Presentation">
   <old-form merge>
     <field-list:>
@@ -52,3 +51,14 @@
   </old-form>
 </extend>
 
+<extend tag="card" for="FacilityArea">
+  <old-card merge>
+    <count: replace><view:rooms/></count>
+  </old-card>
+</extend>
+
+<extend tag="card" for="Room">
+  <old-card merge>
+    <count: replace><links-for-collection:sessions/></count>
+  </old-card>
+</extend>

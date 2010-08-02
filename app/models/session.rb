@@ -104,7 +104,7 @@ class Session < ActiveRecord::Base
 
   def initialize *args
     super *args
-    self.duration ||= portfolio.typical_session_duration
+    self.duration ||= portfolio && portfolio.typical_session_duration
   end
 
 end

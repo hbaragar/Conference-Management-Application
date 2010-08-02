@@ -1,0 +1,8 @@
+<show-page>
+  <collection: replace>
+    <table-plus:sessions fields="time_slot, this, portfolio" >
+      <time-slot-view:><a with="&this_parent" action="edit"><view:time_slot/></a></time-slot-view:>
+      <search-form: replace />
+    </table-plus:sessions>
+  </collection:>
+</show-page>

@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100801002656) do
+ActiveRecord::Schema.define(:version => 20100802163950) do
 
   create_table "broadcast_emails", :force => true do |t|
     t.integer  "cfp_id"
@@ -60,6 +60,17 @@ ActiveRecord::Schema.define(:version => 20100801002656) do
 
   add_index "conferences", ["colocated_with_id"], :name => "index_conferences_on_colocated_with_id"
   add_index "conferences", ["joomla_article_id"], :name => "index_conferences_on_joomla_article_id"
+
+  create_table "facility_areas", :force => true do |t|
+    t.integer  "conference_id"
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "joomla_article_id"
+  end
+
+  add_index "facility_areas", ["conference_id"], :name => "index_facility_areas_on_conference_id"
+  add_index "facility_areas", ["joomla_article_id"], :name => "index_facility_areas_on_joomla_article_id"
 
   create_table "involvements", :force => true do |t|
     t.integer  "participant_id"
@@ -254,11 +265,13 @@ ActiveRecord::Schema.define(:version => 20100801002656) do
   create_table "rooms", :force => true do |t|
     t.string   "name"
     t.string   "capacity"
-    t.string   "area"
     t.string   "short_name"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "facility_area_id"
   end
+
+  add_index "rooms", ["facility_area_id"], :name => "index_rooms_on_facility_area_id"
 
   create_table "sessions", :force => true do |t|
     t.integer  "portfolio_id"
