@@ -170,8 +170,8 @@ class ConferenceTest < ActiveSupport::TestCase
   def program_article_tests session
     article = session.joomla_article
     assert_equal session.name, article.title
-    assert_match /show_category=0/, article.attribs
-    assert_match /show_section=0/, article.attribs
+    assert_match /show_category=1/, article.attribs
+    assert_match /show_section=1/, article.attribs
     content = article.fulltext
     session.presentations.each do |presentation|
       if session.portfolio.session_type == 'multiple_presentations'
