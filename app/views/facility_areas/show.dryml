@@ -1,0 +1,7 @@
+<show-page>
+  <collection: replace>
+    <table-plus:rooms fields="this, short_name, capacity, sessions">
+      <search-form: replace />
+    </table-plus:rooms>
+  </collection:>
+</show-page>
