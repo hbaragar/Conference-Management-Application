@@ -98,4 +98,9 @@ class Session < ActiveRecord::Base
     acting_user.signed_up?
   end
 
+  def initialize *args
+    super *args
+    self.duration ||= portfolio.typical_session_duration
+  end
+
 end
