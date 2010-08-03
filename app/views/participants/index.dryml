@@ -1,5 +1,7 @@
 <index-page>
   <collection: replace>
-    <table-plus fields="name,affiliation,presentations,sessions" />
+    <table-plus fields="this,affiliation,presentations,sessions">
+      <sessions-view:><links-for-collection/></sessions-view:>
+    </table-plus>
   </collection:>
 </index-page>
