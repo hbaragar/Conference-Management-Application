@@ -152,7 +152,6 @@ private
     params = menu.params.clone
     params[/show_section=(\d*)/,1] = "1"
     menu.update_attributes!(
-      :link => JoomlaMenu::link_for(area),
       :alias => area.alias,
       :ordering => index+1,
       :params => params
@@ -161,6 +160,7 @@ private
   end
 
   def populate_joomla_menu_area_with collection_name, area, menu
+    menu.update_attributes!(:link => JoomlaMenu::link_for(area))
     populator = "populate_joomla_" + area.alias.gsub(/\W/,"_")
     method(collection_name).call.each {|item| item.method(populator).call(area, menu)}
   end
