@@ -46,6 +46,14 @@ class Conference < ActiveRecord::Base
     portfolios << Portfolio.new(:name => "General")
   end
 
+  def publish_to_joomla menu_name
+    script_path =  "#{File.dirname(__FILE__)}/../../script"
+    unless ENV['PATH'][/^script_path/]
+	ENV['PATH'] = script_path + ":" + ENV['PATH']
+    end
+    system("pull-from-joomla") && populate_joomla_menu_area_for(menu_name) && system("push-to-joomla") 
+  end
+
   MAIN_MENU = [
     { :name => "Home",			:class => JoomlaSection,  :collection => "selves",	:alias => 'general-information' },
     { :name => "Program",		:class => JoomlaSection,  :collection => "portfolios" },
@@ -61,6 +69,63 @@ class Conference < ActiveRecord::Base
       end
     end
   end
+
+  def populate_joomla_general_information section, index
+    # Populated through Joomla itself
+  end
+
+  def populate_joomla_colocated_conferences category, index
+    # called for each colocated conference (not for the host conference)
+    unless joomla_article
+      self.joomla_article = joomla_general_section.articles.create(:title => name, :catid => category.id)
+      save!
+    end
+    fancy_title = name
+    fancy_title = img(logo_url, "#{name} logo") if logo_url =~ /\w/
+    fancy_title = external_link(url, fancy_title) if url =~ /\w/
+    joomla_article.update_attributes(
+      :introtext => div("colocated_conference",
+	h2(fancy_title),
+	description.to_html,
+	div("readon", external_link(url,"Read more: #{name}"))
+      )
+    )
+  end
+
+  def joomla_general_section
+    JoomlaSection.find_by_alias "general-information"
+  end
+
+  def chair? user
+    (members & user.members).select do |m|
+      m.portfolio.name == "General" && m.chair
+    end.count > 0
+  end
+
+
+  # --- Permissions --- #
+
+  never_show :joomla_article
+
+  def create_permitted?
+    acting_user.administrator?
+  end
+
+  def update_permitted?
+    return true if acting_user.administrator? 
+    return false if any_changed?(:colocated_with_id)
+    chair?(acting_user) || (colocated_with && colocated_with.chair?(acting_user))
+  end
+
+  def destroy_permitted?
+    portfolios.empty? && acting_user.administrator?
+  end
+
+  def view_permitted?(field)
+    true
+  end
+
+private
 
   def populate_joomla_menu_area_configured_by config, index
     area = joomla_area_for config
@@ -98,69 +163,6 @@ class Conference < ActiveRecord::Base
   def populate_joomla_menu_area_with collection_name, area, menu
     populator = "populate_joomla_" + area.alias.gsub(/\W/,"_")
     method(collection_name).call.each {|item| item.method(populator).call(area, menu)}
-  end
-
-  def populate_joomla_general_information section, index
-    # Populated through Joomla itself
-  end
-
-  def populate_joomla_colocated_conferences category, index
-    # called for each colocated conference (not for the host conference)
-    unless joomla_article
-      self.joomla_article = joomla_general_section.articles.create(:title => name, :catid => category.id)
-      save!
-    end
-    fancy_title = name
-    fancy_title = img(logo_url, "#{name} logo") if logo_url =~ /\w/
-    fancy_title = external_link(url, fancy_title) if url =~ /\w/
-    joomla_article.update_attributes(
-      :introtext => div("colocated_conference",
-	h2(fancy_title),
-	description.to_html,
-	div("readon", external_link(url,"Read more: #{name}"))
-      )
-    )
-  end
-
-  def joomla_general_section
-    JoomlaSection.find_by_alias "general-information"
-  end
-
-  def chair? user
-    (members & user.members).select do |m|
-      m.portfolio.name == "General" && m.chair
-    end.count > 0
-  end
-
-  def publish_to_joomla menu_name
-    script_path =  "#{File.dirname(__FILE__)}/../../script"
-    unless ENV['PATH'][/^script_path/]
-	ENV['PATH'] = script_path + ":" + ENV['PATH']
-    end
-    system("pull-from-joomla") && populate_joomla_menu_area_for(menu_name) && system("push-to-joomla") 
-  end
-
-
-  # --- Permissions --- #
-
-  never_show :joomla_article
-
-  def create_permitted?
-    acting_user.administrator?
-  end
-
-  def update_permitted?
-    return true if acting_user.administrator? 
-    return false if any_changed?(:colocated_with_id)
-    chair?(acting_user) || (colocated_with && colocated_with.chair?(acting_user))
-  end
-
-  def destroy_permitted?
-    portfolios.empty? && acting_user.administrator?
-  end
-
-  def view_permitted?(field)
-    true
   end
 
 end
