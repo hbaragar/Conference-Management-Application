@@ -56,36 +56,48 @@ class Conference < ActiveRecord::Base
 
   def populate_joomla_menu_area_for menu_name
     MAIN_MENU.each_with_index do |config, index|
-      populate_joomla_menu_area_configured_by(config, index) if [config[:name], "All Areas"].include? menu_name
+      if [config[:name], "All Areas"].include? menu_name
+	populate_joomla_menu_area_configured_by(config, index)
+      end
     end
   end
 
   def populate_joomla_menu_area_configured_by config, index
-    target_class = config[:class]
-    target_config = {:title => config[:name]}
-    target_config[:section] = joomla_general_section.id if target_class == JoomlaCategory
-    target = target_class.find(:first, :conditions => target_config) || target_class.create!(target_config)
-    target.update_attributes!(:alias => config[:alias])
-    menu = JoomlaMenu.find_by_name(config[:name]) || JoomlaMenu.create!(
-    	:name => config[:name],
-	:link => JoomlaMenu::link_for(target)
+    area = joomla_area_for config
+    menu = joomla_menu_for area, index
+    populate_joomla_menu_area_with config[:collection], area, menu
+    area.restore_integrity! config[:order_on]
+    menu.restore_integrity! config[:order_on]
+  end
+
+  def joomla_area_for config
+    area_class = config[:class]
+    area_fields = {:title => config[:name]}
+    area_fields[:section] = joomla_general_section.id if area_class == JoomlaCategory
+    area = area_class.find(:first, :conditions => area_fields) || area_class.create!(area_fields)
+    area.update_attributes!(:alias => config[:alias])
+    area
+  end
+
+  def joomla_menu_for area, index
+    menu = JoomlaMenu.find_by_name(area.title) || JoomlaMenu.create!(
+    	:name => area.title,
+	:link => JoomlaMenu::link_for(area)
     )
     params = menu.params.clone
     params[/show_section=(\d*)/,1] = "1"
     menu.update_attributes!(
-      :link => JoomlaMenu::link_for(target),
-      :alias => config[:menu],
+      :link => JoomlaMenu::link_for(area),
+      :alias => area.alias,
       :ordering => index+1,
       :params => params
     )
-    populate_joomla_menu_area_with config[:collection], target, menu
-    target.restore_integrity! config[:order_on]
-    menu.restore_integrity! config[:order_on]
+    menu
   end
 
-  def populate_joomla_menu_area_with collection_name, target, menu
-    populator = "populate_joomla_" + target.alias.gsub(/\W/,"_")
-    method(collection_name).call.each {|item| item.method(populator).call(target, menu)}
+  def populate_joomla_menu_area_with collection_name, area, menu
+    populator = "populate_joomla_" + area.alias.gsub(/\W/,"_")
+    method(collection_name).call.each {|item| item.method(populator).call(area, menu)}
   end
 
   def populate_joomla_general_information section, index
