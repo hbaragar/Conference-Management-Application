@@ -55,7 +55,7 @@ protected
   end
 
   def internal_link link, text
-    link = JoomlaMenu::link_for(link) if link.class =~ /Joomla/
+    link = JoomlaMenu::link_for(link) if link.class.name =~ /Joomla/
     %Q(<a href="#{link}">#{text}</a>)
   end
 

@@ -70,8 +70,8 @@ class Session < ActiveRecord::Base
       save
     end
     attribs = joomla_article.attribs.clone
-    attribs[/show_category=(\d*)/,1] = "1"
     attribs[/show_section=(\d*)/,1] = "1"
+    attribs[/show_category=(\d*)/,1] = all_presentations_in_one? ? "0" : "1"
     joomla_article.update_attributes!(
       :title	=> name,
       :sectionid=> category.section,

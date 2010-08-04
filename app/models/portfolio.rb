@@ -93,10 +93,17 @@ class Portfolio < ActiveRecord::Base
     params = joomla_menu.params.clone
     params[/show_section=(\d*)/,1] = "1"
     joomla_menu.update_attributes!(:params => params)
-    overview_text = [
-      h4(internal_link(joomla_category, name)),
+    if session_type == "all_in_one"
+      if s = sessions.first
+	s.populate_joomla_program(joomla_category)
+	overview_text = [h4(internal_link(s.joomla_article, name))]
+      end
+    else
+      overview_text = [
+	h4(internal_link(joomla_category, name)),
 	ul(sessions.collect{|s| s.populate_joomla_program joomla_category})
-    ]
+      ]
+    end
   end
 
 
