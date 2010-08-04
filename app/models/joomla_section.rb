@@ -24,9 +24,9 @@ class JoomlaSection < ActiveRecord::Base
   validates_format_of :alias, :with => /^[-\w]+/
   validates_uniqueness_of :alias
 
-  def populate_overview_article list
+  def populate_overview_article parts
     article = find_or_create_overview_article
-    article.update_attributes!(:fulltext => div("overview", ul(list)))
+    article.update_attributes!(:fulltext => div("overview", parts))
     article
   end
 
@@ -49,8 +49,13 @@ private
   def find_or_create_overview_article
     category = categories.find_by_title("Overview") ||
       categories.create!(:title => "Overview")
-    category.articles.find_by_title(title)||
+    article = category.articles.find_by_title(title)||
       category.articles.create!(:title => title, :sectionid => id)
+    attribs = article.attribs.clone
+    attribs[/show_category=(\d*)/,1] = "0"
+    attribs[/show_section=(\d*)/,1] = "0"
+    article.update_attributes!(:attribs => attribs)
+    article
   end
 
 end

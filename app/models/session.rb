@@ -43,6 +43,10 @@ class Session < ActiveRecord::Base
     portfolio.session_type == "single_presentation"
   end
 
+  def all_presentations_in_one?
+    portfolio.session_type == "all_in_one"
+  end
+
   def time_slot
     (starts_at.strftime("%a %H:%M") + ends_at.strftime("-%H:%M %p").downcase).gsub(/(\s|-)0/, '\1')
   end
@@ -74,7 +78,8 @@ class Session < ActiveRecord::Base
       :attribs	=> attribs,
       :fulltext	=> to_html
     )
-    overview_text = li(name)
+    link = JoomlaMenu::link_for(joomla_article)
+    overview_text = li(internal_link(link,name)) unless all_presentations_in_one?
   end
 
 

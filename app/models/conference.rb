@@ -90,7 +90,7 @@ class Conference < ActiveRecord::Base
 	div("readon", external_link(url,"Read more: #{name}"))
       )
     )
-    overview_text = li(name)
+    overview_text = h4(name)
   end
 
   def joomla_general_section
@@ -162,11 +162,11 @@ private
 
   def populate_joomla_menu_area_with collection_name, area, menu
     populator = "populate_joomla_" + area.alias.gsub(/\W/,"_")
-    overview_list = method(collection_name).call.collect do |item|
+    parts = method(collection_name).call.collect do |item|
       item.method(populator).call(area, menu)
     end
     if area.class == JoomlaSection
-      overview_article = area.populate_overview_article(overview_list)
+      overview_article = area.populate_overview_article(parts)
       menu.update_attributes!(:link => JoomlaMenu::link_for(overview_article))
     else
       menu.update_attributes!(:link => JoomlaMenu::link_for(area))

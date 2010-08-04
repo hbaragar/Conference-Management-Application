@@ -17,6 +17,11 @@ protected
     %Q(<h3>#{text.join("")}</h3>\n)
   end
 
+  def h4(*text)
+    return "" unless text
+    %Q(<h4>#{text.join("")}</h4>\n)
+  end
+
   def ul(*text_list)
     text = text_list.join("")
     "\n<ul>\n#{text}</ul>\n" unless text.empty?
@@ -47,12 +52,16 @@ protected
     %Q(<td #{tag_attributes(attributes)}>#{text.join('')}</td>\n)
   end
 
-  def email_link addressees=email_address, address=email_address
-    %Q(<a href="mailto:#{address}">#{addressees}</a>)
+  def internal_link link, text
+    %Q(<a href="#{link}">#{text}</a>)
   end
 
   def external_link url, text
     %Q(<a href="#{url}" target="_blank">#{text}</a>)
+  end
+
+  def email_link addressees=email_address, address=email_address
+    %Q(<a href="mailto:#{address}">#{addressees}</a>)
   end
 
   def img src, alt=""
