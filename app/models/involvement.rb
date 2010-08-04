@@ -28,6 +28,7 @@ class Involvement < ActiveRecord::Base
   end
 
   def update_permitted?
+    return false if presentation_id_changed?
     acting_user.administrator? || acting_user.portfolio_chair?
   end
 

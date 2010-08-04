@@ -4,6 +4,8 @@ class ParticipantsController < ApplicationController
 
   auto_actions :all
 
+  autocomplete
+
   def index
     hobo_index Participant.apply_scopes(
       :search	=> [params[:search], :name, :affiliation, :country],

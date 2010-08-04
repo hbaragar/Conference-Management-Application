@@ -51,6 +51,14 @@
   </old-form>
 </extend>
 
+<extend tag="form" for="Involvement">
+  <old-form merge>
+    <field-list: no-edit="view">
+      <participant-view:><name-one/></participant-view:>
+    </field-list:>
+  </old-form>
+</extend>
+
 <extend tag="card" for="FacilityArea">
   <old-card merge>
     <count: replace><view:rooms/></count>

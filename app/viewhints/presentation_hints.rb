@@ -6,6 +6,6 @@ class PresentationHints < Hobo::ViewHints
   # children :primary_collection1, :aside_collection1, :aside_collection2
 
   parent :portfolio
-  children :participants
+  children :involvements
 
 end
