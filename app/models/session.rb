@@ -36,15 +36,15 @@ class Session < ActiveRecord::Base
   end
 
   def multiple_presentations?
-    portfolio.session_type == "multiple_presentations"
+    portfolio.multiple_presentations_per_session?
   end
 
   def single_presentation?
-    portfolio.session_type == "single_presentation"
+    portfolio.single_presentation_per_session?
   end
 
   def all_presentations_in_one?
-    portfolio.session_type == "all_in_one"
+    portfolio.all_presentations_in_one_session?
   end
 
   def time_slot

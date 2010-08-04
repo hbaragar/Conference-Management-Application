@@ -186,7 +186,7 @@ class ConferenceTest < ActiveSupport::TestCase
     assert_match /show_section=1/, article.attribs
     content = article.fulltext
     session.presentations.each do |presentation|
-      if session.portfolio.session_type == 'multiple_presentations'
+      if session.portfolio.multiple_presentations_per_session?
 	assert_match /#{presentation.title}/, content 
       end
       assert_match /#{presentation.abstract}/, content

@@ -41,6 +41,18 @@ class Portfolio < ActiveRecord::Base
     cfps.first
   end
 
+  def multiple_presentations_per_session?
+    session_type == "multiple_presentations"
+  end
+
+  def single_presentation_per_session?
+    session_type == "single_presentation"
+  end
+
+  def all_presentations_in_one_session?
+    session_type == "all_in_one"
+  end
+
 
   def load_presentation_from source
     xml = Document.new(source).root

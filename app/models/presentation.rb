@@ -115,7 +115,7 @@ class Presentation < ActiveRecord::Base
 
   def update_permitted?
     return false if portfolio_id_changed?
-    return false if session_id_changed? && !session.multiple_presentations?
+    return false if session_id_changed? && !portfolio.multiple_presentations_per_session?
     portfolio.chair?(acting_user) || conference.chair?(acting_user) || acting_user.administrator?
   end
 
