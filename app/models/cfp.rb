@@ -33,7 +33,7 @@ class Cfp < Call
       )
       save
     end
-    overview_text = li(internal_link(JoomlaMenu::link_for(joomla_article),name))
+    overview_text = li(internal_link(joomla_article, name))
   end
 
   def full_details

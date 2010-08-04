@@ -94,7 +94,7 @@ class Portfolio < ActiveRecord::Base
     params[/show_section=(\d*)/,1] = "1"
     joomla_menu.update_attributes!(:params => params)
     overview_text = [
-      h4(internal_link(JoomlaMenu::link_for(joomla_category), name)),
+      h4(internal_link(joomla_category, name)),
 	ul(sessions.collect{|s| s.populate_joomla_program joomla_category})
     ]
   end

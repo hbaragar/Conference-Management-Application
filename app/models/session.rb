@@ -78,8 +78,7 @@ class Session < ActiveRecord::Base
       :attribs	=> attribs,
       :fulltext	=> to_html
     )
-    link = JoomlaMenu::link_for(joomla_article)
-    overview_text = li(internal_link(link,name)) unless all_presentations_in_one?
+    overview_text = li(internal_link(joomla_article, name)) unless all_presentations_in_one?
   end
 
 

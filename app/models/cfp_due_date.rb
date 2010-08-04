@@ -20,7 +20,7 @@ class CfpDueDate
     find_or_create_joomla_category_in section
     find_or_create_joomla_menu_in menu
     overview_text = [
-      h4(internal_link(JoomlaMenu::link_for(joomla_category), name)),
+      h4(internal_link(joomla_category, name)),
 	ul(cfps.collect{|c| c.populate_joomla_call_for_papers joomla_category})
     ]
   end

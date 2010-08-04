@@ -7,19 +7,21 @@ protected
     %Q(<div #{tag_attributes({:class => css_class})}>#{text.join("")}</div>\n)
   end
 
-  def h2(*text)
+  def hn(n,*text)
     return "" unless text
-    %Q(<h2>#{text.join("")}</h2>\n)
+    %Q(<h#{n}>#{text.join("")}</h#{n}>\n)
+  end
+
+  def h2(*text)
+    hn(2,text)
   end
 
   def h3(*text)
-    return "" unless text
-    %Q(<h3>#{text.join("")}</h3>\n)
+    hn(3,text)
   end
 
   def h4(*text)
-    return "" unless text
-    %Q(<h4>#{text.join("")}</h4>\n)
+    hn(4,text)
   end
 
   def ul(*text_list)
@@ -53,6 +55,7 @@ protected
   end
 
   def internal_link link, text
+    link = JoomlaMenu::link_for(link) if link.class =~ /Joomla/
     %Q(<a href="#{link}">#{text}</a>)
   end
 
