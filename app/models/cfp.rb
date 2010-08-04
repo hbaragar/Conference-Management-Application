@@ -33,7 +33,7 @@ class Cfp < Call
       )
       save
     end
-    joomla_article
+    overview_text = li(name)
   end
 
   def full_details

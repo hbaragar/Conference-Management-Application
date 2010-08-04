@@ -1,5 +1,7 @@
 class JoomlaSection < ActiveRecord::Base
 
+  include MyHtml
+
   set_table_name 'jos_sections'
 
   def before_validation
@@ -22,6 +24,12 @@ class JoomlaSection < ActiveRecord::Base
   validates_format_of :alias, :with => /^[-\w]+/
   validates_uniqueness_of :alias
 
+  def populate_overview_article list
+    article = find_or_create_overview_article
+    article.update_attributes!(:fulltext => div("overview", ul(list)))
+    article
+  end
+
   def restore_integrity! order_on = :title
     purge_categories_for_deleted_cfp_due_dates
     categories.all(:order => (order_on||:title)).each_with_index do |category, index|
@@ -34,6 +42,15 @@ class JoomlaSection < ActiveRecord::Base
   def purge_categories_for_deleted_cfp_due_dates
     return unless self.alias == 'cfp'
     categories.each {|c| c.destroy unless c.articles.count > 0}
+  end
+
+private
+
+  def find_or_create_overview_article
+    category = categories.find_by_title("Overview") ||
+      categories.create!(:title => "Overview")
+    category.articles.find_by_title(title)||
+      category.articles.create!(:title => title, :sectionid => id)
   end
 
 end

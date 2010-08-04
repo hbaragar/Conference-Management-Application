@@ -1,5 +1,7 @@
 class CfpDate < ActiveRecord::Base
 
+  include MyHtml
+
   hobo_model # Don't put anything above this
 
   belongs_to :cfp

@@ -3,6 +3,8 @@ class Portfolio < ActiveRecord::Base
   require 'rexml/document'
   include REXML
 
+  include MyHtml
+
   hobo_model # Don't put anything above this
 
   belongs_to :conference
@@ -91,7 +93,10 @@ class Portfolio < ActiveRecord::Base
     params = joomla_menu.params.clone
     params[/show_section=(\d*)/,1] = "1"
     joomla_menu.update_attributes!(:params => params)
-    sessions.each{|s| s.populate_joomla_program joomla_category}
+    overview_text = [
+      li(name),
+	ul(sessions.collect{|s| s.populate_joomla_program joomla_category})
+    ]
   end
 
 
@@ -104,6 +109,7 @@ class Portfolio < ActiveRecord::Base
         :link => JoomlaMenu::link_for(article)
       )
     end
+    overview_text = li(name)
   end
 
 

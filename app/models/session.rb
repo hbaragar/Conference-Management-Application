@@ -74,7 +74,7 @@ class Session < ActiveRecord::Base
       :attribs	=> attribs,
       :fulltext	=> to_html
     )
-    joomla_article.reload
+    overview_text = li(name)
   end
 
 

@@ -1,5 +1,7 @@
 class CfpDueDate
 
+  include MyHtml
+
   attr_reader :due_on, :cfps
   attr_accessor :joomla_category, :joomla_menu
   
@@ -17,7 +19,10 @@ class CfpDueDate
     #        so co-opt it for sorting purposes (see JoomlaSection::restore_integrity!)
     find_or_create_joomla_category_in section
     find_or_create_joomla_menu_in menu
-    cfps.each{|c| c.populate_joomla_call_for_papers joomla_category}
+    overview_text = [
+      li("Important Dates"),
+	ul(cfps.collect{|c| c.populate_joomla_call_for_papers joomla_category})
+    ]
   end
 
   def find_or_create_joomla_category_in section

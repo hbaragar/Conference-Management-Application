@@ -87,28 +87,30 @@ class ConferenceTest < ActiveSupport::TestCase
   test "populate menu area for call for papers" do
     @a_conference.populate_joomla_menu_area_for "Call for Papers"
     assert_equal 2, JoomlaSection.count
-    assert_equal 2, JoomlaCategory.count
-    assert_equal 3, JoomlaArticle.count
+    assert_equal 3, JoomlaCategory.count
+    assert_equal 4, JoomlaArticle.count
     assert_equal 3, JoomlaMenu.count
     cfp_article_tests
     @a_conference.populate_joomla_menu_area_for "Call for Papers"
     @a_conference.reload
     assert_equal 2, JoomlaSection.count
-    assert_equal 2, JoomlaCategory.count
-    assert_equal 3, JoomlaArticle.count
+    assert_equal 3, JoomlaCategory.count
+    assert_equal 4, JoomlaArticle.count
     assert_equal 3, JoomlaMenu.count
     assert cfp_section = JoomlaSection.find_by_alias("cfp")
     assert_equal "Call for Papers", cfp_section.title
-    assert_equal 3, cfp_section.count
+    assert_equal 4, cfp_section.count
     assert_equal cfp_section, JoomlaSection.find_by_title("Call for Papers")
-    assert_equal 2, cfp_section.categories.count
+    assert_equal 3, cfp_section.categories.count
     categories = cfp_section.categories
-    assert_equal (1..2).to_a, categories.collect{|c| c.ordering}
-    assert_equal ["Due March 13, 2010", "Due June 13, 2010"], categories.collect{|c| c.title}
+    assert_equal (1..3).to_a, categories.collect{|c| c.ordering}
+    category_titles = ["Due March 13, 2010", "Due June 13, 2010", "Overview"]
+    assert_equal category_titles, categories.collect{|c| c.title}
     cfp_menu = JoomlaMenu.find_by_name "Call for Papers"
     assert_equal 0, cfp_menu.sublevel
     assert_match /show_vote=0/, cfp_menu.params
-    assert_equal "index.php?option=com_content&view=section&layout=blog&id=#{cfp_section.id}", cfp_menu.link
+    assert overview_article = cfp_section.articles.find_by_title("Call for Papers")
+    assert_equal "index.php?option=com_content&view=article&id=#{overview_article.id}", cfp_menu.link
     menu_items = cfp_menu.items
     item = menu_items[0]
     assert_equal 1, item.sublevel
@@ -133,38 +135,48 @@ class ConferenceTest < ActiveSupport::TestCase
   test "populate joomla program menu area" do
     @a_conference.populate_joomla_menu_area_for "Program"
     assert_equal 2, JoomlaSection.count
-    assert_equal 3, JoomlaCategory.count
-    assert_equal 2, JoomlaArticle.count
+    assert_equal 4, JoomlaCategory.count
+    assert_equal 3, JoomlaArticle.count
     assert_equal 4, JoomlaMenu.count
     @a_conference.populate_joomla_menu_area_for "Program"
     @a_conference.reload
     assert_equal 2, JoomlaSection.count
-    assert_equal 3, JoomlaCategory.count
-    assert_equal 2, JoomlaArticle.count
-    #assert_equal 3, JoomlaMenu.count
+    assert_equal 4, JoomlaCategory.count
+    assert_equal 3, JoomlaArticle.count
+    assert_equal 4, JoomlaMenu.count
     assert program_section = JoomlaSection.find_by_alias("program")
     assert_equal "Program", program_section.title
-    assert_equal 2, program_section.count
+    assert_equal 3, program_section.count
     assert_equal program_section, JoomlaSection.find_by_title("Program")
-    assert_equal 3, program_section.categories.count
+    assert_equal 4, program_section.categories.count
     categories = program_section.categories
-    assert_equal (1..3).to_a, categories.collect{|c| c.ordering}
-    assert_equal ["DesignFest", "OOPSLA Research Program", "Workshops"], categories.collect{|c| c.title}
+    assert_equal (1..4).to_a, categories.collect{|c| c.ordering}
+    category_titles = ["DesignFest", "OOPSLA Research Program", "Overview", "Workshops"]
+    assert_equal category_titles, categories.collect{|c| c.title}
     @a_conference.sessions.each {|s| program_article_tests s}
     program_menu = JoomlaMenu.find_by_name "Program"
     assert_equal 0, program_menu.sublevel
     assert_match /show_vote=0/, program_menu.params
-    assert_equal "index.php?option=com_content&view=section&layout=blog&id=#{program_section.id}", program_menu.link
+    overview_article = program_section.articles.find_by_title("Program")
+    assert_equal "index.php?option=com_content&view=article&id=#{overview_article.id}", program_menu.link
     menu_items = program_menu.items
     assert_equal 3, menu_items.count
     assert_equal (1..3).to_a, menu_items.collect{|i| i.ordering}
     assert_equal [1] * 3, menu_items.collect{|i| i.sublevel}
     assert_equal ["DesignFest", "OOPSLA Research Program", "Workshops"], menu_items.collect{|i| i.name}
     categories.each do |c|
-      submenu = JoomlaMenu.find_by_name_and_parent(c.title,program_menu.id)
+      next if c.title == "Overview"
+      assert submenu = JoomlaMenu.find_by_name_and_parent(c.title,program_menu.id)
       assert_equal "index.php?option=com_content&view=category&layout=blog&id=#{c.id}", submenu.link
       assert_equal submenu, menu_items[submenu.ordering-1]
     end
+    assert program_section = JoomlaSection.find_by_title("Program")
+    assert overview_article = program_section.articles.find_by_title("Program")
+    assert_equal "Program", overview_article.title
+    overview_text = overview_article.fulltext
+    assert_match /OOPSLA Research Program/, overview_text
+    assert_match /A Session Title/, overview_text
+    #assert_match /An Important Title/, overview_text
   end
 
   def program_article_tests session
@@ -181,7 +193,7 @@ class ConferenceTest < ActiveSupport::TestCase
       presentation.participants.each do |participant|
 	assert_match /#{participant.name}/, content
 	assert_match /#{participant.affiliation}/, content
-	#assert_match /#{participant.country}/, content
+	assert_match /#{participant.country}/, content
       end
     end
   end
@@ -189,8 +201,8 @@ class ConferenceTest < ActiveSupport::TestCase
   test "populate all joomla menu areas" do
     @a_conference.populate_joomla_menu_area_for "All Areas"
     assert_equal 3, JoomlaSection.count
-    assert_equal 7, JoomlaCategory.count
-    assert_equal 7, JoomlaArticle.count
+    assert_equal 10, JoomlaCategory.count
+    assert_equal 10, JoomlaArticle.count
     assert_equal (1..5).to_a, JoomlaMenu.find_all_by_sublevel(0).collect{|m| m.ordering}
     top_menu = ["Home", "Program", "Call for Papers", "Colocated Conferences", "Supporters"]
     assert_equal top_menu, JoomlaMenu.find_all_by_sublevel(0).collect{|m| m.name}
