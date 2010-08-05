@@ -2,3 +2,7 @@ a_participant:
   id: 1
   name: Paper Author
   affiliation: Author Affiliations
+b_participant:
+  id: 2
+  name: A. Paper Author
+  affiliation: Author Affiliations

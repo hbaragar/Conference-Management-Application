@@ -22,6 +22,17 @@ class Participant < ActiveRecord::Base
     presentations.collect{|p| p.session}.sort
   end
 
+  def session_conflicts
+    conflicts = []
+    unique_sessions = sessions.uniq
+    previous = unique_sessions.shift
+    unique_sessions.each do |s|
+      conflicts << [previous, s] if s.overlaps? previous
+      previous = s
+    end
+    conflicts
+  end
+
 
   def to_html
     [span("name", name), span("affiliation",affiliation), span("country", country)].grep(/\S/).join(", ")

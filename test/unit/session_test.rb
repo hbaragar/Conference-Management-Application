@@ -38,6 +38,15 @@ class SessionTest < ActiveSupport::TestCase
     assert_no_match /An Interesting Abstract/, html
   end
 
+  def test_overlaps
+    assert   sessions(:a_session).overlaps?(sessions(:b_session))
+    assert   sessions(:b_session).overlaps?(sessions(:a_session))
+    assert ! sessions(:a_session).overlaps?(sessions(:c_session))
+    assert ! sessions(:c_session).overlaps?(sessions(:a_session))
+    assert ! sessions(:b_session).overlaps?(sessions(:c_session))
+    assert ! sessions(:c_session).overlaps?(sessions(:b_session))
+  end
+
   def test_create_permissions
     new_session = @a_portfolio.sessions.new 
     assert  new_session.creatable_by?(users(:administrator))

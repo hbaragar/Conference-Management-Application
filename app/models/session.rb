@@ -23,6 +23,11 @@ class Session < ActiveRecord::Base
 
   default_scope :order => "starts_at, duration, name"
 
+  def overlaps? rhs
+    earlier, later = [self, rhs].sort
+    earlier.starts_at + duration.minutes > later.starts_at
+  end
+
   def <=> rhs
     cmp = starts_at <=> rhs.starts_at
     return cmp unless cmp == 0

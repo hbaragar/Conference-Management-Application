@@ -1,4 +1,10 @@
 a_involvement:
+  id: 1
   participant_id: 1
   presentation_id: 1
+  role: author
+b_involvement:
+  id: 2
+  participant_id: 1
+  presentation_id: 4
   role: author
