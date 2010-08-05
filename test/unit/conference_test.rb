@@ -136,17 +136,17 @@ class ConferenceTest < ActiveSupport::TestCase
     @a_conference.populate_joomla_menu_area_for "Program"
     assert_equal 2, JoomlaSection.count
     assert_equal 4, JoomlaCategory.count
-    assert_equal 3, JoomlaArticle.count
+    assert_equal 4, JoomlaArticle.count
     assert_equal 4, JoomlaMenu.count
     @a_conference.populate_joomla_menu_area_for "Program"
     @a_conference.reload
     assert_equal 2, JoomlaSection.count
     assert_equal 4, JoomlaCategory.count
-    assert_equal 3, JoomlaArticle.count
+    assert_equal 4, JoomlaArticle.count
     assert_equal 4, JoomlaMenu.count
     assert program_section = JoomlaSection.find_by_alias("program")
     assert_equal "Program", program_section.title
-    assert_equal 3, program_section.count
+    assert_equal 4, program_section.count
     assert_equal program_section, JoomlaSection.find_by_title("Program")
     assert_equal 4, program_section.categories.count
     categories = program_section.categories
@@ -202,7 +202,7 @@ class ConferenceTest < ActiveSupport::TestCase
     @a_conference.populate_joomla_menu_area_for "All Areas"
     assert_equal 3, JoomlaSection.count
     assert_equal 10, JoomlaCategory.count
-    assert_equal 10, JoomlaArticle.count
+    assert_equal 11, JoomlaArticle.count
     assert_equal (1..5).to_a, JoomlaMenu.find_all_by_sublevel(0).collect{|m| m.ordering}
     top_menu = ["Home", "Program", "Call for Papers", "Colocated Conferences", "Supporters"]
     assert_equal top_menu, JoomlaMenu.find_all_by_sublevel(0).collect{|m| m.name}

@@ -2,7 +2,17 @@ a_session:
   id: 1
   portfolio_id: 2
   name: "A Session Title"
+  starts_at: 2010-10-18 08:30
+  duration: 90
 b_session:
   id: 2
   portfolio_id: 4
   name: "Another Session Title"
+  starts_at: 2010-10-18 09:00
+  duration: 90
+c_session:
+  id: 3
+  portfolio_id: 4
+  name: "A Session Another Day"
+  starts_at: 2010-10-19 08:30
+  duration: 90
