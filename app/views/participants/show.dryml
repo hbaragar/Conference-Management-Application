@@ -1,0 +1,11 @@
+<show-page>
+  <presentations-collection-heading:>
+    <ht key="sessions.collection.heading.other">Sessions</ht>
+  </presentations-collection-heading:>
+  <presentations-collection: replace>
+    <table-plus:sessions fields="time_slot, name">
+      <name-view:><a/></name-view:>
+      <search-form: replace />
+    </table-plus:sessions>
+  </presentations-collection>
+</show-page>
