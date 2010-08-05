@@ -21,7 +21,15 @@ class Session < ActiveRecord::Base
   has_many :presentations
   has_many :involvements, :through => :presentations
 
-  default_scope :order => "starts_at, name"
+  default_scope :order => "starts_at, duration, name"
+
+  def <=> rhs
+    cmp = starts_at <=> rhs.starts_at
+    return cmp unless cmp == 0
+    cmp = duration <=> rhs.duration
+    return cmp unless cmp == 0
+    cmp = name <=> rhs.name
+  end
 
   def before_create
     self.duration ||= portfolio.typical_session_duration

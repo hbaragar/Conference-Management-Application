@@ -32,6 +32,7 @@
 
 <extend tag="card" for="Presentation">
   <old-card merge>
+    <before-heading:><h4 class="portfolio"><view:portfolio/></h4></before-heading:>
     <body: replace>
       <table-plus:participants fields="this, affiliation" >
 	<thead: replace />

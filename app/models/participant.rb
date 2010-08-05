@@ -19,7 +19,7 @@ class Participant < ActiveRecord::Base
   default_scope :order => :name
 
   def sessions
-    presentations.collect{|p| p.session}
+    presentations.collect{|p| p.session}.sort
   end
 
 
