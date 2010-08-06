@@ -30,7 +30,8 @@ class ConferenceTest < ActiveSupport::TestCase
   end
 
   def test_chair
-    assert @a_conference.chair?(users(:general_chair))
+    assert  @a_conference.chair?(users(:general_chair))
+    assert  @another_conference.chair?(users(:general_chair))
     assert !@a_conference.chair?(users(:a_portfolio_chair))
     assert !@a_conference.chair?(users(:a_portfolio_member))
     assert !@a_conference.chair?(users(:another_conference_chair))

@@ -99,9 +99,10 @@ class Conference < ActiveRecord::Base
   end
 
   def chair? user
-    (members & user.members).select do |m|
+    this_chair = (members & user.members).select do |m|
       m.portfolio.name == "General" && m.chair
-    end.count > 0
+    end.count > 0 
+    this_chair or colocated_with && colocated_with.chair?(user)
   end
 
 
