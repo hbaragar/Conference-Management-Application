@@ -20,6 +20,15 @@ class Presentation < ActiveRecord::Base
   has_many :involvements, :dependent => :destroy
   has_many :participants, :through => :involvements
 
+  def after_create
+    self.session ||= portfolio.new_or_existing_session title
+    save
+  end
+
+  def after_update
+    return unless session.single_presentation?
+    session.update_attributes(:name => title) unless session.name == title
+  end
 
   def conference
     portfolio.conference
@@ -48,7 +57,6 @@ class Presentation < ActiveRecord::Base
 	logger.info "Presentation::load_from does not handle #{element.name} elements"
       end
     end
-    self.session ||= portfolio.new_or_existing_session title
     save
     self
   end
