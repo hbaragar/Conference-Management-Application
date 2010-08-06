@@ -2,7 +2,9 @@ a_participant:
   id: 1
   name: Paper Author
   affiliation: Author Affiliations
+  conference_id: 1
 b_participant:
   id: 2
   name: A. Paper Author
   affiliation: Author Affiliations
+  conference_id: 1

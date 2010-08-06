@@ -12,6 +12,12 @@
       <empty-message:>No portfolios match your criteria</empty-message:>
     </table-plus>
   </collection:>
+  <before-facility_areas-collection-heading:>
+    <h3><ht key="participants.collection.heading.other">Participants</ht></h3>
+    <div class="card">
+      <a action="participants">view all</a>
+    </div>
+  </before-facility_areas-collection-heading:>
   <after-facility_areas-collection:>
       <a:facility_areas action="new" if="&can_create?(@conference.facility_areas)">
 	<ht key="facility_areas.actions.new">

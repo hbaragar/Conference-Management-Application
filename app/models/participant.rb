@@ -4,6 +4,8 @@ class Participant < ActiveRecord::Base
 
   hobo_model # Don't put anything above this
 
+  belongs_to :conference
+
   fields do
     name                  :string, :required, :unique
     affiliation           :string
@@ -17,6 +19,8 @@ class Participant < ActiveRecord::Base
   has_many :presentations, :through => :involvements
 
   default_scope :order => :name
+
+  validates_presence_of :conference_id
 
   def sessions
     presentations.collect{|p| p.session}.sort
@@ -45,6 +49,7 @@ class Participant < ActiveRecord::Base
   end
 
   def update_permitted?
+    return false if conference_id_changed?
     acting_user.administrator? || acting_user.portfolio_chair?
   end
 

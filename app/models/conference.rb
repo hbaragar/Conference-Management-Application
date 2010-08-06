@@ -22,6 +22,7 @@ class Conference < ActiveRecord::Base
   has_many :sessions, :through => :portfolios
   has_many :members, :through => :portfolios
   has_many :facility_areas, :dependent => :destroy
+  has_many :participants
 
   def cfp_due_dates
     # For populating Call for Papers menu area

@@ -15,10 +15,11 @@ class ConferenceTest < ActiveSupport::TestCase
     assert_equal "Onward! 2010", @a_conference.colocated_conferences.first.name
   end
 
-  def test_portfolios
+  def test_associations
     assert_equal 5, @a_conference.portfolios.count
     assert_equal 1, @another_conference.portfolios.count
     assert_equal "General", @another_conference.portfolios.first.name
+    assert_equal 2, @a_conference.participants.count
   end
 
   def test_chair
