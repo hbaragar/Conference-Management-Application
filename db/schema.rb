@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100805140836) do
+ActiveRecord::Schema.define(:version => 20100806132801) do
 
   create_table "broadcast_emails", :force => true do |t|
     t.integer  "cfp_id"
@@ -229,6 +229,7 @@ ActiveRecord::Schema.define(:version => 20100805140836) do
     t.datetime "updated_at"
     t.string   "country"
     t.integer  "conference_id"
+    t.boolean  "conflicted"
   end
 
   add_index "participants", ["conference_id"], :name => "index_participants_on_conference_id"

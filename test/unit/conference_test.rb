@@ -5,6 +5,7 @@ class ConferenceTest < ActiveSupport::TestCase
   def setup
     @a_conference = conferences(:a_conference)
     @another_conference = conferences(:another_conference)
+    @a_participant = participants(:a_participant)
   end
 
   def test_fields
@@ -20,6 +21,12 @@ class ConferenceTest < ActiveSupport::TestCase
     assert_equal 1, @another_conference.portfolios.count
     assert_equal "General", @another_conference.portfolios.first.name
     assert_equal 2, @a_conference.participants.count
+    @a_conference.participants.*.set_conflicted!
+    assert_equal 1, @a_conference.participants.conflicted.count
+    assert_equal @a_participant, @a_conference.participants.conflicted.first
+    conflict = "A Session Title @ Mon 8:30-10:00 am vs Another Session Title @ Mon 9:00-10:30 am"
+    assert_equal [conflict], @a_participant.conflicting_sessions
+    assert_equal [], participants(:b_participant).conflicting_sessions
   end
 
   def test_chair

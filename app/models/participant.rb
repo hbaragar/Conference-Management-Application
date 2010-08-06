@@ -8,6 +8,7 @@ class Participant < ActiveRecord::Base
 
   fields do
     name                  :string, :required, :unique
+    conflicted            :boolean
     affiliation           :string
     private_email_address :email_address
     country		  :string
@@ -24,6 +25,17 @@ class Participant < ActiveRecord::Base
 
   def sessions
     presentations.collect{|p| p.session}.sort
+  end
+
+  def set_conflicted!
+    self.conflicted = session_conflicts.count > 0
+    save
+  end
+
+  def conflicting_sessions
+    session_conflicts.collect do |conflict|
+      conflict.collect {|s| "#{s.name} @ #{s.time_slot}" }.join " vs "
+    end
   end
 
   def session_conflicts

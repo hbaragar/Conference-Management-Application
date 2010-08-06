@@ -1,0 +1,9 @@
+<index-page>
+  <heading:><view with="&@conference"/> Participants with Conflicting Sessions</heading:>
+  <collection: replace>
+    <table-plus fields="this,conflicting_sessions">
+      <conflicting-sessions-view:><comma-list join="<br />" /></conflicting-sessions-view:>
+      <search-form: replace/>
+    </table-plus>
+  </collection:>
+</index-page>

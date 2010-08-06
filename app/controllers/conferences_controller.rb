@@ -7,6 +7,7 @@ class ConferencesController < ApplicationController
   auto_actions :all
 
   show_action :participants
+  show_action :participants_with_conflicts
 
   def index
     hobo_index Conference.host_conferences.apply_scopes(
@@ -29,6 +30,13 @@ class ConferencesController < ApplicationController
 	:search	=> [params[:search], :name, :affiliation, :country],
 	:order_by	=> parse_sort_param(:name, :affiliation)
       )
+    end
+  end
+
+  def participants_with_conflicts
+    hobo_show do
+      @conference.participants.*.set_conflicted!
+      hobo_index @conference.participants.conflicted
     end
   end
 

@@ -15,7 +15,10 @@
   <before-facility_areas-collection-heading:>
     <h3><ht key="participants.collection.heading.other">Participants</ht></h3>
     <div class="card">
-      <a action="participants">view all</a>
+      <ul>
+	<li><a action="participants">view all</a></li>
+	<li><a action="participants_with_conflicts">with conflicts</a></li>
+      </ul>
     </div>
   </before-facility_areas-collection-heading:>
   <after-facility_areas-collection:>
