@@ -64,16 +64,33 @@ class Session < ActiveRecord::Base
     (starts_at.strftime("%a %H:%M") + ends_at.strftime("-%H:%M %p").downcase).gsub(/(\s|-)0/, '\1')
   end
 
+  def intro_html
+    div("session",
+      coordinates_to_html,
+      if single_presentation?
+	presentations.first.intro_html rescue ""
+      elsif presentations.count > 0
+	ol(presentations.collect {|p| p.intro_html})
+      else
+        "Content to be Determined"
+      end
+   )
+  end
+
   def to_html
     div("session",
       coordinates_to_html,
-      presentations.collect {|p| p.to_html}
+      if presentations.count > 0
+	presentations.collect {|p| p.to_html}
+      else
+        "<h4>Content to be Determined</h4>"
+      end
    )
   end
 
   def coordinates_to_html
     div("coordinates",
-      "#{time_slot} &mdash #{room || 'Room TBD'}"
+      "#{time_slot} - #{room || 'Room TBD'}"
     )
   end
 
@@ -85,10 +102,12 @@ class Session < ActiveRecord::Base
     attribs = joomla_article.attribs.clone
     attribs[/show_section=(\d*)/,1] = "1"
     attribs[/show_category=(\d*)/,1] = all_presentations_in_one? ? "0" : "1"
+    attribs[/show_intro=(\d*)/,1] = "0"
     joomla_article.update_attributes!(
       :title	=> name,
       :sectionid=> category.section,
       :attribs	=> attribs,
+      :introtext=> intro_html,
       :fulltext	=> to_html
     )
     overview_text = li(internal_link(joomla_article, name)) unless all_presentations_in_one?
