@@ -24,7 +24,7 @@ class SessionTest < ActiveSupport::TestCase
 
   def test_to_html
     html = @a_session.to_html
-    assert_match /Co-ordinates TBA/, html
+    assert_match /Mon 8:30-10:00 am &mdash Room TBD/, html
     assert_match /An Important Title/, html
     assert_match /An Abstract/, html
     assert_match /Paper Author/, html

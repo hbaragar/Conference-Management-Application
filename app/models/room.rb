@@ -17,6 +17,10 @@ class Room < ActiveRecord::Base
 
   validates_uniqueness_of :name, :scope => :facility_area_id
 
+  def to_s
+    name
+  end
+
 
   # --- Permissions --- #
 

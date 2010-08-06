@@ -73,7 +73,7 @@ class Session < ActiveRecord::Base
 
   def coordinates_to_html
     div("coordinates",
-      "Co-ordinates TBA"
+      "#{time_slot} &mdash #{room || 'Room TBD'}"
     )
   end
 
