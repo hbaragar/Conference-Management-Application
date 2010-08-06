@@ -41,6 +41,14 @@
       </tr>
     </table> 
   </after-field-list:>
+  <before-collection-heading:>
+    <if test="&this.multiple_presentations_per_session?">
+      There are <count:presentations lowercase/> in <count:sessions lowercase/>.
+    </if>
+    <if test="&this.single_presentation_per_session? || this.all_presentations_in_one_session? ">
+      There are <count:presentations lowercase/>.
+    </if>
+  </before-collection-heading:>
   <collection: replace>
     <table-plus:sessions fields="& 'time_slot, this' + (this.multiple_presentations_per_session? ? ', presentations' : '')" part="sessions" >
       <search-form: replace />
