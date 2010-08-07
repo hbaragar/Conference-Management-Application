@@ -18,8 +18,13 @@ class ParticipantTest < ActiveSupport::TestCase
     assert_equal [[sessions(:a_session),sessions(:b_session)]], @a_participant.session_conflicts
   end
 
+  def test_validations
+    new_participant = conferences(:another_conference).participants.new :name => "Another Author"
+    assert !new_participant.valid?
+  end
+
   def test_create_permissions
-    new_participant = Participant.new :name => "Another Author"
+    new_participant = @a_conference.participants.new :name => "Another Author"
     assert new_participant.creatable_by?(users(:administrator))
     assert new_participant.creatable_by?(users(:general_chair))
     assert new_participant.creatable_by?(users(:a_portfolio_chair))

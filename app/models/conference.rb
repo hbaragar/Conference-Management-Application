@@ -24,6 +24,21 @@ class Conference < ActiveRecord::Base
   has_many :facility_areas, :dependent => :destroy
   has_many :participants
 
+  def host?
+    !colocated_with
+  end
+
+  def hosting_conference
+    colocated_with || self
+  end
+
+  def chair? user
+    this_chair = (members & user.members).select do |m|
+      m.portfolio.name == "General" && m.chair
+    end.count > 0 
+    this_chair or colocated_with && colocated_with.chair?(user)
+  end
+
   def cfp_due_dates
     # For populating Call for Papers menu area
     cfps.collect{|c| c.due_on}.uniq.collect do |due_on|
@@ -96,13 +111,6 @@ class Conference < ActiveRecord::Base
 
   def joomla_general_section
     JoomlaSection.find_by_alias "general-information"
-  end
-
-  def chair? user
-    this_chair = (members & user.members).select do |m|
-      m.portfolio.name == "General" && m.chair
-    end.count > 0 
-    this_chair or colocated_with && colocated_with.chair?(user)
   end
 
 

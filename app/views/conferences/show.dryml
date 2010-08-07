@@ -13,11 +13,15 @@
     </table-plus>
   </collection:>
   <before-facility_areas-collection-heading:>
-    <h3><ht key="participants.collection.heading.other">Participants</ht></h3>
+    <h3>
+      <ht key="hosting-conference.participants.collection.heading.other">
+	<view:hosting_conference/> Participants
+      </ht>
+    </h3>
     <div class="card">
       <ul>
-	<li><a action="participants">view all</a></li>
-	<li><a action="participants_with_conflicts">with conflicts</a></li>
+	<li><a action="participants" with="&this.hosting_conference">view all</a></li>
+	<li><a action="participants_with_conflicts" with="&this.hosting_conference">with conflicts</a></li>
       </ul>
     </div>
   </before-facility_areas-collection-heading:>

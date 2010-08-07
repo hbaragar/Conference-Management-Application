@@ -1,5 +1,8 @@
 <index-page>
   <heading:><view with="&@conference"/> Participants</heading:>
+  <after-count:>
+    <p>new participant</p>
+  </after-count:>
   <collection: replace>
     <table-plus fields="this,affiliation,presentations,sessions">
       <sessions-view:><links-for-collection/></sessions-view:>

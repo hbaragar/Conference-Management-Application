@@ -85,7 +85,7 @@ class Presentation < ActiveRecord::Base
 	return existing
       end
     end
-    conference.participants.create(fields)
+    conference.hosting_conference.participants.create(fields)
   end
 
 

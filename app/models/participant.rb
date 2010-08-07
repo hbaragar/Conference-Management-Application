@@ -23,6 +23,11 @@ class Participant < ActiveRecord::Base
 
   validates_presence_of :conference_id
 
+  def validate
+    errors.add(:conference_id, "must be a hosting conference") unless
+      conference && conference.host?
+  end
+
   def sessions
     presentations.collect{|p| p.session}.sort
   end
