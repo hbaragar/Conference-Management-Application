@@ -5,6 +5,7 @@ class Room < ActiveRecord::Base
   fields do
     name       :string
     capacity   :string
+    door_count :integer
     short_name :string
     timestamps
   end
