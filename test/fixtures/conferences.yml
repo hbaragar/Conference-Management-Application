@@ -1,13 +1,13 @@
 a_conference:
   id: 1
   name: Splash 2010
-  colocated_with_id: ~
+  hosting_conference_id: 1
   description: The successor to OOPSLA
 
 another_conference:
   id: 2
   name: "Onward! 2010"
-  colocated_with_id: 1
+  hosting_conference_id: 1
   url: "http://www.onward-conference.org/"
   logo_url: "http://www.onward-conference.org/logo.gif"
   description: Was part of OOPSLA

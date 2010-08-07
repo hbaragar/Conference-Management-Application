@@ -11,7 +11,7 @@ class ConferenceTest < ActiveSupport::TestCase
   def test_fields
     assert_equal "Splash 2010", @a_conference.name
     assert_equal "Onward! 2010", @another_conference.name
-    assert_equal "Splash 2010", @another_conference.colocated_with.name
+    assert_equal "Splash 2010", @another_conference.hosting_conference.name
     assert_equal 1, @a_conference.colocated_conferences.size
     assert_equal "Onward! 2010", @a_conference.colocated_conferences.first.name
   end
@@ -39,7 +39,7 @@ class ConferenceTest < ActiveSupport::TestCase
 
   def test_after_create
     count = Portfolio.count
-    new_one = Conference.create(:name => 'A new conference')
+    new_one = Conference.create!(:name => 'A new conference')
     assert_equal 1, new_one.portfolios.count
     assert_equal 1+count, Portfolio.count
     assert_equal "General", new_one.portfolios.first.name
@@ -51,7 +51,7 @@ class ConferenceTest < ActiveSupport::TestCase
     assert category = @a_conference.joomla_general_section.categories.find_by_title('Colocated Conferences')
     assert_match /#{category.id}$/, menu_item.link
     assert_equal 1, category.articles.count
-    assert_equal @a_conference, @another_conference.colocated_with
+    assert_equal @a_conference, @another_conference.hosting_conference
     @another_conference.reload
     article = @another_conference.joomla_article
     assert_equal category.articles.first, article
@@ -228,7 +228,7 @@ class ConferenceTest < ActiveSupport::TestCase
     assert @another_conference.updatable_by?(users(:general_chair))
     assert !@a_conference.updatable_by?(users(:a_portfolio_chair))
     assert !@a_conference.updatable_by?(users(:a_portfolio_member))
-    @a_conference.colocated_with_id = 5
+    @a_conference.hosting_conference_id = 5
     assert @a_conference.updatable_by?(users(:administrator))
     assert !@a_conference.updatable_by?(users(:general_chair))
   end

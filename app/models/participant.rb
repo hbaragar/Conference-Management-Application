@@ -25,7 +25,7 @@ class Participant < ActiveRecord::Base
 
   def validate
     errors.add(:conference_id, "must be a hosting conference") unless
-      conference && conference.host?
+      conference && conference.hosting?
   end
 
   def sessions

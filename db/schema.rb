@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100806132801) do
+ActiveRecord::Schema.define(:version => 20100807000829) do
 
   create_table "broadcast_emails", :force => true do |t|
     t.integer  "cfp_id"
@@ -50,7 +50,7 @@ ActiveRecord::Schema.define(:version => 20100806132801) do
   add_index "cfp_dates", ["cfp_id"], :name => "index_cfp_dates_on_cfp_id"
 
   create_table "conferences", :force => true do |t|
-    t.integer "colocated_with_id"
+    t.integer "hosting_conference_id"
     t.string  "name"
     t.text    "description"
     t.integer "joomla_article_id"
@@ -58,7 +58,7 @@ ActiveRecord::Schema.define(:version => 20100806132801) do
     t.string  "logo_url"
   end
 
-  add_index "conferences", ["colocated_with_id"], :name => "index_conferences_on_colocated_with_id"
+  add_index "conferences", ["hosting_conference_id"], :name => "index_conferences_on_hosting_conference_id"
   add_index "conferences", ["joomla_article_id"], :name => "index_conferences_on_joomla_article_id"
 
   create_table "facility_areas", :force => true do |t|

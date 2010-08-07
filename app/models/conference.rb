@@ -4,7 +4,7 @@ class Conference < ActiveRecord::Base
 
   hobo_model # Don't put anything above this
 
-  belongs_to :colocated_with, :class_name => "Conference"
+  belongs_to :hosting_conference, :class_name => "Conference"
 
   fields do
     name        :string, :required
@@ -15,7 +15,8 @@ class Conference < ActiveRecord::Base
 
   belongs_to :joomla_article, :class_name => "JoomlaArticle"		# For Colocated conferences
 
-  has_many :colocated_conferences, :class_name => "Conference", :foreign_key => :colocated_with_id
+  has_many :colocated_conferences, :class_name => "Conference", :foreign_key => :hosting_conference_id,
+    :conditions => 'id != hosting_conference_id'
   has_many :portfolios, :dependent => :destroy
   has_many :cfps, :through => :portfolios
   has_many :call_for_supporters, :through => :portfolios
@@ -24,19 +25,20 @@ class Conference < ActiveRecord::Base
   has_many :facility_areas, :dependent => :destroy
   has_many :participants
 
-  def host?
-    !colocated_with
+  named_scope :host_conferences, :conditions => 'id = hosting_conference_id'
+
+  def after_save
+    update_attributes(:hosting_conference_id => id) unless hosting_conference_id
   end
 
-  def hosting_conference
-    colocated_with || self
+  def hosting?
+    self == hosting_conference
   end
 
   def chair? user
-    this_chair = (members & user.members).select do |m|
+    ((members + hosting_conference.members) & user.members).select do |m|
       m.portfolio.name == "General" && m.chair
     end.count > 0 
-    this_chair or colocated_with && colocated_with.chair?(user)
   end
 
   def cfp_due_dates
@@ -55,8 +57,6 @@ class Conference < ActiveRecord::Base
     # Kluge for populating the Supporters menu area
     call_for_supporters.collect{|c| c.portfolio}.uniq
   end
-
-  named_scope :host_conferences, :conditions => {:colocated_with_id => nil}
 
   def after_create 
     portfolios << Portfolio.new(:name => "General")
@@ -124,8 +124,8 @@ class Conference < ActiveRecord::Base
 
   def update_permitted?
     return true if acting_user.administrator? 
-    return false if any_changed?(:colocated_with_id)
-    chair?(acting_user) || (colocated_with && colocated_with.chair?(acting_user))
+    return false if any_changed?(:hosting_conference_id)
+    chair?(acting_user)
   end
 
   def destroy_permitted?
