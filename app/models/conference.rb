@@ -16,16 +16,17 @@ class Conference < ActiveRecord::Base
   belongs_to :joomla_article, :class_name => "JoomlaArticle"		# For Colocated conferences
 
   has_many :colocated_conferences, :class_name => "Conference", :foreign_key => :hosting_conference_id,
-    :conditions => 'id != hosting_conference_id'
+    :conditions => 'conferences.id != conferences.hosting_conference_id'
   has_many :portfolios, :dependent => :destroy
   has_many :cfps, :through => :portfolios
   has_many :call_for_supporters, :through => :portfolios
   has_many :sessions, :through => :portfolios
   has_many :members, :through => :portfolios
   has_many :facility_areas, :dependent => :destroy
+  has_many :facilities, :through => :hosting_conference, :source => :facility_areas
   has_many :participants
 
-  named_scope :host_conferences, :conditions => 'id = hosting_conference_id'
+  named_scope :host_conferences, :conditions => 'conferences.id = conferences.hosting_conference_id'
 
   def after_save
     update_attributes(:hosting_conference_id => id) unless hosting_conference_id

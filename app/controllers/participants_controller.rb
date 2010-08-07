@@ -4,6 +4,8 @@ class ParticipantsController < ApplicationController
 
   auto_actions :all, :except => :index
 
+  auto_actions_for :conference, [:new, :create]
+
   autocomplete
 
 end

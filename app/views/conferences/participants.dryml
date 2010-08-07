@@ -1,8 +1,10 @@
 <index-page>
+  <new-link: replace >
+    <a:participants with="&@conference.hosting_conference" action="new">
+      <ht key="participants.actions.new">New Participant</ht>
+    </a:participants>
+  </new-link:>
   <heading:><view with="&@conference"/> Participants</heading:>
-  <after-count:>
-    <p>new participant</p>
-  </after-count:>
   <collection: replace>
     <table-plus fields="this,affiliation,presentations,sessions">
       <sessions-view:><links-for-collection/></sessions-view:>

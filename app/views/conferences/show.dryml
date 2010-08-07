@@ -1,7 +1,14 @@
 <def tag="nil-view"><em>n/a</em></def>
 <show-page>
   <description: replace/>
-  <after-field-list:><view:description/></after-field-list:>
+  <after-field-list:>
+    <if test="&this.hosting?">
+      <table class="field-list">
+	<tr><th>Colocated Conferences</th><td><view:colocated_conferences/></td></tr>
+      </table>
+    </if>
+    <view:description/>
+  </after-field-list:>
   <collection-section: replace>
     <collection-section restore if="&can_view?(@portfolios)"/>
   </collection-section:>
@@ -12,24 +19,23 @@
       <empty-message:>No portfolios match your criteria</empty-message:>
     </table-plus>
   </collection:>
-  <before-facility_areas-collection-heading:>
-    <h3>
-      <ht key="hosting-conference.participants.collection.heading.other">
-	<view:hosting_conference/> Participants
-      </ht>
-    </h3>
-    <div class="card">
-      <ul>
-	<li><a action="participants" with="&this.hosting_conference">view all</a></li>
-	<li><a action="participants_with_conflicts" with="&this.hosting_conference">with conflicts</a></li>
-      </ul>
-    </div>
-  </before-facility_areas-collection-heading:>
-  <after-facility_areas-collection:>
-      <a:facility_areas action="new" if="&can_create?(@conference.facility_areas)">
-	<ht key="facility_areas.actions.new">
-	  New Facility Area
-	</ht>
-      </a:facility_areas>
-  </after-facility_areas-collection:>
+  <aside:>
+    <section>
+      <h3><view:hosting_conference/> plus Colocated Conferences</h3>
+      <h4><ht key="hosting-conference.participants.collection.heading.other">Participants</ht></h4>
+      <div class="card">
+	<ul>
+	  <li><a action="participants" with="&this.hosting_conference">view all</a></li>
+	  <li><a action="participants_with_conflicts" with="&this.hosting_conference">with conflicts</a></li>
+	</ul>
+      </div>
+      <h4><ht key="facility_areas.collection.heading.other" >Facilities</ht></h4>
+      <collection:facilities/>
+      <a:hosting_conference.facility_areas action="new" if="&can_create?(@conference.facility_areas)">
+        <ht key="facility_areas.actions.new">
+          New Facility Area
+        </ht>
+      </a:hosting_conference.facility_areas>
+    </section>
+  </aside:>
 </show-page>

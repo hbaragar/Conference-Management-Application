@@ -27,6 +27,8 @@ class ConferenceTest < ActiveSupport::TestCase
     conflict = "A Session Title @ Mon 8:30-10:00 am vs Another Session Title @ Mon 9:00-10:30 am"
     assert_equal [conflict], @a_participant.conflicting_sessions
     assert_equal [], participants(:b_participant).conflicting_sessions
+    assert_equal 2, @a_conference.facilities.count
+    assert_equal 2, @another_conference.facilities.count
   end
 
   def test_chair

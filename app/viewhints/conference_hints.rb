@@ -5,7 +5,7 @@ class ConferenceHints < Hobo::ViewHints
   # field_help :field1 => "Enter what you want in this field"
   # children :primary_collection1, :aside_collection1, :aside_collection2
   
-  children :portfolios, :facility_areas
+  children :portfolios, :facilities
 
   field_help :description => %q(will be converted to HTML using
     <a href="http://daringfireball.net/projects/markdown/" target="_blank">markdown</a>

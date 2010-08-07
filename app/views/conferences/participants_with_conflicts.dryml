@@ -1,4 +1,5 @@
 <index-page>
+  <new-link: replace />
   <heading:><view with="&@conference"/> Participants with Conflicting Sessions</heading:>
   <collection: replace>
     <table-plus fields="this,conflicting_sessions">

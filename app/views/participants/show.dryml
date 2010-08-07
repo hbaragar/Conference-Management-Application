@@ -6,6 +6,7 @@
     <table-plus:sessions fields="time_slot, name">
       <name-view:><a/></name-view:>
       <search-form: replace />
+      <empty-message:>No sessions to display</empty-message:>
     </table-plus:sessions>
   </presentations-collection>
 </show-page>
