@@ -1,6 +1,9 @@
 <show-page>
   <collection: replace>
     <table-plus:rooms fields="this, short_name, capacity, sessions">
+      <sessions-view:>
+	<repeat><a class="time-slot"><view:time_slot/></a> </repeat>
+      </sessions-view:>
       <search-form: replace />
     </table-plus:rooms>
   </collection:>

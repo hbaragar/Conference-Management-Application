@@ -82,3 +82,5 @@ table.view.supporter-level-summary a:active
 }
 
 .card.presentation h4.portfolio {float: right; }
+
+a.time-slot { margin-right: 1em; white-space: nowrap; }
