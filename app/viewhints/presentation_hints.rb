@@ -8,4 +8,15 @@ class PresentationHints < Hobo::ViewHints
   parent :portfolio
   children :involvements
 
+  field_help :reg_number => "the ID from the Registration System",
+    :abstract => 'will be formatted using
+      <a href="http://daringfireball.net/projects/markdown/" target="_blank">markdown</a>
+    ',
+    :objectives => 'will be formatted using
+      <a href="http://daringfireball.net/projects/markdown/" target="_blank">markdown</a>
+    ',
+    :resume => 'will be formatted using
+      <a href="http://daringfireball.net/projects/markdown/" target="_blank">markdown</a>
+    '
+
 end

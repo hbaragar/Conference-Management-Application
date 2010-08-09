@@ -34,50 +34,16 @@
   <old-card merge>
     <before-heading:><h4 class="portfolio"><view:portfolio/></h4></before-heading:>
     <body: replace>
-      <div if="&can_view?(:registration_id)" class="presentation-string-field">
-	<span class="label">Registration ID: <view:registration_id/></span>
-      </div>
       <table-plus:participants fields="this, affiliation" >
 	<thead: replace />
 	<search-form: replace />
 	<this-view:><a action="edit"/></this-view:>
       </table-plus:participants>
       <view:abstract/>
-      <presentation-string-field-view if="&can_view?(:url)">
-	<label:>Url</label:> <field:><view:url/></field>
-      </presentation-string-field-view>
-      <presentation-string-field-view if="&can_view?(:class_type)">
-	<label:>Class Type</label:> <field:><view:class_type/></field>
-      </presentation-string-field-view>
-      <presentation-string-field-view if="&can_view?(:class_format)">
-	<label:>Class Format</label:> <field:><view:class_format/></field>
-      </presentation-string-field-view>
-      <presentation-string-field-view if="&can_view?(:audience_types)">
-	<label:>Audience</label:> <field:><view:audience_types/></field>
-      </presentation-string-field-view>
-      <presentation-text-field-view if="&can_view?(:objectives)">
-	<label:>Objectives</label:> <field:><view:objectives/></field>
-      </presentation-text-field-view>
-      <presentation-text-field-view if="&can_view?(:resume)">
-	<label:>Resume</label:> <field:><view:resume/></field>
-      </presentation-text-field-view>
+      <field-list fields="reg_number, url, class_type, class_format, audience_types, objectives, resume"/>
     </body:>
   </old-card>
 </extend>
-
-<def tag="presentation-string-field-view">
-  <div class="presentation-string-field">
-    <span class="label" param="label">Label:</span>:
-    <span class="field" param="field" default ></span>
-  </div>
-</def>
-
-<def tag="presentation-text-field-view">
-  <div class="presentation-text-field">
-    <h4 class="label" param="label">Label:</h4>
-    <div class="field" param="field" default ></div>
-  </div>
-</def>
 
 <extend tag="form" for="Presentation">
   <old-form merge>
@@ -106,3 +72,4 @@
     <count: replace><links-for-collection:sessions/></count>
   </old-card>
 </extend>
+

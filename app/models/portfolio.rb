@@ -60,7 +60,7 @@ class Portfolio < ActiveRecord::Base
     short_title
     external_reference
     url
-    registration_id
+    reg_number
     class_type
     class_format
     audience_types
