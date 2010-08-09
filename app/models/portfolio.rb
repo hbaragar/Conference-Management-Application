@@ -7,6 +7,7 @@ class Portfolio < ActiveRecord::Base
 
   hobo_model # Don't put anything above this
 
+
   belongs_to :conference
   attr_readonly :conference_id
 
@@ -18,6 +19,7 @@ class Portfolio < ActiveRecord::Base
       :default => 'no_sessions'
     typical_session_duration :integer, :default => 90
     external_reference_prefix	:string
+    presentation_fields :string, :default => "title, short_title, external_reference, abstract"
     description :markdown
   end
 
@@ -51,6 +53,26 @@ class Portfolio < ActiveRecord::Base
 
   def all_presentations_in_one_session?
     session_type == "all_in_one"
+  end
+
+  PRESENTATION_FIELDS = %w(
+    title
+    short_title
+    external_reference
+    url
+    registration_id
+    class_type
+    class_format
+    audience_types
+    abstract
+    objectives
+    resume
+  )
+
+  def presentation_field_view_not_permitted? field
+    field = field.to_s
+    return false unless PRESENTATION_FIELDS.include?(field)
+    !presentation_fields.split(/,\s*/).include?(field)
   end
 
 
@@ -143,7 +165,7 @@ class Portfolio < ActiveRecord::Base
 
   def update_permitted?
     return false if name_changed? && name_was == "General"
-    return false if any_changed?(:conference_id) && !acting_user.administrator?
+    return false if any_changed?(:conference_id, :presentation_fields) && !acting_user.administrator?
     chair?(acting_user) || conference.chair?(acting_user) || acting_user.administrator?
   end
 

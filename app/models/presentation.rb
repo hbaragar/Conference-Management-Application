@@ -8,11 +8,17 @@ class Presentation < ActiveRecord::Base
   belongs_to :session
 
   fields do
-    title	:string, :required
-    short_title	:string
-    abstract	:markdown
-    external_reference	:string
-    url		:string
+    title              :string, :required
+    short_title        :string
+    external_reference :string
+    url                :string
+    registration_id    :string
+    class_type         :string
+    class_format       :string
+    audience_types     :string
+    abstract           :markdown
+    objectives         :markdown
+    resume             :markdown
     timestamps
   end
 
@@ -34,10 +40,14 @@ class Presentation < ActiveRecord::Base
     portfolio.conference
   end
 
+  def field_list
+    portfolio.presentation_fields
+  end
+
   def load_from xml
     involvements.destroy_all
     xml.elements.each do |element|
-      text = element.text
+      text = element.text.strip rescue ""
       case element.name
       when "title":		self.title = text
       when "shorttitle":	self.short_title = text
@@ -47,12 +57,11 @@ class Presentation < ActiveRecord::Base
 				  :participant =>  new_or_existing_participant(element)
 				)
       when "workshop_url":	self.url = text
-      #when "registration_id"]
-      #when "tutclass"]
-      #when "objectives"]
-      #when "format"]
-      #when "tutaudience"]
-      #when "tutresume"]
+      when "tutclass":		self.class_type = text
+      when "format":		self.class_format = text
+      when "tutaudience":	self.audience_types = text
+      when "tutresume":		self.resume = text
+      when "objectives":	self.objectives = text
       else
 	logger.info "Presentation::load_from does not handle #{element.name} elements"
       end
@@ -64,7 +73,7 @@ class Presentation < ActiveRecord::Base
   def new_or_existing_participant xml
     fields = {}
     xml.elements.each do |element|
-      text = element.text
+      text = element.text.strip
       case element.name
       when "name":		fields[:name] = text
       when "email":		fields[:private_email_address] = text
@@ -142,6 +151,7 @@ class Presentation < ActiveRecord::Base
   end
 
   def view_permitted?(field)
+    return false if portfolio && portfolio.presentation_field_view_not_permitted?(field)
     acting_user.signed_up?
   end
 

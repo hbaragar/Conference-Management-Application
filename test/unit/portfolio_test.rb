@@ -95,6 +95,18 @@ class PortfolioTest < ActiveSupport::TestCase
     assert_equal @all_in_one_portfolio.name, another_one_presentation.session.name
   end
 
+  test "loading all tutorial data" do
+    solo_presentation = @solo_portfolio.load_presentation_from File.new(files_dir + "security.xml")
+    assert_equal "Security - Philosophy, Patterns and Practices", solo_presentation.title
+    assert_equal "Security", solo_presentation.short_title
+    assert_equal "tut0000023", solo_presentation.external_reference
+    assert_match /three parts/, solo_presentation.class_format
+    assert_equal "Several Areas", solo_presentation.class_type
+    assert_equal "Researchers, Practitioners, Managers, Educators", solo_presentation.audience_types
+    assert_match /security related issues/, solo_presentation.abstract
+    assert_match /delivers new ideas to software architects, managers, and researchers/, solo_presentation.objectives
+  end
+
   def test_create_permissions
     new_portfolio = Portfolio.new :conference => @a_conference, :name => "New Portfolio"
     assert new_portfolio.creatable_by?(users(:administrator))

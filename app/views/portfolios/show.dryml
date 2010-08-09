@@ -1,6 +1,6 @@
 <show-page>
   <description: replace/>
-  <field-list: fields="chairs, public_email_address, session_type, external_reference_prefix" >
+  <field-list: fields="chairs, public_email_address, presentation_fields, session_type, external_reference_prefix" >
     <chairs-label:><%= @portfolio.chairs.count > 1 ? 'Chairs' : 'Chair' %></chairs-label:>
   </field-list:>
   <after-field-list:>

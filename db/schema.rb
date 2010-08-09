@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100807124920) do
+ActiveRecord::Schema.define(:version => 20100808220416) do
 
   create_table "broadcast_emails", :force => true do |t|
     t.integer  "cfp_id"
@@ -245,6 +245,7 @@ ActiveRecord::Schema.define(:version => 20100807124920) do
     t.integer "joomla_menu_id"
     t.string  "external_reference_prefix"
     t.integer "typical_session_duration",  :default => 90
+    t.string  "presentation_fields",       :default => "title, short_title, external_reference, abstract"
   end
 
   add_index "portfolios", ["conference_id"], :name => "index_portfolios_on_conference_id"
@@ -261,6 +262,12 @@ ActiveRecord::Schema.define(:version => 20100807124920) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "session_id"
+    t.string   "registration_id"
+    t.string   "class_type"
+    t.string   "class_format"
+    t.string   "audience_types"
+    t.text     "objectives"
+    t.text     "resume"
   end
 
   add_index "presentations", ["portfolio_id"], :name => "index_presentations_on_portfolio_id"

@@ -82,3 +82,10 @@ table.view.supporter-level-summary a:active
 }
 
 .card.presentation h4.portfolio {float: right; }
+
+.presentation-registration-id { margin-top: 2ex; }
+
+.presentation-string-field { margin-top: 3ex; }
+.presentation-string-field .label { font-weight: bold; }
+
+.presentation-text-field .label { margin-top: 3ex; }
