@@ -14,11 +14,11 @@ class CfpDueDate
     "Due #{due_on.strftime('%B %d, %Y')}"
   end
 
-  def populate_joomla_cfp section, menu
+  def populate_joomla_cfp section, extras
     # Kluge: category checked_out_time is not used during the generatation of content,
     #        so co-opt it for sorting purposes (see JoomlaSection::restore_integrity!)
     find_or_create_joomla_category_in section
-    find_or_create_joomla_menu_in menu
+    find_or_create_joomla_menu_in extras[:menu]
     overview_text = [
       h4(internal_link(joomla_category, name)),
 	ul(cfps.collect{|c| c.populate_joomla_call_for_papers joomla_category})

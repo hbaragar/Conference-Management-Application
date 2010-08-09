@@ -60,7 +60,7 @@ class Conference < ActiveRecord::Base
   end
 
   def portfolios_from_all_conferences
-    portfolios + colocated_conferences.collect{|c| c.portfolios}.flatten
+    portfolios.with_sessions + colocated_conferences.collect{|c| c.portfolios.with_sessions}.flatten
   end
 
   def after_create 
@@ -91,14 +91,17 @@ class Conference < ActiveRecord::Base
     end
   end
 
-  def populate_joomla_general_information section, index
+  def populate_joomla_general_information section, extras
     # Populated through Joomla itself
   end
 
-  def populate_joomla_colocated_conferences category, index
+  def populate_joomla_colocated_conferences category, extras
     # called for each colocated conference (not for the host conference)
     unless joomla_article
-      self.joomla_article = joomla_general_section.articles.create(:title => name, :catid => category.id)
+      self.joomla_article = joomla_general_section.articles.create(
+	:title => name,
+	:catid => category.id
+      )
       save!
     end
     fancy_title = name
@@ -177,8 +180,11 @@ private
 
   def populate_joomla_menu_area_with collection_name, area, menu
     populator = "populate_joomla_" + area.alias.gsub(/\W/,"_")
+    extras = { :menu => menu }
+    ordering = 0
     parts = method(collection_name).call.collect do |item|
-      item.method(populator).call(area, menu)
+      extras[:ordering] = ordering += 1
+      item.method(populator).call(area, extras)
     end
     if area.class == JoomlaSection
       overview_article = area.populate_overview_article(parts)

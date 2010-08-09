@@ -162,7 +162,7 @@ class ConferenceTest < ActiveSupport::TestCase
     assert_equal 4, program_section.categories.count
     categories = program_section.categories
     assert_equal (1..4).to_a, categories.collect{|c| c.ordering}
-    category_titles = ["DesignFest", "OOPSLA Research Program", "Overview", "Workshops"]
+    category_titles = ["DesignFest", "OOPSLA Research Program", "Workshops", "Overview"]
     assert_equal category_titles, categories.collect{|c| c.title}
     @a_conference.sessions.each {|s| program_article_tests s}
     program_menu = JoomlaMenu.find_by_name "Program"

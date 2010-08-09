@@ -37,6 +37,8 @@ class Portfolio < ActiveRecord::Base
 
   default_scope :order => :name
 
+  named_scope :with_sessions, :conditions => 'session_type != "no_sessions"'
+
   def chair? user
     not (chairs & user.members).empty?
   end
@@ -111,18 +113,21 @@ class Portfolio < ActiveRecord::Base
     sessions.find(:first, :conditions => fields) || sessions.create(fields)
   end
 
-  def populate_joomla_program section, menu
+  def populate_joomla_program section, extras
     return if session_type == 'no_sessions'
+    ordering = extras[:ordering]
     if joomla_category
       joomla_category.update_attributes(:title => name)
-      joomla_menu.update_attributes(:name => name)
+      joomla_menu.update_attributes(:name => name, :ordering => ordering)
     else
+      menu = extras[:menu]
       self.joomla_category = section.categories.create(:title => name)
       self.joomla_menu = menu.items.create(
 	:name => name,
 	:parent => menu.id,
 	:sublevel => 1,
-        :link  => JoomlaMenu::link_for(joomla_category)
+        :link  => JoomlaMenu::link_for(joomla_category),
+	:ordering => ordering
       )
       save
     end
@@ -143,9 +148,10 @@ class Portfolio < ActiveRecord::Base
   end
 
 
-  def populate_joomla_supporters category, menu
+  def populate_joomla_supporters category, extras
+    menu = extras[:menu]
     call_for_supporters.each do |c|
-      article = c.populate_joomla_supporters category 
+      article = c.populate_joomla_supporters category
       menu.items.find_by_name(name) || menu.items.create(
         :name => name,
         :sublevel => 1,
