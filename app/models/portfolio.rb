@@ -35,6 +35,8 @@ class Portfolio < ActiveRecord::Base
 
   has_many :call_for_supporters, :dependent => :destroy
 
+  default_scope :order => :name
+
   def chair? user
     not (chairs & user.members).empty?
   end

@@ -59,6 +59,10 @@ class Conference < ActiveRecord::Base
     call_for_supporters.collect{|c| c.portfolio}.uniq
   end
 
+  def portfolios_from_all_conferences
+    portfolios + colocated_conferences.collect{|c| c.portfolios}.flatten
+  end
+
   def after_create 
     portfolios << Portfolio.new(:name => "General")
   end
@@ -73,7 +77,7 @@ class Conference < ActiveRecord::Base
 
   MAIN_MENU = [
     { :name => "Home",			:class => JoomlaSection,  :collection => "selves",	:alias => 'general-information' },
-    { :name => "Program",		:class => JoomlaSection,  :collection => "portfolios" },
+    { :name => "Program",		:class => JoomlaSection,  :collection => "portfolios_from_all_conferences", :order_on => :ordering },
     { :name => "Call for Papers",	:class => JoomlaSection,  :collection => "cfp_due_dates", :alias => 'cfp', :order_on => :checked_out_time},
     { :name => "Colocated Conferences",	:class => JoomlaCategory, :collection => "colocated_conferences" },
     { :name => "Supporters",		:class => JoomlaCategory, :collection => "supporter_portfolios" },
