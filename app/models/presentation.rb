@@ -117,15 +117,16 @@ class Presentation < ActiveRecord::Base
       title_to_html,
       participants_to_html,
       abstract.to_html,
-      table({},
-	extra_fields.collect do |field|
-	  value = self.method(field).call or next
-	  tr({},
-	    th({}, field.humanize),
-	    td({}, value.to_html)
-	  )
-	end
-      )
+      extra_fields.collect do |field|
+        label = field.humanize
+	value = self.method(field).call
+	div({},
+	  case value
+	  when HoboFields::MarkdownString: [h5(label), value.to_html]
+	  when String: [span("label", label+": "), span("", value)]
+	  end
+        )
+      end
     )
   end
 

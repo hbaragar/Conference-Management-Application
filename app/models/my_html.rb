@@ -24,6 +24,10 @@ protected
     hn(4,text)
   end
 
+  def h5(*text)
+    hn(5,text)
+  end
+
   def ul(*text_list)
     text = text_list.join("")
     "\n<ul>\n#{text}</ul>\n" unless text.empty?
