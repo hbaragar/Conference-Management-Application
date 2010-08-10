@@ -47,5 +47,5 @@ ActionMailer::Base.delivery_method = :smtp
 ActionMailer::Base.smtp_settings = {
    :address => "a.mx.instantiated.ca",
    :port => 25,
-   :domain => "mail.instantiated.ca",
+   :domain => "instantiated.ca",
 }

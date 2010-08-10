@@ -40,8 +40,12 @@ class Presentation < ActiveRecord::Base
     portfolio.conference
   end
 
-  def field_list
-    portfolio.presentation_fields
+  def essential_fields
+    %w(title short_title external_reference abstract)
+  end
+
+  def extra_fields
+    portfolio.presentation_fields.split(/,\s*/) - essential_fields
   end
 
   def load_from xml
@@ -112,7 +116,16 @@ class Presentation < ActiveRecord::Base
     div("presentation",
       title_to_html,
       participants_to_html,
-      abstract.to_html
+      abstract.to_html,
+      table({},
+	extra_fields.collect do |field|
+	  value = self.method(field).call or next
+	  tr({},
+	    th({}, field.humanize),
+	    td({}, value.to_html)
+	  )
+	end
+      )
     )
   end
 
