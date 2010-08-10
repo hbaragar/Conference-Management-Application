@@ -63,7 +63,7 @@ class Presentation < ActiveRecord::Base
       when "workshop_url":	self.url = text
       when "tutclass":		self.class_type = text
       when "format":		self.class_format = text
-      when "tutaudience":	self.audience_types = text
+      when "tutaudience":	self.audience = text
       when "tutresume":		self.resume = text
       when "objectives":	self.objectives = text
       else

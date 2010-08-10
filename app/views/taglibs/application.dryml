@@ -40,7 +40,7 @@
 	<this-view:><a action="edit"/></this-view:>
       </table-plus:participants>
       <view:abstract/>
-      <field-list fields="reg_number, url, class_type, class_format, audience_types, objectives, resume"/>
+      <field-list fields="reg_number, url, class_type, class_format, audience, objectives, resume"/>
     </body:>
   </old-card>
 </extend>
