@@ -13,9 +13,9 @@ class Presentation < ActiveRecord::Base
     external_reference :string
     url                :string
     reg_number         :string
+    audience           :string
     class_type         :string
-    class_format       :string
-    audience_types     :string
+    class_format       :markdown
     abstract           :markdown
     objectives         :markdown
     resume             :markdown

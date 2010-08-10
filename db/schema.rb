@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100809044604) do
+ActiveRecord::Schema.define(:version => 20100810213514) do
 
   create_table "broadcast_emails", :force => true do |t|
     t.integer  "cfp_id"
@@ -264,8 +264,8 @@ ActiveRecord::Schema.define(:version => 20100809044604) do
     t.integer  "session_id"
     t.string   "reg_number"
     t.string   "class_type"
-    t.string   "class_format"
-    t.string   "audience_types"
+    t.text     "class_format"
+    t.string   "audience"
     t.text     "objectives"
     t.text     "resume"
   end
