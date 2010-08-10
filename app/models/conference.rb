@@ -26,6 +26,8 @@ class Conference < ActiveRecord::Base
   has_many :facilities, :through => :hosting_conference, :source => :facility_areas
   has_many :participants
 
+  default_scope :order => :name 
+
   named_scope :host_conferences, :conditions => 'conferences.id = conferences.hosting_conference_id'
 
   def after_save
