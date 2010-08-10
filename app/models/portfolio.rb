@@ -59,23 +59,9 @@ class Portfolio < ActiveRecord::Base
     session_type == "all_in_one"
   end
 
-  PRESENTATION_FIELDS = %w(
-    title
-    short_title
-    external_reference
-    url
-    reg_number
-    class_type
-    class_format
-    audience_types
-    abstract
-    objectives
-    resume
-  )
-
   def presentation_field_view_not_permitted? field
     field = field.to_s
-    return false unless PRESENTATION_FIELDS.include?(field)
+    return false unless Presentation.column_names.include?(field)
     !presentation_fields.split(/,\s*/).include?(field)
   end
 
