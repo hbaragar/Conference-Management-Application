@@ -120,10 +120,10 @@ class Presentation < ActiveRecord::Base
       extra_fields.collect do |field|
         label = field.humanize
 	value = self.method(field).call
-	div({},
+	div("presentation-extra",
 	  case value
 	  when HoboFields::MarkdownString: [h5(label), value.to_html]
-	  when String: [span("label", label+": "), span("", value)]
+	  when String: [span("label", label), span("", value)]
 	  end
         )
       end
