@@ -102,7 +102,7 @@ class PortfolioTest < ActiveSupport::TestCase
     assert_equal "tut0000023", solo_presentation.external_reference
     assert_match /three parts/, solo_presentation.class_format
     assert_equal "Several Areas", solo_presentation.class_type
-    assert_equal "Researchers, Practitioners, Managers, Educators", solo_presentation.audience_types
+    assert_equal "Researchers, Practitioners, Managers, Educators", solo_presentation.audience
     assert_match /security related issues/, solo_presentation.abstract
     assert_match /delivers new ideas to software architects, managers, and researchers/, solo_presentation.objectives
   end
