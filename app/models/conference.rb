@@ -170,13 +170,8 @@ private
     	:name => area.title,
 	:link => JoomlaMenu::link_for(area)
     )
-    params = menu.params.clone
-    params[/show_section=(\d*)/,1] = "1"
-    menu.update_attributes!(
-      :alias => area.alias,
-      :ordering => index+1,
-      :params => params
-    )
+    menu.update_attributes!(:alias => area.alias, :ordering => index+1)
+    menu.update_params!(:show_section => "1")
     menu
   end
 

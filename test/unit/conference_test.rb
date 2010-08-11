@@ -168,6 +168,7 @@ class ConferenceTest < ActiveSupport::TestCase
     program_menu = JoomlaMenu.find_by_name "Program"
     assert_equal 0, program_menu.sublevel
     assert_match /show_vote=0/, program_menu.params
+    assert_match /show_section=1/, program_menu.params
     overview_article = program_section.articles.find_by_title("Program")
     assert_equal "index.php?option=com_content&view=article&id=#{overview_article.id}", program_menu.link
     menu_items = program_menu.items

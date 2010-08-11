@@ -77,6 +77,13 @@ secure=0
   validates_format_of :alias, :with => /^[-\w]+/
   validates_uniqueness_of :alias, :scope => :parent
 
+  def update_params! hash
+    copy = params.clone
+    hash.each {|k,v| copy[/#{k}=(\S*)/, 1] = v}
+    self.params = copy
+    save
+  end
+
   def self.link_for target
     view = target.class.name[/Joomla(\w+)/,1].downcase
     layout="&layout=blog" if view =~ /section|category/
