@@ -102,22 +102,20 @@ class Portfolio < ActiveRecord::Base
   def populate_joomla_program section, extras
     return if session_type == 'no_sessions'
     ordering = extras[:ordering]
-    if joomla_category
-      joomla_category.update_attributes(:title => name)
-      joomla_menu.update_attributes(:name => name, :ordering => ordering)
-    else
+    unless joomla_category
       menu = extras[:menu]
       self.joomla_category = section.categories.create(:title => name)
       self.joomla_menu = menu.items.create(
 	:name => name,
 	:parent => menu.id,
 	:sublevel => 1,
-        :link  => JoomlaMenu::link_for(joomla_category),
-	:ordering => ordering
+        :link  => JoomlaMenu::link_for(joomla_category)
       )
       save
     end
-    joomla_menu.update_params!(:show_section => "1")
+    joomla_category.update_attributes(:title => name)
+    joomla_menu.update_attributes(:name => name, :ordering => ordering)
+    joomla_menu.update_params!(:show_section => "1", :pageclass_sfx => "program")
     if session_type == "all_in_one"
       if s = sessions.first
 	s.populate_joomla_program(joomla_category)
