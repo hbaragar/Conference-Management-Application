@@ -1,12 +1,8 @@
-class JoomlaSection < ActiveRecord::Base
+class JoomlaSection < Joomla
 
   include MyHtml
 
   set_table_name 'jos_sections'
-
-  def before_validation
-    self.alias = title.tr("A-Z","a-z").gsub(/\W+/,"-") unless self.alias && self.alias[/\w/]
-  end
 
   def before_validation_on_create
     self.checked_out_time = 5.hours.ago unless checked_out_time

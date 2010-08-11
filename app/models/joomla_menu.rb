@@ -1,4 +1,4 @@
-class JoomlaMenu < ActiveRecord::Base
+class JoomlaMenu < Joomla
 
   set_table_name 'jos_menu'
   @inheritance_column = 'single_table_inheritance_not_being_used'
@@ -42,9 +42,8 @@ menu_image=-1
 secure=0
     )
 
-  def before_validation
-    return unless name	# Can't create an alias from nothing!
-    self.alias = name.tr("A-Z","a-z").gsub(/\W+/,"-") unless self.alias && self.alias =~ /\w/
+  def title
+    name || ""
   end
 
   def before_validation_on_create

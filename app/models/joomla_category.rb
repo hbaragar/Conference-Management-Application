@@ -1,12 +1,8 @@
-class JoomlaCategory < ActiveRecord::Base
+class JoomlaCategory < Joomla
 
   set_table_name 'jos_categories'
 
   belongs_to :joomla_section, :class_name => "JoomlaSection", :foreign_key => :section
-
-  def before_validation
-    self.alias = title.tr("A-Z","a-z").gsub(/\W+/,"-") unless self.alias && self.alias[/\w/]
-  end
 
   def before_validation_on_create
     self.checked_out_time = 5.hours.ago unless checked_out_time

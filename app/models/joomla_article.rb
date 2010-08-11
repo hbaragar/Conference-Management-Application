@@ -1,4 +1,4 @@
-class JoomlaArticle < ActiveRecord::Base
+class JoomlaArticle < Joomla
 
   set_table_name 'jos_content'
 
@@ -25,10 +25,6 @@ language=
 keyref=
 readmore=
 "
-
-  def before_validation
-    self.alias = title.tr("A-Z","a-z").gsub(/\W+/,"-") unless self.alias && self.alias[/\w/]
-  end
 
   def before_validation_on_create
     self.modified = 5.hours.ago
