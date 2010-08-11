@@ -39,6 +39,11 @@ class Portfolio < ActiveRecord::Base
 
   named_scope :with_sessions, :conditions => 'session_type != "no_sessions"'
 
+  def before_save
+    self.name = html_encode_non_ascii_characters(name)
+    self.description = html_encode_non_ascii_characters(description)
+  end
+
   def chair? user
     not (chairs & user.members).empty?
   end

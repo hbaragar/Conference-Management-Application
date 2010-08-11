@@ -33,6 +33,11 @@ class PortfolioTest < ActiveSupport::TestCase
     assert_equal "University of Oxford", author.affiliation
     assert_equal "Britain", author.country
     assert_equal "oege biography", author.bio
+    assert author = p.participants.find_by_private_email_address('torbjorn.ekman@comlab.ox.ac.uk')
+    assert_equal "Torbj&ouml;rn Ekman", author.name
+    assert author = p.participants.find_by_private_email_address('max.schaefer@comlab.ox.ac.uk')
+    assert_equal "Max Sch&auml;fer", author.name
+
   end
 
   test "reloading CyberChair XML file gets new data" do

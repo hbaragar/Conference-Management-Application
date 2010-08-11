@@ -28,6 +28,12 @@ class Participant < ActiveRecord::Base
       conference && conference.hosting?
   end
 
+  def before_save
+    self.name = html_encode_non_ascii_characters(name)
+    self.affiliation = html_encode_non_ascii_characters(affiliation)
+    self.country = html_encode_non_ascii_characters(country)
+  end
+
   def sessions
     presentations.collect{|p| p.session}.sort
   end

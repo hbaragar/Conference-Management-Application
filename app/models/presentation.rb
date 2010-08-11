@@ -31,6 +31,15 @@ class Presentation < ActiveRecord::Base
     save
   end
 
+  def before_save
+    self.title = html_encode_non_ascii_characters(title)
+    self.short_title = html_encode_non_ascii_characters(short_title)
+    self.audience = html_encode_non_ascii_characters(audience)
+    self.abstract = html_encode_non_ascii_characters(abstract)
+    self.objectives = html_encode_non_ascii_characters(objectives)
+    self.resume = html_encode_non_ascii_characters(resume)
+  end
+
   def after_update
     return unless session.single_presentation?
     session.update_attributes(:name => title) unless session.name == title

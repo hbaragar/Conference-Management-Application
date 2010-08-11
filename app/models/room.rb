@@ -1,5 +1,7 @@
 class Room < ActiveRecord::Base
 
+  include MyHtml
+
   hobo_model # Don't put anything above this
 
   fields do
@@ -20,6 +22,11 @@ class Room < ActiveRecord::Base
 
   def to_s
     name
+  end
+
+
+  def before_save
+    self.room = html_encode_non_ascii_characters(room)
   end
 
 

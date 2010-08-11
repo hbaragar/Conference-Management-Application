@@ -21,6 +21,10 @@ class Call < ActiveRecord::Base
 
   has_many :members, :through => :portfolio
 
+  def before_save
+    self.details = html_encode_non_ascii_characters(details)
+  end
+
   def before_update
     return if only_changed? :state, :joomla_article_id
     self.state = 'changes_pending' if state == 'published'

@@ -2,6 +2,29 @@ module MyHtml
 
 protected
 
+  CHARACTER_ENCODING = {
+    /---/	=> "&mdash;",
+    /--/	=> "&ndash;",
+    /Ã©/	=> "&eacute;",
+    /Ã/		=> "&agrave;",
+    /ä/		=> "&auml;",
+    /Ã¤/	=> "&auml;",
+    /Ã¶/	=> "&ouml;",
+    /ö/		=> "&ouml;",
+    /Ö/		=> "&Ouml;",
+  }.sort do |a,b|
+      a[0].to_s.length <=> b[0].to_s.length
+    end.reverse.freeze
+
+  def html_encode_non_ascii_characters text
+    #puts "\n#{text}"
+    text ||= ""
+    CHARACTER_ENCODING.each do |k, v|
+      text.gsub! k, v
+    end
+    text
+  end
+
   def div(css_class, *text)
     return "" unless text
     %Q(<div #{tag_attributes({:class => css_class})}>#{text.join("")}</div>\n)

@@ -14,6 +14,10 @@ class Involvement < ActiveRecord::Base
     timestamps
   end
 
+  def before_save
+    self.role = html_encode_non_ascii_characters(role)
+  end
+
   def to_html
     div("participant",
       (span("role", role) unless role == "author"),

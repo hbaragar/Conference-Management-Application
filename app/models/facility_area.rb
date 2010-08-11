@@ -1,5 +1,7 @@
 class FacilityArea < ActiveRecord::Base
 
+  include MyHtml
+
   hobo_model # Don't put anything above this
 
   belongs_to :conference
@@ -16,6 +18,10 @@ class FacilityArea < ActiveRecord::Base
   default_scope :order => :name
 
   validates_uniqueness_of :name, :scope => :conference_id
+
+  def before_save
+    self.name = html_encode_non_ascii_characters(name)
+  end
 
 
   # --- Permissions --- #

@@ -30,6 +30,11 @@ class Conference < ActiveRecord::Base
 
   named_scope :host_conferences, :conditions => 'conferences.id = conferences.hosting_conference_id'
 
+  def before_save
+    self.name = html_encode_non_ascii_characters(name)
+    self.description = html_encode_non_ascii_characters(description)
+  end
+
   def after_save
     update_attributes(:hosting_conference_id => id) unless hosting_conference_id
   end

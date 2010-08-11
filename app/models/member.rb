@@ -1,5 +1,7 @@
 class Member < ActiveRecord::Base
 
+  include MyHtml
+
   hobo_model # Don't put anything above this
 
   belongs_to :portfolio
@@ -45,6 +47,9 @@ class Member < ActiveRecord::Base
 	self.user = User.find_by_email_address(private_email_address)
       end
     end
+    self.name = html_encode_non_ascii_characters(name)
+    self.affiliation = html_encode_non_ascii_characters(affiliation)
+    self.country = html_encode_non_ascii_characters(country)
   end
 
   def after_save

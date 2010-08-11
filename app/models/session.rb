@@ -1,5 +1,7 @@
 class Session < ActiveRecord::Base
 
+  include MyHtml
+
   DEFAULT_NAME = "To Be Scheduled".freeze
 
   include MyHtml
@@ -22,6 +24,10 @@ class Session < ActiveRecord::Base
   has_many :involvements, :through => :presentations
 
   default_scope :order => "starts_at, duration, name"
+
+  def before_save
+    self.name = html_encode_non_ascii_characters(name)
+  end
 
   def overlaps? rhs
     earlier, later = [self, rhs].sort
