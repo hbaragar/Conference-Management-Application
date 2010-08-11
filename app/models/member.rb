@@ -56,7 +56,7 @@ class Member < ActiveRecord::Base
     if user && (user.name != name || user.email_address != private_email_address)
       user.update_attributes(:name => name, :email_address => private_email_address)
     end
-    portfolio.cfp.changes_pending!
+    portfolio.cfp.changes_pending! if portfolio.cfp
   end
 
 
