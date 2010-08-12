@@ -128,7 +128,7 @@ class Presentation < ActiveRecord::Base
       abstract.to_html,
       extra_fields.collect do |field|
         label = field.humanize
-	value = self.method(field).call.to_html rescue ""
+	value = self.method(field).call.to_html
 	div("presentation-extra",
 	  case value
 	  when HoboFields::MarkdownString: [h5(label), value]
