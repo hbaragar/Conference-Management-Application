@@ -1,7 +1,7 @@
 class String
 
   def to_html
-    to_s
+    CGI::escapeHTML to_s
   end
 
 end

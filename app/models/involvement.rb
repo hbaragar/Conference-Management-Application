@@ -20,7 +20,7 @@ class Involvement < ActiveRecord::Base
 
   def to_html
     div("participant",
-      (span("role", role) unless role == "author"),
+      (span("role", role.to_html) unless role == "author"),
        participant && participant.to_html
     )
   end

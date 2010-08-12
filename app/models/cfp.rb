@@ -95,7 +95,11 @@ class Cfp < Call
       ul(
 	members.collect do |m|
           li(
-	    [m.name, m.affiliation, m.country].select{|s| s && s[/\w/]}.join(", ") + role_of(m)
+	    [
+	      m.name.to_html,
+	      m.affiliation.to_html,
+	      m.country.to_html
+	    ].select{|s| s && s[/\w/]}.join(", ") + role_of(m)
 	  )
 	end
       )
