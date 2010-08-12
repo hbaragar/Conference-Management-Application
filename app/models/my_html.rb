@@ -95,7 +95,7 @@ protected
   end
 
   def img src, alt=""
-    %Q(<img src="#{src}" alt="#{alt}">)
+    %Q(<img src="#{src}" alt="#{alt}"/>)
   end
 
   def span(css_class, *text)
