@@ -14,6 +14,14 @@ class Involvement < ActiveRecord::Base
     timestamps
   end
 
+  def conference
+    participant && participant.conference || presentation && presentation.conference
+  end
+
+  def hosting_conference
+    conference.hosting_conference
+  end
+
   def name
     role
   end
