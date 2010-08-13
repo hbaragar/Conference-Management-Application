@@ -34,11 +34,11 @@
   <old-card merge>
     <before-heading:><h4 class="portfolio"><view:portfolio/></h4></before-heading:>
     <body: replace>
-      <table-plus:participants fields="this, affiliation" >
+      <table-plus:involvements fields="participant, participant.affiliation, this" >
 	<thead: replace />
 	<search-form: replace />
 	<this-view:><a action="edit"/></this-view:>
-      </table-plus:participants>
+      </table-plus:involvements>
       <view:abstract/>
       <field-list fields="reg_number, url, class_type, class_format, audience, objectives, resume"/>
     </body:>
