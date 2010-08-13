@@ -81,5 +81,9 @@
     <this-view:><a action="edit"/></this-view:>
     <empty-message:>No members match your criteria</empty-message:>
   </table-plus>
+  <if test="&can_create? this.members">
+    <h4>New Member</h4>
+    <form with="&this.members.new"/>
+  </if>
   </members-collection:>
 </show-page>
