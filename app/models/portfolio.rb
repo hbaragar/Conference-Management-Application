@@ -14,7 +14,7 @@ class Portfolio < ActiveRecord::Base
   fields do
     name        :string, :required
     public_email_address :email_address
-    call_type	enum_string(:no_call, :for_presentations, :for_supporters), :required, :default => 'no_call'
+    call_type	enum_string(:no_call, :for_presentations, :for_supporters, :for_next_years), :required, :default => 'no_call'
     session_type enum_string(:no_sessions, :single_presentation, :multiple_presentations, :all_in_one), :required,
       :default => 'no_sessions'
     typical_session_duration :integer, :default => 90
@@ -34,6 +34,7 @@ class Portfolio < ActiveRecord::Base
   has_many :presentations, :dependent => :destroy, :order => :title
 
   has_many :call_for_supporters, :dependent => :destroy
+  has_many :call_for_next_years, :dependent => :destroy
 
   default_scope :order => :name
 
