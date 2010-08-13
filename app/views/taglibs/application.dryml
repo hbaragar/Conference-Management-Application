@@ -53,11 +53,20 @@
   </old-form>
 </extend>
 
+<extend tag="form" for="Participant">
+  <old-form merge>
+    <field-list: skip="conflicted"/>
+  </old-form>
+</extend>
+
 <extend tag="form" for="Involvement">
   <old-form merge>
     <field-list: no-edit="view">
       <participant-view:><name-one/></participant-view:>
     </field-list:>
+    <after-default:>
+      <a action="new" to="&this.hosting_conference.participants" />
+    </after-default:>
   </old-form>
 </extend>
 
