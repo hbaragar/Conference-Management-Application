@@ -1,0 +1,2 @@
+module CallForNextYearsHelper
+end

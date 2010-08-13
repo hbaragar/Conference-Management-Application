@@ -20,6 +20,7 @@ class Conference < ActiveRecord::Base
   has_many :portfolios, :dependent => :destroy
   has_many :cfps, :through => :portfolios
   has_many :call_for_supporters, :through => :portfolios
+  has_many :call_for_next_years, :through => :portfolios
   has_many :sessions, :through => :portfolios
   has_many :members, :through => :portfolios
   has_many :facility_areas, :dependent => :destroy

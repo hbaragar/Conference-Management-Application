@@ -38,6 +38,23 @@
 	    </else>
 	  </td>
 	</if>
+	<if test="&this.call_type == 'for_next_years' ? 'Y' : '' ">
+	  <th class="cfp-label">
+	    Call for Next Year
+	  </th>
+	  <td class="call-for-next-years-view">
+	    <if:call_for_next_years>
+	      <a:first action="show">
+		<ht key="call_for_next_years.action.show">View</ht>
+	      </a:first>
+	    </if>
+	    <else>
+	      <a:call_for_next_years action="new" if="&can_create?(@portfolio.call_for_next_years)">
+		<ht key="call_for_next_years.actions.new">Create</ht>
+	      </a:call_for_next_years>
+	    </else>
+	  </td>
+	</if>
       </tr>
     </table> 
   </after-field-list:>
