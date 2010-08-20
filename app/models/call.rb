@@ -30,11 +30,6 @@ class Call < ActiveRecord::Base
     self.state = 'changes_pending' if state == 'published'
   end
 
-  def changes_pending!
-    self.state = 'changes_pending' if state == 'published'
-    save
-  end
-
 
   def name
     portfolio.to_s
@@ -69,6 +64,7 @@ class Call < ActiveRecord::Base
     state :published
     state :changes_pending
 
+    transition :changes_pending,{ :published => :changes_pending }
     transition :publish,	{ :unpublished => :published }, :available_to => :all	do
       publish_to_joomla
     end
@@ -82,6 +78,12 @@ class Call < ActiveRecord::Base
       publish_to_joomla
     end
 
+  end
+
+  #  delegate :changes_pending!, :publish!, :unpublish!, :to => :lifecycle
+
+  def changes_pending!
+    self.lifecycle.changes_pending! nil
   end
 
   # --- Permissions --- #
