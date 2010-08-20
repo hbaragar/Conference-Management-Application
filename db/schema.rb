@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100810213514) do
+ActiveRecord::Schema.define(:version => 20100819222919) do
 
   create_table "broadcast_emails", :force => true do |t|
     t.integer  "cfp_id"
@@ -268,6 +268,7 @@ ActiveRecord::Schema.define(:version => 20100810213514) do
     t.string   "audience"
     t.text     "objectives"
     t.text     "resume"
+    t.integer  "position"
   end
 
   add_index "presentations", ["portfolio_id"], :name => "index_presentations_on_portfolio_id"

@@ -6,6 +6,7 @@ class Presentation < ActiveRecord::Base
 
   belongs_to :portfolio
   belongs_to :session
+  acts_as_list :scope => :session
 
   fields do
     title              :string, :required
@@ -22,9 +23,10 @@ class Presentation < ActiveRecord::Base
     timestamps
   end
 
-
   has_many :involvements, :dependent => :destroy
   has_many :participants, :through => :involvements
+
+  default_scope :order => :position
 
   def after_create
     self.session ||= portfolio.new_or_existing_session title
@@ -41,7 +43,7 @@ class Presentation < ActiveRecord::Base
   end
 
   def after_update
-    return unless session.single_presentation?
+    return unless session && session.single_presentation?
     session.update_attributes(:name => title) unless session.name == title
   end
 

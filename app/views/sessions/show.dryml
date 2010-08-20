@@ -1,4 +1,7 @@
 <show-page>
+  <collection: replace >
+    <sortable-collection:presentations />
+  </collection:>
   <involvements-collection-heading:>Participants</involvements-collection-heading:>
   <involvements-collection: replace>
     <table:involvements class="table-plus" fields="participant, role"/>

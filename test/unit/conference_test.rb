@@ -188,7 +188,6 @@ class ConferenceTest < ActiveSupport::TestCase
     overview_text = overview_article.fulltext
     assert_match /OOPSLA Research Program/, overview_text
     assert_match /A Session Title/, overview_text
-    #assert_match /An Important Title/, overview_text
   end
 
   def program_article_tests session

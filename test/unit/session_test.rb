@@ -38,6 +38,15 @@ class SessionTest < ActiveSupport::TestCase
     assert_no_match /An Interesting Abstract/, html
   end
 
+  def test_presentation_order
+    html = @a_session.to_html
+    assert_match /An Important Title.*Another Important Title.*A Really Important Title/m, html
+    @a_session.presentations.each {|p| p.move_to_top}
+    @a_session.reload
+    html = @a_session.to_html
+    assert_match /A Really Important Title.*Another Important Title.*An Important Title/m, html
+  end
+
   def test_overlaps
     assert   sessions(:a_session).overlaps?(sessions(:b_session))
     assert   sessions(:b_session).overlaps?(sessions(:a_session))
