@@ -10,9 +10,11 @@ b_session:
   name: "Another Session Title"
   starts_at: 2010-10-18 09:00
   duration: 90
+  room_id: 1
 c_session:
   id: 3
   portfolio_id: 4
   name: "A Session Another Day"
   starts_at: 2010-10-19 08:30
   duration: 90
+  room_id: 1

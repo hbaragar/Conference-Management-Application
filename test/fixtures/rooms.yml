@@ -1,6 +1,8 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
-one:
+a_room:
   id: 1
+  name: A Room
 
-two:
+another_room:
   id: 2
+  name: Another Room

@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100819222919) do
+ActiveRecord::Schema.define(:version => 20100820144413) do
 
   create_table "broadcast_emails", :force => true do |t|
     t.integer  "cfp_id"
@@ -235,22 +235,25 @@ ActiveRecord::Schema.define(:version => 20100819222919) do
   add_index "participants", ["conference_id"], :name => "index_participants_on_conference_id"
 
   create_table "portfolios", :force => true do |t|
-    t.integer "conference_id"
-    t.string  "name"
-    t.text    "description"
-    t.string  "public_email_address"
-    t.string  "call_type",                 :default => "no_call"
-    t.string  "session_type",              :default => "no_sessions"
-    t.integer "joomla_category_id"
-    t.integer "joomla_menu_id"
-    t.string  "external_reference_prefix"
-    t.integer "typical_session_duration",  :default => 90
-    t.string  "presentation_fields",       :default => "title, short_title, external_reference, abstract"
+    t.integer  "conference_id"
+    t.string   "name"
+    t.text     "description"
+    t.string   "public_email_address"
+    t.string   "call_type",                 :default => "no_call"
+    t.string   "session_type",              :default => "no_sessions"
+    t.integer  "joomla_category_id"
+    t.integer  "joomla_menu_id"
+    t.string   "external_reference_prefix"
+    t.integer  "typical_session_duration",  :default => 90
+    t.string   "presentation_fields",       :default => "title, short_title, external_reference, abstract"
+    t.string   "state",                     :default => "unpublished"
+    t.datetime "key_timestamp"
   end
 
   add_index "portfolios", ["conference_id"], :name => "index_portfolios_on_conference_id"
   add_index "portfolios", ["joomla_category_id"], :name => "index_portfolios_on_joomla_category_id"
   add_index "portfolios", ["joomla_menu_id"], :name => "index_portfolios_on_joomla_menu_id"
+  add_index "portfolios", ["state"], :name => "index_portfolios_on_state"
 
   create_table "presentations", :force => true do |t|
     t.integer  "portfolio_id"

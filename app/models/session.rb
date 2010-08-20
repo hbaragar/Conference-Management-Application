@@ -29,6 +29,10 @@ class Session < ActiveRecord::Base
     self.name = html_encode_non_ascii_characters(name)
   end
 
+  def after_save
+    portfolio.changes_pending!
+  end
+
   def overlaps? rhs
     earlier, later = [self, rhs].sort
     earlier.starts_at + duration.minutes > later.starts_at

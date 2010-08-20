@@ -47,6 +47,10 @@ class Presentation < ActiveRecord::Base
     session.update_attributes(:name => title) unless session.name == title
   end
 
+  def after_save
+    portfolio.changes_pending!
+  end
+
   def conference
     portfolio.conference
   end

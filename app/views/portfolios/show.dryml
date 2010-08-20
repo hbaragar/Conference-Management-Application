@@ -65,6 +65,7 @@
     <if test="&this.single_presentation_per_session? || this.all_presentations_in_one_session? ">
       There are <count:presentations lowercase/>.
     </if>
+    <transition-buttons/>
   </before-collection-heading:>
   <collection: replace>
     <if test="&this.single_presentation_per_session? && can_create?(@portfolio.presentations)">

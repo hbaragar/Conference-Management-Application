@@ -18,6 +18,12 @@ class ParticipantTest < ActiveSupport::TestCase
     assert_equal [[sessions(:a_session),sessions(:b_session)]], @a_participant.session_conflicts
   end
 
+  def test_portfolio_lifecycle
+    @a_participant.name = "Name Change"
+    assert @a_participant.save
+    assert @a_participant.portfolios.first.changes_pending?
+  end
+
   def test_validations
     new_participant = conferences(:another_conference).participants.new :name => "Another Author"
     assert !new_participant.valid?

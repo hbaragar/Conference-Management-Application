@@ -1,4 +1,7 @@
 <show-page>
+  <before-collection-heading:>
+    <transition-buttons:portfolio/>
+  </before-collection-heading:>
   <collection: replace >
     <sortable-collection:presentations />
   </collection:>

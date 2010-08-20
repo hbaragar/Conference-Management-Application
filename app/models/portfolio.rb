@@ -45,6 +45,11 @@ class Portfolio < ActiveRecord::Base
     self.description = html_encode_non_ascii_characters(description)
   end
 
+  def before_update
+    return unless any_changed?(:name, :session_type, :description)
+    self.state = 'changes_pending' if state == 'published'
+  end
+
   def chair? user
     not (chairs & user.members).empty?
   end
@@ -105,6 +110,10 @@ class Portfolio < ActiveRecord::Base
     sessions.find(:first, :conditions => fields) || sessions.create(fields)
   end
 
+  def publish_to_joomla
+    conference.publish_to_joomla 'Program'
+  end
+
   def populate_joomla_program section, extras
     return if session_type == 'no_sessions'
     ordering = extras[:ordering]
@@ -147,6 +156,47 @@ class Portfolio < ActiveRecord::Base
       )
     end
     overview_text = li(name)
+  end
+
+
+  # --- LifeCycle --- #
+
+  lifecycle do
+
+    state :unpublished, :default => true
+    state :published
+    state :changes_pending
+
+    transition :changes_pending,{ :published => :changes_pending }
+    transition :publish,	{ :unpublished => :published }, :available_to => :all	do
+      publish_to_joomla
+    end
+    transition :push_changes,{ :changes_pending => :published }, :available_to => :all do
+      publish_to_joomla
+    end
+#    transition :unpublish,	{ :published => :unpublished }, :available_to => :all do
+#      publish_to_joomla
+#    end
+#    transition :unpublish,	{ :changes_pending => :unpublished }, :available_to => :all do
+#      publish_to_joomla
+#    end
+
+  end
+
+  def published?
+    lifecycle.published_state?
+  end
+
+  def unpublished?
+    lifecycle.unpublished_state?
+  end
+
+  def changes_pending?
+    lifecycle.changes_pending_state?
+  end
+
+  def changes_pending!
+    self.lifecycle.changes_pending! nil
   end
 
 

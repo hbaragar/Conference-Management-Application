@@ -15,6 +15,7 @@ class Room < ActiveRecord::Base
   belongs_to :facility_area
 
   has_many :sessions
+  has_many :portfolios, :through => :sessions
 
   default_scope :order => :name
 
@@ -26,7 +27,11 @@ class Room < ActiveRecord::Base
 
 
   def before_save
-    self.room = html_encode_non_ascii_characters(room)
+    self.name = html_encode_non_ascii_characters(name)
+  end
+
+  def after_save
+    portfolios.*.changes_pending!
   end
 
 

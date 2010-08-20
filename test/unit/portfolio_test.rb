@@ -112,6 +112,14 @@ class PortfolioTest < ActiveSupport::TestCase
     assert_match /delivers new ideas to software architects, managers, and researchers/, solo_presentation.objectives
   end
 
+  def test_portfolio_lifecycle
+    assert @a_portfolio.published?
+    @a_portfolio.name = "Name Change"
+    assert @a_portfolio.save
+    @a_portfolio.reload
+    assert @a_portfolio.changes_pending?
+  end
+
   def test_create_permissions
     new_portfolio = Portfolio.new :conference => @a_conference, :name => "New Portfolio"
     assert new_portfolio.creatable_by?(users(:administrator))

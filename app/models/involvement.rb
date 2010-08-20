@@ -9,6 +9,10 @@ class Involvement < ActiveRecord::Base
 
   has_many :sessions, :through => :presentation
 
+  def portfolios
+    sessions.*.portfolio
+  end
+
   fields do
     role :string
     timestamps
@@ -28,6 +32,10 @@ class Involvement < ActiveRecord::Base
 
   def before_save
     self.role = html_encode_non_ascii_characters(role)
+  end
+
+  def after_save
+    portfolios.*.changes_pending!
   end
 
   def to_html

@@ -10,6 +10,7 @@ a_portfolio:
   name: OOPSLA Research Program
   description: New Hear to SPLASH
   session_type: multiple_presentations
+  state: published
 another_conference_general:
   id: 3
   conference_id: 2

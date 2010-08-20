@@ -7,6 +7,12 @@ class InvolvementTest < ActiveSupport::TestCase
     @a_involvement = involvements(:a_involvement)
   end
 
+  def test_portfolio_lifecycle
+    @a_involvement.role = "Name Change"
+    assert @a_involvement.save
+    assert @a_involvement.portfolios.first.changes_pending?
+  end
+
   def test_create_permissions
     new_involvement = Participant.new :name => "Another Author"
     assert new_involvement.creatable_by?(users(:administrator))

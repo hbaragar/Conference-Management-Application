@@ -13,6 +13,12 @@ class PresentationTest < ActiveSupport::TestCase
     assert_equal 1, @a_presentation.participants.count
   end
 
+  def test_portfolio_lifecycle
+    @a_presentation.title = "Name Change"
+    assert @a_presentation.save
+    assert @a_presentation.portfolio.changes_pending?
+  end
+
   def test_create_permissions
     new_presentation = @a_portfolio.presentations.new :title => "Another Important Result"
     assert new_presentation.creatable_by?(users(:administrator))

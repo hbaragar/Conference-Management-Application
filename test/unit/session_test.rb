@@ -56,6 +56,12 @@ class SessionTest < ActiveSupport::TestCase
     assert ! sessions(:c_session).overlaps?(sessions(:b_session))
   end
 
+  def test_portfolio_lifecycle
+    @a_session.name = "Name Change"
+    assert @a_session.save
+    assert @a_session.portfolio.changes_pending?
+  end
+
   def test_create_permissions
     new_session = @a_portfolio.sessions.new 
     assert  new_session.creatable_by?(users(:administrator))

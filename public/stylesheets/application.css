@@ -81,4 +81,7 @@ table.view.supporter-level-summary a:active
   margin-right: -5px;
 }
 
+.show-page.portfolio .transitions { float: right; margin-top: 6ex; }
+.show-page.session .transitions { float: right; margin-top: 1.5ex; }
+
 .card.presentation h4.portfolio {float: right; }

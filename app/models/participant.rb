@@ -19,6 +19,10 @@ class Participant < ActiveRecord::Base
   has_many :involvements, :dependent => :destroy
   has_many :presentations, :through => :involvements
 
+  def portfolios
+    presentations.*.portfolio
+  end
+
   default_scope :order => :name
 
   validates_presence_of :conference_id
@@ -32,6 +36,10 @@ class Participant < ActiveRecord::Base
     self.name = html_encode_non_ascii_characters(name)
     self.affiliation = html_encode_non_ascii_characters(affiliation)
     self.country = html_encode_non_ascii_characters(country)
+  end
+
+  def after_save
+    portfolios.*.changes_pending!
   end
 
   def sessions

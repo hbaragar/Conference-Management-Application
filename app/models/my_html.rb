@@ -1,5 +1,7 @@
 module MyHtml
 
+  require 'string.rb'
+
 protected
 
   CHARACTER_ENCODING = {
