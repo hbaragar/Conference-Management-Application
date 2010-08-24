@@ -57,6 +57,16 @@ class Conference < ActiveRecord::Base
     end
   end
 
+  def days
+    # For populating the schedule
+    list = {}
+    sessions_from_all_conferences.each do |s|
+      date = s.starts_at.to_date
+      list[date] ||= Day.new(:date => date)
+    end
+    list.values
+  end
+
   def selves
     # Kluge for populating the Home menu area
     [self]
@@ -69,6 +79,10 @@ class Conference < ActiveRecord::Base
 
   def portfolios_from_all_conferences
     portfolios.with_sessions + colocated_conferences.collect{|c| c.portfolios.with_sessions}.flatten
+  end
+
+  def sessions_from_all_conferences
+    portfolios_from_all_conferences.*.sessions.flatten
   end
 
   def after_create 
@@ -85,6 +99,7 @@ class Conference < ActiveRecord::Base
 
   MAIN_MENU = [
     { :name => "Home",			:class => JoomlaSection,  :collection => "selves",	:alias => 'general-information' },
+    { :name => "Schedule",		:class => JoomlaSection,  :collection => "days", :order_on => :checked_out_time },
     { :name => "Program",		:class => JoomlaSection,  :collection => "portfolios_from_all_conferences", :order_on => :ordering },
     { :name => "Call for Papers",	:class => JoomlaSection,  :collection => "cfp_due_dates", :alias => 'cfp', :order_on => :checked_out_time},
     { :name => "Colocated Conferences",	:class => JoomlaCategory, :collection => "colocated_conferences" },

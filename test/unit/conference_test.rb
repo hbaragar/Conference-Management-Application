@@ -158,8 +158,6 @@ class ConferenceTest < ActiveSupport::TestCase
     assert program_section = JoomlaSection.find_by_alias("program")
     assert_equal "Program", program_section.title
     assert_equal 4, program_section.count
-    assert_equal program_section, JoomlaSection.find_by_title("Program")
-    assert_equal 4, program_section.categories.count
     categories = program_section.categories
     assert_equal (1..4).to_a, categories.collect{|c| c.ordering}
     category_titles = ["DesignFest", "OOPSLA Research Program", "Workshops", "Overview"]
@@ -190,6 +188,33 @@ class ConferenceTest < ActiveSupport::TestCase
     assert_match /A Session Title/, overview_text
   end
 
+  test "populate joomla schedule menu area" do
+    @a_conference.populate_joomla_menu_area_for "Program"	# Need to create sessions
+    @a_conference.populate_joomla_menu_area_for "Schedule"
+    assert_equal 3, JoomlaSection.count
+    assert_equal 6, JoomlaCategory.count
+    assert_equal 7, JoomlaArticle.count
+    assert_equal 7, JoomlaMenu.count
+    @a_conference.populate_joomla_menu_area_for "Schedule"
+    @a_conference.reload
+    assert_equal 3, JoomlaSection.count
+    assert_equal 6, JoomlaCategory.count
+    assert_equal 7, JoomlaArticle.count
+    assert_equal 7, JoomlaMenu.count
+    assert schedule_section = JoomlaSection.find_by_alias("schedule")
+    assert_equal "Schedule", schedule_section.title
+    assert_equal 2, schedule_section.categories.count
+    categories = schedule_section.categories
+    overview_article = schedule_section.articles.find_by_title("Schedule")
+    schedule_menu = JoomlaMenu.find_by_name "Schedule"
+    assert_equal 0, schedule_menu.sublevel
+    assert_match /show_vote=0/, schedule_menu.params
+    assert_match /show_section=1/, schedule_menu.params
+    assert_equal "index.php?option=com_content&view=article&id=#{overview_article.id}", schedule_menu.link
+    menu_items = schedule_menu.items
+    assert_equal 2, menu_items.count
+  end
+
   def program_article_tests session
     article = session.joomla_article
     assert_equal session.name, article.title
@@ -211,11 +236,11 @@ class ConferenceTest < ActiveSupport::TestCase
 
   test "populate all joomla menu areas" do
     @a_conference.populate_joomla_menu_area_for "All Areas"
-    assert_equal 3, JoomlaSection.count
-    assert_equal 10, JoomlaCategory.count
-    assert_equal 11, JoomlaArticle.count
-    assert_equal (1..5).to_a, JoomlaMenu.find_all_by_sublevel(0).collect{|m| m.ordering}
-    top_menu = ["Home", "Program", "Call for Papers", "Colocated Conferences", "Supporters"]
+    assert_equal 4, JoomlaSection.count
+    assert_equal 12, JoomlaCategory.count
+    assert_equal 14, JoomlaArticle.count
+    assert_equal (1..6).to_a, JoomlaMenu.find_all_by_sublevel(0).collect{|m| m.ordering}
+    top_menu = ["Home", "Schedule", "Program", "Call for Papers", "Colocated Conferences", "Supporters"]
     assert_equal top_menu, JoomlaMenu.find_all_by_sublevel(0).collect{|m| m.name}
   end
 
