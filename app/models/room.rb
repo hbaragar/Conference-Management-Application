@@ -25,6 +25,12 @@ class Room < ActiveRecord::Base
     name
   end
 
+  def <=> rhs
+    cmp = facility_area.name <=> rhs.facility_area.name
+    return cmp unless cmp == 0
+    name <=> rhs.name
+  end
+
 
   def before_save
     self.name = html_encode_non_ascii_characters(name)

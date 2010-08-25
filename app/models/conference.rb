@@ -61,10 +61,9 @@ class Conference < ActiveRecord::Base
     # For populating the schedule
     list = {}
     sessions_from_all_conferences.each do |s|
-      date = s.starts_at.to_date
-      list[date] ||= Day.new(:date => date)
+      (list[s.starts_at.to_date] ||= []) << s
     end
-    list.values
+    list.sort.collect {|date,sessions| Day.new(:date => date, :sessions => sessions)}
   end
 
   def selves

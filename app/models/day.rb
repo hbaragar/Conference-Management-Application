@@ -2,16 +2,51 @@ class Day
 
   include MyHtml
 
-  attr_reader :date, :sessions
+  attr_reader :date, :day_sessions, :evening_sessions
   attr_accessor :joomla_category, :joomla_article, :joomla_menu
   
   def initialize attribs
     @date = attribs[:date]
-    @sessions = attribs[:sessions]
+    @day_sessions, @evening_sessions = attribs[:sessions].partition {|s| s.ends_at <= end_of_day}
+  end
+
+  def end_of_day
+    date + 17.hours + 30.minutes
+  end
+
+  def starts_at
+    day_sessions.first.starts_at
+  end
+
+  def ends_at
+    day_sessions.last.ends_at
+  end
+
+  def tick_size
+    15.minutes
+  end
+
+  def nticks
+    ((ends_at - starts_at) / tick_size).round
+  end
+
+  def ncols 
+    # includes 2 columns for room names,
+    # as well as a column of each evening session
+    2 + nticks + evening_sessions.count
   end
 
   def name
     "Due #{date.strftime('%B %d, %Y')}"
+  end
+
+  def rooms
+    day_sessions.*.room.uniq.sort do |a,b|
+      a.nil? && b.nil? ? 0 : 
+	a.nil? ? 1 : 
+	b.nil? ? -1 :
+	a <=> b
+    end
   end
 
   def populate_joomla_schedule section, extras
@@ -51,6 +86,18 @@ class Day
       :alias		=> nil
     )
     joomla_menu
+  end
+
+  def at_a_glance_table 
+  end
+
+  def at_a_glance_row
+  end
+
+  def at_a_glance_header
+  end
+
+  def at_a_glance_footer
   end
 
 end
