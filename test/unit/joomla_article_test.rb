@@ -13,7 +13,6 @@ class JoomlaArticleTest < ActiveSupport::TestCase
     assert_equal "scholarships-and-grants", sag.alias
     assert_equal 2, sag.ordering
     assert !JoomlaArticle.new.valid?
-    assert !JoomlaArticle.new(:title => "Call for Papers").valid?
     assert !JoomlaArticle.new(:title => "Call for Prayers", :alias => "cfp").valid?
   end
 

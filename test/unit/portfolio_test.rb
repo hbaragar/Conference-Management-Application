@@ -18,6 +18,12 @@ class PortfolioTest < ActiveSupport::TestCase
     assert_equal 4, @a_portfolio.presentations.count
   end
 
+  def test_validate
+    @a_portfolio.presentation_fields = "garbage"
+    assert !@a_portfolio.valid?
+    assert_match /garbage/, @a_portfolio.errors.on(:presentation_fields)
+  end
+
   test "loading a CyberChair XML file" do
     count = Presentation.count
     @a_portfolio.load_presentation_from File.new(files_dir + "cyber_chair_v1.xml")

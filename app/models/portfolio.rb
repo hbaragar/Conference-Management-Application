@@ -40,6 +40,12 @@ class Portfolio < ActiveRecord::Base
 
   named_scope :with_sessions, :conditions => 'session_type != "no_sessions"'
 
+  def validate
+    unless (bad = presentation_fields.split(/,\s*/) - Presentation.column_names).empty?
+      errors.add(:presentation_fields, %Q(#{bad.collect{|f| '"'+f+'"'}.join(', ')} not allowed))
+    end
+  end
+
   def before_save
     self.name = html_encode_non_ascii_characters(name)
     self.description = html_encode_non_ascii_characters(description)
@@ -71,9 +77,7 @@ class Portfolio < ActiveRecord::Base
   end
 
   def presentation_field_view_not_permitted? field
-    field = field.to_s
-    return false unless Presentation.column_names.include?(field)
-    !presentation_fields.split(/,\s*/).include?(field)
+    !presentation_fields.split(/,\s*/).include?(field.to_s)
   end
 
 
@@ -211,7 +215,7 @@ class Portfolio < ActiveRecord::Base
 
   def update_permitted?
     return false if name_changed? && name_was == "General"
-    return false if any_changed?(:conference_id, :presentation_fields) && !acting_user.administrator?
+    return false if any_changed?(:conference_id) && !acting_user.administrator?
     chair?(acting_user) || conference.chair?(acting_user) || acting_user.administrator?
   end
 
