@@ -40,8 +40,12 @@ class Portfolio < ActiveRecord::Base
 
   named_scope :with_sessions, :conditions => 'session_type != "no_sessions"'
 
+  def before_validation
+    self.presentation_fields.sub!(/,+\s*$/, "")
+  end
+
   def validate
-    unless (bad = presentation_fields.split(/,\s*/) - Presentation.column_names).empty?
+    unless (bad = configured_presentation_fields - Presentation.configurable_fields).empty?
       errors.add(:presentation_fields, %Q(#{bad.collect{|f| '"'+f+'"'}.join(', ')} not allowed))
     end
   end
