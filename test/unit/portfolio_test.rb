@@ -24,7 +24,7 @@ class PortfolioTest < ActiveSupport::TestCase
     assert_match /garbage/, @a_portfolio.errors.on(:presentation_fields)
   end
 
-  def test_presentation_field_view_not_permitted
+  def test_configured_presentation_fields
     configured_fields = %w(title short_title abstract external_reference).sort
     configurable_fields = (
       configured_fields +
@@ -32,10 +32,6 @@ class PortfolioTest < ActiveSupport::TestCase
     ).sort
     assert_equal configurable_fields, Presentation.configurable_fields.sort
     assert_equal configured_fields, @a_portfolio.configured_presentation_fields.sort
-    assert ! @a_portfolio.presentation_field_view_not_permitted?(nil)
-    assert ! @a_portfolio.presentation_field_view_not_permitted?(:id)
-    assert ! @a_portfolio.presentation_field_view_not_permitted?(:title)
-    assert   @a_portfolio.presentation_field_view_not_permitted?(:url)
   end
 
   test "loading a CyberChair XML file" do

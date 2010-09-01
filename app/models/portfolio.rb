@@ -84,12 +84,6 @@ class Portfolio < ActiveRecord::Base
     presentation_fields.split(/,\s*/)
   end
 
-  def presentation_field_view_not_permitted? field
-    return false unless Presentation.configurable_fields.include?(field.to_s)
-    !configured_presentation_fields.include?(field.to_s)
-  end
-
-
   def load_presentation_from source
     xml = Document.new(source).root
     new_or_existing_presentation(xml).load_from xml

@@ -185,8 +185,12 @@ class Presentation < ActiveRecord::Base
   end
 
   def view_permitted?(field)
-    return false if portfolio && portfolio.presentation_field_view_not_permitted?(field)
-    acting_user.signed_up?
+    return false unless acting_user.signed_up?
+    if self.class.configurable_fields.include?(field.to_s)
+      portfolio.configured_presentation_fields.include?(field.to_s)
+    else
+      true
+    end
   end
 
 end
