@@ -29,6 +29,7 @@ class Presentation < ActiveRecord::Base
   default_scope :order => :position
 
   def after_create
+    self.portfolio ||= session.portfolio
     self.session ||= portfolio.new_or_existing_session title
     save
   end

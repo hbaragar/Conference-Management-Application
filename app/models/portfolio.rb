@@ -77,7 +77,8 @@ class Portfolio < ActiveRecord::Base
   end
 
   def presentation_field_view_not_permitted? field
-    !presentation_fields.split(/,\s*/).include?(field.to_s)
+    allowed_fields = %w(id) + presentation_fields.split(/,\s*/)
+    !(field.nil? || allowed_fields.include?(field.to_s))
   end
 
 
