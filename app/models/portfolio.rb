@@ -76,9 +76,13 @@ class Portfolio < ActiveRecord::Base
     session_type == "all_in_one"
   end
 
+  def configured_presentation_fields
+    presentation_fields.split(/,\s*/)
+  end
+
   def presentation_field_view_not_permitted? field
-    allowed_fields = %w(id) + presentation_fields.split(/,\s*/)
-    !(field.nil? || allowed_fields.include?(field.to_s))
+    return false unless Presentation.configurable_fields.include?(field.to_s)
+    !configured_presentation_fields.include?(field.to_s)
   end
 
 

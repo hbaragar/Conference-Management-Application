@@ -27,11 +27,16 @@ class Presentation < ActiveRecord::Base
   has_many :participants, :through => :involvements
 
   default_scope :order => :position
+  
+  def self.configurable_fields
+    non_id_fields = column_names.reject{|f| f =~ /^id$|_id$/}
+    non_id_fields - %w(created_at updated_at position)
+  end
 
-  def after_create
-    self.portfolio ||= session.portfolio
-    self.session ||= portfolio.new_or_existing_session title
-    save
+  def initialize *args
+    super *args
+    self.portfolio ||= session && session.portfolio
+    self.session ||= portfolio && portfolio.new_or_existing_session(title)
   end
 
   def before_save
@@ -166,7 +171,6 @@ class Presentation < ActiveRecord::Base
 
   def create_permitted?
     return true if acting_user.administrator?
-    return false unless portfolio
     portfolio.chair?(acting_user) || conference.chair?(acting_user)
   end
 
