@@ -85,3 +85,42 @@ table.view.supporter-level-summary a:active
 .show-page.session .transitions { float: right; margin-top: 1.5ex; }
 
 .card.presentation h4.portfolio {float: right; }
+
+div.at-a-glance {
+  width: 120%;
+}
+
+.at-a-glance {
+  font-size: smaller;
+}
+
+.at-a-glance td.column {
+  text-align: center;
+  vertical-align: middle;
+  width: 7em;
+}
+
+.at-a-glance td.calibration {
+  line-height: 0;
+  padding: 0;
+  width: 2em;
+}
+
+.at-a-glance a.portfolio {
+  font-weight: bold;
+  color: blue;
+}
+
+.at-a-glance th {
+  background-color: #FFB47C;
+  vertical-align: middle;
+}
+
+.at-a-glance th.room {
+  width: 5em;
+  font-weight: bold;
+}
+
+.not-happening {
+  background-color: #FFFAE7;
+}

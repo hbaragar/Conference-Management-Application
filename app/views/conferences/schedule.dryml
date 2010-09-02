@@ -1,0 +1,8 @@
+<show-page>
+  <append-heading:>
+    Schedule
+  </append-heading:>
+  <content-body:>
+    <%= @conference.html_schedule %>
+  </content-body:>
+</show-page>

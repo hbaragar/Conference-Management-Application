@@ -88,16 +88,43 @@ class Day
     joomla_menu
   end
 
-  def at_a_glance_table 
+  def html_schedule
+    div({:class => "at-a-glance"},
+      h3(date.strftime("%A (%b %d)")),
+      at_a_glance_table
+    )
   end
 
-  def at_a_glance_row
+  def at_a_glance_table 
+    table({ :class => "at-a-glance" },
+      at_a_glance_header,
+      rooms.collect {|r| at_a_glance_row r},
+      at_a_glance_footer
+    )
   end
 
   def at_a_glance_header
+    tr({:class => "happening"},
+      th({:class => "room"}, "Room"),
+      [td({:class => "happening"}, "&nbsp;")] * nticks,
+      th({:class => "room"}, "Room"),
+      [td({:class => "happening"})] * evening_sessions.count
+    )
+  end
+
+  def at_a_glance_row room
+    label = room ? room.short_name : "TBD"
+    tr({:class => "not-happening"},
+      th({:class => "room"}, label),
+      [td({:class => "not-happening"}, " - ")] * nticks,
+      th({:class => "room"}, label)
+    )
   end
 
   def at_a_glance_footer
+    tr({},
+      [td({:class => "not-happening calibration"},"&nbsp;")] * ncols
+    )
   end
 
 end

@@ -144,6 +144,13 @@ class Conference < ActiveRecord::Base
   end
 
 
+  def html_schedule
+    days.collect do |d|
+      d.html_schedule
+    end
+  end
+
+
   # --- Permissions --- #
 
   never_show :joomla_article

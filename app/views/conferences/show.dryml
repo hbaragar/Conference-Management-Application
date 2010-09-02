@@ -22,6 +22,12 @@
   <aside:>
     <section>
       <h3><view:hosting_conference/> plus Colocated Conferences</h3>
+      <h4><ht key="hosting-conference.schedule">Schedule</ht></h4>
+      <div class="card">
+	<ul>
+	  <li><a action="schedule" with="&this.hosting_conference">Tuesday</a></li>
+	</ul>
+      </div>
       <h4><ht key="hosting-conference.participants.collection.heading.other">Participants</ht></h4>
       <div class="card">
 	<ul>

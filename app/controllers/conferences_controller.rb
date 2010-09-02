@@ -8,6 +8,7 @@ class ConferencesController < ApplicationController
 
   show_action :participants
   show_action :participants_with_conflicts
+  show_action :schedule
 
   def index
     hobo_index Conference.host_conferences.apply_scopes(
