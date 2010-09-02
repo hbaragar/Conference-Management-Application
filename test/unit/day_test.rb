@@ -12,7 +12,7 @@ class DayTest < ActiveSupport::TestCase
     assert_equal 2, @a_conference.days.count
     assert_equal "October 18, 2010 17:30", @a_day.end_of_day.strftime("%B %d, %Y %H:%M")
     assert_equal 15 * 60, @a_day.tick_size
-    assert_equal 2*4, @a_day.nticks
+    assert_equal 2*4, @a_day.tick_count
     assert_equal 2+2*4, @a_day.ncols	# Include the two columns for room names
     assert_equal 2, @a_day.day_sessions.count
     assert_equal 0, @a_day.evening_sessions.count
@@ -23,8 +23,11 @@ class DayTest < ActiveSupport::TestCase
     assert_nil   @a_day.rooms[1]
   end
 
-  def test_label_pseudo_sessions
+  def test_at_a_glance
     assert_equal ["8:30-10:00"], @a_day.label_pseudo_sessions.collect{|s| s.name}
+    sessions = @a_day.sessions_for(rooms(:a_room))
+    assert_equal ["Another Session Title"], sessions.collect{|s| s.name}
+    assert_equal [[nil]*2, [sessions.first] * 6].flatten, @a_day.ticker_tape_for(sessions)
   end
 
   def test_populate_joomla 

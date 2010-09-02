@@ -26,14 +26,14 @@ class Day
     15.minutes
   end
 
-  def nticks
+  def tick_count
     ((ends_at - starts_at) / tick_size).round
   end
 
   def ncols 
     # includes 2 columns for room names,
     # as well as a column of each evening session
-    2 + nticks + evening_sessions.count
+    2 + tick_count + evening_sessions.count
   end
 
   def name
@@ -104,9 +104,9 @@ class Day
   end
 
   def at_a_glance_header
-    tr({:class => "happening"},
+    tr({:class => "not-happening"},
       th({:class => "room"}, "Room"),
-      [th({:class => "happening"}, "&nbsp;")] * nticks,
+      [th({:class => "happening"}, "&nbsp;")] * tick_count,
       th({:class => "room"}, "Room"),
       [td({:class => "happening"})] * evening_sessions.count
     )
@@ -116,7 +116,7 @@ class Day
     label = room ? room.short_name : "TBD"
     tr({:class => "not-happening"},
       th({:class => "room"}, label),
-      [td({:class => "not-happening"}, " - ")] * nticks,
+      [td({:class => "not-happening"}, " - ")] * tick_count,
       th({:class => "room"}, label)
     )
   end
@@ -142,6 +142,20 @@ class Day
     end.select do |s|
       starts_at <= s.starts_at && s.ends_at <= ends_at
     end
+  end
+
+  def sessions_for room
+    day_sessions.select{|s| s.room == room}
+  end
+
+  def ticker_tape_for sessions
+    tape = [nil] * tick_count
+    sessions.reject{|s| s.duration < 30}.each do |s|
+      start_tick = ((s.starts_at - starts_at) / tick_size).round
+      nticks = (s.duration.minutes / tick_size).round
+      tape[start_tick, nticks] = [s] * nticks
+    end
+    tape
   end
 
 end
