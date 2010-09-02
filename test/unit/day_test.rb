@@ -23,6 +23,10 @@ class DayTest < ActiveSupport::TestCase
     assert_nil   @a_day.rooms[1]
   end
 
+  def test_label_pseudo_sessions
+    assert_equal ["8:30-10:00"], @a_day.label_pseudo_sessions.collect{|s| s.name}
+  end
+
   def test_populate_joomla 
     @a_conference.populate_joomla_menu_area_for "Schedule"
     assert_equal 3, JoomlaSection.count

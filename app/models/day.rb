@@ -106,7 +106,7 @@ class Day
   def at_a_glance_header
     tr({:class => "happening"},
       th({:class => "room"}, "Room"),
-      [td({:class => "happening"}, "&nbsp;")] * nticks,
+      [th({:class => "happening"}, "&nbsp;")] * nticks,
       th({:class => "room"}, "Room"),
       [td({:class => "happening"})] * evening_sessions.count
     )
@@ -125,6 +125,23 @@ class Day
     tr({},
       [td({:class => "not-happening calibration"},"&nbsp;")] * ncols
     )
+  end
+
+  def label_pseudo_sessions
+    duration = 90
+    start_times = [
+      date + 8.hours + 30.minutes,
+      date + 10.hours + 30.minutes,
+      date + 13.hours + 30.minutes,
+      date + 15.hours + 30.minutes
+    ]
+    start_times.collect do |st|
+      et = st + duration.minutes
+      name = [st, et].collect{|t| t.strftime('%I:%M').sub(/^0+/,"")}.join("-")
+      Session.new(:name => name, :starts_at => st, :duration => duration)
+    end.select do |s|
+      starts_at <= s.starts_at && s.ends_at <= ends_at
+    end
   end
 
 end
