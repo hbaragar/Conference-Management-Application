@@ -8,6 +8,8 @@ class Day
   def initialize attribs
     @date = attribs[:date]
     @day_sessions, @evening_sessions = attribs[:sessions].partition {|s| s.ends_at <= end_of_day}
+    @day_sessions.sort!
+    @evening_sessions.sort!
   end
 
   def end_of_day
@@ -106,7 +108,7 @@ class Day
   def at_a_glance_header
     tr({:class => "not-happening"},
       th({:class => "room"}, "Room"),
-      [th({:class => "happening"}, "&nbsp;")] * tick_count,
+      at_a_glance_row_part_for(label_pseudo_sessions).join("").gsub(/td/,"th"),
       th({:class => "room"}, "Room"),
       [td({:class => "happening"})] * evening_sessions.count
     )
@@ -116,7 +118,7 @@ class Day
     label = room ? room.short_name : "TBD"
     tr({:class => "not-happening"},
       th({:class => "room"}, label),
-      [td({:class => "not-happening"}, " - ")] * tick_count,
+      at_a_glance_row_part_for(sessions_for room),
       th({:class => "room"}, label)
     )
   end
@@ -125,6 +127,25 @@ class Day
     tr({},
       [td({:class => "not-happening calibration"},"&nbsp;")] * ncols
     )
+  end
+
+  def at_a_glance_row_part_for sessions
+    tape = ticker_tape_for sessions
+    tds = []
+    while tape.size > 0
+      ncols = 1
+      session = tape.shift
+      while tape.size > 0 && session == tape.first
+	ncols += 1
+	tape.shift
+      end
+      css = {
+	:colspan	=> ncols,
+	:class		=> (session ? "happening" : "not-happening")
+      }
+      tds << td(css, session ? session.at_a_glance_html : "&nbsp;")
+    end
+    tds
   end
 
   def label_pseudo_sessions
@@ -149,7 +170,7 @@ class Day
   end
 
   def ticker_tape_for sessions
-    tape = [nil] * tick_count
+    tape = Array.new(tick_count)
     sessions.reject{|s| s.duration < 30}.each do |s|
       start_tick = ((s.starts_at - starts_at) / tick_size).round
       nticks = (s.duration.minutes / tick_size).round

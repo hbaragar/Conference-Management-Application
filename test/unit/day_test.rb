@@ -27,7 +27,8 @@ class DayTest < ActiveSupport::TestCase
     assert_equal ["8:30-10:00"], @a_day.label_pseudo_sessions.collect{|s| s.name}
     sessions = @a_day.sessions_for(rooms(:a_room))
     assert_equal ["Another Session Title"], sessions.collect{|s| s.name}
-    assert_equal [[nil]*2, [sessions.first] * 6].flatten, @a_day.ticker_tape_for(sessions)
+    assert_equal [ [nil]*2, [sessions.first]*6 ].flatten, @a_day.ticker_tape_for(sessions)
+    assert_equal 2, @a_day.at_a_glance_row_part_for(sessions).count
   end
 
   def test_populate_joomla 

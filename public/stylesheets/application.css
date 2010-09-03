@@ -112,15 +112,25 @@ div.at-a-glance {
 }
 
 .at-a-glance th {
-  background-color: #FFB47C;
   vertical-align: middle;
-}
-
-.at-a-glance th.room {
-  width: 5em;
   font-weight: bold;
+  background-color: #FFB47C;
 }
 
-.not-happening {
-  background-color: #FFFAE7;
+.at-a-glance th.happening { text-align: center; }
+
+.at-a-glance th.room { width: 5em; }
+
+.happening {
+  padding: 0.3ex 0.3em;
+  background-color: #FFECB2;
 }
+
+.special-happening {
+  padding: 0.3ex 0.3em;
+  background-color: #FFD688;
+}
+
+.not-happening { background-color: #FFFAE7; }
+
+.at-a-glance table { border: solid 1px #873B89; }

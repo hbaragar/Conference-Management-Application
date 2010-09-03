@@ -104,6 +104,10 @@ class Session < ActiveRecord::Base
     )
   end
 
+  def at_a_glance_html
+    name
+  end
+
   def populate_joomla_program category
     unless joomla_article
       self.joomla_article = category.articles.create!(:title => name, :sectionid => category.section)
