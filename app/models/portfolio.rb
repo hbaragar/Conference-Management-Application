@@ -118,7 +118,7 @@ class Portfolio < ActiveRecord::Base
   end
 
   def publish_to_joomla
-    conference.publish_to_joomla 'Program'
+    hosting_conference.publish_to_joomla 'Program'
   end
 
   def populate_joomla_program section, extras
