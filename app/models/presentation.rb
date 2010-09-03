@@ -36,10 +36,10 @@ class Presentation < ActiveRecord::Base
   def initialize *args
     super *args
     self.portfolio ||= session && session.portfolio
-    self.session ||= portfolio && portfolio.new_or_existing_session(title)
   end
 
   def before_save
+    self.session ||= portfolio && portfolio.new_or_existing_session(title)
     self.title = html_encode_non_ascii_characters(title)
     self.short_title = html_encode_non_ascii_characters(short_title)
     self.audience = html_encode_non_ascii_characters(audience)
