@@ -40,6 +40,10 @@ class Portfolio < ActiveRecord::Base
 
   named_scope :with_sessions, :conditions => 'session_type != "no_sessions"'
 
+  def hosting_conference
+    conference.hosting_conference
+  end
+
   def before_validation
     self.presentation_fields.sub!(/,+\s*$/, "")
   end
