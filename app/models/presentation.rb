@@ -133,6 +133,14 @@ class Presentation < ActiveRecord::Base
     end
   end
 
+  def at_a_glance_title
+    if session.single_presentation?
+      participants.collect{|p| "* #{p.name}"}
+    else
+      "* #{title}"
+    end
+  end
+
   def to_html
     div("presentation",
       title_to_html,

@@ -107,9 +107,10 @@ class Session < ActiveRecord::Base
   end
 
   def at_a_glance_html
+    title = presentations.*.at_a_glance_title.join("\n")
     [
       (portfolio.at_a_glance_html if portfolio),
-      (joomla_article ? internal_link(joomla_article.html_link, name) : name)
+      (joomla_article ? internal_link(joomla_article.html_link, name, title) : name)
     ].compact.join " "
   end
 

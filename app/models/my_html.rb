@@ -83,9 +83,9 @@ protected
     %Q(<td #{tag_attributes(attributes)}>#{text.join('')}</td>\n)
   end
 
-  def internal_link link, text
+  def internal_link link, text, title = ""
     link = JoomlaMenu::link_for(link) if link.class.name =~ /Joomla/
-    %Q(<a href="#{link}">#{text}</a>)
+    %Q(<a href="#{link}" #{tag_attributes(:title => title)}>#{text}</a>)
   end
 
   def external_link url, text
