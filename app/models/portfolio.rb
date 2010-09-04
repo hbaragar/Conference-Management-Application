@@ -40,6 +40,10 @@ class Portfolio < ActiveRecord::Base
 
   named_scope :with_sessions, :conditions => 'session_type != "no_sessions"'
 
+  def hosting_conference
+    conference.hosting_conference
+  end
+
   def before_validation
     self.presentation_fields.sub!(/,+\s*$/, "")
   end
@@ -118,7 +122,7 @@ class Portfolio < ActiveRecord::Base
   end
 
   def publish_to_joomla
-    conference.publish_to_joomla 'Program'
+    hosting_conference.publish_to_joomla 'Program'
   end
 
   def populate_joomla_program section, extras

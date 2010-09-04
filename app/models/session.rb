@@ -25,6 +25,8 @@ class Session < ActiveRecord::Base
 
   default_scope :order => "starts_at, duration, name"
 
+  validates_uniqueness_of :name, :scope => :portfolio_id
+
   def before_save
     self.name = html_encode_non_ascii_characters(name)
   end
