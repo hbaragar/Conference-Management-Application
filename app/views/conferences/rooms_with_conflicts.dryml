@@ -3,7 +3,7 @@
     <a with="&@conference">&laquo; <ht key="conference.actions.back" to="conference"><name/></ht></a>
   </before-heading:>
   <new-link: replace />
-  <heading:><view with="&@conference"/> Participants with Conflicting Sessions</heading:>
+  <heading:><view with="&@conference"/> Rooms with Conflicting Sessions</heading:>
   <collection: replace>
     <table-plus fields="this,conflicting_sessions">
       <conflicting-sessions-view:><comma-list join="<br />" /></conflicting-sessions-view:>

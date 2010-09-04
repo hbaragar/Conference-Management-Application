@@ -6,6 +6,7 @@ class Room < ActiveRecord::Base
 
   fields do
     name       :string
+    conflicted :boolean
     capacity   :string
     door_count :integer
     short_name :string
@@ -38,6 +39,28 @@ class Room < ActiveRecord::Base
 
   def after_save
     portfolios.*.changes_pending!
+  end
+
+  def set_conflicted!
+    self.conflicted = session_conflicts.count > 0
+    save
+  end
+
+  def conflicting_sessions
+    session_conflicts.collect do |conflict|
+      conflict.collect {|s| "#{s.name} @ #{s.time_slot}" }.join " vs "
+    end
+  end
+
+  def session_conflicts
+    conflicts = []
+    unique_sessions = sessions.uniq
+    previous = unique_sessions.shift
+    unique_sessions.each do |s|
+      conflicts << [previous, s] if s.overlaps? previous
+      previous = s
+    end
+    conflicts
   end
 
 

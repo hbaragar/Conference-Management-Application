@@ -25,7 +25,8 @@
       <h4><ht key="hosting-conference.schedule">Schedule</ht></h4>
       <div class="card">
 	<ul>
-	  <li><a action="schedule" with="&this.hosting_conference">Tuesday</a></li>
+	  <li><a action="schedule" with="&this.hosting_conference">at-a-glance</a></li>
+	  <li><a action="rooms_with_conflicts" with="&this.hosting_conference">rooms with conflicts</a></li>
 	</ul>
       </div>
       <h4><ht key="hosting-conference.participants.collection.heading.other">Participants</ht></h4>

@@ -28,6 +28,7 @@ class ConferenceTest < ActiveSupport::TestCase
     assert_equal [conflict], @a_participant.conflicting_sessions
     assert_equal [], participants(:b_participant).conflicting_sessions
     assert_equal 2, @a_conference.facilities.count
+    assert_equal 2, @a_conference.rooms.count
     assert_equal 2, @another_conference.facilities.count
   end
 

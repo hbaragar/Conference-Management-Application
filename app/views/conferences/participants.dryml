@@ -1,4 +1,7 @@
 <index-page>
+  <before-heading:>
+    <a with="&@conference">&laquo; <ht key="conference.actions.back" to="conference"><name/></ht></a>
+  </before-heading:>
   <new-link: replace >
     <a:participants with="&@conference.hosting_conference" action="new">
       <ht key="participants.actions.new">New Participant</ht>

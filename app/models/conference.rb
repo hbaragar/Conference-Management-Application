@@ -24,6 +24,7 @@ class Conference < ActiveRecord::Base
   has_many :sessions, :through => :portfolios
   has_many :members, :through => :portfolios
   has_many :facility_areas, :dependent => :destroy
+  has_many :rooms, :through => :facility_areas
   has_many :facilities, :through => :hosting_conference, :source => :facility_areas
   has_many :participants
 

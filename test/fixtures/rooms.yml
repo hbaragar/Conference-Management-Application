@@ -2,7 +2,9 @@
 a_room:
   id: 1
   name: A Room
+  facility_area_id: 1
 
 another_room:
   id: 2
   name: Another Room
+  facility_area_id: 1

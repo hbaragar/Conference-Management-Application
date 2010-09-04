@@ -1,9 +1,15 @@
 <show-page>
+  <before-heading:>
+    <a>&laquo; <ht key="conference.actions.back" to="conference"><name/></ht></a>
+  </before-heading:>
   <append-heading:>
     Schedule
   </append-heading:>
+  <edit-link: replace />
   <content-body:>
-    <p>Note that the links on this page <strong>DO NOT</strong>work (they will work in Joomla)</p>
+    <p>Note that the <strong>links</strong> on this page <strong>DO NOT WORK</strong>
+      (they are intended for the Joomla-base website).
+    </p>
     <%= @conference.html_schedule %>
   </content-body:>
 </show-page>

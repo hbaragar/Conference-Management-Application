@@ -8,6 +8,7 @@ class ConferencesController < ApplicationController
 
   show_action :participants
   show_action :participants_with_conflicts
+  show_action :rooms_with_conflicts
   show_action :schedule
 
   def index
@@ -38,6 +39,13 @@ class ConferencesController < ApplicationController
     hobo_show do
       @conference.participants.*.set_conflicted!
       hobo_index @conference.participants.conflicted
+    end
+  end
+
+  def rooms_with_conflicts
+    hobo_show do
+      @conference.rooms.*.set_conflicted!
+      hobo_index @conference.rooms.conflicted
     end
   end
 
