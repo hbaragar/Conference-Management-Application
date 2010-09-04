@@ -88,6 +88,14 @@ class Portfolio < ActiveRecord::Base
     presentation_fields.split(/,\s*/)
   end
 
+  def days
+    list = {}
+    sessions.each do |s|
+      (list[s.starts_at.midnight] ||= []) << s
+    end
+    list.sort.collect {|date,sessions| Day.new(:date => date, :sessions => sessions)}
+  end
+
   def load_presentation_from source
     xml = Document.new(source).root
     new_or_existing_presentation(xml).load_from xml
@@ -168,8 +176,11 @@ class Portfolio < ActiveRecord::Base
     overview_text = li(name)
   end
 
+  def html_schedule
+    days.*.html_schedule
+  end
+
   def at_a_glance_html
-    #internal_link(joomla_category.hmtl_link, name)
     span("portfolio", joomla_category ? internal_link(joomla_category.html_link, name) : name)
   end
 

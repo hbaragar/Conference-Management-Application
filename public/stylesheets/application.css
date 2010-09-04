@@ -91,7 +91,7 @@ div.at-a-glance {
 }
 
 .at-a-glance {
-  font-size: 11px;
+  font-size: 9px;
 }
 
 .at-a-glance td.column {
@@ -108,7 +108,7 @@ div.at-a-glance {
 
 .at-a-glance th {
   vertical-align: middle;
-  font-size: 14px;
+  font-size: 11px;
   font-weight: bold;
   background-color: #FFB47C;
   padding: 2px;

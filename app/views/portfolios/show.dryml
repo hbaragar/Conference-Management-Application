@@ -65,6 +65,9 @@
     <if test="&this.single_presentation_per_session? || this.all_presentations_in_one_session? ">
       There are <count:presentations lowercase/>.
     </if>
+    <if test="&this.sessions.count > 1">
+      (<a action="schedule">at-at-glance schedule</a>)
+    </if>
     <transition-buttons/>
   </before-collection-heading:>
   <collection: replace>

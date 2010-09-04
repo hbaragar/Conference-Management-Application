@@ -8,6 +8,8 @@ class PortfoliosController < ApplicationController
 
   auto_actions_for :conference, [:new, :create]
 
+  show_action :schedule
+
   def show
     @portfolio = find_instance
     @members = @portfolio.members.apply_scopes(

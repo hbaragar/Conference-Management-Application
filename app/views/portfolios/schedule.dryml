@@ -1,7 +1,7 @@
 <show-page>
-  <before-heading:>
-    <a>&laquo; <ht key="conference.actions.back" to="conference"><name/></ht></a>
-  </before-heading:>
+  <parent-link: replace >
+    <a>&laquo; <ht key="portfolio.actions.back" to="portfolio"><name/></ht></a>
+  </parent-link:>
   <append-heading:>
     Schedule at a Glance
   </append-heading:>
@@ -10,6 +10,7 @@
     <p>Note that the <strong>links</strong> on this page <strong>DO NOT WORK</strong>
       (they are intended for the Joomla-base website).
     </p>
-    <%= @conference.html_schedule %>
+    <%= @portfolio.html_schedule %>
   </content-body:>
+  <aside: replace />
 </show-page>
