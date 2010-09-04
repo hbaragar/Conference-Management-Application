@@ -107,7 +107,10 @@ class Session < ActiveRecord::Base
   end
 
   def at_a_glance_html
-    name
+    [
+      (portfolio.at_a_glance_html if portfolio),
+      (joomla_article ? internal_link(joomla_article.html_link, name) : name)
+    ].compact.join " "
   end
 
   def populate_joomla_program category

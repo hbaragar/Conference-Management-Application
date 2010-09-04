@@ -91,14 +91,14 @@ class Day
   end
 
   def html_schedule
-    div({:class => "at-a-glance"},
+    div("at-a-glance",
       h3(date.strftime("%A (%b %d)")),
       at_a_glance_table
     )
   end
 
   def at_a_glance_table 
-    table({ :class => "at-a-glance" },
+    table({},
       at_a_glance_header,
       rooms.collect {|r| at_a_glance_row r},
       at_a_glance_footer

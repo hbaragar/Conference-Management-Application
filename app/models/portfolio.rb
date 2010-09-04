@@ -155,7 +155,6 @@ class Portfolio < ActiveRecord::Base
     end
   end
 
-
   def populate_joomla_supporters category, extras
     menu = extras[:menu]
     call_for_supporters.each do |c|
@@ -167,6 +166,11 @@ class Portfolio < ActiveRecord::Base
       )
     end
     overview_text = li(name)
+  end
+
+  def at_a_glance_html
+    #internal_link(joomla_category.hmtl_link, name)
+    span("portfolio", name)
   end
 
 
