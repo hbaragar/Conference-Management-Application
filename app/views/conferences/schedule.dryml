@@ -3,6 +3,7 @@
     Schedule
   </append-heading:>
   <content-body:>
+    <p>Note that the links on this page <strong>DO NOT</strong>work (they will work in Joomla)</p>
     <%= @conference.html_schedule %>
   </content-body:>
 </show-page>

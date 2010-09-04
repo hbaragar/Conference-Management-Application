@@ -170,7 +170,7 @@ class Portfolio < ActiveRecord::Base
 
   def at_a_glance_html
     #internal_link(joomla_category.hmtl_link, name)
-    span("portfolio", name)
+    span("portfolio", joomla_category ? internal_link(joomla_category.html_link, name) : name)
   end
 
 
