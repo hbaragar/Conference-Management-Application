@@ -43,7 +43,7 @@ class Participant < ActiveRecord::Base
   end
 
   def sessions
-    presentations.collect{|p| p.session}.sort
+    presentations.*.session.sort
   end
 
   def set_conflicted!

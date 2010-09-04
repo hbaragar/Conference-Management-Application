@@ -52,7 +52,7 @@ class Conference < ActiveRecord::Base
 
   def cfp_due_dates
     # For populating Call for Papers menu area
-    cfps.collect{|c| c.due_on}.uniq.collect do |due_on|
+    cfps.*.due_on.uniq.collect do |due_on|
       CfpDueDate.new(:due_on => due_on, :cfps => cfps.find_all_by_due_on(due_on))
     end
   end
@@ -73,11 +73,11 @@ class Conference < ActiveRecord::Base
 
   def supporter_portfolios
     # Kluge for populating the Supporters menu area
-    call_for_supporters.collect{|c| c.portfolio}.uniq
+    call_for_supporters.*.portfolio.uniq
   end
 
   def portfolios_from_all_conferences
-    portfolios.with_sessions + colocated_conferences.collect{|c| c.portfolios.with_sessions}.flatten
+    portfolios.with_sessions + colocated_conferences.*.portfolios.*.with_sessions.flatten
   end
 
   def sessions_from_all_conferences
@@ -145,9 +145,7 @@ class Conference < ActiveRecord::Base
 
 
   def html_schedule
-    days.collect do |d|
-      d.html_schedule
-    end
+    days.*.html_schedule
   end
 
 

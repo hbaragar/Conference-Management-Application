@@ -82,7 +82,7 @@ class Session < ActiveRecord::Base
       if single_presentation?
 	presentations.first.intro_html rescue ""
       elsif presentations.count > 0
-	ol(presentations.collect {|p| p.intro_html})
+	ol(presentations.*.intro_html)
       else
         "Content to be Determined"
       end
@@ -93,7 +93,7 @@ class Session < ActiveRecord::Base
     div("session",
       coordinates_to_html,
       if presentations.count > 0
-	presentations.collect {|p| p.to_html}
+	presentations.*.to_html
       else
         "<h4>Content to be Determined</h4>"
       end

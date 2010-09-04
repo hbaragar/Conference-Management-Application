@@ -17,11 +17,11 @@ class Day
   end
 
   def starts_at
-    day_sessions.first.starts_at
+    day_sessions.*.starts_at.min
   end
 
   def ends_at
-    day_sessions.last.ends_at
+    day_sessions.*.ends_at.max
   end
 
   def tick_size
