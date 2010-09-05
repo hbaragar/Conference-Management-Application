@@ -69,7 +69,7 @@ class Day
 	ul(
 	  portfolios.partition{|p| p.conference.hosting? }.collect do |part|
 	    part.collect do |portfolio|
-	      li(internal_link(portfolio, portfolio.name))
+	      li(internal_link(portfolio.joomla_category, portfolio.name))
 	    end.join("\n")
 	  end.compact.join("\n" + li("&mdash") + "\n")
 	)
@@ -79,8 +79,8 @@ class Day
 	  ul(
 	    evening_sessions.collect do |s|
 	      li(
-		division("",internal_link(s,s.name)),
-		division("",s.time_slot)
+		div("",internal_link(s.joomla_article,s.name)),
+		div("",s.time_slot)
 	      )
 	    end
 	  )
