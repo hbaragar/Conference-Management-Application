@@ -127,9 +127,10 @@ class Day
   end
 
   def at_a_glance_footer
-    tr({},
-      [td({:class => "not-happening calibration"},"&nbsp;")] * ncols
-    )
+    [
+      tr({:class => "bottom"}, td({:colspan => ncols}, "&nbsp;")),
+      tr({:class => "calibration"}, [td({:class => "not-happening"},"&nbsp;")] * ncols)
+    ]
   end
 
   def at_a_glance_row_part_for sessions

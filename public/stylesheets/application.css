@@ -100,38 +100,41 @@ div.at-a-glance {
   width: 7em;
 }
 
-.at-a-glance td.calibration {
+.at-a-glance .calibration td {
   line-height: 0;
   padding: 0;
   width: 2em;
+  background-color: white;
 }
+
+.at-a-glance .bottom td { border-top: solid 2px #DEF0F4; }
 
 .at-a-glance th {
   vertical-align: middle;
   font-size: 11px;
   font-weight: bold;
-  background-color: #FFB47C;
+  background-color: #2399b5;
   padding: 2px;
 }
 
-.at-a-glance th.happening     { text-align: center; background-color: #FFB47C; }
-.at-a-glance th.not-happening { text-align: center; background-color: #FFB47C; }
+.at-a-glance th.happening     { text-align: center; background-color: #2399b5; }
+.at-a-glance th.not-happening { text-align: center; background-color: #2399b5; }
 
 .at-a-glance th.room { width: 5em; }
 
 .at-a-glance .happening {
   padding: .3ex .3em;
-  background-color: #FFECB2;
+  background-color: #DEF0F4;
 }
 
-.at-a-glance .special-happening {
-  padding: 0.3ex 0.3em;
-  background-color: #FFD688;
-}
+.at-a-glance .not-happening { background-color: white; }
 
-.at-a-glance .not-happening { background-color: #FFFAE7; }
+.at-a-glance table {
+  margin-right: 5em;
+  border-top: solid 2px #DEF0F4;
+ }
 
-.at-a-glance table { border: solid 1px #873B89; }
+.at-a-glance td, .at-a-glance th { border: solid 1px white; }
 
 .at-a-glance .session { color: blue }
 
