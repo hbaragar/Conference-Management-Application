@@ -72,8 +72,8 @@ class Session < ActiveRecord::Base
     portfolio.all_presentations_in_one_session?
   end
 
-  def time_slot
-    (starts_at.strftime("%a %H:%M") + ends_at.strftime("-%H:%M %p").downcase).gsub(/(\s|-)0/, '\1')
+  def time_slot include_day = "%a "
+    (starts_at.strftime("#{include_day}%I:%M") + ends_at.strftime("-%I:%M %p").downcase).gsub(/(^|\s|-)0/, '\1')
   end
 
   def intro_html
@@ -102,14 +102,18 @@ class Session < ActiveRecord::Base
 
   def coordinates_to_html
     div("coordinates",
-      "#{time_slot} - #{room || 'Room TBD'}"
+      "#{time_slot} - #{room_to_html}"
     )
   end
 
-  def at_a_glance_html
+  def room_to_html
+    room || 'Room TBD'
+  end
+
+  def at_a_glance_html include_portfolio = true
     title = presentations.*.at_a_glance_title.join("\n")
     [
-      (portfolio.at_a_glance_html if portfolio),
+      (portfolio.at_a_glance_html if portfolio && include_portfolio),
       (joomla_article ? internal_link(joomla_article.html_link, name, title) : name)
     ].compact.join " "
   end

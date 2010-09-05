@@ -13,7 +13,7 @@ class Day
   end
 
   def end_of_day
-    date + 17.hours + 30.minutes
+    date + 18.hours
   end
 
   def starts_at
@@ -98,9 +98,11 @@ class Day
   end
 
   def at_a_glance_table 
+    # Note: the evening events only go on the first row (and they span rows)
+    evening_events = at_a_glance_evening_columns
     table({},
       at_a_glance_header,
-      rooms.collect {|r| at_a_glance_row r},
+      rooms.collect {|r| row = at_a_glance_row r, evening_events; evening_events = nil; row},
       at_a_glance_footer
     )
   end
@@ -110,16 +112,17 @@ class Day
       th({:class => "room"}, "Room"),
       at_a_glance_row_part_for(label_pseudo_sessions).join("").gsub(/td/,"th"),
       th({:class => "room"}, "Room"),
-      [td({:class => "happening"})] * evening_sessions.count
+      (th({:class => "happening", :colspan => evening_sessions.count}, "Evening") if evening_sessions.count > 0)
     )
   end
 
-  def at_a_glance_row room
+  def at_a_glance_row room, evening_events
     label = room ? room.short_name : "TBD"
     tr({:class => "not-happening"},
       th({:class => "room"}, label),
       at_a_glance_row_part_for(sessions_for room),
-      th({:class => "room"}, label)
+      th({:class => "room"}, label),
+      evening_events
     )
   end
 
@@ -146,6 +149,17 @@ class Day
       tds << td(css, session ? session.at_a_glance_html : "&nbsp;")
     end
     tds
+  end
+
+  def at_a_glance_evening_columns
+    evening_sessions.collect do |s|
+      td({:class => "evening happening", :rowspan => rooms.count},
+        div("", s.portfolio.at_a_glance_html) +
+          div("", (s.at_a_glance_html(nil) unless s.all_presentations_in_one?)) +
+	  div("time-slot", s.time_slot(nil)) +
+	  div("", s.room_to_html)
+      )
+    end
   end
 
   def label_pseudo_sessions

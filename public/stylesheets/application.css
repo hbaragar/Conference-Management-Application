@@ -138,3 +138,6 @@ div.at-a-glance {
 .at-a-glance .portfolio, .at-a-glance .portfolio a { font-weight: bold; color: blue; }
 
 .at-a-glance a {background-color: inherit; }
+
+.at-a-glance .evening.happening { vertical-align: middle; text-align: center; }
+.at-a-glance .evening.happening .time-slot { white-space: nowrap; }
