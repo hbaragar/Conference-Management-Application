@@ -4,8 +4,4 @@ class Joomla < ActiveRecord::Base
     self.alias = title.tr("A-Z","a-z").gsub(/\W+/,"-") unless self.alias && self.alias[/\w/]
   end
 
-  def html_link
-    JoomlaMenu::link_for self
-  end
-
 end

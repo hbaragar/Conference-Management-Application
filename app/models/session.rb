@@ -114,7 +114,7 @@ class Session < ActiveRecord::Base
     title = presentations.*.at_a_glance_title.join("\n")
     [
       (portfolio.at_a_glance_html if portfolio && include_portfolio),
-      (joomla_article ? internal_link(joomla_article.html_link, name, title) : name)
+      (joomla_article ? internal_link(joomla_article, name, title) : name)
     ].compact.join " "
   end
 
