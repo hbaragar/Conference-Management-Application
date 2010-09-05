@@ -39,7 +39,7 @@ class Day
   end
 
   def name
-    "Due #{date.strftime('%B %d, %Y')}"
+    date.strftime('%A (%b %d)')
   end
 
   def rooms
@@ -51,17 +51,42 @@ class Day
     end
   end
 
+  def portfolios
+    day_sessions.*.portfolio.uniq.sort
+  end
+
   def populate_joomla_schedule section, extras
     # Kluge: category checked_out_time is not used during the generatation of content,
     #        so co-opt it for sorting purposes (see JoomlaSection::restore_integrity!)
     find_or_create_joomla_category_in section
     find_or_create_joomla_article_in joomla_category
     find_or_create_joomla_menu_in extras[:menu]
-#    overview_text = [
-#      h4(internal_link(joomla_category, name)),
-#	ul(sessions.collect{|c| c.populate_joomla_call_for_papers joomla_category})
-#    ]
-    overview_text = ""
+    joomla_article.fulltext = html_schedule
+    joomla_article.save
+    overview_text = tr("",
+      td({}, internal_link(joomla_article, name)),
+      td({},
+	ul(
+	  portfolios.partition{|p| p.conference.hosting? }.collect do |part|
+	    part.collect do |portfolio|
+	      li(internal_link(portfolio, portfolio.name))
+	    end.join("\n")
+	  end.compact.join("\n" + li("&mdash") + "\n")
+	)
+      ),
+      td({},
+	if evening_sessions.count > 0
+	  ul(
+	    evening_sessions.collect do |s|
+	      li(
+		division("",internal_link(s,s.name)),
+		division("",s.time_slot)
+	      )
+	    end
+	  )
+	end
+      )
+    )		       
   end
 
   def find_or_create_joomla_category_in section
@@ -92,7 +117,7 @@ class Day
 
   def html_schedule
     div("at-a-glance",
-      h3(date.strftime("%A (%b %d)")),
+      h3(name),
       at_a_glance_table
     )
   end

@@ -10,6 +10,7 @@ class DayTest < ActiveSupport::TestCase
 
   def test_attributes
     assert_equal 2, @a_conference.days.count
+    assert_equal "Monday (Oct 18)", @a_day.name
     assert_equal "October 18, 2010 18:00", @a_day.end_of_day.strftime("%B %d, %Y %H:%M")
     assert_equal 15 * 60, @a_day.tick_size
     assert_equal 2*4, @a_day.tick_count

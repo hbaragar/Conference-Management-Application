@@ -186,6 +186,12 @@ class Portfolio < ActiveRecord::Base
   end
 
 
+  def <=> rhs
+    cmp = conference.name <=> rhs.conference.name
+    return cmp unless cmp == 0
+    name <=> name
+  end
+
   # --- LifeCycle --- #
 
   lifecycle do

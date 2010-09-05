@@ -99,7 +99,10 @@ class Conference < ActiveRecord::Base
 
   MAIN_MENU = [
     { :name => "Home",			:class => JoomlaSection,  :collection => "selves",	:alias => 'general-information' },
-    { :name => "Schedule",		:class => JoomlaSection,  :collection => "days", :order_on => :checked_out_time },
+    { :name => "Schedule",		:class => JoomlaSection,  :collection => "days", :order_on => :checked_out_time,
+     :pre_text	=> "<table>\n<th>Day</th><th>Main Activities</th><th>Evening Activities</th>\n",
+     :post_text => "\n</table>"
+    },
     { :name => "Program",		:class => JoomlaSection,  :collection => "portfolios_from_all_conferences", :order_on => :ordering },
     { :name => "Call for Papers",	:class => JoomlaSection,  :collection => "cfp_due_dates", :alias => 'cfp', :order_on => :checked_out_time},
     { :name => "Colocated Conferences",	:class => JoomlaCategory, :collection => "colocated_conferences" },
@@ -177,7 +180,7 @@ private
   def populate_joomla_menu_area_configured_by config, index
     area = joomla_area_for config
     menu = joomla_menu_for area, index
-    populate_joomla_menu_area_with config[:collection], area, menu
+    populate_joomla_menu_area_with config, area, menu
     area.restore_integrity! config[:order_on]
     menu.restore_integrity! config[:order_on]
   end
@@ -201,16 +204,18 @@ private
     menu
   end
 
-  def populate_joomla_menu_area_with collection_name, area, menu
+  def populate_joomla_menu_area_with config, area, menu
     populator = "populate_joomla_" + area.alias.gsub(/\W/,"_")
     extras = { :menu => menu }
     ordering = 0
-    parts = method(collection_name).call.collect do |item|
+    parts = method(config[:collection]).call.collect do |item|
       extras[:ordering] = ordering += 1
       item.method(populator).call(area, extras)
     end
     if area.class == JoomlaSection
-      overview_article = area.populate_overview_article(parts)
+      overview_article = area.populate_overview_article(
+	(config[:pre_text]||"") + parts.join("\n") + (config[:post_text]||"")
+      )
       menu.update_attributes!(:link => JoomlaMenu::link_for(overview_article))
     else
       menu.update_attributes!(:link => JoomlaMenu::link_for(area))
