@@ -99,7 +99,11 @@ class Day
   def find_or_create_joomla_article_in category
     self.joomla_article = category.articles.find_by_title(name) ||
       category.articles.create!(:title => name, :checked_out_time => date)
-    joomla_article.update_attributes(:alias => nil)
+    attribs = joomla_article.attribs.clone
+    attribs[/show_section=(\d*)/,1] = "0"
+    attribs[/show_category=(\d*)/,1] = "0"
+    attribs[/show_title=(\d*)/,1] = "0"
+    joomla_article.update_attributes(:alias => nil, :attribs => attribs)
     joomla_category
   end
 
