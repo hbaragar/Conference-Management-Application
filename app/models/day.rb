@@ -184,8 +184,7 @@ class Day
   def at_a_glance_evening_columns
     evening_sessions.collect do |s|
       td({:class => "evening happening", :rowspan => rooms.count},
-        div("", s.portfolio.at_a_glance_html) +
-          div("", (s.at_a_glance_html(nil) unless s.all_presentations_in_one?)) +
+        div("", (s.at_a_glance_html(nil))) + 
 	  div("time-slot", s.time_slot(nil)) +
 	  div("", s.room_to_html)
       )
