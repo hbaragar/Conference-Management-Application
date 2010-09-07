@@ -39,7 +39,15 @@ class Day
   end
 
   def name
-    date.strftime('%A (%b %d)')
+    "#{day} (#{short_date})"
+  end
+
+  def day
+    date.strftime('%A')
+  end
+
+  def short_date
+    date.strftime('%b %d')
   end
 
   def rooms
@@ -63,23 +71,24 @@ class Day
     joomla_article.fulltext = html_schedule
     joomla_article.save
     overview_text = tr("",
-      td({}, internal_link(joomla_article, name)),
+      td({:class => 'label'}, div("", internal_link(joomla_article, day)), div("date", short_date)),
       td({},
 	ul(
 	  portfolios.partition{|p| p.conference.hosting? }.collect do |part|
 	    part.collect do |portfolio|
 	      li(internal_link(portfolio.joomla_category, portfolio.name))
 	    end.join("\n")
-	  end.compact.join("\n" + li("&mdash") + "\n")
+	  end.compact.join("\n" + li("&nbsp;") + "\n")
 	)
       ),
-      td({},
+      td({:class => "evening"},
 	if evening_sessions.count > 0
 	  ul(
 	    evening_sessions.collect do |s|
 	      li(
 		div("",internal_link(s.joomla_article,s.name)),
-		div("",s.time_slot)
+		div("time-slot",s.time_slot(nil)),
+		div("",s.room)
 	      )
 	    end
 	  )
