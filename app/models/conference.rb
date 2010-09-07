@@ -147,9 +147,14 @@ class Conference < ActiveRecord::Base
     JoomlaSection.find_by_alias "general-information"
   end
 
-
   def html_schedule
     days.*.html_schedule
+  end
+
+  def <=> rhs
+    cmp = !(hosting? ^ rhs.hosting?) ? 0 : (hosting? ? -1 : 1);
+    return cmp unless cmp == 0
+    name <=> rhs.name
   end
 
 

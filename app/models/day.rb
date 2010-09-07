@@ -43,12 +43,11 @@ class Day
   end
 
   def rooms
-    day_sessions.*.room.uniq.sort do |a,b|
-      a.nil? && b.nil? ? 0 : 
-	a.nil? ? 1 : 
-	b.nil? ? -1 :
-	a <=> b
-    end
+    day_sessions.sort do |a,b|
+      cmp = a.portfolio <=> b.portfolio 
+      cmp = a <=> b if cmp == 0
+      cmp
+    end.*.room.uniq
   end
 
   def portfolios
