@@ -8,5 +8,10 @@
   <collection-section: replace>
     <h3><ht key="conferences.collection.heading.other" >Hosting and Colocated Conferences</ht></h3>
     <sortable-collection:host_and_colocated_conferences />
+    <div>
+      <a action="new" to="&Conference">
+	<ht key="conferences.actions.new">New Colocated Conference</ht>
+      </a>
+    </div>
   </collection-section:>
 </show-page>
