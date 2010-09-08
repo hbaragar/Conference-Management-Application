@@ -9,7 +9,7 @@ class Portfolio < ActiveRecord::Base
 
 
   belongs_to :conference
-  attr_readonly :conference_id
+  acts_as_list :scope => :conference_id
 
   fields do
     name        :string, :required
@@ -36,7 +36,7 @@ class Portfolio < ActiveRecord::Base
   has_many :call_for_supporters, :dependent => :destroy
   has_many :call_for_next_years, :dependent => :destroy
 
-  default_scope :order => :name
+  default_scope :order => :position
 
   named_scope :with_sessions, :conditions => 'session_type != "no_sessions"'
 
@@ -189,7 +189,7 @@ class Portfolio < ActiveRecord::Base
   def <=> rhs
     cmp = conference <=> rhs.conference
     return cmp unless cmp == 0
-    name <=> rhs.name
+    position <=> rhs.position
   end
 
   # --- LifeCycle --- #
@@ -235,6 +235,7 @@ class Portfolio < ActiveRecord::Base
 
   # --- Permissions --- #
   
+  attr_readonly :conference_id
   never_show :joomla_category, :joomla_menu
 
   def create_permitted?

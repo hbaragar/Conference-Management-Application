@@ -89,3 +89,9 @@
     </body:>
   </old-card>
 </extend>
+
+<extend tag="card" for="Portfolio">
+  <old-card merge>
+    <body: replace />
+  </old-card>
+</extend>

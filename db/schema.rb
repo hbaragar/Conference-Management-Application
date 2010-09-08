@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100908025614) do
+ActiveRecord::Schema.define(:version => 20100908033651) do
 
   create_table "broadcast_emails", :force => true do |t|
     t.integer  "cfp_id"
@@ -249,6 +249,7 @@ ActiveRecord::Schema.define(:version => 20100908025614) do
     t.string   "presentation_fields",       :default => "title, short_title, external_reference, abstract"
     t.string   "state",                     :default => "unpublished"
     t.datetime "key_timestamp"
+    t.integer  "position"
   end
 
   add_index "portfolios", ["conference_id"], :name => "index_portfolios_on_conference_id"

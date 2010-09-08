@@ -13,6 +13,11 @@
   <collection-section: replace>
     <collection-section restore if="&can_view?(@portfolios)"/>
   </collection-section:>
+  <before-collection-heading:>
+    <if test="&can_edit? :name">
+      <div class="reorder-portfolios">(<a action="reorder_portfolios">reorder portfolios</a>)</div>
+    </if>
+  </before-collection-heading:>
   <collection: replace>
     <table-plus with="&@portfolios" fields="this, public_email_address, cfp, members">
       <cfp-label:>Cfp Due On</cfp-label:>

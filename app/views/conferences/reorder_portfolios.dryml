@@ -1,0 +1,11 @@
+<show-page>
+  <before-heading:>
+    <a>&laquo; <ht key="conference.actions.back" to="conference"><name/></ht></a>
+  </before-heading:>
+  <field-list: replace />
+  <description: replace />
+  <edit-link: replace />
+  <collection: replace>
+    <sortable-collection:portfolios.with_sessions />
+  </collection:>
+</show-page>

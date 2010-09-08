@@ -86,6 +86,8 @@ table.view.supporter-level-summary a:active
 
 .card.presentation h4.portfolio {float: right; }
 
+.show-page .reorder-portfolios { float: right; margin-top: 2.5ex; }
+
 div.at-a-glance {
   width: 120%;
 }
