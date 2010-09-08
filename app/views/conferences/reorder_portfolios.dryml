@@ -6,6 +6,6 @@
   <description: replace />
   <edit-link: replace />
   <collection: replace>
-    <sortable-collection:portfolios.with_sessions />
+    <sortable-collection:portfolios/>
   </collection:>
 </show-page>
