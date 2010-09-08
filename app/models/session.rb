@@ -120,7 +120,9 @@ class Session < ActiveRecord::Base
 
   def populate_joomla_program category
     unless joomla_article
-      self.joomla_article = category.articles.create!(:title => name, :sectionid => category.section)
+      self.joomla_article = 
+	category.articles.find_by_title(name) ||	# This should not happen
+	category.articles.create!(:title => name, :sectionid => category.section)
       save
     end
     attribs = joomla_article.attribs.clone
