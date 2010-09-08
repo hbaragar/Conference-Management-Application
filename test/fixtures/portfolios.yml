@@ -11,6 +11,7 @@ a_portfolio:
   description: New Hear to SPLASH
   session_type: multiple_presentations
   state: published
+  position: 1
 another_conference_general:
   id: 3
   conference_id: 2
@@ -24,12 +25,14 @@ single_presentation_portfolio:
   description: "Hi, Ho, Off to work we go!"
   session_type: single_presentation
   typical_session_duration: 510
+  position: 2
 all_in_one_portfolio:
   id: 5
   conference_id: 1
   name: DesignFest
   description: A registered trademark
   session_type: all_in_one
+  position: 3
 the_supporter_portfolio:
   id: 6
   conference_id: 1

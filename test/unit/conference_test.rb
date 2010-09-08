@@ -161,7 +161,7 @@ class ConferenceTest < ActiveSupport::TestCase
     assert_equal 4, program_section.count
     categories = program_section.categories
     assert_equal (1..4).to_a, categories.collect{|c| c.ordering}
-    category_titles = ["DesignFest", "OOPSLA Research Program", "Workshops", "Overview"]
+    category_titles = ["OOPSLA Research Program", "Workshops", "DesignFest", "Overview"]
     assert_equal category_titles, categories.collect{|c| c.title}
     @a_conference.sessions.each {|s| program_article_tests s}
     program_menu = JoomlaMenu.find_by_name "Program"
@@ -174,7 +174,7 @@ class ConferenceTest < ActiveSupport::TestCase
     assert_equal 3, menu_items.count
     assert_equal (1..3).to_a, menu_items.collect{|i| i.ordering}
     assert_equal [1] * 3, menu_items.collect{|i| i.sublevel}
-    assert_equal ["DesignFest", "OOPSLA Research Program", "Workshops"], menu_items.collect{|i| i.name}
+    assert_equal ["OOPSLA Research Program", "Workshops", "DesignFest"], menu_items.collect{|i| i.name}
     categories.each do |c|
       next if c.title == "Overview"
       assert submenu = JoomlaMenu.find_by_name_and_parent(c.title,program_menu.id)
