@@ -5,6 +5,7 @@
     <if test="&this.hosting?">
       <table class="field-list">
 	<tr><th>Colocated Conferences</th><td><view:colocated_conferences/></td></tr>
+	<tr><th></th><td><a action="manage_colocated_conferences">(manage colocated conferences)</a></td></tr>
       </table>
     </if>
     <view:description/>

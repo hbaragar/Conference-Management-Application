@@ -1,0 +1,12 @@
+<show-page>
+  <before-heading:>
+    <a>&laquo; <ht key="conference.actions.back" to="conference"><name/></ht></a>
+  </before-heading:>
+  <field-list: replace />
+  <description: replace />
+  <edit-link: replace />
+  <collection-section: replace>
+    <h3><ht key="conferences.collection.heading.other" >Hosting and Colocated Conferences</ht></h3>
+    <sortable-collection:host_and_colocated_conferences />
+  </collection-section:>
+</show-page>

@@ -3,6 +3,7 @@ a_conference:
   name: Splash 2010
   hosting_conference_id: 1
   description: The successor to OOPSLA
+  position: 1
 
 another_conference:
   id: 2
@@ -11,3 +12,4 @@ another_conference:
   url: "http://www.onward-conference.org/"
   logo_url: "http://www.onward-conference.org/logo.gif"
   description: Was part of OOPSLA
+  position: 2

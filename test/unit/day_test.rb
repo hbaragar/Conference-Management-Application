@@ -20,8 +20,8 @@ class DayTest < ActiveSupport::TestCase
     assert_equal 2, @a_day.rooms.count
     assert_equal "October 18, 2010 08:30", @a_day.starts_at.strftime("%B %d, %Y %H:%M")
     assert_equal "October 18, 2010 10:30", @a_day.ends_at.strftime("%B %d, %Y %H:%M")
-    assert_equal "A Room", @a_day.rooms[0].name
-    assert_nil   @a_day.rooms[1]
+    assert @a_day.rooms.include?(rooms(:a_room))
+    assert @a_day.rooms.include?(nil)
   end
 
   def test_at_a_glance

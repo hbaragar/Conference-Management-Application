@@ -5,6 +5,7 @@ class Conference < ActiveRecord::Base
   hobo_model # Don't put anything above this
 
   belongs_to :hosting_conference, :class_name => "Conference"
+  acts_as_list :scope => :hosting_conference_id
 
   fields do
     name        :string, :required
@@ -17,6 +18,7 @@ class Conference < ActiveRecord::Base
 
   has_many :colocated_conferences, :class_name => "Conference", :foreign_key => :hosting_conference_id,
     :conditions => 'conferences.id != conferences.hosting_conference_id'
+  has_many :host_and_colocated_conferences, :class_name => "Conference", :foreign_key => :hosting_conference_id
   has_many :portfolios, :dependent => :destroy
   has_many :cfps, :through => :portfolios
   has_many :call_for_supporters, :through => :portfolios
@@ -28,7 +30,7 @@ class Conference < ActiveRecord::Base
   has_many :facilities, :through => :hosting_conference, :source => :facility_areas
   has_many :participants
 
-  default_scope :order => :name 
+  default_scope :order => :position 
 
   named_scope :host_conferences, :conditions => 'conferences.id = conferences.hosting_conference_id'
 
@@ -43,6 +45,10 @@ class Conference < ActiveRecord::Base
 
   def hosting?
     self == hosting_conference
+  end
+
+  def chairs
+    portfolios.find_by_name("General").chairs
   end
 
   def chair? user
@@ -152,9 +158,7 @@ class Conference < ActiveRecord::Base
   end
 
   def <=> rhs
-    cmp = !(hosting? ^ rhs.hosting?) ? 0 : (hosting? ? -1 : 1);
-    return cmp unless cmp == 0
-    name <=> rhs.name
+    position <=> rhs.position
   end
 
 

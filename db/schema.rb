@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100904220444) do
+ActiveRecord::Schema.define(:version => 20100908025614) do
 
   create_table "broadcast_emails", :force => true do |t|
     t.integer  "cfp_id"
@@ -56,6 +56,7 @@ ActiveRecord::Schema.define(:version => 20100904220444) do
     t.integer "joomla_article_id"
     t.string  "url"
     t.string  "logo_url"
+    t.integer "position"
   end
 
   add_index "conferences", ["hosting_conference_id"], :name => "index_conferences_on_hosting_conference_id"

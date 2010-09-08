@@ -82,3 +82,10 @@
   </old-card>
 </extend>
 
+<extend tag="card" for="Conference">
+  <old-card merge>
+    <body: replace>
+      <field-list fields="chairs,url" />
+    </body:>
+  </old-card>
+</extend>
