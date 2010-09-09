@@ -13,7 +13,7 @@ class URL < String
   end
 
   def to_html(xmldoctype = true)
-    "<a href='#{self}'>#{self}</a>"
+    %Q(<a href="#{self}" target="_blank">#{self}</a>)
   end
 
 end
