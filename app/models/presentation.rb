@@ -12,7 +12,7 @@ class Presentation < ActiveRecord::Base
     title              :string, :required
     short_title        :string
     external_reference :string
-    url                :string
+    url                :url
     reg_number         :string
     audience           :string
     class_type         :string

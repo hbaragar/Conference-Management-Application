@@ -9,8 +9,8 @@ class Conference < ActiveRecord::Base
 
   fields do
     name        :string, :required
-    url         :string
-    logo_url    :string
+    url         :url
+    logo_url    :url
     description :markdown
   end
 

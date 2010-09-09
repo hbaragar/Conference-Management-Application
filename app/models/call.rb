@@ -10,8 +10,8 @@ class Call < ActiveRecord::Base
   fields do
     due_on        :date
     format_style  :string, :default => "ACM Proceedings format"
-    format_url    :string, :default => "http://www.acm.org/sigs/sigplan/authorInformation.htm"
-    submit_to_url :string, :default => ""
+    format_url    :url, :default => "http://www.acm.org/sigs/sigplan/authorInformation.htm"
+    submit_to_url :url, :default => ""
     details       :markdown
     timestamps
   end
