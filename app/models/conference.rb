@@ -118,8 +118,12 @@ class Conference < ActiveRecord::Base
 
   def populate_joomla_menu_area_for menu_name
     MAIN_MENU.each_with_index do |config, index|
+      area = joomla_area_for config		# Make sure areas and menu items ...
+      menu = joomla_menu_for area, index	# ... are always up to date
       if [config[:name], "All Areas"].include? menu_name
-	populate_joomla_menu_area_configured_by(config, index)
+	populate_joomla_menu_area_with config, area, menu
+	area.restore_integrity! config[:order_on]
+	menu.restore_integrity! config[:order_on]
       end
     end
   end
@@ -230,14 +234,6 @@ class Conference < ActiveRecord::Base
   end
 
 private
-
-  def populate_joomla_menu_area_configured_by config, index
-    area = joomla_area_for config
-    menu = joomla_menu_for area, index
-    populate_joomla_menu_area_with config, area, menu
-    area.restore_integrity! config[:order_on]
-    menu.restore_integrity! config[:order_on]
-  end
 
   def joomla_area_for config
     area_class = config[:class]
