@@ -133,11 +133,12 @@ class Conference < ActiveRecord::Base
     unless section.categories.find_by_title(category_title = 'Registering')
       category = section.categories.create!(:title => category_title)
       article = category.articles.create!(:title => category_title, :sectionid => section.id)
-      attending_menu.items.create(
+      item = attending_menu.items.create(
 	:name => category_title,
 	:sublevel => 1,
         :link  => JoomlaMenu::link_for(article)
       )
+      item.update_params!(:show_category => "0")
     end
     unless section.categories.find_by_title(category_title = 'Getting to SPLASH')
       category = section.categories.create!(:title => category_title)

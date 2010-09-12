@@ -39,7 +39,8 @@ class CfpDueDate
       :parent		=> menu.id,
       :sublevel		=> 1,
       :link		=> JoomlaMenu::link_for(joomla_category),
-      :alias		=> nil
+      :alias		=> nil,
+      :published	=> true
     )
     joomla_menu
   end

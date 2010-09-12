@@ -143,7 +143,8 @@ class Portfolio < ActiveRecord::Base
       self.joomla_menu = menu.items.create(
 	:name => name,
 	:sublevel => 1,
-        :link  => JoomlaMenu::link_for(joomla_category)
+        :link  => JoomlaMenu::link_for(joomla_category),
+	:published => true
       )
       save
     end
@@ -170,7 +171,8 @@ class Portfolio < ActiveRecord::Base
       menu.items.find_by_name(name) || menu.items.create(
         :name => name,
         :sublevel => 1,
-        :link => JoomlaMenu::link_for(article)
+        :link => JoomlaMenu::link_for(article),
+	:published => true
       )
     end
     overview_text = li(name)

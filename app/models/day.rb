@@ -122,7 +122,8 @@ class Day
       :parent		=> menu.id,
       :sublevel		=> 1,
       :link		=> JoomlaMenu::link_for(joomla_article),
-      :alias		=> nil
+      :alias		=> nil,
+      :published	=> true
     )
     joomla_menu
   end

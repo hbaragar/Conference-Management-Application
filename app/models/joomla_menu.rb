@@ -51,7 +51,6 @@ secure=0
     self.componentid = JoomlaComponent.find_by_name('Articles').id
     self.menutype = "mainmenu"
     self.checked_out_time = 5.hours.ago unless checked_out_time
-    self.published = 1
     self.params = PARAMS
     self.name ||= ""
   end
