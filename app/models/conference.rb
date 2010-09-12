@@ -104,7 +104,8 @@ class Conference < ActiveRecord::Base
   end
 
   MAIN_MENU = [
-    { :name => "Home",			:class => JoomlaSection,  :collection => "selves",	:alias => 'general-information' },
+    { :name => "Home",			:class => JoomlaSection,  :collection => "selves", :alias => 'general-information' },
+    { :name => "Attending",		:class => JoomlaSection,  :collection => "selves", :order_on => :ordering },
     { :name => "Schedule",		:class => JoomlaSection,  :collection => "days", :order_on => :checked_out_time,
      :pre_text	=> "<table>\n<th>Day</th><th>Main Activities</th><th>Evening Activities</th>\n",
      :post_text => "\n</table>"
@@ -125,6 +126,49 @@ class Conference < ActiveRecord::Base
 
   def populate_joomla_general_information section, extras
     # Populated through Joomla itself
+  end
+
+  def populate_joomla_attending section, extras
+    attending_menu = JoomlaMenu.find_by_name(section.title)
+    unless section.categories.find_by_title(category_title = 'Registering')
+      category = section.categories.create!(:title => category_title)
+      article = category.articles.create!(:title => category_title, :sectionid => section.id)
+      attending_menu.items.create(
+	:name => category_title,
+	:sublevel => 1,
+        :link  => JoomlaMenu::link_for(article)
+      )
+    end
+    unless section.categories.find_by_title(category_title = 'Getting to SPLASH')
+      category = section.categories.create!(:title => category_title)
+      ['Visa Requirements', 'By Air', 'By Car'].each do |title|
+	category.articles.create!(:title => title, :sectionid => section.id)
+      end
+      attending_menu.items.create(
+	:name => category_title,
+	:sublevel => 1,
+        :link  => JoomlaMenu::link_for(category)
+      )
+    end
+    unless section.categories.find_by_title(category_title = 'While at SPLASH')
+      category = section.categories.create!(:title => category_title)
+      ['Hotel', 'Dining', 'Social Events', 'Transportation', 'Parking', 'Why stay at the Conference Hotel?'].each do |title|
+	category.articles.create!(:title => title, :sectionid => section.id)
+      end
+      attending_menu.items.create(
+	:name => category_title,
+	:sublevel => 1,
+        :link  => JoomlaMenu::link_for(category)
+      )
+    end
+    unless section.categories.find_by_title(category_title = 'Conference Facility Floor Plans')
+      category = section.categories.create!(:title => category_title)
+      attending_menu.items.create(
+	:name => category_title,
+	:sublevel => 1,
+        :link  => JoomlaMenu::link_for(category)
+      )
+    end
   end
 
   def populate_joomla_colocated_conferences category, extras

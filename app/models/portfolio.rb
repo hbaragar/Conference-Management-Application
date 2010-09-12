@@ -142,7 +142,6 @@ class Portfolio < ActiveRecord::Base
       self.joomla_category = section.categories.create(:title => name)
       self.joomla_menu = menu.items.create(
 	:name => name,
-	:parent => menu.id,
 	:sublevel => 1,
         :link  => JoomlaMenu::link_for(joomla_category)
       )

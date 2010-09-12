@@ -48,6 +48,29 @@ class ConferenceTest < ActiveSupport::TestCase
     assert_equal "General", new_one.portfolios.first.name
   end
 
+  test "populate menu area for attending" do
+    @a_conference.populate_joomla_menu_area_for "Attending"
+    assert menu = JoomlaMenu.find_by_name_and_sublevel('Attending',0)
+    #
+    assert section = JoomlaSection.find_by_title('Attending')
+    assert category = section.categories.find_by_title('Registering')
+    assert article = category.articles.find_by_title('Registering')
+    assert_equal section.id, article.sectionid
+    assert_match /#{article.id}$/, menu.items.find_by_name('Registering').link
+    assert_equal 1, category.articles.count
+    #
+    assert category = section.categories.find_by_title('Getting to SPLASH')
+    assert_match /#{category.id}$/, menu.items.find_by_name('Getting to SPLASH').link
+    assert_equal 3, category.articles.count
+    #
+    assert category = section.categories.find_by_title('While at SPLASH')
+    assert_match /#{category.id}$/, menu.items.find_by_name('While at SPLASH').link
+    #
+    assert category = section.categories.find_by_title('Conference Facility Floor Plans')
+    assert_match /#{category.id}$/, menu.items.find_by_name('Conference Facility Floor Plans').link
+    assert_equal 0, category.articles.count
+  end
+
   test "populate menu area for colocated conferences" do
     @a_conference.populate_joomla_menu_area_for "Colocated Conferences"
     assert menu_item = JoomlaMenu.find_by_name_and_sublevel('Colocated Conferences',0)
@@ -210,7 +233,7 @@ class ConferenceTest < ActiveSupport::TestCase
 
   test "populate all joomla menu areas" do
     @a_conference.populate_joomla_menu_area_for "All Areas"
-    assert_equal 4, JoomlaSection.count
+    assert_equal 5, JoomlaSection.count
     assert_equal 12, JoomlaCategory.count
     assert_equal 14, JoomlaArticle.count
     assert_equal (1..6).to_a, JoomlaMenu.find_all_by_sublevel(0).collect{|m| m.ordering}
