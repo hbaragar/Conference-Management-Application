@@ -234,10 +234,10 @@ class ConferenceTest < ActiveSupport::TestCase
   test "populate all joomla menu areas" do
     @a_conference.populate_joomla_menu_area_for "All Areas"
     assert_equal 5, JoomlaSection.count
-    assert_equal 12, JoomlaCategory.count
-    assert_equal 14, JoomlaArticle.count
-    assert_equal (1..6).to_a, JoomlaMenu.find_all_by_sublevel(0).collect{|m| m.ordering}
-    top_menu = ["Home", "Schedule", "Program", "Call for Papers", "Colocated Conferences", "Supporters"]
+    assert_equal 17, JoomlaCategory.count
+    assert_equal 25, JoomlaArticle.count
+    assert_equal (1..7).to_a, JoomlaMenu.find_all_by_sublevel(0).collect{|m| m.ordering}
+    top_menu = ["Home", "Attending", "Schedule", "Program", "Call for Papers", "Colocated Conferences", "Supporters"]
     assert_equal top_menu, JoomlaMenu.find_all_by_sublevel(0).collect{|m| m.name}
   end
 
