@@ -21,6 +21,7 @@ class JoomlaSection < Joomla
   validates_uniqueness_of :alias
 
   def populate_overview_article parts
+    # TODO Do this only if section "wants" an article
     article = find_or_create_overview_article
     article.update_attributes!(:fulltext => div("overview", parts))
     article

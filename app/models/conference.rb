@@ -105,6 +105,7 @@ class Conference < ActiveRecord::Base
 
   MAIN_MENU = [
     { :name => "Home",			:class => JoomlaSection,  :collection => "selves", :alias => 'general-information' },
+    { :name => "Scholarships & Grants",		:class => JoomlaSection,  :collection => "selves", :alias => 'boursaries' },
     { :name => "Attending",		:class => JoomlaSection,  :collection => "selves", :order_on => :ordering },
     { :name => "Schedule",		:class => JoomlaSection,  :collection => "days", :order_on => :checked_out_time,
      :pre_text	=> "<table>\n<th>Day</th><th>Main Activities</th><th>Evening Activities</th>\n",
@@ -130,6 +131,10 @@ class Conference < ActiveRecord::Base
 
   def populate_joomla_general_information section, extras
     # Populated through Joomla itself
+  end
+
+  def populate_joomla_boursaries section, extras
+    attending_menu = JoomlaMenu.find_by_name(section.title)
   end
 
   def populate_joomla_attending section, extras
