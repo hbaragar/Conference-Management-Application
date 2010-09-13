@@ -26,7 +26,6 @@ class FacilityArea < ActiveRecord::Base
 
   # --- Permissions --- #
 
-  never_show :joomla_article
 
   def create_permitted?
     acting_user.administrator?
@@ -41,7 +40,7 @@ class FacilityArea < ActiveRecord::Base
   end
 
   def view_permitted?(field)
-    true
+    acting_user.administrator? || field != :joomla_article
   end
 
 end
