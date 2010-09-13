@@ -63,19 +63,19 @@ class Room < ActiveRecord::Base
     conflicts
   end
 
-  def short_link
-    internal_link(
-      facility_area.joomla_article,
-      name,
-      facility_area.name
-    )
-  end
-
   def html_link
     internal_link(
       facility_area.joomla_article,
+      name,
+      [short_name, facility_area.name].join(" - ")
+    )
+  end
+
+  def short_link
+    internal_link(
+      facility_area.joomla_article,
       short_name,
-      [name, facility_area.name].join(",")
+      [name, facility_area.name].join(" - ")
     )
   end
 
