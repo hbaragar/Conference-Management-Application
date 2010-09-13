@@ -107,7 +107,7 @@ class Session < ActiveRecord::Base
   end
 
   def room_to_html
-    room || 'Room TBD'
+    room ? room.html_link : 'Room TBD'
   end
 
   def at_a_glance_html include_portfolio = true

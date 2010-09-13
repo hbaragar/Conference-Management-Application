@@ -155,7 +155,7 @@ class Day
   end
 
   def at_a_glance_row room, evening_events
-    label = room ? room.short_name : "TBD"
+    label = room ? room.short_link : "TBD"
     tr({:class => "not-happening"},
       th({:class => "room"}, label),
       at_a_glance_row_part_for(sessions_for room),
