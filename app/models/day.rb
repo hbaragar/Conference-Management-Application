@@ -147,9 +147,9 @@ class Day
 
   def at_a_glance_header
     tr({:class => "not-happening"},
-      th({:class => "room"}, "Room"),
+      th({:class => "happening"}, "Room"),
       at_a_glance_row_part_for(label_pseudo_sessions).join("").gsub(/td/,"th"),
-      th({:class => "room"}, "Room"),
+      th({:class => "happening"}, "Room"),
       (th({:class => "happening", :colspan => evening_sessions.count}, "Evening") if evening_sessions.count > 0)
     )
   end
