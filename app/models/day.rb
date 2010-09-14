@@ -7,7 +7,7 @@ class Day
   
   def initialize attribs
     @date = attribs[:date]
-    @day_sessions, @evening_sessions = attribs[:sessions].partition {|s| s.ends_at <= end_of_day}
+    @day_sessions, @evening_sessions = attribs[:sessions].partition {|s| s.starts_at < (end_of_day - 2.hours) || s.ends_at <= end_of_day}
     @day_sessions.sort!
     @evening_sessions.sort!
   end
