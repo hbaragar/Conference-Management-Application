@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100908033651) do
+ActiveRecord::Schema.define(:version => 20101006221239) do
 
   create_table "broadcast_emails", :force => true do |t|
     t.integer  "cfp_id"
@@ -250,9 +250,11 @@ ActiveRecord::Schema.define(:version => 20100908033651) do
     t.string   "state",                     :default => "unpublished"
     t.datetime "key_timestamp"
     t.integer  "position"
+    t.integer  "joomla_article_id"
   end
 
   add_index "portfolios", ["conference_id"], :name => "index_portfolios_on_conference_id"
+  add_index "portfolios", ["joomla_article_id"], :name => "index_portfolios_on_joomla_article_id"
   add_index "portfolios", ["joomla_category_id"], :name => "index_portfolios_on_joomla_category_id"
   add_index "portfolios", ["joomla_menu_id"], :name => "index_portfolios_on_joomla_menu_id"
   add_index "portfolios", ["state"], :name => "index_portfolios_on_state"

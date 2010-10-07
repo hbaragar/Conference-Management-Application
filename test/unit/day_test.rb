@@ -34,11 +34,7 @@ class DayTest < ActiveSupport::TestCase
 
   def test_populate_joomla 
     @a_conference.populate_joomla_menu_area_for "Schedule"
-    assert_equal 8, JoomlaCategory.count
-    assert_equal 7, JoomlaArticle.count
     @a_conference.populate_joomla_menu_area_for "Schedule"
-    assert_equal 8, JoomlaCategory.count
-    assert_equal 7, JoomlaArticle.count
     assert schedule_section = JoomlaSection.find_by_alias("schedule")
     assert_equal "Schedule", schedule_section.title
     assert_equal 2, schedule_section.categories.count

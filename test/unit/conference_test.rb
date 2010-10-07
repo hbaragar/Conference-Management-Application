@@ -101,6 +101,20 @@ class ConferenceTest < ActiveSupport::TestCase
     assert_equal 0, category.articles.count
   end
 
+  test "populate menu area for committee" do
+    @a_conference.populate_joomla_menu_area_for "Committee"
+    assert menu_item = JoomlaMenu.find_by_name_and_sublevel('Committee',0)
+    assert section = JoomlaSection.find_by_title('Committee')
+    #assert_match /#{section.id}$/, menu_item.link
+    assert_equal 6, section.articles.count
+    name = "OOPSLA Research Program"
+    assert a_portfolio = @a_conference.portfolios.find_by_name(name)
+    article = a_portfolio.joomla_article
+    assert_match /<th[^>]*>#{name}<.th>/, article.introtext
+    assert_match /Martin Rinard.*MIT.*USA/m, article.introtext
+    assert_match /Gary Leavens/, article.introtext
+  end
+
   test "populate menu area for supporters" do
     @a_conference.populate_joomla_menu_area_for "Supporters"
     @a_conference.reload
@@ -129,13 +143,9 @@ class ConferenceTest < ActiveSupport::TestCase
 
   test "populate menu area for call for papers" do
     @a_conference.populate_joomla_menu_area_for "Call for Papers"
-    assert_equal 5, JoomlaCategory.count
-    assert_equal 4, JoomlaArticle.count
     cfp_article_tests
     @a_conference.populate_joomla_menu_area_for "Call for Papers"
     @a_conference.reload
-    assert_equal 5, JoomlaCategory.count
-    assert_equal 4, JoomlaArticle.count
     assert cfp_section = JoomlaSection.find_by_alias("cfp")
     assert_equal "Call for Papers", cfp_section.title
     assert_equal 4, cfp_section.count
@@ -173,12 +183,8 @@ class ConferenceTest < ActiveSupport::TestCase
 
   test "populate joomla program menu area" do
     @a_conference.populate_joomla_menu_area_for "Program"
-    assert_equal 6, JoomlaCategory.count
-    assert_equal 4, JoomlaArticle.count
     @a_conference.populate_joomla_menu_area_for "Program"
     @a_conference.reload
-    assert_equal 6, JoomlaCategory.count
-    assert_equal 4, JoomlaArticle.count
     assert program_section = JoomlaSection.find_by_alias("program")
     assert_equal "Program", program_section.title
     assert_equal 4, program_section.count
@@ -233,10 +239,10 @@ class ConferenceTest < ActiveSupport::TestCase
 
   test "populate all joomla menu areas" do
     @a_conference.populate_joomla_menu_area_for "All Areas"
-    assert_equal 6, JoomlaSection.count
-    assert_equal 18, JoomlaCategory.count
-    assert_equal 26, JoomlaArticle.count
-    assert_equal (1..8).to_a, JoomlaMenu.find_all_by_sublevel(0).collect{|m| m.ordering}
+    assert_equal 7, JoomlaSection.count
+    assert_equal 19, JoomlaCategory.count
+    assert_equal 27, JoomlaArticle.count
+    assert_equal (1..9).to_a, JoomlaMenu.find_all_by_sublevel(0).collect{|m| m.ordering}
     top_menu = [
       "Home",
       "Scholarships & Grants",
@@ -245,7 +251,8 @@ class ConferenceTest < ActiveSupport::TestCase
       "Program",
       "Call for Papers",
       "Colocated Conferences",
-      "Supporters"
+      "Supporters",
+      "Committee"
     ]
     assert_equal top_menu, JoomlaMenu.find_all_by_sublevel(0).collect{|m| m.name}
     # Make sure menu items always have their correct ordering

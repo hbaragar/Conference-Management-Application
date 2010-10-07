@@ -23,6 +23,7 @@ class Portfolio < ActiveRecord::Base
     description :markdown
   end
 
+  belongs_to :joomla_article
   belongs_to :joomla_category
   belongs_to :joomla_menu
 
@@ -176,6 +177,26 @@ class Portfolio < ActiveRecord::Base
       )
     end
     overview_text = li(name)
+  end
+
+  def populate_joomla_committee section, extras
+    unless joomla_article 
+      self.joomla_article = section.articles.create!(:title => name)
+      save
+    end
+    joomla_article.update_attributes(
+      :title => name,
+      :introtext => subcommittee_as_html
+    )
+  end
+
+  def subcommittee_as_html
+    table({},
+      tr({:colspan => 3}, th({},name)),
+      members.collect do |m|
+        tr(td({},m.name),td({},m.affiliation),td({},m.country))
+      end
+    )
   end
 
   def html_schedule

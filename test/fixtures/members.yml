@@ -13,6 +13,7 @@ a_portfolio_chair:
   name: Martin Rinard
   affiliation: MIT
   private_email_address: mr@mit.edu
+  country: USA
   user_id: 2
 another_conference_chair:
   id: 3
