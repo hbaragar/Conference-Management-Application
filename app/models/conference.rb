@@ -108,16 +108,14 @@ class Conference < ActiveRecord::Base
     { :name => "Scholarships & Grants",		:class => JoomlaSection,  :collection => "selves", :alias => 'boursaries' },
     { :name => "Attending",		:class => JoomlaSection,  :collection => "selves", :order_on => :ordering },
     { :name => "Schedule",		:class => JoomlaSection,  :collection => "days", :order_on => :checked_out_time,
-     :pre_text	=> "<table>\n<tr><th>Day</th><th>Main Activities</th><th>Evening Activities</th></tr>\n",
-     :post_text => "\n</table>"
+     :overview_table_columns => ['Day', 'Main Activities', 'Evening Activities']
     },
     { :name => "Program",		:class => JoomlaSection,  :collection => "portfolios_from_all_conferences", :order_on => :ordering },
     { :name => "Call for Papers",	:class => JoomlaSection,  :collection => "cfp_due_dates", :alias => 'cfp', :order_on => :checked_out_time},
     { :name => "Colocated Conferences",	:class => JoomlaCategory, :collection => "colocated_conferences" },
     { :name => "Supporters",		:class => JoomlaCategory, :collection => "supporter_portfolios" },
     { :name => "Committee",		:class => JoomlaSection,  :collection => "portfolios", 
-     :pre_text	=> "<table>\n<tr><th>Role</th><th>Chair</th><th>Affiliation</th><th>Country</th><th>Subcomittee</th></tr>\n",
-     :post_text => "\n</table>"
+     :overview_table_columns => ['Role', 'Chair', 'Affiliation', 'Country', 'Subcomittee']
     },
   ]
 
@@ -273,11 +271,22 @@ private
     end
     if area.class == JoomlaSection
       overview_article = area.populate_overview_article(
-	(config[:pre_text]||"") + parts.join("\n") + (config[:post_text]||"")
+	overview_content(parts, config)
       )
       menu.update_attributes!(:link => JoomlaMenu::link_for(overview_article))
     else
       menu.update_attributes!(:link => JoomlaMenu::link_for(area))
+    end
+  end
+
+  def overview_content parts, config
+    if columns = config[:overview_table_columns]
+      table({},
+	tr({}, columns.collect {|c| th({}, c)}),
+	parts
+      )
+    else
+      parts.join("\n")
     end
   end
 

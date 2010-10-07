@@ -241,7 +241,7 @@ class ConferenceTest < ActiveSupport::TestCase
     @a_conference.populate_joomla_menu_area_for "All Areas"
     assert_equal 7, JoomlaSection.count
     assert_equal 19, JoomlaCategory.count
-    assert_equal 27, JoomlaArticle.count
+    assert_equal 32, JoomlaArticle.count
     assert_equal (1..9).to_a, JoomlaMenu.find_all_by_sublevel(0).collect{|m| m.ordering}
     top_menu = [
       "Home",
