@@ -105,7 +105,7 @@ class ConferenceTest < ActiveSupport::TestCase
     @a_conference.populate_joomla_menu_area_for "Committee"
     assert menu_item = JoomlaMenu.find_by_name_and_sublevel('Committee',0)
     assert category = JoomlaCategory.find_by_title('Committee')
-    assert_equal 6, category.articles.count
+    assert_equal 4, category.articles.count
     name = "OOPSLA Research Program"
     assert a_portfolio = @a_conference.portfolios.find_by_name(name)
     article = a_portfolio.joomla_article
@@ -243,7 +243,6 @@ class ConferenceTest < ActiveSupport::TestCase
     @a_conference.populate_joomla_menu_area_for "All Areas"
     assert_equal 6, JoomlaSection.count
     assert_equal 18, JoomlaCategory.count
-    assert_equal 31, JoomlaArticle.count
     assert_equal (1..9).to_a, JoomlaMenu.find_all_by_sublevel(0).collect{|m| m.ordering}
     top_menu = [
       "Home",

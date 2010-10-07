@@ -181,6 +181,7 @@ class Portfolio < ActiveRecord::Base
   end
 
   def populate_joomla_committee section, extras
+    return nil if members.empty?
     unless joomla_article 
       self.joomla_article = section.articles.create!(:title => name)
       save

@@ -113,7 +113,7 @@ class Conference < ActiveRecord::Base
     { :name => "Program",		:class => JoomlaSection,  :collection => "portfolios_from_all_conferences", :order_on => :ordering },
     { :name => "Call for Papers",	:class => JoomlaSection,  :collection => "cfp_due_dates", :alias => 'cfp', :order_on => :checked_out_time},
     { :name => "Committee",		:class => JoomlaCategory,  :collection => "portfolios", 
-     :overview_table_columns => ['Role', 'Chair', 'Affiliation', 'Country', 'Subcomittee']
+     :overview_table_columns => ['Portfolio', 'Chair', 'Affiliation', 'Country', 'Subcomittee']
     },
     { :name => "Colocated Conferences",	:class => JoomlaCategory, :collection => "colocated_conferences" },
     { :name => "Supporters",		:class => JoomlaCategory, :collection => "supporter_portfolios" },
