@@ -115,6 +115,8 @@ class ConferenceTest < ActiveSupport::TestCase
     assert overview_article = category.articles.find_by_title('Committee')
     assert_match /Martin Rinard.*MIT.*USA/m, overview_article.fulltext
     assert_no_match /Gary Leavens/, overview_article.fulltext
+    assert_match /Onward! 2010/, overview_article.fulltext
+    assert_match /www.onward-conference.org/, overview_article.fulltext
   end
 
   test "populate menu area for supporters" do

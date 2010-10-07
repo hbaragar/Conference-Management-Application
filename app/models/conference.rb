@@ -48,7 +48,11 @@ class Conference < ActiveRecord::Base
   end
 
   def chairs
-    portfolios.find_by_name("General").chairs
+    general_portfolio.chairs
+  end
+
+  def general_portfolio
+    portfolios.find_by_name("General")
   end
 
   def chair? user
@@ -83,6 +87,10 @@ class Conference < ActiveRecord::Base
     call_for_supporters.*.portfolio.uniq
   end
 
+  def portfolios_and_colocated_conferences
+    portfolios + colocated_conferences
+  end
+
   def portfolios_from_all_conferences
     portfolios.with_sessions + colocated_conferences.*.portfolios.*.with_sessions.flatten
   end
@@ -112,7 +120,7 @@ class Conference < ActiveRecord::Base
     },
     { :name => "Program",		:class => JoomlaSection,  :collection => "portfolios_from_all_conferences", :order_on => :ordering },
     { :name => "Call for Papers",	:class => JoomlaSection,  :collection => "cfp_due_dates", :alias => 'cfp', :order_on => :checked_out_time},
-    { :name => "Committee",		:class => JoomlaCategory,  :collection => "portfolios", 
+    { :name => "Committee",		:class => JoomlaCategory,  :collection => "portfolios_and_colocated_conferences", 
      :overview_table_columns => ['Portfolio', 'Chair', 'Affiliation', 'Country']
     },
     { :name => "Colocated Conferences",	:class => JoomlaCategory, :collection => "colocated_conferences" },
@@ -203,6 +211,17 @@ class Conference < ActiveRecord::Base
       )
     )
     overview_text = nil
+  end
+
+  def populate_joomla_committee category, extras
+    # called for each colocated conference (not for the host conference)
+    with = " &amp; "
+    overview_text = tr({:class => 'committee'},
+      td({}, external_link(url, name)),
+      td({}, chairs.*.to_html.join(with)),
+      td({}, chairs.*.affiliation.join(with)),
+      td({}, chairs.*.country.join(with))
+    )
   end
 
   def joomla_general_section

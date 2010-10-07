@@ -180,10 +180,10 @@ class Portfolio < ActiveRecord::Base
     overview_text = nil
   end
 
-  def populate_joomla_committee section, extras
+  def populate_joomla_committee category, extras
     return nil if members.empty?
     unless joomla_article 
-      self.joomla_article = section.articles.create!(:title => name)
+      self.joomla_article = category.articles.create!(:title => name)
       save
     end
     joomla_article.update_attributes(
