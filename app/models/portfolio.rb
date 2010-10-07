@@ -189,7 +189,13 @@ class Portfolio < ActiveRecord::Base
       :title => name,
       :introtext => subcommittee_as_html
     )
-    overview_text = nil
+    overview_text = tr({},
+      td({},name),
+      td({},chairs.*.name.join("<br />")),
+      td({},chairs.*.affiliation.join("<br />")),
+      td({},chairs.*.country.join("<br />")),
+      td({}, "")
+    )
   end
 
   def subcommittee_as_html

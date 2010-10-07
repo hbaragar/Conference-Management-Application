@@ -104,15 +104,17 @@ class ConferenceTest < ActiveSupport::TestCase
   test "populate menu area for committee" do
     @a_conference.populate_joomla_menu_area_for "Committee"
     assert menu_item = JoomlaMenu.find_by_name_and_sublevel('Committee',0)
-    assert section = JoomlaSection.find_by_title('Committee')
-    #assert_match /#{section.id}$/, menu_item.link
-    assert_equal 5, section.articles.count
+    assert category = JoomlaCategory.find_by_title('Committee')
+    assert_equal 6, category.articles.count
     name = "OOPSLA Research Program"
     assert a_portfolio = @a_conference.portfolios.find_by_name(name)
     article = a_portfolio.joomla_article
     assert_match /<th[^>]*>#{name}<.th>/, article.introtext
     assert_match /Martin Rinard.*MIT.*USA/m, article.introtext
     assert_match /Gary Leavens/, article.introtext
+    assert overview_article = category.articles.find_by_title('Committee')
+    assert_match /Martin Rinard.*MIT.*USA/m, overview_article.fulltext
+    assert_no_match /Gary Leavens/, overview_article.fulltext
   end
 
   test "populate menu area for supporters" do
@@ -239,9 +241,9 @@ class ConferenceTest < ActiveSupport::TestCase
 
   test "populate all joomla menu areas" do
     @a_conference.populate_joomla_menu_area_for "All Areas"
-    assert_equal 7, JoomlaSection.count
-    assert_equal 17, JoomlaCategory.count
-    assert_equal 30, JoomlaArticle.count
+    assert_equal 6, JoomlaSection.count
+    assert_equal 18, JoomlaCategory.count
+    assert_equal 31, JoomlaArticle.count
     assert_equal (1..9).to_a, JoomlaMenu.find_all_by_sublevel(0).collect{|m| m.ordering}
     top_menu = [
       "Home",
@@ -250,9 +252,9 @@ class ConferenceTest < ActiveSupport::TestCase
       "Schedule",
       "Program",
       "Call for Papers",
+      "Committee",
       "Colocated Conferences",
-      "Supporters",
-      "Committee"
+      "Supporters"
     ]
     assert_equal top_menu, JoomlaMenu.find_all_by_sublevel(0).collect{|m| m.name}
     # Make sure menu items always have their correct ordering
