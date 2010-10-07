@@ -190,12 +190,12 @@ class Portfolio < ActiveRecord::Base
       :title => name,
       :introtext => subcommittee_as_html
     )
-    overview_text = tr({},
-      td({},name),
-      td({},chairs.*.name.join("<br />")),
-      td({},chairs.*.affiliation.join("<br />")),
-      td({},chairs.*.country.join("<br />")),
-      td({}, "")
+    with = " & <br />"
+    overview_text = tr({:class => 'committee'},
+      td({}, internal_link(joomla_article, name)),
+      td({}, email_link(chairs.*.name.join(with), public_email_address)),
+      td({}, chairs.*.affiliation.join(with)),
+      td({}, chairs.*.country.join(with))
     )
   end
 
