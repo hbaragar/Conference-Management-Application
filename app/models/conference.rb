@@ -274,13 +274,13 @@ private
     else
       menu.update_attributes!(
 	:link => JoomlaMenu::link_for(
-	  area.populate_overview_article(overview_content(parts, config))
+	  area.populate_overview_article(fulltext(parts, config))
 	)
       )
     end
   end
 
-  def overview_content parts, config
+  def fulltext parts, config
     if columns = config[:overview_table_columns]
       table({},
 	tr({}, columns.collect {|c| th({}, c)}),
