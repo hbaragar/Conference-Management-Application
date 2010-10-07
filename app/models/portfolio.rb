@@ -152,14 +152,15 @@ class Portfolio < ActiveRecord::Base
     joomla_category.update_attributes(:title => name)
     joomla_menu.update_attributes(:name => name, :ordering => ordering)
     joomla_menu.update_params!(:show_section => "1", :pageclass_sfx => "program")
-    if session_type == "all_in_one"
+    overview_text = if session_type == "all_in_one"
       if s = sessions.first
 	s.populate_joomla_program(joomla_category)
-	overview_text = [h4(internal_link(s.joomla_article, name))]
+	[h4(internal_link(s.joomla_article, name))]
+      else
+	nil
       end
     else
-      overview_text = [
-	h4(internal_link(joomla_category, name)),
+      [ h4(internal_link(joomla_category, name)),
 	ul(sessions.collect{|s| s.populate_joomla_program joomla_category})
       ]
     end
@@ -168,15 +169,15 @@ class Portfolio < ActiveRecord::Base
   def populate_joomla_supporters category, extras
     menu = extras[:menu]
     call_for_supporters.each do |c|
-      article = c.populate_joomla_supporters category
+      c.populate_joomla_supporters category
       menu.items.find_by_name(name) || menu.items.create(
         :name => name,
         :sublevel => 1,
-        :link => JoomlaMenu::link_for(article),
+        :link => JoomlaMenu::link_for(c.joomla_article),
 	:published => true
       )
     end
-    overview_text = li(name)
+    overview_text = nil
   end
 
   def populate_joomla_committee section, extras
@@ -188,6 +189,7 @@ class Portfolio < ActiveRecord::Base
       :title => name,
       :introtext => subcommittee_as_html
     )
+    overview_text = nil
   end
 
   def subcommittee_as_html

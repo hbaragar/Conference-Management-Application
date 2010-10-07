@@ -106,7 +106,7 @@ class ConferenceTest < ActiveSupport::TestCase
     assert menu_item = JoomlaMenu.find_by_name_and_sublevel('Committee',0)
     assert section = JoomlaSection.find_by_title('Committee')
     #assert_match /#{section.id}$/, menu_item.link
-    assert_equal 6, section.articles.count
+    assert_equal 5, section.articles.count
     name = "OOPSLA Research Program"
     assert a_portfolio = @a_conference.portfolios.find_by_name(name)
     article = a_portfolio.joomla_article
@@ -240,8 +240,8 @@ class ConferenceTest < ActiveSupport::TestCase
   test "populate all joomla menu areas" do
     @a_conference.populate_joomla_menu_area_for "All Areas"
     assert_equal 7, JoomlaSection.count
-    assert_equal 19, JoomlaCategory.count
-    assert_equal 32, JoomlaArticle.count
+    assert_equal 17, JoomlaCategory.count
+    assert_equal 30, JoomlaArticle.count
     assert_equal (1..9).to_a, JoomlaMenu.find_all_by_sublevel(0).collect{|m| m.ordering}
     top_menu = [
       "Home",

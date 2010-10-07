@@ -26,7 +26,7 @@ class CallForSupporter < Call
         :fulltext	=> full_details
       )
     end
-    joomla_article
+    overview_text = nil
   end
 
   def full_details

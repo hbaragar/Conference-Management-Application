@@ -24,7 +24,7 @@ class CallForNextYear < Call
         :fulltext	=> details.to_html
       )
     end
-    joomla_article
+    overview_text = nil
   end
 
 

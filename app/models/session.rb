@@ -136,7 +136,11 @@ class Session < ActiveRecord::Base
       :introtext=> intro_html,
       :fulltext	=> to_html
     )
-    overview_text = li(internal_link(joomla_article, name)) unless all_presentations_in_one?
+    overview_text = if all_presentations_in_one?
+      nil
+    else
+      li(internal_link(joomla_article, name)) 
+    end
   end
 
 

@@ -202,7 +202,7 @@ class Conference < ActiveRecord::Base
 	div("readon", external_link(url,"Read more: #{name}"))
       )
     )
-    overview_text = h4(name)
+    overview_text = nil
   end
 
   def joomla_general_section
@@ -268,14 +268,15 @@ private
     parts = method(config[:collection]).call.collect do |item|
       extras[:ordering] = ordering += 1
       item.method(populator).call(area, extras)
-    end
-    if area.class == JoomlaSection
-      overview_article = area.populate_overview_article(
-	overview_content(parts, config)
-      )
-      menu.update_attributes!(:link => JoomlaMenu::link_for(overview_article))
-    else
+    end.compact
+    if parts.empty?
       menu.update_attributes!(:link => JoomlaMenu::link_for(area))
+    else
+      menu.update_attributes!(
+	:link => JoomlaMenu::link_for(
+	  area.populate_overview_article(overview_content(parts, config))
+	)
+      )
     end
   end
 
