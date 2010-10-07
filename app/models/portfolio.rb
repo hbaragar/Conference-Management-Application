@@ -202,7 +202,7 @@ class Portfolio < ActiveRecord::Base
   def subcommittee_as_html
     div("overview",
       table({},
-	tr({}, th({:colspan => 3},name)),
+	tr({:class => 'committee'}, th({:colspan => 3},name)),
 	members.collect do |m|
 	  tr({}, td({},m.to_html("starred")), td({},m.affiliation), td({},m.country))
 	end
