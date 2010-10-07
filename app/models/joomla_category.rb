@@ -38,22 +38,4 @@ class JoomlaCategory < Joomla
     articles.first.cfp
   end
 
-  def populate_overview_article fulltext
-    article = find_or_create_overview_article
-    article.update_attributes!(:fulltext => div("overview", fulltext))
-    article
-  end
-
-private
-
-  def find_or_create_overview_article
-    article = articles.find_by_title(title)||
-      articles.create!(:title => title, :sectionid => section)
-    attribs = article.attribs.clone
-    attribs[/show_category=(\d*)/,1] = "0"
-    attribs[/show_section=(\d*)/,1] = "0"
-    article.update_attributes!(:attribs => attribs)
-    article
-  end
-
 end
