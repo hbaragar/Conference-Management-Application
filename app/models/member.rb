@@ -64,6 +64,15 @@ class Member < ActiveRecord::Base
     portfolio.conference
   end
 
+  def to_html chairs_starred = nil
+    html = name
+    if chair && (portfolio.public_email_address =~ /@/ rescue false)
+      html = email_link(html, portfolio.public_email_address)
+    end
+    html += "*" if chair && chairs_starred
+    html
+  end
+
 
   # --- Permissions --- #
 

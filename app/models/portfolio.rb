@@ -190,21 +190,24 @@ class Portfolio < ActiveRecord::Base
       :title => name,
       :introtext => subcommittee_as_html
     )
-    with = " & <br />"
+    with = " &amp; "
     overview_text = tr({:class => 'committee'},
       td({}, internal_link(joomla_article, name)),
-      td({}, email_link(chairs.*.name.join(with), public_email_address)),
+      td({}, chairs.*.to_html.join(with)),
       td({}, chairs.*.affiliation.join(with)),
       td({}, chairs.*.country.join(with))
     )
   end
 
   def subcommittee_as_html
-    table({},
-      tr({:colspan => 3}, th({},name)),
-      members.collect do |m|
-        tr(td({},m.name),td({},m.affiliation),td({},m.country))
-      end
+    div("overview",
+      table({},
+	tr({}, th({:colspan => 3},name)),
+	members.collect do |m|
+	  tr({}, td({},m.to_html("starred")), td({},m.affiliation), td({},m.country))
+	end
+      ),
+      "* chair"
     )
   end
 
