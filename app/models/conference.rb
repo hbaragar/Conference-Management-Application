@@ -239,7 +239,7 @@ class Conference < ActiveRecord::Base
 
   # --- Permissions --- #
 
-  never_show :joomla_article
+  never_show :joomla_article_id
 
   def create_permitted?
     acting_user.administrator?
@@ -247,7 +247,7 @@ class Conference < ActiveRecord::Base
 
   def update_permitted?
     return true if acting_user.administrator? 
-    return false if any_changed?(:hosting_conference_id)
+    return false if any_changed?(:hosting_conference_id, :joomla_article_id)
     chair?(acting_user)
   end
 
