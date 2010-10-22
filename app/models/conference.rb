@@ -239,7 +239,7 @@ class Conference < ActiveRecord::Base
 
   # --- Permissions --- #
 
-  never_show :joomla_article_id
+  never_show :joomla_article
 
   def create_permitted?
     acting_user.administrator?
