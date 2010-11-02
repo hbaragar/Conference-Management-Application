@@ -65,7 +65,7 @@ class Member < ActiveRecord::Base
   end
 
   def to_html chairs_starred = nil
-    html = name
+    html = name.to_html
     if chair && (portfolio.public_email_address =~ /@/ rescue false)
       html = email_link(html, portfolio.public_email_address)
     end
