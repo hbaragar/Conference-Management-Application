@@ -1,0 +1,18 @@
+<show-page>
+  <body: class="committee-e-mail-lists conference"/>
+  <content-header:>
+    <a>&laquo; <name/></a>
+    <h2>Committee E-Mail Lists</h2>
+  </content-header:>
+  <description: replace />
+  <field-list: replace />
+  <collection-heading:>Public Email Address Forwarding Map</collection-heading:>
+  <collection: replace>
+    <table-plus:public_portfolios fields="this, public_email_address, chair_private_email_addresses">
+      <chair_private_email_addresses-view:>
+	<comma-list/>
+      </chair_private_email_addresses-view:>
+    </table-plus:public_portfolios>
+  </collection:>
+  <new-link: replace />
+</show-page>

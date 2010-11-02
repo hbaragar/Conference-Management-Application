@@ -24,10 +24,11 @@
     </if>
   </before-collection-heading:>
   <collection: replace>
+    <a action="committee_email_lists">Committee e-mail Lists</a>
     <table-plus with="&@portfolios" fields="this, public_email_address, cfp, members">
       <cfp-label:>Cfp Due On</cfp-label:>
       <cfp-view:><a><view:due_on format="%b %d"/></a></cfp-view:>
-      <empty-message:>No portfolios match your criteria</empty-message:>
+      <search-form: replace />
     </table-plus>
   </collection:>
   <aside:>

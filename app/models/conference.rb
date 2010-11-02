@@ -20,6 +20,8 @@ class Conference < ActiveRecord::Base
     :conditions => 'conferences.id != conferences.hosting_conference_id'
   has_many :host_and_colocated_conferences, :class_name => "Conference", :foreign_key => :hosting_conference_id
   has_many :portfolios, :dependent => :destroy
+  has_many :public_portfolios, :class_name => "Portfolio", 
+    :conditions => 'length(public_email_address) > 1', :order => :name
   has_many :cfps, :through => :portfolios
   has_many :call_for_supporters, :through => :portfolios
   has_many :call_for_next_years, :through => :portfolios

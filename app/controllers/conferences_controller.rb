@@ -12,6 +12,7 @@ class ConferencesController < ApplicationController
   show_action :schedule
   show_action :manage_colocated_conferences
   show_action :reorder_portfolios
+  show_action :committee_email_lists
 
   def index
     hobo_index Conference.host_conferences.apply_scopes(

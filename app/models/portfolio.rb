@@ -45,6 +45,9 @@ class Portfolio < ActiveRecord::Base
     conference.hosting_conference
   end
 
+  def chair_private_email_addresses
+    chairs.*.private_email_address
+  end
   def before_validation
     self.presentation_fields.sub!(/,+\s*$/, "")
   end
