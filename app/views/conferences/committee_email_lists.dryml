@@ -9,10 +9,18 @@
   <collection-heading:>Public Email Address Forwarding Map</collection-heading:>
   <collection: replace>
     <table-plus:public_portfolios fields="this, public_email_address, chair_private_email_addresses">
+      <search-form: replace />
       <chair_private_email_addresses-view:>
 	<comma-list/>
       </chair_private_email_addresses-view:>
     </table-plus:public_portfolios>
   </collection:>
   <new-link: replace />
+  <aside:>
+    <h3>Chair E-Mails</h3>
+    (<a href="& 'mailto:' + this.portfolio_chairs.*.private_email_address.join(',')">E-mail to all</a>)
+    <table-plus:portfolio_chairs class="table-plus" fields="private_email_address">
+      <search-form: replace />
+    </table-plus:portfolio_chairs>
+  </aside:>
 </show-page>
