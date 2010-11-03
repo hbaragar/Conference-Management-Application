@@ -48,6 +48,11 @@ class Portfolio < ActiveRecord::Base
   def chair_private_email_addresses
     chairs.*.private_email_address
   end
+
+  def subcommittee_email_list
+    members.collect{|m| "#{m.name} <#{m.private_email_address}>"}.uniq.sort
+  end
+
   def before_validation
     self.presentation_fields.sub!(/,+\s*$/, "")
   end

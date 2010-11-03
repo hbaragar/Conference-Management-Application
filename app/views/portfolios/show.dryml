@@ -98,13 +98,14 @@
     </div>
   </collection:>
   <members-collection: replace>
-  <table-plus:members fields="this, affiliation, private_email_address">
-    <this-view:><a action="edit"/></this-view:>
-    <empty-message:>No members match your criteria</empty-message:>
-  </table-plus>
-  <if test="&can_create? this.members">
-    <h4>New Member</h4>
-    <form with="&this.members.new"/>
-  </if>
+    (<a href="& 'mailto:' + this.subcommittee_email_list.join(',')">E-mail to all</a>)
+    <table-plus:members fields="this, affiliation, private_email_address">
+      <this-view:><a action="edit"/></this-view:>
+      <search-form: replace />
+    </table-plus>
+    <if test="&can_create? this.members">
+      <h4>New Member</h4>
+      <form with="&this.members.new"/>
+    </if>
   </members-collection:>
 </show-page>
