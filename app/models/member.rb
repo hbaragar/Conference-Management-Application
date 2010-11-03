@@ -73,6 +73,10 @@ class Member < ActiveRecord::Base
     html
   end
 
+  def <=> rhs
+    name <=> rhs.name
+  end
+
 
   # --- Permissions --- #
 

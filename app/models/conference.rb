@@ -37,7 +37,11 @@ class Conference < ActiveRecord::Base
   named_scope :host_conferences, :conditions => 'conferences.id = conferences.hosting_conference_id'
 
   def portfolio_chairs
-    portfolios.*.chairs.flatten
+    portfolios.*.chairs.flatten.sort
+  end
+
+  def committee_email_list
+    portfolio_chairs.collect{|c| "#{c.name} <#{c.private_email_address}>"}.uniq.sort
   end
 
   def before_save
