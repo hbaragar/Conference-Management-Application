@@ -167,7 +167,7 @@ class ConferenceTest < ActiveSupport::TestCase
     menu_items = cfp_menu.items
     item = menu_items[0]
     assert_equal 1, item.sublevel
-    assert_equal "index.php?option=com_content&view=category&layout=blog&id=#{categories[0].id}", item.link
+    assert_equal "cfp/due-march-13-2010", item.link
     assert_equal 2, menu_items.count
     assert_equal (1..2).to_a, menu_items.collect{|m| m.ordering}
   end

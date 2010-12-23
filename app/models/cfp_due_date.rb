@@ -20,7 +20,7 @@ class CfpDueDate
     find_or_create_joomla_category_in section
     find_or_create_joomla_menu_in extras[:menu]
     overview_text = [
-      h4(internal_link(joomla_category, name)),
+      h4(internal_link(internal_url, name)),
 	ul(cfps.collect{|c| c.populate_joomla_call_for_papers joomla_category})
     ]
   end
@@ -38,11 +38,15 @@ class CfpDueDate
       :checked_out_time	=> due_on.to_datetime,
       :parent		=> menu.id,
       :sublevel		=> 1,
-      :link		=> JoomlaMenu::link_for(joomla_category),
+      :link		=> internal_url,
       :alias		=> nil,
       :published	=> true
     )
     joomla_menu
+  end
+
+  def internal_url
+    "cfp/#{joomla_category.alias}"
   end
 
 end
