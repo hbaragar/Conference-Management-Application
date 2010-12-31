@@ -93,7 +93,7 @@ protected
   end
 
   def email_link addressees=email_address, address=email_address
-    %Q(<a href="mailto:#{address}">#{addressees}</a>)
+    %Q(<a href="mailto:#{address}">#{(addressees||"").gsub(/['"]/,"\\\\\1")}</a>)
   end
 
   def img src, alt=""
