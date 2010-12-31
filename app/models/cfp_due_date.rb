@@ -38,7 +38,7 @@ class CfpDueDate
       :checked_out_time	=> due_on.to_datetime,
       :parent		=> menu.id,
       :sublevel		=> 1,
-      :link		=> internal_url,
+      :link		=> JoomlaMenu::link_for(joomla_category),
       :alias		=> nil,
       :published	=> true
     )
