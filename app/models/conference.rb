@@ -281,11 +281,17 @@ private
   end
 
   def joomla_menu_for area, index
-    menu = JoomlaMenu.find_by_name(area.title) || JoomlaMenu.create!(
-    	:name => area.title,
-	:link => JoomlaMenu::link_for(area)
+    name = area.title
+    link = JoomlaMenu::link_for(area)
+    menu = JoomlaMenu.find_by_name(name) ||
+      JoomlaMenu.find_by_link(link) ||
+      JoomlaMenu.create!(:name => name, :link => link)
+    menu.update_attributes!(
+      :name => name,
+      :link => link,
+      :alias => area.alias,
+      :ordering => index+1
     )
-    menu.update_attributes!(:alias => area.alias, :ordering => index+1)
     menu.update_params!(:show_section => "1")
     menu
   end
