@@ -74,7 +74,7 @@ class Conference < ActiveRecord::Base
   def cfp_due_dates
     # For populating Call for Papers menu area
     cfps.*.due_on.uniq.collect do |due_on|
-      CfpDueDate.new(:due_on => due_on, :cfps => cfps.find_all_by_due_on(due_on).sort)
+      CfpDueDate.new(:due_on => due_on, :cfps => cfps.find_all_by_due_on(due_on))
     end
   end
 
@@ -129,7 +129,7 @@ class Conference < ActiveRecord::Base
      :overview_table_columns => ['Day', 'Main Activities', 'Evening Activities']
     },
     { :name => "Program",		:class => JoomlaSection,  :collection => "portfolios_from_all_conferences", :order_on => :ordering },
-    { :name => "Call for Papers",	:class => JoomlaSection,  :collection => "cfp_due_dates", :alias => 'cfp', :order_on => :checked_out_time},
+    { :name => "Call for Papers",	:class => JoomlaSection,  :collection => "cfp_due_dates", :alias => 'cfp', :order_on => :ordering},
     { :name => "Committee",		:class => JoomlaCategory,  :collection => "portfolios_and_colocated_conferences", 
      :overview_table_columns => ['Portfolio', 'Chair', 'Affiliation', 'Country']
     },

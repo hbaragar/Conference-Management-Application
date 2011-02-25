@@ -21,6 +21,8 @@ class Call < ActiveRecord::Base
 
   has_many :members, :through => :portfolio
 
+  default_scope :include => :portfolio, :order => 'due_on, portfolios.position'
+
   def before_save
     self.details = html_encode_non_ascii_characters(details)
   end
@@ -53,14 +55,6 @@ class Call < ActiveRecord::Base
 
   def email_address
     portfolio.public_email_address
-  end
-
-  def <=> other
-    if (cmp = due_on <=> other.due_on) != 0
-      cmp
-    else
-      portfolio.position <=> other.portfolio.position
-    end
   end
 
 
