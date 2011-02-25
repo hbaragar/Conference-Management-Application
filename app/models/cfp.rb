@@ -5,8 +5,6 @@ class Cfp < Call
   has_many :other_dates, :class_name => "CfpDate", :dependent => :destroy
   has_many :broadcast_emails, :dependent => :destroy
 
-  default_scope :order => "due_on"
-
   def after_create
     other_dates.create(:label => "Notifications", :due_on => due_on + 1.months)
     other_dates.create(:label => "Camera-ready copy due", :due_on => due_on + 2.months)
@@ -16,7 +14,7 @@ class Cfp < Call
     conference.publish_to_joomla 'Call for Papers'
   end
 
-  def populate_joomla_call_for_papers category
+  def populate_joomla_call_for_papers category, ordering
     if state == 'unpublished'
       joomla_article && joomla_article.destroy
       save
@@ -29,7 +27,8 @@ class Cfp < Call
 	:title		=> name,
         :category	=> category,
         :introtext	=> portfolio_description.to_html,
-        :fulltext	=> full_details
+        :fulltext	=> full_details,
+	:ordering	=> ordering
       )
       save
     end

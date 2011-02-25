@@ -19,9 +19,15 @@ class CfpDueDate
     #        so co-opt it for sorting purposes (see JoomlaSection::restore_integrity!)
     find_or_create_joomla_category_in section
     find_or_create_joomla_menu_in extras[:menu]
+    ordering = 0
     overview_text = [
       h4(internal_link(internal_url, name)),
-	ul(cfps.collect{|c| c.populate_joomla_call_for_papers joomla_category})
+	ul(
+	  cfps.collect do |c|
+            ordering += 1
+	    c.populate_joomla_call_for_papers joomla_category, ordering
+	  end
+	)
     ]
   end
 
@@ -42,6 +48,7 @@ class CfpDueDate
       :alias		=> nil,
       :published	=> true
     )
+    joomla_menu.update_params! :orderby_pri => 'order', :orderby_sec => 'order'
     joomla_menu
   end
 
