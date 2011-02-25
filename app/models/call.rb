@@ -55,6 +55,14 @@ class Call < ActiveRecord::Base
     portfolio.public_email_address
   end
 
+  def <=> other
+    if (cmp = due_on <=> other.due_on) != 0
+      cmp
+    else
+      portfolio.position <=> other.portfolio.position
+    end
+  end
+
 
   # --- LifeCycle --- #
 

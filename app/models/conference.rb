@@ -74,7 +74,7 @@ class Conference < ActiveRecord::Base
   def cfp_due_dates
     # For populating Call for Papers menu area
     cfps.*.due_on.uniq.collect do |due_on|
-      CfpDueDate.new(:due_on => due_on, :cfps => cfps.find_all_by_due_on(due_on))
+      CfpDueDate.new(:due_on => due_on, :cfps => cfps.find_all_by_due_on(due_on).sort)
     end
   end
 
