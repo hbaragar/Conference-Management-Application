@@ -83,7 +83,7 @@ secure=0
   end
 
   def self.link_for target
-    view = target.class.name[/Joomla(\w+)/,1].downcase
+    view = target.title == 'Home' ? 'frontpage' : target.class.name[/Joomla(\w+)/,1].downcase
     layout="&layout=blog" if view =~ /section|category/
     "index.php?option=com_content&view=#{view}#{layout}&id=#{target.id}"
   end
