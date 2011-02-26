@@ -2,11 +2,9 @@ require File.dirname(__FILE__) + '/../test_helper'
 
 class MemberTest < ActiveSupport::TestCase
 
-
   def setup
     @member = members(:a_portfolio_member)
     @a_portfolio_chair = members(:a_portfolio_chair)
-    @a_conference = conferences(:a_conference)
     @a_portfolio = portfolios(:a_portfolio)
   end
 

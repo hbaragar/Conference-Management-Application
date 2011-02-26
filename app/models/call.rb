@@ -19,6 +19,7 @@ class Call < ActiveRecord::Base
 
   belongs_to :joomla_article
 
+  has_many :external_reviewers
   has_many :members, :through => :portfolio
 
   default_scope :include => :portfolio, :order => 'due_on, portfolios.position'
