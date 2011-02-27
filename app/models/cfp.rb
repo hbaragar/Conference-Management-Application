@@ -102,7 +102,23 @@ class Cfp < Call
 	    ].select{|s| s && s[/\w/]}.join(", ") + role_of(m)
 	  )
 	end
-      )
+      ),
+      if external_reviewers.count > 0 
+	div("external-reviewers",
+	  h3({}, "External Reviewers"),
+	  ul(
+	    external_reviewers.collect do |er|
+	      li(
+		[
+		  er.name.to_html,
+		  er.affiliation.to_html,
+		  er.country.to_html
+		].select{|s| s && s[/\w/]}.join(", ")
+	      )
+	    end
+	  )
+	)
+      end
     )
   end
 

@@ -7,7 +7,7 @@ class CfpHints < Hobo::ViewHints
  
   parent :portfolio
 
-  children :other_dates, :broadcast_emails, :external_reviewers
+  children :other_dates, :external_reviewers, :broadcast_emails
 
   field_help :due_on => "Other important dates can be added after the CFP has been created",
     :details => %q(Introductory paragraphs are automatically generated from the
