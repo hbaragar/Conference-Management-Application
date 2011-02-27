@@ -2,7 +2,7 @@ class ExternalReviewer < ActiveRecord::Base
 
   hobo_model # Don't put anything above this
 
-  belongs_to :call
+  belongs_to :cfp
 
   fields do
     name                  :string
@@ -15,14 +15,14 @@ class ExternalReviewer < ActiveRecord::Base
   default_scope :order => 'name'
 
   validates_presence_of :name
-  validates_uniqueness_of :name, :scope => :call_id
+  validates_uniqueness_of :name, :scope => :cfp_id
 
   def after_save
     cfp.changes_pending! if cfp
   end
 
   def portfolio
-    call.portfolio
+    cfp.portfolio
   end
 
   def conference

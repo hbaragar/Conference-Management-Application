@@ -16,7 +16,7 @@ class ExternalReviewerTest < ActiveSupport::TestCase
   end
 
   def test_create_permissions
-    new_external_reviewer = ExternalReviewer.new :call => @a_cfp, :name => "A new external_reviewer"
+    new_external_reviewer = ExternalReviewer.new :cfp => @a_cfp, :name => "A new external_reviewer"
     assert new_external_reviewer.creatable_by?(users(:administrator))
     assert new_external_reviewer.creatable_by?(users(:general_chair))
     assert new_external_reviewer.creatable_by?(users(:a_portfolio_chair))

@@ -93,3 +93,9 @@
     <body: replace />
   </old-card>
 </extend>
+
+<extend tag="form" for="ExternalReviewer">
+  <old-form merge>
+    <after-submit: go-back />
+  </old-form>
+</extend>

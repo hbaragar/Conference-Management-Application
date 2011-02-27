@@ -6,4 +6,6 @@ class CfpsController < ApplicationController
 
   auto_actions_for :portfolio, [:new, :create]
 
+  show_action :external_reviewers
+
 end

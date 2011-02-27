@@ -1,0 +1,14 @@
+<show-page>
+  <parent-link:>&laquo; <ht key="cfps.actions.back" to="cfp"><a:cfp>CFP</a></ht></parent-link:>
+  <edit-link: replace/>
+  <heading:><name/> External Review Committee</heading:>
+  <content-body:>
+    <table-plus:external_reviewers fields="name, affiliation, country, private-email-address" part="table">
+      <search-form: replace />
+      <controls:/>
+    </table-plus>
+    <h3>New Reviewer</h3>
+    <form with="&this.external_reviewers.new" update="table"  reset-form refocus-form/>
+  </content-body:>
+  <aside: replace/>
+</show-page>

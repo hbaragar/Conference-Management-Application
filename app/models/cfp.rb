@@ -4,6 +4,7 @@ class Cfp < Call
 
   has_many :other_dates, :class_name => "CfpDate", :dependent => :destroy
   has_many :broadcast_emails, :dependent => :destroy
+  has_many :external_reviewers, :dependent => :destroy
 
   def after_create
     other_dates.create(:label => "Notifications", :due_on => due_on + 1.months)

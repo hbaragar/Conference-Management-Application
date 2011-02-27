@@ -26,4 +26,7 @@
     <form with="&this.broadcast_emails.new" update="broadcast-emails-collection" reset-form refocus/>
     <div><a href="mailto:#{this.broadcast_emails.join(',')}">mailto:&lt;all-addresses&gt;</a></div>
   </after-broadcast_emails-collection:>
+  <external_reviewers-collection: replace >
+      <a action="external_reviewers">Edit</a>
+  </external_reviewers-collection:>
 </show-page>
