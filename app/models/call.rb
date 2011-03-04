@@ -13,6 +13,7 @@ class Call < ActiveRecord::Base
     format_url    :url, :default => "http://www.acm.org/sigs/sigplan/authorInformation.htm"
     submit_to_url :url, :default => ""
     details       :markdown
+    footnotes    :markdown
     timestamps
   end
 

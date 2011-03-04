@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110226045247) do
+ActiveRecord::Schema.define(:version => 20110304144051) do
 
   create_table "broadcast_emails", :force => true do |t|
     t.integer  "cfp_id"
@@ -33,6 +33,7 @@ ActiveRecord::Schema.define(:version => 20110226045247) do
     t.string   "type"
     t.string   "state",             :default => "unpublished"
     t.datetime "key_timestamp"
+    t.text     "footnotes"
   end
 
   add_index "calls", ["joomla_article_id"], :name => "index_calls_on_joomla_article_id"

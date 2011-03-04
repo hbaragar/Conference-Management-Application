@@ -42,7 +42,8 @@ class Cfp < Call
 	conference_description.to_html,
 	details.to_html,
 	contact_info,
-	committee_members
+	committee_members,
+	footnotes.to_html
     )
   end
 

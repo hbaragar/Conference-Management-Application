@@ -183,6 +183,8 @@ class ConferenceTest < ActiveSupport::TestCase
     assert_match /#{a_cfp.portfolio.public_email_address}/, joomla_article.fulltext
     assert_match /#{a_cfp.portfolio.chairs.first.name}/, joomla_article.fulltext
     assert_match /#{a_cfp.details}/, joomla_article.fulltext
+    assert_match /#{a_cfp.external_reviewers.first}/, joomla_article.fulltext
+    assert_match /#{a_cfp.footnotes}/, joomla_article.fulltext
   end
 
   test "populate joomla program menu area" do

@@ -5,6 +5,7 @@ a_cfp:
   due_on: 2010-03-13
   state: published
   details: Very important research
+  footnotes: A footnote
 
 another_cfp:
   id: 2
