@@ -141,11 +141,9 @@ class Conference < ActiveRecord::Base
     MAIN_MENU.each_with_index do |config, index|
       area = joomla_area_for config		# Make sure areas and menu items ...
       menu = joomla_menu_for area, index	# ... are always up to date
-      if [config[:name], "All Areas"].include? menu_name
 	populate_joomla_menu_area_with config, area, menu
 	area.restore_integrity! config[:order_on]
 	menu.restore_integrity! config[:order_on]
-      end
     end
   end
 
