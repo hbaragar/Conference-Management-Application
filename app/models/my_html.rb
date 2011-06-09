@@ -84,6 +84,7 @@ protected
   end
 
   def internal_link link, text, title = ""
+    link = link.link rescue link
     link = JoomlaMenu::link_for(link) if link.class.name =~ /Joomla/
     %Q(<a href="#{link}" #{tag_attributes(:title => title)}>#{text}</a>)
   end

@@ -38,4 +38,8 @@ class JoomlaCategory < Joomla
     articles.first.cfp
   end
 
+  def link
+    joomla_section.link + "/" + self.alias
+  end
+
 end

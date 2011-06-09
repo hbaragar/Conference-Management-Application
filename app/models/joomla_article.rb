@@ -46,4 +46,13 @@ readmore=
   validates_format_of :alias, :with => /^[-\w]+/
   validates_uniqueness_of :alias, :scope => :catid
 
+  def link
+    if category
+      category.link + "/" + self.id + "-" + self.alias
+    else
+      puts "#{title} (#{id})article is missing a category"
+      self.alias
+    end
+  end
+
 end

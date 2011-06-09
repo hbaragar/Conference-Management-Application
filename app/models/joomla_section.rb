@@ -34,4 +34,8 @@ class JoomlaSection < Joomla
     categories.each {|c| c.destroy unless c.articles.count > 0}
   end
 
+  def link
+    self.alias
+  end
+
 end
