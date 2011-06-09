@@ -12,7 +12,7 @@ class Session < ActiveRecord::Base
 
   fields do
     name      :string, :required, :default => DEFAULT_NAME
-    starts_at :datetime, :required, :default => '2010-10-22 08:00'
+    starts_at :datetime, :required, :default => '2011-10-22 08:00'
     duration  :integer
     timestamps
   end

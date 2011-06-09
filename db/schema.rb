@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110304144051) do
+ActiveRecord::Schema.define(:version => 20110609035255) do
 
   create_table "broadcast_emails", :force => true do |t|
     t.integer  "cfp_id"
@@ -135,7 +135,7 @@ ActiveRecord::Schema.define(:version => 20110304144051) do
     t.integer "enabled",         :limit => 1,  :default => 1,  :null => false
   end
 
-  add_index "jos_components", ["parent", "option"], :name => "parent_option"
+  add_index "jos_components", ["parent", "option"], :name => "parent_option", :length => {"option"=>"32", "parent"=>nil}
 
   create_table "jos_content", :force => true do |t|
     t.string   "title",                                :default => "", :null => false
@@ -310,7 +310,7 @@ ActiveRecord::Schema.define(:version => 20110304144051) do
   create_table "sessions", :force => true do |t|
     t.integer  "portfolio_id"
     t.string   "name",              :default => "To Be Scheduled"
-    t.datetime "starts_at",         :default => '2010-10-22 08:00:00'
+    t.datetime "starts_at",         :default => '2011-10-22 08:00:00'
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "joomla_article_id"
