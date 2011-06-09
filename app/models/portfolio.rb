@@ -117,7 +117,7 @@ class Portfolio < ActiveRecord::Base
     references = {
       :external_reference	=> xml.attributes["id"],
       :title			=> xml.elements["title"].text,
-      :short_title		=> xml.elements["shorttitle"].text,
+      :short_title		=> xml.elements["shorttitle"] ? xml.elements["shorttitle"].text : nil,
     }
     [:external_reference, :title, :short_title].each do |field|
       value = references[field]

@@ -12,9 +12,9 @@ require File.dirname(__FILE__) + '/../config/environment'
 ARGV.each do |path|
   fname = path.split('/').last
   ref = fname[/\D+/]||"???"
-  if portfolio = Portfolio.find_by_external_reference_prefix(ref)
+  if portfolio = Portfolio.find_by_external_reference_prefix(ref, :order => "conference_id DESC")
     portfolio.load_presentation_from File.new(path)
-    puts "#{fname} loaded into: #{portfolio}"
+    puts "#{fname} loaded into: #{portfolio.conference} #{portfolio}"
   else
     puts "#{path} NOT loaded: external_reference_prefix not recognized (#{ref})"
   end

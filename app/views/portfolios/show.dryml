@@ -72,7 +72,7 @@
   </before-collection-heading:>
   <collection: replace>
     <if test="&this.single_presentation_per_session? && can_create?(@portfolio.presentations)">
-      <a:presentations action="new" if="&can_create?" >
+      <a:presentations action="new">
 	<ht key="presentations.actions.new">New Presentation/Session</ht>
       </a:presentations>
     </if>
