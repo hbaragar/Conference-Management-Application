@@ -18,6 +18,9 @@ class Involvement < ActiveRecord::Base
     timestamps
   end
 
+  validates_presence_of :participant_id
+  validates_presence_of :presentation_id
+
   def conference
     participant && participant.conference || presentation && presentation.conference
   end

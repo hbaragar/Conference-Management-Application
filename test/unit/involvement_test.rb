@@ -7,6 +7,14 @@ class InvolvementTest < ActiveSupport::TestCase
     @a_involvement = involvements(:a_involvement)
   end
 
+  def test_validations
+    invalid = Involvement.new
+    assert invalid.invalid?
+    assert invalid.errors[:participant_id]
+    assert invalid.errors[:presentation_id]
+    assert @a_involvement.valid?
+  end
+
   def test_portfolio_lifecycle
     @a_involvement.role = "Name Change"
     assert @a_involvement.save
