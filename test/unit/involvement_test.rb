@@ -20,6 +20,11 @@ class InvolvementTest < ActiveSupport::TestCase
     assert @a_involvement.save
     assert @a_involvement.portfolios.first.changes_pending?
   end
+  
+  def test_defaults
+    an_involvement = presentations(:a_workshop_presentation).involvements.new
+    assert_equal "workshop leader", an_involvement.role
+  end
 
   def test_create_permissions
     new_involvement = Participant.new :name => "Another Author"

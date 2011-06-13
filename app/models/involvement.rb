@@ -33,6 +33,10 @@ class Involvement < ActiveRecord::Base
     role
   end
 
+  def portfolio
+    presentation && presentation.portfolio
+  end
+
   def before_save
     self.role = html_encode_non_ascii_characters(role)
   end
@@ -65,6 +69,13 @@ class Involvement < ActiveRecord::Base
 
   def view_permitted?(field)
     acting_user.signed_up?
+  end
+
+private
+
+  def initialize *args
+    super *args
+    self.role = portfolio && portfolio.involvement_default_role
   end
 
 end

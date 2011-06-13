@@ -25,3 +25,9 @@ d_presentation:
   session_id: 2
   title: An Interesting Title
   abstract: An Interesting Abstract
+a_workshop_presentation:
+  id: 5
+  portfolio_id: 4
+  session_id: 3
+  title: A Workshop
+  abstract: An Interesting Topic

@@ -19,6 +19,7 @@ class Portfolio < ActiveRecord::Base
       :default => 'no_sessions'
     typical_session_duration :integer, :default => 90
     external_reference_prefix	:string
+    involvement_default_role	:string, :default => "author"
     presentation_fields :string, :default => "title, short_title, external_reference, abstract"
     description :markdown
   end

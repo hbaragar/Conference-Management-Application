@@ -26,6 +26,7 @@ single_presentation_portfolio:
   session_type: single_presentation
   typical_session_duration: 510
   position: 2
+  involvement_default_role: workshop leader
 all_in_one_portfolio:
   id: 5
   conference_id: 1
