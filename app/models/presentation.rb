@@ -112,7 +112,7 @@ class Presentation < ActiveRecord::Base
     [:private_email_address, :name].each do |field|
       value = fields[field]
       next unless value && value[/\S/]
-      matches = Participant.find(:all, :conditions => {field => value})
+      matches = Participant.find(:all, :conditions => {field => value, :conference_id => conference.id})
       if matches.count == 1
 	existing = matches.first
 	existing.update_attributes(fields) or next
