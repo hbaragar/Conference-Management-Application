@@ -25,7 +25,7 @@ class ParticipantTest < ActiveSupport::TestCase
   end
 
   def test_validations
-    new_participant = conferences(:another_conference).participants.new :name => "Another Author"
+    new_participant = conferences(:a_colocated_conference).participants.new :name => "Another Author"
     assert !new_participant.valid?
   end
 
@@ -34,7 +34,7 @@ class ParticipantTest < ActiveSupport::TestCase
     assert new_participant.creatable_by?(users(:administrator))
     assert new_participant.creatable_by?(users(:general_chair))
     assert new_participant.creatable_by?(users(:a_portfolio_chair))
-    assert new_participant.creatable_by?(users(:another_conference_chair))
+    assert new_participant.creatable_by?(users(:a_colocated_conference_chair))
     assert !new_participant.creatable_by?(users(:a_portfolio_member))
   end
 
@@ -42,7 +42,7 @@ class ParticipantTest < ActiveSupport::TestCase
     assert @a_participant.updatable_by?(users(:administrator))
     assert @a_participant.updatable_by?(users(:general_chair))
     assert @a_participant.updatable_by?(users(:a_portfolio_chair))
-    assert @a_participant.updatable_by?(users(:another_conference_chair))
+    assert @a_participant.updatable_by?(users(:a_colocated_conference_chair))
     assert !@a_participant.updatable_by?(users(:a_portfolio_member))
   end
 
@@ -50,7 +50,7 @@ class ParticipantTest < ActiveSupport::TestCase
     assert @a_participant.destroyable_by?(users(:administrator))
     assert @a_participant.destroyable_by?(users(:general_chair))
     assert @a_participant.destroyable_by?(users(:a_portfolio_chair))
-    assert @a_participant.destroyable_by?(users(:another_conference_chair))
+    assert @a_participant.destroyable_by?(users(:a_colocated_conference_chair))
     assert !@a_participant.destroyable_by?(users(:a_portfolio_member))
   end
 

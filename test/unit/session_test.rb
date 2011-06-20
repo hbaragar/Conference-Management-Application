@@ -68,14 +68,14 @@ class SessionTest < ActiveSupport::TestCase
     assert  new_session.creatable_by?(users(:general_chair))
     assert  new_session.creatable_by?(users(:a_portfolio_chair))
     assert !new_session.creatable_by?(users(:a_portfolio_member))
-    assert !new_session.creatable_by?(users(:another_conference_chair))
+    assert !new_session.creatable_by?(users(:a_colocated_conference_chair))
   end
 
   def test_update_permissions
     assert  @a_session.updatable_by?(users(:administrator))
     assert  @a_session.updatable_by?(users(:general_chair))
     assert  @a_session.updatable_by?(users(:a_portfolio_chair))
-    assert !@a_session.updatable_by?(users(:another_conference_chair))
+    assert !@a_session.updatable_by?(users(:a_colocated_conference_chair))
     assert !@a_session.updatable_by?(users(:a_portfolio_member))
   end
 
@@ -85,7 +85,7 @@ class SessionTest < ActiveSupport::TestCase
     assert  @a_session.destroyable_by?(users(:general_chair))
     assert  @a_session.destroyable_by?(users(:a_portfolio_chair))
     assert !@a_session.destroyable_by?(users(:a_portfolio_member))
-    assert !@a_session.destroyable_by?(users(:another_conference_chair))
+    assert !@a_session.destroyable_by?(users(:a_colocated_conference_chair))
   end
 
   def test_view_permissions

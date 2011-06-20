@@ -12,7 +12,7 @@ a_portfolio:
   session_type: multiple_presentations
   state: published
   position: 1
-another_conference_general:
+a_colocated_conference_general:
   id: 3
   conference_id: 2
   name: General

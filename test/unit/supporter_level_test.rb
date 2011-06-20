@@ -33,20 +33,20 @@ class SupporterLevelTest < ActiveSupport::TestCase
     assert new_supporter_level.creatable_by?(users(:general_chair))
     assert new_supporter_level.creatable_by?(users(:the_supporter_portfolio_chair))
     assert !new_supporter_level.creatable_by?(users(:a_supporter_portfolio_member))
-    assert !new_supporter_level.creatable_by?(users(:another_conference_chair))
+    assert !new_supporter_level.creatable_by?(users(:a_colocated_conference_chair))
   end
 
   def test_update_permissions
     assert @a_supporter_level.updatable_by?(users(:administrator))
     assert @a_supporter_level.updatable_by?(users(:general_chair))
     assert @a_supporter_level.updatable_by?(users(:the_supporter_portfolio_chair))
-    assert !@a_supporter_level.updatable_by?(users(:another_conference_chair))
+    assert !@a_supporter_level.updatable_by?(users(:a_colocated_conference_chair))
     assert !@a_supporter_level.updatable_by?(users(:a_supporter_portfolio_member))
     @a_supporter_level.call_for_supporter_id = nil
     assert !@a_supporter_level.updatable_by?(users(:administrator))
     assert !@a_supporter_level.updatable_by?(users(:general_chair))
     assert !@a_supporter_level.updatable_by?(users(:the_supporter_portfolio_chair))
-    assert !@a_supporter_level.updatable_by?(users(:another_conference_chair))
+    assert !@a_supporter_level.updatable_by?(users(:a_colocated_conference_chair))
     assert !@a_supporter_level.updatable_by?(users(:a_supporter_portfolio_member))
   end
 
@@ -55,7 +55,7 @@ class SupporterLevelTest < ActiveSupport::TestCase
     assert @a_supporter_level.destroyable_by?(users(:general_chair))
     assert @a_supporter_level.destroyable_by?(users(:the_supporter_portfolio_chair))
     assert !@a_supporter_level.destroyable_by?(users(:a_supporter_portfolio_member))
-    assert !@a_supporter_level.destroyable_by?(users(:another_conference_chair))
+    assert !@a_supporter_level.destroyable_by?(users(:a_colocated_conference_chair))
   end
 
   def test_view_permissions

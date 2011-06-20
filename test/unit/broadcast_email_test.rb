@@ -20,20 +20,20 @@ class BroadcastEmailTest < ActiveSupport::TestCase
     assert new_broadcast_email.creatable_by?(users(:general_chair))
     assert new_broadcast_email.creatable_by?(users(:a_portfolio_chair))
     assert !new_broadcast_email.creatable_by?(users(:a_portfolio_member))
-    assert !new_broadcast_email.creatable_by?(users(:another_conference_chair))
+    assert !new_broadcast_email.creatable_by?(users(:a_colocated_conference_chair))
   end
 
   def test_update_permissions
     assert @a_broadcast_email.updatable_by?(users(:administrator))
     assert @a_broadcast_email.updatable_by?(users(:general_chair))
     assert @a_broadcast_email.updatable_by?(users(:a_portfolio_chair))
-    assert !@a_broadcast_email.updatable_by?(users(:another_conference_chair))
+    assert !@a_broadcast_email.updatable_by?(users(:a_colocated_conference_chair))
     assert !@a_broadcast_email.updatable_by?(users(:a_portfolio_member))
     @a_broadcast_email.cfp_id = @a_broadcast_email.cfp_id + 1
     assert !@a_broadcast_email.updatable_by?(users(:administrator))
     assert !@a_broadcast_email.updatable_by?(users(:general_chair))
     assert !@a_broadcast_email.updatable_by?(users(:a_portfolio_chair))
-    assert !@a_broadcast_email.updatable_by?(users(:another_conference_chair))
+    assert !@a_broadcast_email.updatable_by?(users(:a_colocated_conference_chair))
     assert !@a_broadcast_email.updatable_by?(users(:a_portfolio_member))
   end
 
@@ -42,7 +42,7 @@ class BroadcastEmailTest < ActiveSupport::TestCase
     assert @a_broadcast_email.destroyable_by?(users(:general_chair))
     assert @a_broadcast_email.destroyable_by?(users(:a_portfolio_chair))
     assert !@a_broadcast_email.destroyable_by?(users(:a_portfolio_member))
-    assert !@a_broadcast_email.destroyable_by?(users(:another_conference_chair))
+    assert !@a_broadcast_email.destroyable_by?(users(:a_colocated_conference_chair))
   end
 
   def test_view_permissions

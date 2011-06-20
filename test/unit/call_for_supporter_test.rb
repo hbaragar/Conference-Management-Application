@@ -14,20 +14,20 @@ class CallForSupporterTest < ActiveSupport::TestCase
     assert new_call_for_supporter.creatable_by?(users(:general_chair))
     assert new_call_for_supporter.creatable_by?(users(:the_supporter_portfolio_chair))
     assert !new_call_for_supporter.creatable_by?(users(:a_supporter_portfolio_member))
-    assert !new_call_for_supporter.creatable_by?(users(:another_conference_chair))
+    assert !new_call_for_supporter.creatable_by?(users(:a_colocated_conference_chair))
   end
 
   def test_update_permissions
     assert @a_call_for_supporter.updatable_by?(users(:administrator))
     assert @a_call_for_supporter.updatable_by?(users(:general_chair))
     assert @a_call_for_supporter.updatable_by?(users(:the_supporter_portfolio_chair))
-    assert !@a_call_for_supporter.updatable_by?(users(:another_conference_chair))
+    assert !@a_call_for_supporter.updatable_by?(users(:a_colocated_conference_chair))
     assert !@a_call_for_supporter.updatable_by?(users(:a_supporter_portfolio_member))
     @a_call_for_supporter.portfolio = portfolios(:a_conference_general)
     assert !@a_call_for_supporter.updatable_by?(users(:administrator))
     assert !@a_call_for_supporter.updatable_by?(users(:general_chair))
     assert !@a_call_for_supporter.updatable_by?(users(:the_supporter_portfolio_chair))
-    assert !@a_call_for_supporter.updatable_by?(users(:another_conference_chair))
+    assert !@a_call_for_supporter.updatable_by?(users(:a_colocated_conference_chair))
     assert !@a_call_for_supporter.updatable_by?(users(:a_supporter_portfolio_member))
   end
 
@@ -36,7 +36,7 @@ class CallForSupporterTest < ActiveSupport::TestCase
     assert @a_call_for_supporter.destroyable_by?(users(:general_chair))
     assert @a_call_for_supporter.destroyable_by?(users(:the_supporter_portfolio_chair))
     assert !@a_call_for_supporter.destroyable_by?(users(:a_supporter_portfolio_member))
-    assert !@a_call_for_supporter.destroyable_by?(users(:another_conference_chair))
+    assert !@a_call_for_supporter.destroyable_by?(users(:a_colocated_conference_chair))
   end
 
   def test_view_permissions

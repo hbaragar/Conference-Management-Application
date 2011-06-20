@@ -21,7 +21,7 @@ class ExternalReviewerTest < ActiveSupport::TestCase
     assert new_external_reviewer.creatable_by?(users(:general_chair))
     assert new_external_reviewer.creatable_by?(users(:a_portfolio_chair))
     assert !new_external_reviewer.creatable_by?(users(:a_portfolio_member))
-    assert !new_external_reviewer.creatable_by?(users(:another_conference_chair))
+    assert !new_external_reviewer.creatable_by?(users(:a_colocated_conference_chair))
   end
 
   def test_update_permissions
@@ -29,13 +29,13 @@ class ExternalReviewerTest < ActiveSupport::TestCase
     assert @external_reviewer.updatable_by?(users(:general_chair))
     assert @external_reviewer.updatable_by?(users(:a_portfolio_chair))
     assert !@external_reviewer.updatable_by?(users(:a_portfolio_member))
-    assert !@external_reviewer.updatable_by?(users(:another_conference_chair))
+    assert !@external_reviewer.updatable_by?(users(:a_colocated_conference_chair))
 
     #assert @external_reviewer.updatable_by?(users(:administrator))
     #assert !@external_reviewer.updatable_by?(users(:general_chair))
     #assert !@external_reviewer.updatable_by?(users(:a_portfolio_chair))
     #assert !@external_reviewer.updatable_by?(users(:a_portfolio_member))
-    #assert !@external_reviewer.updatable_by?(users(:another_conference_chair))
+    #assert !@external_reviewer.updatable_by?(users(:a_colocated_conference_chair))
   end
 
   def test_destroy_permissions
@@ -43,7 +43,7 @@ class ExternalReviewerTest < ActiveSupport::TestCase
     assert @external_reviewer.destroyable_by?(users(:general_chair))
     assert @external_reviewer.destroyable_by?(users(:a_portfolio_chair))
     assert !@external_reviewer.destroyable_by?(users(:a_portfolio_member))
-    assert !@external_reviewer.destroyable_by?(users(:another_conference_chair))
+    assert !@external_reviewer.destroyable_by?(users(:a_colocated_conference_chair))
   end
 
   def test_view_permissions

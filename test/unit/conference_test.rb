@@ -4,22 +4,22 @@ class ConferenceTest < ActiveSupport::TestCase
 
   def setup
     @a_conference = conferences(:a_conference)
-    @another_conference = conferences(:another_conference)
+    @a_colocated_conference = conferences(:a_colocated_conference)
     @a_participant = participants(:a_participant)
   end
 
   def test_fields
     assert_equal "Splash 2010", @a_conference.name
-    assert_equal "Onward! 2010", @another_conference.name
-    assert_equal "Splash 2010", @another_conference.hosting_conference.name
+    assert_equal "Onward! 2010", @a_colocated_conference.name
+    assert_equal "Splash 2010", @a_colocated_conference.hosting_conference.name
     assert_equal 1, @a_conference.colocated_conferences.size
     assert_equal "Onward! 2010", @a_conference.colocated_conferences.first.name
   end
 
   def test_associations
     assert_equal 5, @a_conference.portfolios.count
-    assert_equal 1, @another_conference.portfolios.count
-    assert_equal "General", @another_conference.portfolios.first.name
+    assert_equal 1, @a_colocated_conference.portfolios.count
+    assert_equal "General", @a_colocated_conference.portfolios.first.name
     assert_equal 2, @a_conference.participants.count
     @a_conference.participants.*.set_conflicted!
     assert_equal 1, @a_conference.participants.conflicted.count
@@ -29,15 +29,15 @@ class ConferenceTest < ActiveSupport::TestCase
     assert_equal [], participants(:b_participant).conflicting_sessions
     assert_equal 2, @a_conference.facilities.count
     assert_equal 2, @a_conference.rooms.count
-    assert_equal 2, @another_conference.facilities.count
+    assert_equal 2, @a_colocated_conference.facilities.count
   end
 
   def test_chair
     assert  @a_conference.chair?(users(:general_chair))
-    assert  @another_conference.chair?(users(:general_chair))
+    assert  @a_colocated_conference.chair?(users(:general_chair))
     assert !@a_conference.chair?(users(:a_portfolio_chair))
     assert !@a_conference.chair?(users(:a_portfolio_member))
-    assert !@a_conference.chair?(users(:another_conference_chair))
+    assert !@a_conference.chair?(users(:a_colocated_conference_chair))
   end
 
   def test_after_create
@@ -85,9 +85,9 @@ class ConferenceTest < ActiveSupport::TestCase
     assert category = @a_conference.joomla_general_section.categories.find_by_title('Colocated Conferences')
     assert_match /#{category.id}$/, menu_item.link
     assert_equal 1, category.articles.count
-    assert_equal @a_conference, @another_conference.hosting_conference
-    @another_conference.reload
-    article = @another_conference.joomla_article
+    assert_equal @a_conference, @a_colocated_conference.hosting_conference
+    @a_colocated_conference.reload
+    article = @a_colocated_conference.joomla_article
     assert_equal category.articles.first, article
     assert_match /<h2.*Onward! 2010.*<.h2>/, article.introtext
     assert_match /<a.*href="http:..www.onward-conference.org.".*Onward! 2010.*<.a>/, article.introtext
@@ -95,7 +95,7 @@ class ConferenceTest < ActiveSupport::TestCase
     assert_match /Was part of OOPSLA/, article.introtext
     @a_conference.populate_joomla_menu_area_for "Colocated Conferences"
     assert_equal 1, category.articles.count
-    @another_conference.destroy
+    @a_colocated_conference.destroy
     @a_conference.reload
     @a_conference.populate_joomla_menu_area_for "Colocated Conferences"
     assert_equal 0, category.articles.count
@@ -273,9 +273,9 @@ class ConferenceTest < ActiveSupport::TestCase
   def test_update_permissions
     assert @a_conference.updatable_by?(users(:administrator))
     assert @a_conference.updatable_by?(users(:general_chair))
-    assert !@a_conference.updatable_by?(users(:another_conference_chair))
-    assert @another_conference.updatable_by?(users(:another_conference_chair))
-    assert @another_conference.updatable_by?(users(:general_chair))
+    assert !@a_conference.updatable_by?(users(:a_colocated_conference_chair))
+    assert @a_colocated_conference.updatable_by?(users(:a_colocated_conference_chair))
+    assert @a_colocated_conference.updatable_by?(users(:general_chair))
     assert !@a_conference.updatable_by?(users(:a_portfolio_chair))
     assert !@a_conference.updatable_by?(users(:a_portfolio_member))
     @a_conference.hosting_conference_id = 5

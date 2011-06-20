@@ -31,7 +31,7 @@ class InvolvementTest < ActiveSupport::TestCase
     assert new_involvement.creatable_by?(users(:administrator))
     assert new_involvement.creatable_by?(users(:general_chair))
     assert new_involvement.creatable_by?(users(:a_portfolio_chair))
-    assert new_involvement.creatable_by?(users(:another_conference_chair))
+    assert new_involvement.creatable_by?(users(:a_colocated_conference_chair))
     assert !new_involvement.creatable_by?(users(:a_portfolio_member))
   end
 
@@ -39,7 +39,7 @@ class InvolvementTest < ActiveSupport::TestCase
     assert @a_involvement.updatable_by?(users(:administrator))
     assert @a_involvement.updatable_by?(users(:general_chair))
     assert @a_involvement.updatable_by?(users(:a_portfolio_chair))
-    assert @a_involvement.updatable_by?(users(:another_conference_chair))
+    assert @a_involvement.updatable_by?(users(:a_colocated_conference_chair))
     assert !@a_involvement.updatable_by?(users(:a_portfolio_member))
   end
 
@@ -47,7 +47,7 @@ class InvolvementTest < ActiveSupport::TestCase
     assert @a_involvement.destroyable_by?(users(:administrator))
     assert @a_involvement.destroyable_by?(users(:general_chair))
     assert @a_involvement.destroyable_by?(users(:a_portfolio_chair))
-    assert @a_involvement.destroyable_by?(users(:another_conference_chair))
+    assert @a_involvement.destroyable_by?(users(:a_colocated_conference_chair))
     assert !@a_involvement.destroyable_by?(users(:a_portfolio_member))
   end
 

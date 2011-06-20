@@ -6,7 +6,7 @@ a_portfolio_chair:
   id: 2
   name: Martin Rinard
   email_address: mr@mit.edu
-another_conference_chair:
+a_colocated_conference_chair:
   id: 3
   name: Siobhan Clark
   email_address: sc@tc.edu

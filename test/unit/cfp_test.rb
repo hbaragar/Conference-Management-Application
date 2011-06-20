@@ -38,20 +38,20 @@ class CfpTest < ActiveSupport::TestCase
     assert new_cfp.creatable_by?(users(:general_chair))
     assert new_cfp.creatable_by?(users(:a_portfolio_chair))
     assert !new_cfp.creatable_by?(users(:a_portfolio_member))
-    assert !new_cfp.creatable_by?(users(:another_conference_chair))
+    assert !new_cfp.creatable_by?(users(:a_colocated_conference_chair))
   end
 
   def test_update_permissions
     assert @a_cfp.updatable_by?(users(:administrator))
     assert @a_cfp.updatable_by?(users(:general_chair))
     assert @a_cfp.updatable_by?(users(:a_portfolio_chair))
-    assert !@a_cfp.updatable_by?(users(:another_conference_chair))
+    assert !@a_cfp.updatable_by?(users(:a_colocated_conference_chair))
     assert !@a_cfp.updatable_by?(users(:a_portfolio_member))
     @a_cfp.portfolio = portfolios(:a_conference_general)
     assert !@a_cfp.updatable_by?(users(:administrator))
     assert !@a_cfp.updatable_by?(users(:general_chair))
     assert !@a_cfp.updatable_by?(users(:a_portfolio_chair))
-    assert !@a_cfp.updatable_by?(users(:another_conference_chair))
+    assert !@a_cfp.updatable_by?(users(:a_colocated_conference_chair))
     assert !@a_cfp.updatable_by?(users(:a_portfolio_member))
   end
 
@@ -60,7 +60,7 @@ class CfpTest < ActiveSupport::TestCase
     assert @a_cfp.destroyable_by?(users(:general_chair))
     assert @a_cfp.destroyable_by?(users(:a_portfolio_chair))
     assert !@a_cfp.destroyable_by?(users(:a_portfolio_member))
-    assert !@a_cfp.destroyable_by?(users(:another_conference_chair))
+    assert !@a_cfp.destroyable_by?(users(:a_colocated_conference_chair))
   end
 
   def test_view_permissions

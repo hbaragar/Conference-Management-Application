@@ -15,7 +15,7 @@ a_portfolio_chair:
   private_email_address: mr@mit.edu
   country: USA
   user_id: 2
-another_conference_chair:
+a_colocated_conference_chair:
   id: 3
   portfolio_id: 3
   chair: 1

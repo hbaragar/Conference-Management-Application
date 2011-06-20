@@ -5,7 +5,7 @@ a_conference:
   description: The successor to OOPSLA
   position: 1
 
-another_conference:
+a_colocated_conference:
   id: 2
   name: "Onward! 2010"
   hosting_conference_id: 1
