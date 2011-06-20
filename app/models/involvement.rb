@@ -75,10 +75,17 @@ private
 
   def initialize *args
     super *args
-    self.role = portfolio && portfolio.involvement_default_role
-    if participant && conference && participant.conference.id != conference.id
+    self.role = portfolio.involvement_default_role if self.role.blank? && portfolio
+    return unless conference
+    return if participant && participant.conference.id == conference.id
+    if participant
       self.participant = Participant.create(
 	participant.attributes.merge("conference_id" => conference.id)
+      )
+    elsif args[0] && args[0]["participant"]
+      self.participant = Participant.create(
+	:conference_id	=> conference.id,
+	:name		=> args[0]["participant"]
       )
     end
   end
