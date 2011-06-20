@@ -22,7 +22,7 @@ class Involvement < ActiveRecord::Base
   validates_presence_of :presentation_id
 
   def conference
-    participant && participant.conference || presentation && presentation.conference
+    presentation && presentation.conference
   end
 
   def hosting_conference
@@ -76,6 +76,11 @@ private
   def initialize *args
     super *args
     self.role = portfolio && portfolio.involvement_default_role
+    if participant && conference && participant.conference.id != conference.id
+      self.participant = Participant.create(
+	participant.attributes.merge("conference_id" => conference.id)
+      )
+    end
   end
 
 end

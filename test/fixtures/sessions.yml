@@ -18,3 +18,9 @@ c_session:
   starts_at: 2010-10-19 08:30
   duration: 90
   room_id: 1
+a_session_next_year:
+  id: 4
+  portfolio_id: 8
+  name: "A Session Title"
+  starts_at: 2011-10-18 08:30
+  duration: 90

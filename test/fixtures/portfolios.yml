@@ -40,3 +40,17 @@ the_supporter_portfolio:
   name: Corporate Support
   description: Help us!
   session_type: no_sessions
+a_conference_general_next_year:
+  id: 7
+  conference_id: 3
+  name: General
+  description: N/A
+  session_type: no_sessions
+a_portfolio_next_year:
+  id: 8
+  conference_id: 3
+  name: OOPSLA Research Program
+  description: New Hear to SPLASH
+  session_type: multiple_presentations
+  state: published
+  position: 1

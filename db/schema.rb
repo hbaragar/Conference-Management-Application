@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110613221247) do
+ActiveRecord::Schema.define(:version => 20110620163234) do
 
   create_table "broadcast_emails", :force => true do |t|
     t.integer  "cfp_id"

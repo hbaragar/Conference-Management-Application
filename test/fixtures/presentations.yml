@@ -31,3 +31,10 @@ a_workshop_presentation:
   session_id: 3
   title: A Workshop
   abstract: An Interesting Topic
+a_presentation_next_year:
+  id: 6
+  portfolio_id: 8
+  session_id: 4
+  title: An Important Title Next Year
+  abstract: An Abstract
+  position: 1

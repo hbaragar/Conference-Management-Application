@@ -5,6 +5,7 @@ class InvolvementTest < ActiveSupport::TestCase
   def setup
     @a_conference = conferences(:a_conference)
     @a_involvement = involvements(:a_involvement)
+    @a_participant = participants(:a_participant)
   end
 
   def test_validations
@@ -24,6 +25,17 @@ class InvolvementTest < ActiveSupport::TestCase
   def test_defaults
     an_involvement = presentations(:a_workshop_presentation).involvements.new
     assert_equal "workshop leader", an_involvement.role
+  end
+
+  def test_autocreate_new_participants_for_conference_next_year
+    count = Participant.count
+    an_involvement_next_year = presentations(:a_presentation_next_year).involvements.new(
+      :participant_id	=> @a_participant.id
+    )
+    assert_equal 1+count, Participant.count
+    a_participant_next_year = an_involvement_next_year.participant
+    assert_not_equal @a_participant.id, a_participant_next_year.id
+    assert_equal conferences(:a_conference_next_year).id, a_participant_next_year.conference_id
   end
 
   def test_create_permissions

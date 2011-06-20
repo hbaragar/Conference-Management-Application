@@ -13,3 +13,10 @@ a_colocated_conference:
   logo_url: "http://www.onward-conference.org/logo.gif"
   description: Was part of OOPSLA
   position: 2
+
+a_conference_next_year:
+  id: 3
+  name: Splash 2011
+  hosting_conference_id: 3
+  description: The successor to OOPSLA
+  position: 1

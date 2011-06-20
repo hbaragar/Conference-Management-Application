@@ -7,7 +7,7 @@ class Participant < ActiveRecord::Base
   belongs_to :conference
 
   fields do
-    name                  :string, :required, :unique
+    name                  :string, :required
     conflicted            :boolean
     affiliation           :string
     private_email_address :email_address
@@ -26,6 +26,7 @@ class Participant < ActiveRecord::Base
   default_scope :order => :name
 
   validates_presence_of :conference_id
+  validates_uniqueness_of :name, :scope => :conference_id
 
   def validate
     errors.add(:conference_id, "must be a hosting conference") unless
