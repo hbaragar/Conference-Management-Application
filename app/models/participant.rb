@@ -23,7 +23,7 @@ class Participant < ActiveRecord::Base
     presentations.*.portfolio
   end
 
-  default_scope :order => :name
+  default_scope :order => "name, id DESC"
 
   validates_presence_of :conference_id
   validates_uniqueness_of :name, :scope => :conference_id
