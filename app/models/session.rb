@@ -118,7 +118,7 @@ class Session < ActiveRecord::Base
     ].compact.join " "
   end
 
-  def populate_joomla_program category
+  def populate_joomla_program category, ordering = 1
     unless joomla_article
       self.joomla_article = 
 	category.articles.find_by_title(name) ||	# This should not happen
@@ -134,7 +134,8 @@ class Session < ActiveRecord::Base
       :sectionid=> category.section,
       :attribs	=> attribs,
       :introtext=> intro_html,
-      :fulltext	=> to_html
+      :fulltext	=> to_html,
+      :ordering => ordering
     )
     overview_text = if all_presentations_in_one?
       nil
