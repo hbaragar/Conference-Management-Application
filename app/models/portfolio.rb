@@ -163,7 +163,13 @@ class Portfolio < ActiveRecord::Base
     end
     joomla_category.update_attributes(:title => name)
     joomla_menu.update_attributes(:name => name, :ordering => ordering)
-    joomla_menu.update_params!(:show_section => "1", :pageclass_sfx => "program")
+    joomla_menu.update_params!(
+      :show_section => "1",
+      :pageclass_sfx => "program",
+      :orderby_pri => "order",
+      :orderby_sec => "order"
+    )
+    session_ordering = 0
     overview_text = if session_type == "all_in_one"
       if s = sessions.first
 	s.populate_joomla_program(joomla_category)
@@ -173,7 +179,7 @@ class Portfolio < ActiveRecord::Base
       end
     else
       [ h4(internal_link(joomla_category, name)),
-	ul(sessions.collect{|s| s.populate_joomla_program joomla_category})
+	ul(sessions.collect{|s| s.populate_joomla_program joomla_category, session_ordering+=1})
       ]
     end
   end
