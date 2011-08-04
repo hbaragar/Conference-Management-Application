@@ -7,11 +7,11 @@ class Participant < ActiveRecord::Base
   belongs_to :conference
 
   fields do
-    name                  :string, :required
+    name                  :html_string, :required
     conflicted            :boolean
-    affiliation           :string
+    affiliation           :html_string
     private_email_address :email_address
-    country		  :string
+    country		  :html_string
     bio                   :markdown
     timestamps
   end

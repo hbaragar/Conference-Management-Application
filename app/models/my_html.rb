@@ -19,7 +19,7 @@ protected
     end.reverse.freeze
 
   def html_encode_non_ascii_characters text
-    #puts "\n#{text}"
+    return text
     text ||= ""
     CHARACTER_ENCODING.each do |k, v|
       text.gsub! k, v
