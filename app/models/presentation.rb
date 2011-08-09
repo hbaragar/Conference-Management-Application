@@ -37,6 +37,12 @@ class Presentation < ActiveRecord::Base
     super *args
     self.portfolio ||= session && session.portfolio
   end
+  
+  def validate
+    errors.add(:session_id, "must be from the correct portfolio") unless
+      session && session.portfolio_id == portfolio_id
+  end
+
 
   def before_save
     self.session ||= portfolio && portfolio.new_or_existing_session(title)
