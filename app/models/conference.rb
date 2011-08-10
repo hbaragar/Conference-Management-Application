@@ -154,7 +154,8 @@ class Conference < ActiveRecord::Base
   end
 
   def populate_joomla_boursaries section, extras
-    attending_menu = JoomlaMenu.find_by_name(section.title)
+    grants_menu = JoomlaMenu.find_by_name(section.title)
+    overview_text = nil
   end
 
   def populate_joomla_attending section, extras
@@ -199,6 +200,7 @@ class Conference < ActiveRecord::Base
         :link  => JoomlaMenu::link_for(category)
       )
     end
+    overview_text = nil
   end
 
   def populate_joomla_colocated_conferences category, extras
