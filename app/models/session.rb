@@ -60,6 +60,10 @@ class Session < ActiveRecord::Base
     portfolio.conference
   end
 
+  def hosting_conference
+    portfolio.hosting_conference
+  end
+
   def multiple_presentations?
     portfolio.multiple_presentations_per_session?
   end

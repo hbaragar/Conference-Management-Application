@@ -53,6 +53,14 @@
   </old-form>
 </extend>
 
+<extend tag="form" for="Session">
+  <old-form merge>
+    <field-list:>
+      <room-view:><select-one options="&this_parent.hosting_conference.rooms" /></room-view:>
+    </field-list:>
+  </old-form>
+</extend>
+
 <extend tag="form" for="Participant">
   <old-form merge>
     <field-list: skip="conflicted"/>
