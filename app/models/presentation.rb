@@ -39,8 +39,10 @@ class Presentation < ActiveRecord::Base
   end
   
   def validate
-    errors.add(:session_id, "must be from the correct portfolio") unless
-      session && session.portfolio_id == portfolio_id
+    if session
+      errors.add(:session_id, "must be from the correct portfolio") unless
+        session.portfolio_id == portfolio_id
+    end
   end
 
 
