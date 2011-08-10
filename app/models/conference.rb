@@ -123,7 +123,7 @@ class Conference < ActiveRecord::Base
 
   MAIN_MENU = [
     { :name => "Home",			:class => JoomlaSection,  :collection => "selves", :alias => 'general-information' },
-    { :name => "Scholarships & Grants",		:class => JoomlaSection,  :collection => "selves", :alias => 'boursaries' },
+    { :name => "Grants",		:class => JoomlaSection,  :collection => "selves", :alias => 'boursaries' },
     { :name => "Attending",		:class => JoomlaSection,  :collection => "selves", :order_on => :ordering },
     { :name => "Schedule",		:class => JoomlaSection,  :collection => "days", :order_on => :checked_out_time,
      :overview_table_columns => ['Day', 'Main Activities', 'Evening Activities']
