@@ -8,10 +8,10 @@ class JoomlaArticleTest < ActiveSupport::TestCase
     assert_equal "cfp", cfp.alias
     assert_equal 1, cfp.ordering
     assert_equal 1, cfp.state
-    assert sag = JoomlaArticle.create(:title => "Scholarships and Grants")
-    assert_equal "Scholarships and Grants", sag.title
-    assert_equal "scholarships-and-grants", sag.alias
-    assert_equal 2, sag.ordering
+    assert grants = JoomlaArticle.create(:title => "Grants")
+    assert_equal "Grants", grants.title
+    assert_equal "grants", grants.alias
+    assert_equal 2, grants.ordering
     assert !JoomlaArticle.new.valid?
     assert !JoomlaArticle.new(:title => "Call for Prayers", :alias => "cfp").valid?
   end

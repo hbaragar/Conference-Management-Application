@@ -71,12 +71,12 @@ class ConferenceTest < ActiveSupport::TestCase
     assert_equal 0, category.articles.count
   end
 
-  test "populate menu area for scholarships & grants" do
-    @a_conference.populate_joomla_menu_area_for "Scholarships & Grants"
-    assert menu = JoomlaMenu.find_by_name_and_sublevel('Scholarships & Grants',0)
+  test "populate menu area for grants" do
+    @a_conference.populate_joomla_menu_area_for "Grants"
+    assert menu = JoomlaMenu.find_by_name_and_sublevel('Grants',0)
     #
-    assert section = JoomlaSection.find_by_title('Scholarships & Grants')
-    assert_equal 1, section.articles.count
+    assert section = JoomlaSection.find_by_title('Grants')
+    assert_equal 0, section.articles.count
   end
 
   test "populate menu area for colocated conferences" do
@@ -246,11 +246,11 @@ class ConferenceTest < ActiveSupport::TestCase
   test "populate all joomla menu areas" do
     @a_conference.populate_joomla_menu_area_for "All Areas"
     assert_equal 6, JoomlaSection.count
-    assert_equal 18, JoomlaCategory.count
+    assert_equal 16, JoomlaCategory.count
     assert_equal (1..9).to_a, JoomlaMenu.find_all_by_sublevel(0).collect{|m| m.ordering}
     top_menu = [
       "Home",
-      "Scholarships & Grants",
+      "Grants",
       "Attending",
       "Schedule",
       "Program",

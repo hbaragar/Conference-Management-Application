@@ -16,10 +16,10 @@ class JoomlaMenuTest < ActiveSupport::TestCase
     assert_equal 1, cfp.ordering
     assert_equal "mainmenu", cfp.menutype
     assert_equal "component", cfp.type
-    assert sag = JoomlaMenu.create(:name => "Scholarships and Grants", :link => "link")
-    assert_equal "Scholarships and Grants", sag.name
-    assert_equal "scholarships-and-grants", sag.alias
-    assert_equal 2, sag.ordering
+    assert grants = JoomlaMenu.create(:name => "Grants", :link => "link")
+    assert_equal "Grants", grants.name
+    assert_equal "grants", grants.alias
+    assert_equal 2, grants.ordering
     assert !JoomlaMenu.new.valid?
     assert !JoomlaMenu.new(:name => "Call for Papers").valid?
     assert !JoomlaMenu.new(:name => "Call for Prayers", :alias => "cfp").valid?
