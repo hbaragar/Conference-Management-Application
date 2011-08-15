@@ -284,12 +284,10 @@ class ConferenceTest < ActiveSupport::TestCase
   end
 
   def test_destroy_permissions
-    assert !@a_conference.destroyable_by?(users(:administrator))
+    assert  @a_conference.destroyable_by?(users(:administrator))
     assert !@a_conference.destroyable_by?(users(:general_chair))
     assert !@a_conference.destroyable_by?(users(:a_portfolio_chair))
     assert !@a_conference.destroyable_by?(users(:a_portfolio_member))
-    @a_conference.portfolios.clear
-    assert @a_conference.destroyable_by?(users(:administrator))
   end
 
   def test_view_permissions
