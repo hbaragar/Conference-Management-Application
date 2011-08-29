@@ -9,4 +9,6 @@ class ParticipantHints < Hobo::ViewHints
 
   children :presentations, :presentations
 
+  field_help :affiliation => "Leave country blank and put all information here when there are multiple affiliations"
+
 end

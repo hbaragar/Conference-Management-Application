@@ -9,8 +9,8 @@ class Participant < ActiveRecord::Base
   fields do
     name                  :html_string, :required
     conflicted            :boolean
-    affiliation           :html_string
     private_email_address :email_address
+    affiliation           :html_string
     country		  :html_string
     bio                   :markdown
     timestamps
@@ -79,6 +79,8 @@ class Participant < ActiveRecord::Base
   end
 
   # --- Permissions --- #
+
+  never_show :bio
 
   def create_permitted?
     acting_user.administrator? || acting_user.portfolio_chair?
