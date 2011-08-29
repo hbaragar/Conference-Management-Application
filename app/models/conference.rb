@@ -128,7 +128,7 @@ class Conference < ActiveRecord::Base
     { :name => "Schedule",		:class => JoomlaSection,  :collection => "days", :order_on => :checked_out_time,
      :overview_table_columns => ['Day', 'Main Activities', 'Evening Activities']
     },
-    { :name => "Program",		:class => JoomlaSection,  :collection => "portfolios_from_all_conferences", :order_on => :checked_out_time },
+    { :name => "Program",		:class => JoomlaSection,  :collection => "portfolios_from_all_conferences", :order_on => :ordering },
     { :name => "Call for Papers",	:class => JoomlaSection,  :collection => "cfp_due_dates", :alias => 'cfp', :order_on => :ordering},
     { :name => "Committee",		:class => JoomlaCategory,  :collection => "portfolios_and_colocated_conferences", 
      :overview_table_columns => ['Portfolio', 'Chair', 'Affiliation', 'Country']
