@@ -103,7 +103,9 @@ protected
 
   def span(css_class, *text)
     return "" unless text
-    %Q(<span class="#{css_class}">#{text.join("")}</span>)
+    display_text = text.join("")
+    return unless display_text =~ /\S/
+    %Q(<span class="#{css_class}">#{display_text}</span>)
   end
 
   def tag_attributes attributes
