@@ -80,7 +80,7 @@
       <search-form: replace />
       <time-slot-view:><a with="&this_parent" action="edit"><view:time_slot/></a></time-slot-view:>
     </table-plus:sessions>
-    <if test="&this.multiple_presentations_per_session? && can_create?">
+    <if test="&this.multiple_presentations_per_session? && can_create?(@portfolio.sessions)">
       <h4>New Session</h4>
       <form with="&this.sessions.new" update="sessions,presentations" reset-form refocus >
 	<cancel: replace/>
