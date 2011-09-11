@@ -205,7 +205,7 @@ class Day
     start_times = [
       date + 8.hours + 30.minutes,
       date + 10.hours + 30.minutes,
-      date + 13.hours + 30.minutes,
+      date + 14.hours + 00.minutes,
       date + 15.hours + 30.minutes
     ]
     start_times.collect do |st|
