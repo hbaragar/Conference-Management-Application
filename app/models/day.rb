@@ -206,7 +206,7 @@ class Day
       date + 8.hours + 30.minutes,
       date + 10.hours + 30.minutes,
       date + 14.hours + 00.minutes,
-      date + 15.hours + 30.minutes
+      date + 16.hours + 00.minutes
     ]
     start_times.collect do |st|
       et = st + duration.minutes
