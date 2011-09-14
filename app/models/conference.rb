@@ -78,6 +78,10 @@ class Conference < ActiveRecord::Base
     end
   end
 
+  def roomless_sessions
+    sessions.select{|s| !s.room}
+  end
+
   def days
     # For populating the schedule
     list = {}

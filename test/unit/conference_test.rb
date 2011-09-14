@@ -30,6 +30,7 @@ class ConferenceTest < ActiveSupport::TestCase
     assert_equal 2, @a_conference.facilities.count
     assert_equal 2, @a_conference.rooms.count
     assert_equal 2, @a_colocated_conference.facilities.count
+    assert_equal 1, @a_conference.roomless_sessions.count
   end
 
   def test_chair

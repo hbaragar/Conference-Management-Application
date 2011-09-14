@@ -1,0 +1,13 @@
+<show-page>
+  <before-heading:>
+    <a with="&@conference">&laquo; <ht key="conference.actions.back" to="conference"><name/></ht></a>
+  </before-heading:>
+  <heading:><a/> Roomless Sessions</heading:>
+  <edit-link: replace/>
+  <content-body:>
+    <table-plus:roomless_sessions fields="portfolio,starts_at,ends_at,name">
+      <starts-at-view:><a with="&this_parent"><view:starts_at/></a></starts-at-view:>
+      <name-view:><a with="&this_parent"/></name-view:>
+    </table-plus>
+  </content-body:>
+</show-page>
