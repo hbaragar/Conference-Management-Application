@@ -8,6 +8,7 @@
     <table-plus:roomless_sessions fields="portfolio,starts_at,ends_at,name">
       <starts-at-view:><a with="&this_parent"><view:starts_at/></a></starts-at-view:>
       <name-view:><a with="&this_parent"/></name-view:>
+      <search-form: replace/>
     </table-plus>
   </content-body:>
 </show-page>
