@@ -15,7 +15,7 @@ fi
 # Clone the Joomla database
 case $SOURCE in 
     production)
-	ssh henry.baragar@oopsla.org mysqldump --single-transaction splashcon2011
+	ssh acm mysqldump --single-transaction splashcon2011
 	;;
     uat)
 	ssh splash@projects.instantiated.ca mysqldump splash2011_uat 
