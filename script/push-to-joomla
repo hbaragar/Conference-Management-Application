@@ -10,10 +10,10 @@ RAILS_ENV=`rails-env $1`
 mysqldump conference_$RAILS_ENV --skip-add-locks --skip-disable-keys $TABLES |
     case $RAILS_ENV in 
 	production)
-	    ssh henry.baragar@oopsla.org mysql splashcon2011 
+	    ssh acm mysql splashcon2011
 	    ;;
 	uat)
-	    ssh splash@projects.instantiated.ca mysql splash2011_uat 
+	    ssh projects mysql splash2011_uat
 	    ;;
 	development)
 	    mysql splash2011_development

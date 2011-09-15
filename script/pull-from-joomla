@@ -9,10 +9,10 @@ RAILS_ENV=`rails-env $1`
 
 case $RAILS_ENV in 
     production)
-	ssh henry.baragar@oopsla.org mysqldump --single-transaction splashcon2011 $TABLES
+	ssh acm mysqldump --single-transaction splashcon2011 $TABLES
 	;;
     uat)
-	ssh splash@projects.instantiated.ca mysqldump splash2011_uat $TABLES
+	ssh projects mysqldump splash2011_uat $TABLES
 	;;
     development)
 	mysqldump splash2011_development $TABLES
