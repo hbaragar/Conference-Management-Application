@@ -36,8 +36,9 @@ class Session < ActiveRecord::Base
   end
 
   def overlaps? rhs
-    earlier, later = [self, rhs].sort
-    earlier.starts_at + duration.minutes > later.starts_at
+    starts_at > rhs.starts_at ?
+      rhs.overlaps?(self) :
+      starts_at + duration.minutes > rhs.starts_at
   end
 
   def <=> rhs
