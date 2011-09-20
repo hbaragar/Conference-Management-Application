@@ -153,7 +153,7 @@ class Presentation < ActiveRecord::Base
     div("presentation",
       title_to_html,
       participants_to_html,
-      abstract.to_html,
+      abstract.to_html.gsub(/<p>&lt;keep-this-table/,"<table").gsub(/&lt;.keep-this-table><.p>/,"</table>"),
       extra_fields.collect do |field|
         label = field.humanize
 	raw_value = self.method(field).call
