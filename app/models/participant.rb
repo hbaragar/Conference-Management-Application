@@ -73,8 +73,8 @@ class Participant < ActiveRecord::Base
   def to_html
     [
       span("name", name.to_html),
-      span("affiliation",affiliation.to_html),
-      span("country", country.to_html)
+      span("affiliation",(affiliation||"").to_html),
+      span("country", (country||"").to_html)
     ].grep(/\S/).join(", ")
   end
 
