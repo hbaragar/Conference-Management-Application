@@ -69,7 +69,7 @@
 
 <extend tag="form" for="Portfolio">
   <old-form merge>
-    <field-list: fields="name, public_email_address, call_type, session_type, typical_session_duration, external_reference_prefix, presentation_fields, description" />
+    <field-list: fields="name, short_name, public_email_address, call_type, session_type, typical_session_duration, external_reference_prefix, presentation_fields, description" />
   </old-form>
 </extend>
 
