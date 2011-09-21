@@ -13,6 +13,7 @@ class Portfolio < ActiveRecord::Base
 
   fields do
     name        :string, :required
+    short_name	:string
     public_email_address :email_address
     call_type	enum_string(:no_call, :for_presentations, :for_supporters, :for_next_years), :required, :default => 'no_call'
     session_type enum_string(:no_sessions, :single_presentation, :multiple_presentations, :all_in_one), :required,
@@ -243,8 +244,12 @@ class Portfolio < ActiveRecord::Base
     days.*.html_schedule
   end
 
+  def at_a_glance_name
+    (short_name || "") =~/\S/ ? short_name : name
+  end
+
   def at_a_glance_html
-    span("portfolio", joomla_category ? internal_link(joomla_category, name) : name)
+    span("portfolio", joomla_category ? internal_link(joomla_category, at_a_glance_name) : at_a_glance_name)
   end
 
 

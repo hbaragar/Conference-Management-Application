@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110921194218) do
+ActiveRecord::Schema.define(:version => 20110921204427) do
 
   create_table "broadcast_emails", :force => true do |t|
     t.integer  "cfp_id"
@@ -265,6 +265,7 @@ ActiveRecord::Schema.define(:version => 20110921194218) do
     t.integer  "position"
     t.integer  "joomla_article_id"
     t.string   "involvement_default_role",  :default => "author"
+    t.string   "short_name"
   end
 
   add_index "portfolios", ["conference_id"], :name => "index_portfolios_on_conference_id"
