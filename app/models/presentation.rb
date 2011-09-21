@@ -45,6 +45,9 @@ class Presentation < ActiveRecord::Base
     end
   end
 
+  validates_uniqueness_of :title, :scope => :portfolio_id
+  validates_uniqueness_of :short_title, :scope => :portfolio_id, :allow_nil => true
+
 
   def before_save
     self.session ||= portfolio && portfolio.new_or_existing_session(title)
