@@ -14,6 +14,7 @@ class PortfolioHints < Hobo::ViewHints
       (similar to wiki markup)
     ),
     :typical_session_duration => "in minutes &mdash; use 210 for half day sessions and 510 for full day sesssions",
-    :presentation_fields => "allowed values: #{Presentation.configurable_fields.join(', ')}"
+    :presentation_fields => "allowed values: #{Presentation.configurable_fields.join(', ')}",
+    :short_name => 'used on the schedule-at-a-glance'
 
 end

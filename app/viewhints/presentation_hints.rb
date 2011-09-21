@@ -17,6 +17,8 @@ class PresentationHints < Hobo::ViewHints
     ',
     :resume => 'will be formatted using
       <a href="http://daringfireball.net/projects/markdown/" target="_blank">markdown</a>
+    ',
+    :short_title => 'used on the schedule-at-a-glance
     '
 
 end

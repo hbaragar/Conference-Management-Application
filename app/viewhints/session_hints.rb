@@ -9,6 +9,7 @@ class SessionHints < Hobo::ViewHints
 
   children :presentations, :involvements
 
-  field_help :duration => "in minutes &mdash; use 210 for half day sessions and 510 for full day sesssions"
+  field_help :duration => "in minutes &mdash; use 210 for half day sessions and 540 for full day sesssions",
+    :short_name => 'used on the schedule-at-a-glance'
 
 end
