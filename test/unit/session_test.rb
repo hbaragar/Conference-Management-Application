@@ -13,6 +13,16 @@ class SessionTest < ActiveSupport::TestCase
     assert_equal 2, @a_session.involvements.count
   end
 
+  def test_updates_to_presentation_if_session_is_single_presentation
+    single = sessions(:c_session)
+    single.name = "Presentation to be Renamed"
+    single.save
+    assert_equal single.name, single.presentations.first.title
+    single.short_name = "P.t.b.R"
+    single.save
+    assert_equal single.short_name, single.presentations.first.short_title
+  end
+
   def test_before_create
     @a_portfolio.typical_session_duration = 510
     @a_portfolio.save

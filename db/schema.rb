@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110620163234) do
+ActiveRecord::Schema.define(:version => 20110921194218) do
 
   create_table "broadcast_emails", :force => true do |t|
     t.integer  "cfp_id"
@@ -317,6 +317,7 @@ ActiveRecord::Schema.define(:version => 20110620163234) do
     t.integer  "joomla_article_id"
     t.integer  "duration"
     t.integer  "room_id"
+    t.string   "short_name"
   end
 
   add_index "sessions", ["joomla_article_id"], :name => "index_sessions_on_joomla_article_id"

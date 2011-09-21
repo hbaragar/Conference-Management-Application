@@ -11,9 +11,10 @@ class Session < ActiveRecord::Base
   belongs_to :portfolio
 
   fields do
-    name      :string, :required, :default => DEFAULT_NAME
-    starts_at :datetime, :required, :default => '2011-10-22 08:00'
-    duration  :integer
+    name       :string, :required, :default => DEFAULT_NAME
+    short_name :string
+    starts_at  :datetime, :required, :default => '2011-10-22 08:00'
+    duration   :integer
     timestamps
   end
 
@@ -26,6 +27,13 @@ class Session < ActiveRecord::Base
   default_scope :order => "starts_at, duration, name"
 
   validates_uniqueness_of :name, :scope => :portfolio_id
+
+  def after_update
+    return unless single_presentation?
+    single = presentations.first
+    single.update_attributes(:title => name) unless single.title == name
+    single.update_attributes(:short_title => short_name) unless single.short_title == short_name
+  end
 
   def before_save
     self.name = html_encode_non_ascii_characters(name)
@@ -115,11 +123,15 @@ class Session < ActiveRecord::Base
     room ? room.html_link : 'Room TBD'
   end
 
+  def at_a_glance_name
+    (short_name || "") =~/\S/ ? short_name : name
+  end
+
   def at_a_glance_html include_portfolio = true
     title = presentations.*.at_a_glance_title.join("\n")
     [
       (portfolio.at_a_glance_html if portfolio && include_portfolio),
-      (joomla_article ? internal_link(joomla_article, name, title) : name)
+      (joomla_article ? internal_link(joomla_article, at_a_glance_name, title) : at_a_glance_name)
     ].compact.join " "
   end
 

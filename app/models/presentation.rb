@@ -59,6 +59,7 @@ class Presentation < ActiveRecord::Base
   def after_update
     return unless session && session.single_presentation?
     session.update_attributes(:name => title) unless session.name == title
+    session.update_attributes(:short_name => short_title) unless session.short_name == short_title
   end
 
   def after_save

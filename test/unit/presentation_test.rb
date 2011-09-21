@@ -48,6 +48,7 @@ class PresentationTest < ActiveSupport::TestCase
     assert   @a_presentation.viewable_by?(users(:a_portfolio_member), nil)
     assert   @a_presentation.viewable_by?(users(:a_portfolio_member), :id)
     assert   @a_presentation.viewable_by?(users(:a_portfolio_member), :title)
+    assert   @a_presentation.viewable_by?(users(:a_portfolio_member), :short_title)
     assert ! @a_presentation.viewable_by?(users(:a_portfolio_member), :url)
   end
 
