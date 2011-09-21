@@ -8,3 +8,8 @@ b_involvement:
   participant_id: 1
   presentation_id: 4
   role: author
+c_involvement:
+  id: 3
+  participant_id: 3
+  presentation_id: 1
+  role: author

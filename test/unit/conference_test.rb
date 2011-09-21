@@ -20,7 +20,7 @@ class ConferenceTest < ActiveSupport::TestCase
     assert_equal 5, @a_conference.portfolios.count
     assert_equal 1, @a_colocated_conference.portfolios.count
     assert_equal "General", @a_colocated_conference.portfolios.first.name
-    assert_equal 2, @a_conference.participants.count
+    assert_equal 3, @a_conference.participants.count
     @a_conference.participants.*.set_conflicted!
     assert_equal 1, @a_conference.participants.conflicted.count
     assert_equal @a_participant, @a_conference.participants.conflicted.first

@@ -9,8 +9,8 @@ class PresentationTest < ActiveSupport::TestCase
   end
 
   def test_associations
-    assert_equal 1, @a_presentation.involvements.count
-    assert_equal 1, @a_presentation.participants.count
+    assert_equal 2, @a_presentation.involvements.count
+    assert_equal 2, @a_presentation.participants.count
   end
 
   def test_portfolio_lifecycle

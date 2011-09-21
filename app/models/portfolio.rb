@@ -57,6 +57,16 @@ class Portfolio < ActiveRecord::Base
     members.collect{|m| "#{m.name} <#{m.private_email_address}>"}.uniq.sort
   end
 
+  def participants
+    presentations.*.involvements.flatten.*.participant.sort.uniq
+  end
+
+  def participants_email_list
+    participants.select{|p| p.private_email_address}.collect do |p|
+      "#{p.name} <#{p.private_email_address}>"
+    end.sort
+  end
+
   def before_validation
     self.presentation_fields.sub!(/,+\s*$/, "")
   end

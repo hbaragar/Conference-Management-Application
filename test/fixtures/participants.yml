@@ -3,8 +3,14 @@ a_participant:
   name: Paper Author
   affiliation: Author Affiliations
   conference_id: 1
+  private_email_address: pa@ivy.league.edu
 b_participant:
   id: 2
   name: A. Paper Author
+  affiliation: Author Affiliations
+  conference_id: 1
+c_participant:
+  id: 3
+  name: No Email Address
   affiliation: Author Affiliations
   conference_id: 1

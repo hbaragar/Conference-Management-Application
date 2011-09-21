@@ -16,6 +16,8 @@ class PortfolioTest < ActiveSupport::TestCase
     assert_equal 1, @general.members.count
     assert_equal 1, @a_portfolio.cfps.count
     assert_equal 4, @a_portfolio.presentations.count
+    assert_equal 2, @a_portfolio.participants.count
+    assert_equal 1, @a_portfolio.participants_email_list.count
     assert_equal 1, @a_portfolio.days.count
   end
 

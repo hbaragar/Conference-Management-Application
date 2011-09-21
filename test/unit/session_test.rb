@@ -10,7 +10,7 @@ class SessionTest < ActiveSupport::TestCase
 
   def test_associations
     assert_equal 3, @a_session.presentations.count
-    assert_equal 1, @a_session.involvements.count
+    assert_equal 2, @a_session.involvements.count
   end
 
   def test_before_create

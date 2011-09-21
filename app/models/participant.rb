@@ -69,6 +69,10 @@ class Participant < ActiveRecord::Base
     conflicts
   end
 
+  def <=> rhs
+    name <=> rhs.name
+  end
+
 
   def to_html
     [

@@ -97,8 +97,18 @@
       </table-plus:presentations>
     </div>
   </collection:>
+  <before-members-collection-section:>
+    <h3>Participants</h3>
+    <ul>
+      <li><a href="& 'mailto:' + this.participants_email_list.join(',')">E-mail to all participants</a>
+      </li>
+    </ul>
+  </before-members-collection-section:>
   <members-collection: replace>
-    (<a href="& 'mailto:' + this.subcommittee_email_list.join(',')">E-mail to all</a>)
+    <ul>
+      <li><a href="& 'mailto:' + this.subcommittee_email_list.join(',')">E-mail to all members</a>
+      </li>
+    </ul>
     <table-plus:members fields="this, affiliation, private_email_address">
       <this-view:><a action="edit"/></this-view:>
       <search-form: replace />
