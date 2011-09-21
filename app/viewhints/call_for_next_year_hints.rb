@@ -8,7 +8,7 @@ class CallForNextYearHints < Hobo::ViewHints
   parent :portfolio
 
   field_help :details => %q(will be converted to HTML using
-      <a href="http://daringfireball.net/projects/markdown/" target="_blank">markdown</a>
+      <a href="http://daringfireball.net/projects/markdown/syntax" target="_blank">markdown</a>
       (similar to wiki markup)
     )
   

@@ -12,7 +12,7 @@ class CallForSupporterHints < Hobo::ViewHints
   field_help :details => %q(Introductory paragraphs are automatically generated from the
       portfolio and conference descriptions,
       and it will be converted to HTML using
-      <a href="http://daringfireball.net/projects/markdown/" target="_blank">markdown</a>
+      <a href="http://daringfireball.net/projects/markdown/syntax" target="_blank">markdown</a>
       (similar to wiki markup)
     )
   

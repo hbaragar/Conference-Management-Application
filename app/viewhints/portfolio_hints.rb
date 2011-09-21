@@ -10,7 +10,7 @@ class PortfolioHints < Hobo::ViewHints
   field_help :public_email_address => "to be published on the website", 
     :description => %q(will be used as an introduction to the CFP,
       and it will be converted to HTML using
-      <a href="http://daringfireball.net/projects/markdown/" target="_blank">markdown</a>
+      <a href="http://daringfireball.net/projects/markdown/syntax" target="_blank">markdown</a>
       (similar to wiki markup)
     ),
     :typical_session_duration => "in minutes &mdash; use 210 for half day sessions and 510 for full day sesssions",

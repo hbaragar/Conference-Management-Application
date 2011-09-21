@@ -10,13 +10,13 @@ class PresentationHints < Hobo::ViewHints
 
   field_help :reg_number => "the ID from the Registration System",
     :abstract => 'will be formatted using
-      <a href="http://daringfireball.net/projects/markdown/" target="_blank">markdown</a>
+      <a href="http://daringfireball.net/projects/markdown/syntax" target="_blank">markdown</a>
     ',
     :objectives => 'will be formatted using
-      <a href="http://daringfireball.net/projects/markdown/" target="_blank">markdown</a>
+      <a href="http://daringfireball.net/projects/markdown/syntax" target="_blank">markdown</a>
     ',
     :resume => 'will be formatted using
-      <a href="http://daringfireball.net/projects/markdown/" target="_blank">markdown</a>
+      <a href="http://daringfireball.net/projects/markdown/syntax" target="_blank">markdown</a>
     ',
     :short_title => 'used on the schedule-at-a-glance
     '

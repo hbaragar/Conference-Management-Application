@@ -6,7 +6,7 @@ class SupporterLevelHints < Hobo::ViewHints
   # children :primary_collection1, :aside_collection1, :aside_collection2
 
   field_help :description => %q(will be converted to HTML using
-      <a href="http://daringfireball.net/projects/markdown/" target="_blank">markdown</a>
+      <a href="http://daringfireball.net/projects/markdown/syntax" target="_blank">markdown</a>
       (similar to wiki markup)
     )
   
