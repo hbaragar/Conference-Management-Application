@@ -204,6 +204,8 @@ class Conference < ActiveRecord::Base
         :link  => JoomlaMenu::link_for(category)
       )
     end
+    category = section.categories.find_by_title(category_title = 'Conference Facility Floor Plans')
+    facility_areas.*.populate_joomla_program(category)
     overview_text = nil
   end
 

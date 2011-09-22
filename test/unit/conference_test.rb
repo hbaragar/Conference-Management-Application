@@ -69,7 +69,7 @@ class ConferenceTest < ActiveSupport::TestCase
     #
     assert category = section.categories.find_by_title('Conference Facility Floor Plans')
     assert_match /#{category.id}$/, menu.items.find_by_name('Conference Facility Floor Plans').link
-    assert_equal 0, category.articles.count
+    assert_equal 2, category.articles.count
   end
 
   test "populate menu area for grants" do

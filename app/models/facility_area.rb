@@ -23,6 +23,15 @@ class FacilityArea < ActiveRecord::Base
     self.name = html_encode_non_ascii_characters(name)
   end
 
+  def populate_joomla_program category
+    if joomla_article
+      joomla_article.update_attributes!(:title => name)
+    else
+      self.joomla_article = category.articles.create!(:title => name, :sectionid => category.section)
+      save
+    end
+  end
+
 
   # --- Permissions --- #
 
