@@ -181,7 +181,7 @@ class PortfolioTest < ActiveSupport::TestCase
     assert !@a_portfolio.destroyable_by?(users(:a_portfolio_chair))
     assert !@a_portfolio.destroyable_by?(users(:a_portfolio_member))
     @general.members.clear
-    assert !@general.destroyable_by?(users(:administrator))
+    assert  @general.destroyable_by?(users(:administrator))
     assert !@general.destroyable_by?(users(:general_chair))
     assert !@general.destroyable_by?(users(:a_colocated_conference_chair))
     assert !@general.destroyable_by?(users(:a_portfolio_chair))

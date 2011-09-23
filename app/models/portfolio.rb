@@ -318,8 +318,9 @@ class Portfolio < ActiveRecord::Base
   end
 
   def destroy_permitted?
-    return false if name == "General"
-    members.empty? && (conference.chair?(acting_user) || acting_user.administrator?)
+    return false unless members.empty?
+    return true if acting_user.administrator?
+    conference.chair?(acting_user) && self != conference.general_portfolio
   end
 
   def view_permitted?(field)
