@@ -24,7 +24,7 @@ class FacilityArea < ActiveRecord::Base
   end
 
   def after_destroy
-    joomla_article.destroy
+    joomla_article.destroy if joomla_article
   end
 
   def populate_joomla_program category

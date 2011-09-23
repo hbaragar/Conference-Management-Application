@@ -89,6 +89,12 @@ class Portfolio < ActiveRecord::Base
     self.state = 'changes_pending' if state == 'published'
   end
 
+  def after_destroy
+    joomla_article.destroy	if joomla_article
+    joomla_category.destroy	if joomla_category
+    joomla_menu.destroy		if joomla_menu
+  end
+
   def chair? user
     not (chairs & user.members).empty?
   end

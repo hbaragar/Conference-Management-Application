@@ -23,6 +23,33 @@ class DeferredDeletionTest < ActiveSupport::TestCase
     assert_equal 0, DeferredDeletion.count
   end
 
+  def test_deferred_deletetion_related_to_portfolio_deletion
+    a_portfolio = portfolios(:a_portfolio)
+    @a_conference.populate_joomla_menu_area_for "Program"
+    a_portfolio.reload
+    assert the_joomla_article = a_portfolio.joomla_article
+    assert the_joomla_category = a_portfolio.joomla_category
+    assert the_joomla_menu = a_portfolio.joomla_menu
+    a_portfolio.destroy
+    assert_equal 6, DeferredDeletion.count
+    assert ! Portfolio.exists?(:id => a_portfolio.id)
+    assert ! JoomlaArticle.exists?(the_joomla_article.id)
+    assert ! JoomlaCategory.exists?(the_joomla_category.id)
+    assert ! JoomlaMenu.exists?(the_joomla_menu.id)
+    simulate_load_from_joomla the_joomla_article
+    simulate_load_from_joomla the_joomla_category
+    simulate_load_from_joomla the_joomla_menu
+    assert   JoomlaArticle.exists?(the_joomla_article.id)
+    assert   JoomlaCategory.exists?(the_joomla_category.id)
+    assert   JoomlaMenu.exists?(the_joomla_menu.id)
+    @a_conference.reload
+    @a_conference.populate_joomla_menu_area_for "Program"
+    assert ! JoomlaArticle.exists?(the_joomla_article.id)
+    assert ! JoomlaCategory.exists?(the_joomla_category.id)
+    assert ! JoomlaMenu.exists?(the_joomla_menu.id)
+    assert_equal 0, DeferredDeletion.count
+  end
+
   def test_deferred_deletetion_related_to_session_deletion
     a_session = @a_conference.sessions.first
     @a_conference.populate_joomla_menu_area_for "Program"
@@ -77,8 +104,9 @@ class DeferredDeletionTest < ActiveSupport::TestCase
   end
 
   def simulate_load_from_joomla deleted_object
-    clone = JoomlaArticle.create(deleted_object.attributes)	
-    clone.connection.execute "update jos_content set id = #{deleted_object.id} where id = #{clone.id}"
+    klass = deleted_object.class
+    clone = klass.create(deleted_object.attributes)	
+    clone.connection.execute "update #{klass.table_name} set id = #{deleted_object.id} where id = #{clone.id}"
   end
 
 end

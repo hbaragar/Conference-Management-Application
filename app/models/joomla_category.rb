@@ -22,6 +22,10 @@ class JoomlaCategory < Joomla
   validates_format_of :alias, :with => /^[-\w]+/
   validates_uniqueness_of :alias, :scope => :section
 
+  def after_destroy
+    DeferredDeletion.create(:joomla_category_id => id)
+  end
+
   def restore_integrity! position = nil
     purge_articles_for_deleted_colocated_conferences
     self.ordering = position if position

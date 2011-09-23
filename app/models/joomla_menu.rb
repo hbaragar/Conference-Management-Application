@@ -63,6 +63,10 @@ secure=0
     end
   end
 
+  def after_destroy
+    DeferredDeletion.create(:joomla_menu_id => id)
+  end
+
   has_many :items, :class_name => 'JoomlaMenu', :foreign_key => :parent
 
   acts_as_list :column => :ordering

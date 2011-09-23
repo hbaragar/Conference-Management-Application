@@ -34,7 +34,7 @@ class Call < ActiveRecord::Base
   end
 
   def after_destroy
-    joomla_article.destroy
+    joomla_article.destroy if joomla_article
   end
 
 
