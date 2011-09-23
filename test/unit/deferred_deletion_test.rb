@@ -2,9 +2,13 @@ require 'test_helper'
 
 class DeferredDeletionTest < ActiveSupport::TestCase
 
+  def setup
+    @a_conference = conferences(:a_conference)
+  end
+
   def test_deferred_deletetion_related_to_session_deletion
-    a_session = sessions(:a_session)
-    a_session.conference.populate_joomla_menu_area_for "Program"
+    a_session = @a_conference.sessions.first
+    @a_conference.populate_joomla_menu_area_for "Program"
     a_session.reload
     assert the_joomla_article = a_session.joomla_article
     a_session.presentations.*.destroy
@@ -14,7 +18,26 @@ class DeferredDeletionTest < ActiveSupport::TestCase
     assert ! JoomlaArticle.exists?(the_joomla_article.id)
     simulate_load_from_joomla the_joomla_article
     assert   JoomlaArticle.exists?(the_joomla_article.id)
-    a_session.conference.populate_joomla_menu_area_for "Program"
+    @a_conference.reload
+    @a_conference.populate_joomla_menu_area_for "Program"
+    assert ! JoomlaArticle.exists?(the_joomla_article.id)
+    assert_equal 0, DeferredDeletion.count
+  end
+
+  def test_deferred_deletetion_related_to_conference_deletion
+    new_colo = @a_conference.colocated_conferences.create(:name => "New Colocated Conference")
+    @a_conference.populate_joomla_menu_area_for "Colocated Conferences"
+    new_colo.reload
+    assert   the_joomla_article = new_colo.joomla_article
+    assert   JoomlaArticle.exists?(the_joomla_article.id)
+    new_colo.destroy
+    assert_equal 1, DeferredDeletion.count
+    assert ! Conference.exists?(:id => new_colo.id)
+    assert ! JoomlaArticle.exists?(the_joomla_article.id)
+    simulate_load_from_joomla the_joomla_article
+    assert   JoomlaArticle.exists?(the_joomla_article.id)
+    @a_conference.reload
+    @a_conference.populate_joomla_menu_area_for "Program"
     assert ! JoomlaArticle.exists?(the_joomla_article.id)
     assert_equal 0, DeferredDeletion.count
   end

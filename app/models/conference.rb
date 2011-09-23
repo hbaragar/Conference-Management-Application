@@ -53,6 +53,10 @@ class Conference < ActiveRecord::Base
     update_attributes(:hosting_conference_id => id) unless hosting_conference_id
   end
 
+  def after_destroy
+    joomla_article.destroy
+  end
+
   def hosting?
     self == hosting_conference
   end
