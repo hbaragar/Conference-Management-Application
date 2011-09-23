@@ -133,7 +133,7 @@ class Session < ActiveRecord::Base
   end
 
   def at_a_glance_html include_portfolio = true
-    title = presentations.*.at_a_glance_title.join("\n")
+    title = time_slot("") + "\n" +  presentations.*.at_a_glance_title.join("\n")
     [
       (portfolio.at_a_glance_html if portfolio && include_portfolio),
       (joomla_article ? internal_link(joomla_article, at_a_glance_name, title) : at_a_glance_name)
