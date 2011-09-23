@@ -5,6 +5,7 @@ class Conference < ActiveRecord::Base
   hobo_model # Don't put anything above this
 
   belongs_to :hosting_conference, :class_name => "Conference"
+  belongs_to :general_portfolio, :class_name => "Portfolio"
   acts_as_list :scope => :hosting_conference_id
 
   fields do
@@ -65,14 +66,8 @@ class Conference < ActiveRecord::Base
     general_portfolio.chairs
   end
 
-  def general_portfolio
-    portfolios.find_by_name("General")
-  end
-
   def chair? user
-    ((members + hosting_conference.members) & user.members).select do |m|
-      m.portfolio.name == "General" && m.chair
-    end.count > 0 
+    ((chairs + hosting_conference.chairs) & user.members).count > 0
   end
 
   def cfp_due_dates
@@ -119,6 +114,8 @@ class Conference < ActiveRecord::Base
 
   def after_create 
     portfolios << Portfolio.new(:name => "General")
+    self.general_portfolio = portfolios.first
+    save
   end
 
   def publish_to_joomla menu_name

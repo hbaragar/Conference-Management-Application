@@ -155,8 +155,8 @@ class PortfolioTest < ActiveSupport::TestCase
     assert !@a_portfolio.updatable_by?(users(:a_colocated_conference_chair))
     assert !@a_portfolio.updatable_by?(users(:a_portfolio_member))
     @general.name = 'Not allowed'
-    assert !@general.updatable_by?(users(:administrator))
-    assert !@general.updatable_by?(users(:general_chair))
+    assert  @general.updatable_by?(users(:administrator))
+    assert  @general.updatable_by?(users(:general_chair))
     assert !@general.updatable_by?(users(:a_portfolio_chair))
     assert !@general.updatable_by?(users(:a_colocated_conference_chair))
     assert !@general.updatable_by?(users(:a_portfolio_member))

@@ -4,6 +4,7 @@ a_conference:
   hosting_conference_id: 1
   description: The successor to OOPSLA
   position: 1
+  general_portfolio_id: 1
 
 a_colocated_conference:
   id: 2
@@ -13,6 +14,7 @@ a_colocated_conference:
   logo_url: "http://www.onward-conference.org/logo.gif"
   description: Was part of OOPSLA
   position: 2
+  general_portfolio_id: 3
 
 a_conference_next_year:
   id: 3
@@ -20,3 +22,4 @@ a_conference_next_year:
   hosting_conference_id: 3
   description: The successor to OOPSLA
   position: 1
+  general_portfolio_id: 7
