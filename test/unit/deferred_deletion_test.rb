@@ -42,6 +42,23 @@ class DeferredDeletionTest < ActiveSupport::TestCase
     assert_equal 0, DeferredDeletion.count
   end
 
+  def test_deferred_deletetion_related_to_facility_area_deletion
+    a_facility_area = @a_conference.facility_areas.create(:name => "New Facility Area")
+    @a_conference.populate_joomla_menu_area_for "Program"
+    a_facility_area.reload
+    assert the_joomla_article = a_facility_area.joomla_article
+    a_facility_area.destroy
+    assert_equal 1, DeferredDeletion.count
+    assert ! FacilityArea.exists?(:id => a_facility_area.id)
+    assert ! JoomlaArticle.exists?(the_joomla_article.id)
+    simulate_load_from_joomla the_joomla_article
+    assert   JoomlaArticle.exists?(the_joomla_article.id)
+    @a_conference.reload
+    @a_conference.populate_joomla_menu_area_for "Program"
+    assert ! JoomlaArticle.exists?(the_joomla_article.id)
+    assert_equal 0, DeferredDeletion.count
+  end
+
   def simulate_load_from_joomla deleted_object
     clone = JoomlaArticle.create(deleted_object.attributes)	
     clone.connection.execute "update jos_content set id = #{deleted_object.id} where id = #{clone.id}"

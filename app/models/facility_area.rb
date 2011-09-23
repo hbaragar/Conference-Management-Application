@@ -23,6 +23,10 @@ class FacilityArea < ActiveRecord::Base
     self.name = html_encode_non_ascii_characters(name)
   end
 
+  def after_destroy
+    joomla_article.destroy
+  end
+
   def populate_joomla_program category
     if joomla_article
       joomla_article.update_attributes!(:title => name)
