@@ -44,6 +44,10 @@ class Session < ActiveRecord::Base
     portfolio.changes_pending!
   end
 
+  def after_destroy
+    joomla_article.destroy
+  end
+
   def overlaps? rhs
     starts_at > rhs.starts_at ?
       rhs.overlaps?(self) :

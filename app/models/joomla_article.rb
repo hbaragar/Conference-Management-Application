@@ -36,6 +36,10 @@ readmore=
     self.attribs = DEFAULT_ATTRIBS
   end
 
+  def after_destroy
+    DeferredDeletion.create(:joomla_article_id => id)
+  end
+
   acts_as_list :column => :ordering, :scope => 'catid = #{catid}'
 
   has_one :cfp, :foreign_key => :joomla_article_id

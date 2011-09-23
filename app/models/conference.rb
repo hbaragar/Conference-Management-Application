@@ -14,7 +14,7 @@ class Conference < ActiveRecord::Base
     description :markdown
   end
 
-  belongs_to :joomla_article, :class_name => "JoomlaArticle"		# For Colocated conferences
+  belongs_to :joomla_article		# For Colocated conferences
 
   has_many :colocated_conferences, :class_name => "Conference", :foreign_key => :hosting_conference_id,
     :conditions => 'conferences.id != conferences.hosting_conference_id'
@@ -142,6 +142,7 @@ class Conference < ActiveRecord::Base
   ]
 
   def populate_joomla_menu_area_for menu_name
+    DeferredDeletion.all.*.destroy
     MAIN_MENU.each_with_index do |config, index|
       area = joomla_area_for config		# Make sure areas and menu items ...
       menu = joomla_menu_for area, index	# ... are always up to date
