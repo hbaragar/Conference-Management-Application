@@ -6,6 +6,23 @@ class DeferredDeletionTest < ActiveSupport::TestCase
     @a_conference = conferences(:a_conference)
   end
 
+  def test_deferred_deletetion_related_to_call_deletion
+    a_call = @a_conference.portfolios.*.cfps.flatten.first
+    @a_conference.populate_joomla_menu_area_for "Program"
+    a_call.reload
+    assert the_joomla_article = a_call.joomla_article
+    a_call.destroy
+    assert_equal 1, DeferredDeletion.count
+    assert ! Call.exists?(:id => a_call.id)
+    assert ! JoomlaArticle.exists?(the_joomla_article.id)
+    simulate_load_from_joomla the_joomla_article
+    assert   JoomlaArticle.exists?(the_joomla_article.id)
+    @a_conference.reload
+    @a_conference.populate_joomla_menu_area_for "Program"
+    assert ! JoomlaArticle.exists?(the_joomla_article.id)
+    assert_equal 0, DeferredDeletion.count
+  end
+
   def test_deferred_deletetion_related_to_session_deletion
     a_session = @a_conference.sessions.first
     @a_conference.populate_joomla_menu_area_for "Program"

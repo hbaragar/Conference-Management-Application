@@ -33,6 +33,10 @@ class Call < ActiveRecord::Base
     self.state = 'changes_pending' if state == 'published'
   end
 
+  def after_destroy
+    joomla_article.destroy
+  end
+
 
   def name
     portfolio.to_s
