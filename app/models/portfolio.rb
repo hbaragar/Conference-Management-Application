@@ -60,7 +60,7 @@ class Portfolio < ActiveRecord::Base
   end
 
   def participants
-    presentations.*.involvements.flatten.*.participant.sort.uniq
+    presentations.*.involvements.flatten.*.participant.compact.sort.uniq
   end
 
   def participants_email_list
