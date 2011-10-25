@@ -55,7 +55,13 @@ class Session < ActiveRecord::Base
   end
 
   def <=> rhs
-    cmp = room.name <=> rhs.room.name
+    cmp = if room && rhs.room
+	    room.name <=> rhs.room.name
+	  elsif room
+	    1
+	  else
+	    -1
+	  end
     return cmp unless cmp == 0
     cmp = starts_at <=> rhs.starts_at
     return cmp unless cmp == 0
