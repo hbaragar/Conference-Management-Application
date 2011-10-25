@@ -55,6 +55,8 @@ class Session < ActiveRecord::Base
   end
 
   def <=> rhs
+    cmp = room.name <=> rhs.room.name
+    return cmp unless cmp == 0
     cmp = starts_at <=> rhs.starts_at
     return cmp unless cmp == 0
     cmp = duration <=> rhs.duration
