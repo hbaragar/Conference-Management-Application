@@ -10,13 +10,13 @@ RAILS_ENV=`rails-env $1`
 mysqldump conference_$RAILS_ENV --skip-add-locks --skip-disable-keys $TABLES |
     case $RAILS_ENV in 
 	production)
-	    ssh acm mysql splashcon2011
+	    ssh acm mysql splashcon2012
 	    ;;
 	uat)
-	    ssh projects mysql splash2011_uat
+	    ssh projects mysql splash2012_uat
 	    ;;
 	development)
-	    mysql splash2011_development
+	    mysql splash2012_development
 	    ;;
 	*)
 	    echo >&2 "$0 error: source not one of: production, uat, development"
