@@ -1,12 +1,5 @@
 The Conference Management Application (CMA)
 
-The SPLASH Conference (http://www.splashcon.org) is a major, internationally reknowned,
-computer science conference on Systems, Programming, Languages and Applications: Software
-for Humanity.  The main website uses Joomla (http://www.joomla.org/) for content management, 
-which is great for managing a large part of the site, but is not so good for managing the 
-calls for presentations, the schedule, nor the other pages pages that share common fragments.
-This is where the CMA shines.
+The SPLASH Conference (http://www.splashcon.org) is a major, internationally reknowned, computer science conference on Systems, Programming, Languages and Applications: Software for Humanity.  The main website uses Joomla (http://www.joomla.org/) for content management, which is great for managing a large part of the site, but is not so good for managing the calls for presentations, the schedule, nor the other pages pages that share common fragments.  This is where the CMA shines.
 
-The CMA is a website used by the conference committee to enter all the bits of data in one place.
-When the data is ready to be published, the user presses a button that causes Joomla pages to be
-assembled and synchronized with the main conference website.
+The CMA is a website used by the conference committee to enter all the bits of data in one place.  When the data is ready to be published, the user presses a button that causes Joomla pages to be assembled and synchronized with the main conference website.
