@@ -1,0 +1,11 @@
+#! /bin/bash
+
+RAILS_ENV=${1-$RAILS_ENV}
+
+if [ x"$RAILS_ENV" = x ]
+then
+    echo 2>&1 "$0, error:  please provide a rails environment"
+    exit 1
+fi
+
+passenger start -e ${RAILS_ENV} -d -S tmp/passenger.socket

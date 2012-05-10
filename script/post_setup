@@ -1,0 +1,15 @@
+#! /bin/bash
+
+# This can't be run from rake because rake requires
+# the gems to be previously installed
+bundle install --deployment
+echo ""
+echo "On the server don't forget to set up:"
+echo "  1. config/environments/$RAILS_ENV.rb"
+echo "  2. config/database.yml"
+echo "  3. $RAILS_ENV/public_html/... link"
+echo "Then on the client run:"
+echo "    rake deploy:now to=$RAILS_ENV"
+echo "Finally back on the server:"
+echo "     script/start-passenger"
+echo ""

@@ -10,3 +10,5 @@ require 'rdoc/task'
 require 'tasks/rails'
 
 require 'hobo/tasks/rails'
+
+require 'whiskey_disk/rake'

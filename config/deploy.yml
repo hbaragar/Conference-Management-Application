@@ -1,0 +1,17 @@
+uat:
+  domain: "splash@projectz.instantiated.ca"
+  deploy_to: "~/uat/management/"
+  repository:  "dunfield@projectz.instantiated.ca:git/squash.git"
+  post_setup_script: script/post_setup
+  branch: "uat"
+  rake_env:
+    RAILS_ENV: 'uat'
+production:
+  domain: "splash@projectz.instantiated.ca"
+  deploy_to: "~/production/management/"
+  repository:  "dunfield@projectz.instantiated.ca:git/squash.git"
+  post_setup_script: script/post_setup
+  branch: "master"
+  rake_env:
+    RAILS_ENV: 'production'
+
