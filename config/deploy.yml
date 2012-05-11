@@ -1,5 +1,5 @@
 uat:
-  domain: "splash@projectz.instantiated.ca"
+  domain: "splash@projects.instantiated.ca"
   deploy_to: "~/uat/management/"
   repository:  "git@github.com:hbaragar/Conference-Management-Application.git"
   post_setup_script: script/post_setup
@@ -7,7 +7,7 @@ uat:
   rake_env:
     RAILS_ENV: 'uat'
 production:
-  domain: "splash@projectz.instantiated.ca"
+  domain: "splash@projects.instantiated.ca"
   deploy_to: "~/production/management/"
   repository:  "git@github.com:hbaragar/Conference-Management-Application.git"
   post_setup_script: script/post_setup
