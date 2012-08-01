@@ -44,7 +44,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  acts_as_list (= 0.1.4)
+  acts_as_list (< 0.1.5)
   bluecloth
   hobo (< 1.1.0)
   mysql
