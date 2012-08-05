@@ -46,7 +46,7 @@ class Presentation < ActiveRecord::Base
   end
 
   validates_uniqueness_of :title, :scope => :portfolio_id
-  validates_uniqueness_of :short_title, :scope => :portfolio_id, :allow_nil => true
+  validates_uniqueness_of :short_title, :scope => :portfolio_id, :allow_nil => true, :allow_blank => true
 
 
   def before_save
