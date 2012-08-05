@@ -27,7 +27,7 @@ class Session < ActiveRecord::Base
   default_scope :order => "starts_at, duration, name"
 
   validates_uniqueness_of :name, :scope => :portfolio_id
-  validates_uniqueness_of :short_name, :scope => :portfolio_id, :allow_nil => true
+  validates_uniqueness_of :short_name, :scope => :portfolio_id, :allow_nil => true, :allow_blank => true
 
   def after_update
     return unless single_presentation?

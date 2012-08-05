@@ -17,7 +17,7 @@ GEM
       hobofields (= 1.0.3)
       hobosupport (= 1.0.3)
       rails (>= 2.2.2, < 3.0.0)
-      will_paginate (>= 2.3.11, ~> 2)
+      will_paginate (~> 2, >= 2.3.11)
     hobofields (1.0.3)
       hobosupport (= 1.0.3)
       rails (>= 2.2.2, < 3.0.0)

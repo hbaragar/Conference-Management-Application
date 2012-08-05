@@ -44,7 +44,7 @@ class Portfolio < ActiveRecord::Base
   named_scope :with_sessions, :conditions => 'session_type != "no_sessions"'
 
   validates_uniqueness_of :name, :scope => :conference_id
-  validates_uniqueness_of :short_name, :scope => :conference_id, :allow_nil => true
+  validates_uniqueness_of :short_name, :scope => :conference_id, :allow_nil => true, :allow_blank => true
   validates_numericality_of :typical_session_duration, :only_integer => true, :greater_than_or_equal_to => 0
 
   def hosting_conference
