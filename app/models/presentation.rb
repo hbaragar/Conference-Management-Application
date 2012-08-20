@@ -60,7 +60,13 @@ class Presentation < ActiveRecord::Base
   end
 
   def after_update
-    return unless session && session.single_presentation?
+    return unless session 
+    if session_id_changed?
+      [session_id_was, session_id].compact.each do |id|
+	Session.find(id).normalize_presentation_positions!
+      end
+    end
+    return unless session.single_presentation?
     session.update_attributes(:name => title) unless session.name == title
     session.update_attributes(:short_name => short_title) unless session.short_name == short_title
   end

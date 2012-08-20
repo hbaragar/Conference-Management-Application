@@ -48,6 +48,14 @@ class Session < ActiveRecord::Base
     joomla_article.destroy if joomla_article
   end
 
+  def normalize_presentation_positions!
+    presentations.each_with_index do |p, i|
+      p.position = i + 1
+      p.save
+    end
+    after_save
+  end
+
   def overlaps? rhs
     starts_at > rhs.starts_at ?
       rhs.overlaps?(self) :
