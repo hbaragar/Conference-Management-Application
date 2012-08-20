@@ -146,3 +146,6 @@ div.at-a-glance {
 
 .at-a-glance .evening.happening { vertical-align: middle; text-align: center; }
 .at-a-glance .evening.happening .time-slot { white-space: nowrap; }
+
+
+div.ordering-buttons { float: left; color: white; margin-left: -10px; padding: 0; }

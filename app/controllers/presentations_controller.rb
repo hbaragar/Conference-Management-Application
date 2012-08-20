@@ -9,5 +9,7 @@ class PresentationsController < ApplicationController
   auto_actions_for :portfolio, [:new, :create]
   auto_actions_for :session, [:new, :create]
 
+  web_method :move_higher
+  web_method :move_lower
 
 end

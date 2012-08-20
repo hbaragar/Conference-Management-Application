@@ -215,4 +215,12 @@ class Presentation < ActiveRecord::Base
     end
   end
 
+  def move_higher_permitted?
+    portfolio.chair?(acting_user) || conference.chair?(acting_user) || acting_user.administrator?
+  end
+
+  def move_lower_permitted?
+    portfolio.chair?(acting_user) || conference.chair?(acting_user) || acting_user.administrator?
+  end
+
 end

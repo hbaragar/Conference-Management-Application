@@ -52,4 +52,18 @@ class PresentationTest < ActiveSupport::TestCase
     assert ! @a_presentation.viewable_by?(users(:a_portfolio_member), :url)
   end
 
+  def test_web_method_positions
+    assert @a_presentation.method_callable_by?(users(:administrator), :move_higher)
+    assert @a_presentation.method_callable_by?(users(:general_chair), :move_higher)
+    assert @a_presentation.method_callable_by?(users(:a_portfolio_chair), :move_higher)
+    assert !@a_presentation.method_callable_by?(users(:a_colocated_conference_chair), :move_higher)
+    assert !@a_presentation.method_callable_by?(users(:a_portfolio_member), :move_higher)
+    #
+    assert @a_presentation.method_callable_by?(users(:administrator), :move_lower)
+    assert @a_presentation.method_callable_by?(users(:general_chair), :move_lower)
+    assert @a_presentation.method_callable_by?(users(:a_portfolio_chair), :move_lower)
+    assert !@a_presentation.method_callable_by?(users(:a_colocated_conference_chair), :move_lower)
+    assert !@a_presentation.method_callable_by?(users(:a_portfolio_member), :move_lower)
+  end
+
 end
