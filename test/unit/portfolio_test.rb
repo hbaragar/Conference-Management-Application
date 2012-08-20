@@ -166,6 +166,13 @@ class PortfolioTest < ActiveSupport::TestCase
     assert !@a_portfolio.updatable_by?(users(:a_portfolio_chair))
     assert !@a_portfolio.updatable_by?(users(:a_colocated_conference_chair))
     assert !@a_portfolio.updatable_by?(users(:a_portfolio_member))
+    @a_portfolio.reload 
+    @a_portfolio.external_reference_prefix = 'new'
+    assert @a_portfolio.updatable_by?(users(:administrator))
+    assert !@a_portfolio.updatable_by?(users(:general_chair))
+    assert !@a_portfolio.updatable_by?(users(:a_portfolio_chair))
+    assert !@a_portfolio.updatable_by?(users(:a_colocated_conference_chair))
+    assert !@a_portfolio.updatable_by?(users(:a_portfolio_member))
   end
 
   def test_destroy_permissions
