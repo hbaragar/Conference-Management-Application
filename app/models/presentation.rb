@@ -222,7 +222,7 @@ class Presentation < ActiveRecord::Base
   end
 
   def move_higher_permitted?
-    !editable_by?(acting_user, :position)
+    editable_by?(acting_user, :position)
   end
 
   def move_lower_permitted?

@@ -3,19 +3,7 @@
     <transition-buttons:portfolio/>
   </before-collection-heading:>
   <collection: replace >
-    <collection:presentations class="sortable" part="session">
-      <before-item:>
-	<div class="ordering-buttons">
-	  <unless test="&this.first?">
-	    <remote-method-button method="move_higher" if="&can_edit?" label="&uarr;" update="session"/>
-	    <br />
-	  </unless>
-	  <unless test="&this.last?">
-	    <remote-method-button method="move_lower" if="&can_edit?" label="&darr;" update="session"/>
-	  </unless>
-	</div>
-      </before-item:>
-    </collection:presentations>
+    <button-sortable-collection:presentations/>
   </collection:>
   <involvements-collection-heading:>Participants</involvements-collection-heading:>
   <involvements-collection: replace>

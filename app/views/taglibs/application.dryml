@@ -112,3 +112,18 @@
     <after-submit: go-back />
   </old-form>
 </extend>
+
+<def tag="button-sortable-collection">
+  <collection class="button-sortable" part="button-sortable-collection" id="button-sortable-collection">
+    <before-item:>
+      <div class="ordering-buttons">
+	<unless test="&first_item?">
+	  <remote-method-button method="move_higher" if="&can_edit?" label="&uarr;" update="button-sortable-collection"/><br />
+	</unless>
+	<unless test="&last_item?">
+	  <remote-method-button method="move_lower" if="&can_edit?" label="&darr;" update="button-sortable-collection"/><br />
+	</unless>
+      </div>
+    </before-item:>
+  </collection>
+</def>
