@@ -115,7 +115,7 @@
 
 <def tag="button-sortable-collection">
   <collection class="button-sortable" part="button-sortable-collection" id="button-sortable-collection">
-    <before-item:>
+    <prepend-item:>
       <div class="ordering-buttons">
 	<unless test="&first_item?">
 	  <remote-method-button method="move_higher" if="&can_edit?" label="&uarr;" update="button-sortable-collection"/><br />
@@ -124,6 +124,6 @@
 	  <remote-method-button method="move_lower" if="&can_edit?" label="&darr;" update="button-sortable-collection"/><br />
 	</unless>
       </div>
-    </before-item:>
+    </prepend-item:>
   </collection>
 </def>
