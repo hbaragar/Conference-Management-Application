@@ -42,8 +42,16 @@ class Day
     "#{day} (#{short_date})"
   end
 
+  def short_name
+    "#{short_day} - #{short_date}"
+  end
+
   def day
     date.strftime('%A')
+  end
+  
+  def short_day
+    date.strftime('%a')
   end
 
   def short_date
@@ -116,7 +124,10 @@ class Day
   end
 
   def find_or_create_joomla_menu_in menu
-    joomla_menu = menu.items.find_by_name(name) || menu.items.create(:name => name)
+    if old_menu = menu.items.find_by_name(name)
+      old_menu.delete
+    end
+    joomla_menu = menu.items.find_by_name(short_name) || menu.items.create(:name => short_name)
     joomla_menu.update_attributes(
       :checked_out_time	=> date,
       :parent		=> menu.id,
