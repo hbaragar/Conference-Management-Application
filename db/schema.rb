@@ -146,7 +146,7 @@ ActiveRecord::Schema.define(:version => 20110923204033) do
     t.integer "enabled",         :limit => 1,  :default => 1,  :null => false
   end
 
-  add_index "jos_components", ["parent", "option"], :name => "parent_option", :length => {"option"=>"32", "parent"=>nil}
+  add_index "jos_components", ["parent", "option"], :name => "parent_option", :length => {"parent"=>nil, "option"=>"32"}
 
   create_table "jos_content", :force => true do |t|
     t.string   "title",                                :default => "", :null => false

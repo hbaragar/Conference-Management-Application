@@ -128,13 +128,13 @@ class Conference < ActiveRecord::Base
 
   MAIN_MENU = [
     { :name => "Home",			:class => JoomlaSection,  :collection => "selves", :alias => 'general-information' },
-    { :name => "Grants",		:class => JoomlaSection,  :collection => "selves", :alias => 'boursaries' },
+    { :name => "Grants",		:class => JoomlaSection,  :collection => "selves", :alias => 'grants' },
     { :name => "Attending",		:class => JoomlaSection,  :collection => "selves", :order_on => :ordering },
     { :name => "Schedule",		:class => JoomlaSection,  :collection => "days", :order_on => :checked_out_time,
      :overview_table_columns => ['Day', 'Main Activities', 'Evening Activities']
     },
     { :name => "Program",		:class => JoomlaSection,  :collection => "portfolios_from_all_conferences", :order_on => :ordering },
-    { :name => "Call for Papers",	:class => JoomlaSection,  :collection => "cfp_due_dates", :alias => 'cfp', :order_on => :ordering},
+    { :name => "Calls",	:class => JoomlaSection,  :collection => "cfp_due_dates", :alias => 'cfp', :order_on => :ordering},
     { :name => "Committee",		:class => JoomlaCategory,  :collection => "portfolios_and_colocated_conferences", 
      :overview_table_columns => ['Portfolio', 'Chair', 'Affiliation', 'Country']
     },
@@ -159,7 +159,7 @@ class Conference < ActiveRecord::Base
     # Populated through Joomla itself
   end
 
-  def populate_joomla_boursaries section, extras
+  def populate_joomla_grants section, extras
     grants_menu = JoomlaMenu.find_by_name(section.title)
     overview_text = nil
   end
@@ -292,6 +292,7 @@ private
 
   def joomla_menu_for area, index
     name = area.title
+    puts "name=#{name}"
     link = JoomlaMenu::link_for(area)
     menu = JoomlaMenu.find_by_name(name) ||
       JoomlaMenu.find_by_link(link) ||
