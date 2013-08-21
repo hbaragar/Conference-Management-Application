@@ -332,4 +332,12 @@ class Portfolio < ActiveRecord::Base
     acting_user.signed_up?
   end
 
+  def move_higher_permitted?
+    editable_by?(acting_user, :position)
+  end
+
+  def move_lower_permitted?
+    editable_by?(acting_user, :position)
+  end
+
 end

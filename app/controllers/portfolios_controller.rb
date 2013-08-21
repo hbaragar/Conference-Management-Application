@@ -18,4 +18,7 @@ class PortfoliosController < ApplicationController
     )
  end
 
+  web_method :move_higher
+  web_method :move_lower
+
 end
