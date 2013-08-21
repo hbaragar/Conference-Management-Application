@@ -46,7 +46,7 @@ class CfpDueDate
       :sublevel		=> 1,
       :link		=> JoomlaMenu::link_for(joomla_category),
       :alias		=> nil,
-      :published	=> true
+      :published	=> false
     )
     joomla_menu.update_params! :orderby_pri => 'order', :orderby_sec => 'order'
     joomla_menu
