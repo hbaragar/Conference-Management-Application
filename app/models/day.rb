@@ -86,7 +86,7 @@ class Day
 	    part.collect do |portfolio|
 	      li(internal_link(portfolio.joomla_category, portfolio.name))
 	    end.join("\n")
-	  end.compact.join("\n" + li("&nbsp;") + "\n")
+	  end.compact.join("\n")
 	)
       ),
       td({:class => "evening"},
