@@ -46,7 +46,7 @@ class FacilityArea < ActiveRecord::Base
   end
 
   def update_permitted?
-    acting_user.administrator? || chair?(acting_user)
+    acting_user.administrator? || conference.chair?(acting_user)
   end
 
   def destroy_permitted?

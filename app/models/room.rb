@@ -79,19 +79,23 @@ class Room < ActiveRecord::Base
     )
   end
 
+  def conference
+    facility_area.conference
+  end
+
 
   # --- Permissions --- #
 
   def create_permitted?
-    acting_user.administrator? || chair?(acting_user)
+    acting_user.administrator? || conference.chair?(acting_user)
   end
 
   def update_permitted?
-    acting_user.administrator? || chair?(acting_user)
+    acting_user.administrator? || conference.chair?(acting_user)
   end
 
   def destroy_permitted?
-    acting_user.administrator? || chair?(acting_user)
+    acting_user.administrator? || conference.chair?(acting_user)
   end
 
   def view_permitted?(field)
