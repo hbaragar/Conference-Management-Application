@@ -143,7 +143,7 @@ class Presentation < ActiveRecord::Base
 
   def intro_html
     if session.single_presentation?
-      div("participants",participants_to_html)
+      to_html
     else
       li(title_to_html,
 	div("participants",participants_to_html)
