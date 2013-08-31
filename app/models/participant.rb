@@ -18,6 +18,8 @@ class Participant < ActiveRecord::Base
 
   has_many :involvements, :dependent => :destroy
   has_many :presentations, :through => :involvements
+  has_many :sessions_chaired,
+    :class_name => "Session", :foreign_key => :chair_id
 
   def portfolios
     presentations.*.portfolio
@@ -44,7 +46,7 @@ class Participant < ActiveRecord::Base
   end
 
   def sessions
-    presentations.*.session.sort
+    (sessions_chaired + presentations.*.session).sort
   end
 
   def set_conflicted!
