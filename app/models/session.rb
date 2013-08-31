@@ -137,8 +137,15 @@ class Session < ActiveRecord::Base
 
   def coordinates_to_html
     div("coordinates",
-      "#{time_slot} - #{room_to_html}"
+      "#{time_slot} - #{room_to_html}",
+      chair_to_html
     )
+  end
+
+  def chair_to_html
+    if (chair) 
+      div("chair", "Chair: #{chair}")
+    end
   end
 
   def room_to_html
