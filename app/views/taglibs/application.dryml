@@ -57,6 +57,7 @@
   <old-form merge>
     <field-list:>
       <room-view:><select-one options="&this_parent.hosting_conference.rooms" /></room-view:>
+      <chair-view:><name-one/></chair-view:>
     </field-list:>
   </old-form>
 </extend>

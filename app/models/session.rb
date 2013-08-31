@@ -9,6 +9,7 @@ class Session < ActiveRecord::Base
   hobo_model # Don't put anything above this
 
   belongs_to :portfolio
+  belongs_to :chair, :class_name => "Participant"
 
   fields do
     name       :string, :required, :default => DEFAULT_NAME

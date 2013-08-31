@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110923204033) do
+ActiveRecord::Schema.define(:version => 20130827174536) do
 
   create_table "broadcast_emails", :force => true do |t|
     t.integer  "cfp_id"
@@ -146,7 +146,7 @@ ActiveRecord::Schema.define(:version => 20110923204033) do
     t.integer "enabled",         :limit => 1,  :default => 1,  :null => false
   end
 
-  add_index "jos_components", ["parent", "option"], :name => "parent_option", :length => {"parent"=>nil, "option"=>"32"}
+  add_index "jos_components", ["parent", "option"], :name => "parent_option", :length => {"option"=>"32", "parent"=>nil}
 
   create_table "jos_content", :force => true do |t|
     t.string   "title",                                :default => "", :null => false
@@ -323,15 +323,17 @@ ActiveRecord::Schema.define(:version => 20110923204033) do
   create_table "sessions", :force => true do |t|
     t.integer  "portfolio_id"
     t.string   "name",              :default => "To Be Scheduled"
-    t.datetime "starts_at",         :default => '2011-10-22 08:00:00'
+    t.datetime "starts_at",         :default => '2013-10-26 08:00:00'
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "joomla_article_id"
     t.integer  "duration"
     t.integer  "room_id"
     t.string   "short_name"
+    t.integer  "chair_id"
   end
 
+  add_index "sessions", ["chair_id"], :name => "index_sessions_on_chair_id"
   add_index "sessions", ["joomla_article_id"], :name => "index_sessions_on_joomla_article_id"
   add_index "sessions", ["portfolio_id"], :name => "index_sessions_on_portfolio_id"
   add_index "sessions", ["room_id"], :name => "index_sessions_on_room_id"
