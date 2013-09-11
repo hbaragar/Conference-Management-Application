@@ -243,7 +243,7 @@ class Portfolio < ActiveRecord::Base
 	  tr({}, td({},m.to_html("starred")), td({},m.affiliation), td({},m.country))
 	end
       ),
-      "* chair"
+      (cfp && cfp.external_reviwer_subcommittee_as_html)
     )
   end
 

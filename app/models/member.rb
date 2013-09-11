@@ -69,7 +69,7 @@ class Member < ActiveRecord::Base
     if chair && (portfolio.public_email_address =~ /@/ rescue false)
       html = email_link(html, portfolio.public_email_address)
     end
-    html += "*" if chair && chairs_starred
+    html += " (chair)" if chair && chairs_starred
     html
   end
 
