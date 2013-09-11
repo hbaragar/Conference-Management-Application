@@ -135,7 +135,7 @@ class Conference < ActiveRecord::Base
     },
     { :name => "Program",		:class => JoomlaSection,  :collection => "portfolios_from_all_conferences", :order_on => :ordering },
     { :name => "Calls",	:class => JoomlaSection,  :collection => "cfp_due_dates", :alias => 'cfp', :order_on => :ordering},
-    { :name => "Committee",		:class => JoomlaCategory,  :collection => "portfolios_and_colocated_conferences", 
+    { :name => "Committees",		:class => JoomlaCategory,  :collection => "portfolios_and_colocated_conferences", 
      :overview_table_columns => ['Portfolio', 'Chair', 'Affiliation', 'Country']
     },
     { :name => "Colocated Conferences",	:class => JoomlaCategory, :collection => "colocated_conferences" },
@@ -233,7 +233,7 @@ class Conference < ActiveRecord::Base
     overview_text = nil
   end
 
-  def populate_joomla_committee category, extras
+  def populate_joomla_committees category, extras
     # called for each colocated conference (not for the host conference)
     with = " &amp; "
     overview_text = tr({:class => 'committee'},
