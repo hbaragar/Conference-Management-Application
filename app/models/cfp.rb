@@ -123,6 +123,20 @@ class Cfp < Call
     )
   end
 
+  def external_reviwer_subcommittee_as_html
+    return if external_reviewers.empty?
+    table({},
+      tr({:class => 'committee'}, th({:colspan => 3},"#{name} External Reviewers")),
+      external_reviewers.collect do |er|
+	tr({},
+	  td({},er.name),
+	  td({},er.affiliation),
+	  td({},er.country)
+	)
+      end
+    )
+  end
+
   def role_of member
     member.chair ? " (chair)" : ""
   end

@@ -216,7 +216,7 @@ class Portfolio < ActiveRecord::Base
     overview_text = nil
   end
 
-  def populate_joomla_committee category, extras
+  def populate_joomla_committees category, extras
     return nil if members.empty?
     unless joomla_article 
       self.joomla_article = category.articles.create!(:title => name)
@@ -243,7 +243,7 @@ class Portfolio < ActiveRecord::Base
 	  tr({}, td({},m.to_html("starred")), td({},m.affiliation), td({},m.country))
 	end
       ),
-      "* chair"
+      (cfp && cfp.external_reviwer_subcommittee_as_html)
     )
   end
 
