@@ -1,6 +1,6 @@
 class ConferencesController < ApplicationController
 
-  before_filter :login_required
+  before_filter :login_required, :except => :for_confero
 
   hobo_model_controller
 
@@ -14,6 +14,7 @@ class ConferencesController < ApplicationController
   show_action :manage_colocated_conferences
   show_action :reorder_portfolios
   show_action :committee_email_lists
+  show_action :for_confero
 
   def index
     hobo_index Conference.host_conferences.apply_scopes(
@@ -50,6 +51,12 @@ class ConferencesController < ApplicationController
     hobo_show do
       @conference.rooms.*.set_conflicted!
       hobo_index @conference.rooms.conflicted
+    end
+  end
+
+  def for_confero
+    hobo_show do |format|
+      format.json { render :json => @conference.as_confero_json }
     end
   end
 

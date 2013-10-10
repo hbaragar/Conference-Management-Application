@@ -229,4 +229,16 @@ class Presentation < ActiveRecord::Base
     editable_by?(acting_user, :position)
   end
 
+  def as_confero_json
+    # see https://www.conference-publishing.com/ConfEventData-JSON.php
+    return {
+      :Title	=> title,
+      :Type	=> portfolio.name,
+      :Key	=> id,
+      :URL	=> url,
+      :Authors	=> participants.*.id,
+      :Abstract	=> abstract
+    }
+  end
+
 end

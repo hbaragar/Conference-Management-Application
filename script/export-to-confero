@@ -1,0 +1,20 @@
+#!/usr/bin/ruby
+#
+# Usage:  publish-to-joomla [<Menu Name>|All Areas]
+
+ENV['RAILS_ENV'] ||= File.expand_path('.')[/production|uat|development/]
+
+require File.dirname(__FILE__) + '/../config/environment'
+
+conference = Conference.find_by_name('SPLASH 2013')
+our_file = "2013SPLASH.json"
+
+Dir.chdir "tmp/conf-data"
+system "git fetch upstream && git merge upstream/master"
+File.open(our_file, "w") do |f|
+  f.write JSON.pretty_generate(conference.as_confero_json)
+end
+system "git add #{our_file} && git commit -m '#{conference.name} updates' && git push"
+
+
+

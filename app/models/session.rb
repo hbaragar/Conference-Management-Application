@@ -27,6 +27,10 @@ class Session < ActiveRecord::Base
 
   default_scope :order => "starts_at, duration, name"
 
+  def url
+    single_presentation? ?  presentations.first.url : ""
+  end
+
   validates_uniqueness_of :name, :scope => :portfolio_id
   validates_uniqueness_of :short_name, :scope => :portfolio_id, :allow_nil => true, :allow_blank => true
 
@@ -218,6 +222,23 @@ class Session < ActiveRecord::Base
   def initialize *args
     super *args
     self.duration ||= portfolio && portfolio.typical_session_duration
+  end
+
+  def as_confero_json
+    # see https://www.conference-publishing.com/ConfEventData-JSON.php
+    return {
+      :Title	=> name,
+      :ShortTitle => short_name,
+      :Type	=> portfolio.name,
+      :Key	=> id,
+      :Type	=> portfolio.name,
+      :URL	=> url,
+      :Day	=> starts_at.strftime("%Y-%m-%d"),
+      :Time	=> [starts_at, ends_at].*.strftime("%H:%M").join(" - "),
+      :Location	=> "#{room.name} (#{room.facility_area.name})",
+      :ChairsString => (chair && chair.name || ""),
+      :Items	=> presentations.*.id
+    }
   end
 
 end

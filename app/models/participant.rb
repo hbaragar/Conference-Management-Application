@@ -105,4 +105,14 @@ class Participant < ActiveRecord::Base
     acting_user.signed_up?
   end
 
+  def as_confero_json
+    # see https://www.conference-publishing.com/ConfEventData-JSON.php
+    return {
+      :Name	=> name,
+      :Affiliation => [affiliation, country].grep(/\w/).join(", "),
+      :Bio	=> bio || "",
+      :Key	=> id,
+    }
+  end
+
 end

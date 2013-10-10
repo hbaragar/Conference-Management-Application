@@ -279,6 +279,49 @@ class Conference < ActiveRecord::Base
     true
   end
 
+  def as_confero_json
+    # see https://www.conference-publishing.com/ConfEventData-JSON.php
+    export = {
+      :DataRevision => 4,
+      :Event	=> id,
+      :Name	=> name,
+      :Description=> description,
+      :Location	=> "Indianapolis, Indiana, USA",
+      :URL	=> url,
+      :MultiTrack	=> true,
+      :SocialFeeds	=> [
+	{
+	  :Name		=> "Plaxo",
+	  :URL		=> "http://splash2013.plaxogroups.com/"
+	},
+	{
+	  :Name		=> "Facebook",
+	  :URL		=> "https://www.facebook.com/SPLASHCon"
+	},
+	{
+	  :Name		=> "LinkedIn",
+	  :URL		=> "http://www.linkedin.com/groups?mostPopular=&gid=2487082"
+	},
+	{
+	  :Name		=> "Twitter",
+	  :Keywords	=> ["splascon"],
+	  :URL		=> "http://twitter.com/splashcon"
+	},
+      ],
+      :VenueInfo	=> {
+	:Name		=> "Hyatt Regency",
+	:GPS		=> {
+	  :Latitude	=>  39.7665307,
+	  :Longitude	=> -86.1609597,	
+	},
+      },
+      :SessionPriorities => portfolios.with_sessions.*.name,
+      :Items => sessions.*.presentations.flatten.*.as_confero_json,
+      :Sessions => sessions.*.as_confero_json,
+      :People => participants.*.as_confero_json
+    }
+  end
+
 private
 
   def joomla_area_for config
