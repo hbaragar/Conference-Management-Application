@@ -7,7 +7,7 @@ ENV['RAILS_ENV'] ||= File.expand_path('.')[/production|uat|development/]
 require File.dirname(__FILE__) + '/../config/environment'
 
 conference = Conference.find_by_name('SPLASH 2013')
-our_file = "2013SPLASH.json"
+our_file = "data/2013SPLASH.json"
 
 Dir.chdir "tmp/conf-data"
 system "git fetch upstream && git merge upstream/master"
