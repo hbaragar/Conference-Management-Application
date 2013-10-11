@@ -279,7 +279,7 @@ class Conference < ActiveRecord::Base
     true
   end
 
-  def as_confero_json
+  def for_confero
     # see https://www.conference-publishing.com/ConfEventData-JSON.php
     export = {
       :DataRevision => 4,
@@ -316,9 +316,9 @@ class Conference < ActiveRecord::Base
 	},
       },
       :SessionPriorities => portfolios.with_sessions.*.name,
-      :Items => sessions.*.presentations.flatten.*.as_confero_json,
-      :Sessions => sessions.*.as_confero_json,
-      :People => participants.*.as_confero_json
+      :Items => sessions.*.presentations.flatten.*.for_confero,
+      :Sessions => sessions.*.for_confero,
+      :People => participants.*.for_confero
     }
   end
 
