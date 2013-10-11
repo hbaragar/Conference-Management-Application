@@ -229,7 +229,7 @@ class Presentation < ActiveRecord::Base
     editable_by?(acting_user, :position)
   end
 
-  def as_confero_json
+  def for_confero
     # see https://www.conference-publishing.com/ConfEventData-JSON.php
     return {
       :Title	=> title,

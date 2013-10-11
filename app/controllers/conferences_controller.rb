@@ -56,7 +56,7 @@ class ConferencesController < ApplicationController
 
   def for_confero
     hobo_show do |format|
-      format.json { render :json => @conference.as_confero_json }
+      format.json { render :json => @conference.for_confero }
     end
   end
 

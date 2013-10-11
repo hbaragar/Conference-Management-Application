@@ -224,7 +224,7 @@ class Session < ActiveRecord::Base
     self.duration ||= portfolio && portfolio.typical_session_duration
   end
 
-  def as_confero_json
+  def for_confero
     # see https://www.conference-publishing.com/ConfEventData-JSON.php
     return {
       :Title	=> name,

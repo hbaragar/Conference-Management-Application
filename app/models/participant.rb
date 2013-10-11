@@ -105,7 +105,7 @@ class Participant < ActiveRecord::Base
     acting_user.signed_up?
   end
 
-  def as_confero_json
+  def for_confero
     # see https://www.conference-publishing.com/ConfEventData-JSON.php
     return {
       :Name	=> name,

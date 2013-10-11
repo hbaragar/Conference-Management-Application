@@ -12,9 +12,11 @@ our_file = "data/2013SPLASH.json"
 Dir.chdir "tmp/conf-data"
 system "git fetch upstream && git merge upstream/master"
 File.open(our_file, "w") do |f|
-  f.write JSON.pretty_generate(conference.as_confero_json)
+  f.write JSON.pretty_generate(conference.for_confero)
 end
-system "git add #{our_file} && git commit -m '#{conference.name} updates' && git push"
+if system "git add #{our_file} && git commit -m '#{conference.name} updates' && git push"
+  puts "\nDon't forget to create the pull request on github.\n"
+end
 
 
 
