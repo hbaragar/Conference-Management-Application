@@ -235,7 +235,7 @@ class Session < ActiveRecord::Base
       :URL	=> url,
       :Day	=> starts_at.strftime("%Y-%m-%d"),
       :Time	=> [starts_at, ends_at].*.strftime("%H:%M").join(" - "),
-      :Location	=> "#{room.name} (#{room.facility_area.name})",
+      :Location	=> (room ? "#{room.name} (#{room.facility_area.name})" : "TBD"),
       :ChairsString => (chair && chair.name || ""),
       :Items	=> presentations.*.id
     }
