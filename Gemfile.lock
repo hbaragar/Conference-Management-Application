@@ -22,7 +22,6 @@ GEM
       hobosupport (= 1.0.3)
       rails (>= 2.2.2, < 3.0.0)
     hobosupport (1.0.3)
-    json (1.8.0)
     mysql (2.9.1)
     mysql2 (0.2.20)
     rack (1.1.6)
@@ -34,8 +33,7 @@ GEM
       activesupport (= 2.3.18)
       rake (>= 0.8.3)
     rake (10.1.0)
-    rdoc (4.0.1)
-      json (~> 1.4)
+    rdoc (6.3.1)
     whiskey_disk (0.6.24)
       rake
     will_paginate (2.3.16)
